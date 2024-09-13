@@ -14,6 +14,6 @@ for dir in "${levels[@]}"; do
 done
 
 tree -H '.' -L 1 --noreport --dirsfirst -T 'Cours de Maths/Choix du niveau' -d --charset utf-8 -I "index.html" -o index.html
-sed -i 's|<a href="./\([^"]*\)/">|\<a href="./\1/index.html">|g' index.html
+# sed -i 's|<a href="./\([^"]*\)/">|\<a href="./\1/index.html">|g' index.html
 
 echo "All indexes created successfully."
