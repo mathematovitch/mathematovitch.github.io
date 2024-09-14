@@ -38,7 +38,7 @@ done
 
 ## CREATE TOP-LEVEL INDEX ##
 
-tree -H '.' -L 1 --noreport -T 'Cours de Maths/Choix du niveau' -d --charset utf-8 -o index.html # Tree make top-level index
+tree -H '.' -L 1 --noreport -T 'Cours de Maths' -d --charset utf-8 -o index.html # Tree make top-level index
 sleep 0.5
 sed -i 's|<a href="./\([^"]*\)/">|\<a href="./\1/index.html">|g' index.html # Make href point to sub-indexes
 sleep 0.5
