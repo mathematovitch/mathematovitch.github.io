@@ -30,8 +30,8 @@ for dir in "${dir_array[@]}"; do
     echo "Created index: $dir"
 done
 
-tree -H '.' -L 1 --noreport --dirsfirst -T 'Cours de Maths/Choix du niveau' -d --charset utf-8 -I "index.html" -o index.html
-# sed -i 's|<a href="./\([^"]*\)/">|\<a href="./\1/index.html">|g' index.html
+tree -H '.' -L 1 --noreport -T 'Cours de Maths/Choix du niveau' -d --charset utf-8 -o index.html
+sed -i 's|<a href="./\([^"]*\)/">|\<a href="./\1/index.html">|g' index.html
 echo "Created general index"
 
 
