@@ -26,13 +26,17 @@ echo "Deleted junk files!"
 for dir in "${dir_array[@]}"; do
     cd "$dir"
     tree -H '.' -L 2 --noreport --dirsfirst -T "Cours de Maths/$dir" --charset utf-8 -I "index.html" -I "*.tex" -o index.html
+    sleep 0.5
     sed -i 's|<a href="././">.</a><br>|<a href="https://outerovitch-maths.github.io/">↰</a><br>|' index.html
     cd ../
     echo "Created index: $dir"
 done
 
 tree -H '.' -L 1 --noreport -T 'Cours de Maths/Choix du niveau' -d --charset utf-8 -o index.html
+sleep 0.5
 sed -i 's|<a href="./\([^"]*\)/">|\<a href="./\1/index.html">|g' index.html
+sleep 0.5
+sed -i '/<head>/a<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />' index.html
 echo "Created general index"
 
 echo "All indexes created successfully."
