@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=1]
+
+\coordinate[label=left:$A$] (A) at (0.5,2);
+\coordinate[label=right:$B$] (B) at (4.5,1);
+
+\tkzDrawPoint[shape=cross](A)
+\tkzDrawPoint[shape=cross](B)
+
+\draw[black] (A) -- (B);
+
+\begin{scriptsize}
+\tkzLabelSegment[sloped](A,B){$[AB]$}
+\end{scriptsize}
+
+\end{tikzpicture}

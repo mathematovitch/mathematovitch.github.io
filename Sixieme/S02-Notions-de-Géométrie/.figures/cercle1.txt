@@ -1,0 +1,33 @@
+\begin{tikzpicture}[scale=2]
+
+\draw[white] (0,0) grid (4,4) ;
+
+
+\draw (2,2) circle (1.5cm);
+
+\coordinate[label=left:$O$] (O) at (2,2);
+
+\coordinate[label=right:$A$] (A) at (2.9,0.8);
+\coordinate[label=below:$D$] (D) at (1,0.88);
+\coordinate[label=left:$B$] (B) at (0.63,2.6);
+\coordinate[label=right:$C$] (C) at (3,3.12);
+
+\coordinate[label=right:$\alpha$] (alph) at (1.8,3.7);
+
+\tkzDrawPoint[shape=cross](O)
+\tkzDrawPoint[shape=cross](A)
+\tkzDrawPoint[shape=cross](B)
+\tkzDrawPoint[shape=cross](C)
+\tkzDrawPoint[shape=cross](D)
+
+\draw[black] (D) -- (C);
+\draw[black] (O) -- (A);
+\draw[black] (D) -- (B);
+
+\begin{scriptsize}
+\tkzLabelSegment[sloped](O,A){Rayon}
+\tkzLabelSegment[sloped](O,C){Diamètre}
+\tkzLabelSegment[sloped](B,D){Corde}
+\end{scriptsize}
+
+\end{tikzpicture}
