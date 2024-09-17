@@ -1,0 +1,71 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{tkz-euclide}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns,arrows.meta}
+\usetikzlibrary{shadows}
+\usetikzlibrary{external}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{statistics}
+\usepgfplotslibrary{fillbetween}
+
+\begin{document}
+
+%--------------------------------%
+
+\begin{tikzpicture}
+
+\tkzDefPoint(0,0){A}
+\tkzDefPoint(2,2){B}
+
+\tkzDrawPoints[shape=cross out](A,B)
+
+\tkzLabelPoints(A,B)
+
+\tkzDrawSegments(A,B)
+
+\tkzLabelSegment[sloped, above](A,B){$3$ cm}
+
+\end{tikzpicture}
+
+%--------------------------------%
+
+%%POINTS%%%
+%\tkzDrawPoint[shape=cross](A)
+
+%%SEGMENT%%
+%\tkzLabelSegment[above,below,right,left](A,B){$3~cm$}
+%\tkzDrawSegments[style=dashed](A,C B,D)
+%\tkzMarkSegments[mark=/](C,D)
+%\tkzDrawSegment[color ={black},decorate,decoration={random steps , amplitude = 1pt}](A,B)
+
+%%ANGLE%%
+%\tkzLabelAngle[pos=0.8](B,A,C){$52^\circ$}
+%\tkzMarkAngle[mark=none,size=1.1](A_2,C_2,C_3)
+%\tkzMarkRightAngle(A,B,C)
+
+%%LABELS%%
+%\tkzLabelPoints(A,B)
+%\tkzLabelSegment[sloped, above](I,J){$B$}
+%\tkzDefCentroid(A,B,C) \tkzGetPoint{O}
+%\tkzAutoLabelPoints[center=O, dist=.2](A,B,C)
+
+%%CERCLE%%
+%\draw (2,2) circle (1.5cm);
+
+%%BOUCLE%%
+%\foreach \i in {1,2,...,7}{
+%    \draw (O)--(X_\i);
+%}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
