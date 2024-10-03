@@ -1,0 +1,92 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section{Partie 1}
+
+ \begin{exercice}[3][]
+ \medskip
+
+Pierre joue à un jeu dont une partie est constituée d'un lancer d'une fléchette sur une cible suivi d'un tirage au sort dans deux urnes contenant des tickets marqués ''gagnant'' ou
+''perdant'' indiscernables.
+
+\setlength\parindent{8mm}
+\begin{itemize}
+\item[$\bullet~~$] S'il tire un ticket marqué " gagnant ", il pourra recommencer une partie.
+\item[$\bullet~~$] S'il atteint le centre de la cible, Pierre tire un ticket dans l'urne $U_1$ contenant exactement neuf tickets marqués " gagnant" et un ticket marqué " perdant ".
+\item[$\bullet~~$] S'il n'atteint pas le centre de la cible (donc même s'il n'atteint pas la cible), Pierre tire un ticket dans l'urne $U_2$ contenant exactement quatre tickets marqués " gagnant" et six tickets marqués " perdant ".
+\end{itemize}
+\setlength\parindent{0mm}
+
+\smallskip
+
+Pierre atteint le centre de la cible avec une probabilité de 0,3.
+
+\smallskip
+On note les évènements suivants:
+
+\qquad $C$ : " Pierre atteint le centre de la cible" ;
+
+\qquad $G$ : " Pierre tire un ticket lui offrant une autre partie ".
+
+\medskip
+
+\begin{enumerate}
+\item Recopier l'arbre pondéré ci-dessous et justifier la valeur $0,9$.
+
+
+
+\item Compléter sur la copie l'arbre pondéré en traduisant les données de l'exercice.
+\item Calculer la probabilité de l'évènement $\overline{C} \cap G$.
+\item Montrer que la probabilité qu'à l'issue d'une partie Pierre en gagne une nouvelle est égale à $0,55$.
+\item Sachant que Pierre a gagné une nouvelle partie, quelle est la probabilité qu'il ait atteint le centre de la cible ? Arrondir le résultat à $10^{-3}$.
+\end{enumerate}
+ \end{exercice}
+ \begin{correction} 
+ \medskip
+
+Pierre joue à un jeu dont une partie est constituée d'un lancer d'une fléchette sur une cible suivi d'un tirage au sort dans deux urnes contenant des tickets marqués " gagnant" ou
+" perdant" indiscernables.
+
+\setlength\parindent{8mm}
+\begin{itemize}
+\item[$\bullet~~$] S'il tire un ticket marqué " gagnant ", il pourra recommencer une partie.
+\item[$\bullet~~$] S'il atteint le centre de la cible, Pierre tire un ticket dans l'urne $U_1$ contenant exactement neuf tickets marqués " gagnant" et un ticket marqué " perdant ".
+\item[$\bullet~~$] S'il n'atteint pas le centre de la cible (donc même s'il n'atteint pas la cible), Pierre tire un ticket dans l'urne $U_2$ contenant exactement quatre tickets marqués " gagnant" et six tickets marqués " perdant ".
+\end{itemize}
+\setlength\parindent{0mm}
+
+\smallskip
+
+Pierre atteint le centre de la cible avec une probabilité de 0,3.
+
+\smallskip
+On note les évènements suivants:
+
+\qquad $C$ : " Pierre atteint le centre de la cible" ;
+
+\qquad $G$ : " Pierre tire un ticket lui offrant une autre partie ".
+
+\medskip
+
+\begin{enumerate}
+\item Recopier l'arbre pondéré ci-dessous et justifier la valeur $0,9$.
+
+\item Compléter sur la copie l'arbre pondéré en traduisant les données de l'exercice.
+\item Calculer la probabilité de l'évènement $\overline{C} \cap G$.
+\item Montrer que la probabilité qu'à l'issue d'une partie Pierre en gagne une nouvelle est égale à $0,55$.
+\item Sachant que Pierre a gagné une nouvelle partie, quelle est la probabilité qu'il ait atteint le centre de la cible ? Arrondir le résultat à $10^{-3}$.
+\end{enumerate} 
+ \end{correction}
+\end{document}
