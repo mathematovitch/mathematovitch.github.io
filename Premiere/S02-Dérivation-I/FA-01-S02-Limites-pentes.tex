@@ -1,0 +1,82 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 2 : Dérivation (Pentes et limites)}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\phantom{0}
+\vspace{-1.5cm}
+\section{Pentes et fonctions affines}
+
+\begin{multicols}{2}
+\begin{exercice}
+\textbf{Soit $\big(O ; \vec \imath,\vec \jmath\big)$ un repère orthogonal.  Déterminer, s'il existe et en l'expliquant, le coefficient directeur de la droite $(AB)$.}
+\begin{enumerate}[itemsep=1em]
+	\item \begin{minipage}[t]{\linewidth} Avec $A(0;-3)$ et $B(4;-3)$.  \end{minipage}
+	\item \begin{minipage}[t]{\linewidth} Avec $A(4;4)$ et $B(4;2)$.  \end{minipage}
+	\item \begin{minipage}[t]{\linewidth} Avec $A(-3;4)$ et $B(-1;-3)$.  \end{minipage}
+	\item \begin{minipage}[t]{\linewidth} Avec $A(-3;-1)$ et $B(-1;-4)$.  \end{minipage}
+	\item \begin{minipage}[t]{\linewidth} Avec $A(-3;-3)$ et $B(5;5)$.  \end{minipage}
+\end{enumerate}
+\end{exercice}
+
+\begin{exercice}
+\begin{enumerate}[itemsep=1em]
+	\item Soit $f$ une fonction affine telle que $f(x)=ax+3$ et $f(1)=1$.\\    Donner la valeur de $a$.
+    
+	\item Soit $f$ une fonction affine telle que $f(x)=ax+1$ et $f(3)=-8$.\\    Donner la valeur de $a$.
+    
+	\item Soit $f$ une fonction affine telle que $f(x)=ax-2$ et $f(5)=-12$.\\      Donner la valeur de $a$.
+    
+	\item Soit $f$ une fonction affine telle que $f(x)=ax+4$ et $f(5)=12$.\\    Donner la valeur de $a$.
+    
+	\item Soit $f$ une fonction affine telle que $f(x)=ax-6$ et $f(5)=-13$.\\    Donner la valeur de $a$.
+\end{enumerate}
+\end{exercice}
+\end{multicols}
+
+\vspace{-1cm}
+\section{Calculs de limites}
+
+\begin{multicols}{2}
+  \begin{exercice}
+    \textbf{Calculer les limites en $0$ suivantes.}
+    \begin{enumerate}
+    \item \(\lim\limits_{x \to 0} (2x + 3)\)
+    \item \(\lim\limits_{x \to 0} (x^2 + 5)\)
+    \item \(\lim\limits_{x \to 0} \frac{1}{x + 1}\)
+    \item \(\lim\limits_{x \to 0} (4x^3 - 2x)\)
+    \item \(\lim\limits_{x \to 0} \sin(x)\)
+    \item \(\lim\limits_{x \to 0} \frac{3x + 2}{x + 4}\)
+    \item \(\lim\limits_{x \to 0} \cos(x)\)
+    \item \(\lim\limits_{x \to 0} \frac{x}{x + 2}\)
+    \item \(\lim\limits_{x \to 0} \frac{2x + 1}{x^2 + 1}\)
+    \item \(\lim\limits_{x \to 0} \frac{5x^2}{x + 3}\)
+    \end{enumerate}
+  \end{exercice}
+
+\begin{exercice}
+  \textbf{Calculer les limites suivantes.}
+  \begin{enumerate}
+  \item \(\lim\limits_{x \to 2} (3x + 1)\)
+  \item \(\lim\limits_{x \to -1} (x^2 + 4)\)
+  \item \(\lim\limits_{x \to 3} \frac{2x + 5}{x + 1}\)
+  \item \(\lim\limits_{x \to 4} (x^3 - 3x)\)
+  \item \(\lim\limits_{x \to -2} \sin(x)\)
+  \item \(\lim\limits_{x \to 1} \frac{4x^2 + 2x}{x + 3}\)
+  \item \(\lim\limits_{x \to 0} \frac{x^2}{x + 2}\)
+  \item \(\lim\limits_{x \to 5} \frac{3x - 2}{2x + 1}\)
+  \item \(\lim\limits_{x \to -3} \frac{2x^2 + x}{x + 4}\)
+  \item \(\lim\limits_{x \to 6} \frac{x^2 - 1}{x - 2}\)
+  \end{enumerate}
+\end{exercice}
+\end{multicols}
+\end{document}

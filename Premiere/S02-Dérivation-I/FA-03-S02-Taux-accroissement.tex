@@ -1,0 +1,52 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section{Rappels de cours}
+
+\begin{definition}
+Le \underline{taux d'accroissement} de la fonction $f$ entre $a$ et $x$ est le quotient :
+$$\dfrac{f(x)-f(a)}{x-a}$$
+Avec $x=a+h$, ce quotient s'écrit aussi : $$\dfrac{f(a+h)-f(a)}{h}$$
+\end{definition}
+
+\begin{exercice}[0][Exercice corrigé.]
+   Soit $f$ une fonction définie sur $\R$ par $f(x)=7x-3$, calculer le taux
+   d'accroissement de $f$ entre $x$ et $a$. \\
+\textbf{Correction.}\\ \\
+   \begin{tabular}{p{0.3cm}l!{=}l}
+      &  $\dfrac{f(x)-f(a)}{x-a}$ & $\dfrac{(7x-3)-(7a-3)}{x-a}$ \\
+      & & $\dfrac{7x-7a}{x-a}$ \\
+      & & $\dfrac{7(x-a)}{x-a}$ \\
+      & & $7$ \\
+   \end{tabular} \\
+Donc le taux d'accroissement de la fonction $f$ entre $x$ et $a$ est
+égal à $7$.
+\end{exercice}
+
+\begin{exercice}[0][Exercice corrigé.]
+   Soit $f$ une fonction définie sur $\R$ par $f(x)=3x^2+5$, calculer le taux
+   d'accroissement de $f$ entre $a$ et $a+h$. \\
+\textbf{Correction.}\\ \\
+   \begin{tabular}{p{0.3cm}l!{=}l}
+      &  $\dfrac{f(a+h)-f(a)}{h}$ & $\dfrac{3(a+h)^2+5-(3a^2+5)}{h}$ \\
+      & & $\dfrac{3(a^2+2ah+h^2)-3a^2-5}{h}$ \\
+      & & $\dfrac{3a^2+6ah+3h^2-3a^2-5}{h}$ \\
+      & & $6h+3h^2-5$ \\
+   \end{tabular}\\
+Donc le taux d'accroissement de la fonction $f$ entre $x$ et $a+h$ est
+égal à $6h+3h^2-5$.
+\end{exercice}
+
+\end{document}
