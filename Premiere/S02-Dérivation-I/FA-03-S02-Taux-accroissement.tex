@@ -5,13 +5,56 @@
 \usepackage{Mathdoc}
 
 %% Numéro de séquence %% Titre de la séquence %%
-\renewcommand{\centerhead}{}
+\renewcommand{\centerhead}{Chap. 2 : Dérivation I (Taux d'accroissement)}
 
 %% Spacing commands %%
 \renewcommand{\baselinestretch}{1}
 \setlength{\parindent}{0pt}
 
 \begin{document}
+
+\section{Pente entre deux points}
+
+\begin{exercice}[0][Exercice corrigé.]
+Soit \( f \) une fonction définie sur \( \mathbb{R} \) par \( f(x) = 25x + 36 \). Calculer la pente de la droite reliant les points d'abscisses \( a = 4 \) et \( b = -5 \).\\
+\textbf{Correction.}\\ \\
+La pente \( m \) entre deux points \( a \) et \( b \) est donnée par la formule :
+\[
+m = \frac{f(b) - f(a)}{b - a}
+\]
+Soit \( f(x) = 25x + 36 \),  calculons  \( f(a) \) et \( f(b) \).
+
+\[
+f(4) = 25 \times 4 + 36 = 100 + 36 = 136
+\]
+\[
+f(-5) = 25 \times (-5) + 36 = -125 + 36 = -89
+\]
+
+Ensuite, nous appliquons la formule de la pente :
+\[
+m = \frac{f(-5) - f(4)}{-5 - 4} = \frac{-89 - 136}{-5 - 4} = \frac{-225}{-9} = 25
+\]
+
+Ainsi, la pente de la droite reliant les points d'abscisses \( a = 4 \) et \( b = -5 \) est \( 25 \).
+\end{exercice}
+
+\begin{exercice}
+\begin{enumerate}
+    \item Soit \( f(x) = 3x + 2 \). Calculer la pente de la droite reliant les points d'abscisses \( a = 1 \) et \( b = 4 \).
+    
+    \item Soit \( f(x) = -2x + 5 \). Calculer la pente de la droite reliant les points d'abscisses \( a = -3 \) et \( b = 2 \).
+    
+    \item Soit \( f(x) = x^2 - x \). Calculer la pente de la droite reliant les points d'abscisses \( a = 0 \) et \( b = 3 \).
+    
+    \item Soit \( f(x) = 2x^3 - 4x \). Calculer la pente de la droite reliant les points d'abscisses \( a = -1 \) et \( b = 2 \).
+    
+    \item Soit \( f(x) = \frac{1}{x} \). Calculer la pente de la droite reliant les points d'abscisses \( a = 1 \) et \( b = 4 \).
+    
+    \item Soit \( f(x) = \sqrt{x+1} \). Calculer la pente de la droite reliant les points d'abscisses \( a = 0 \) et \( b = 3 \).
+\end{enumerate}
+
+\end{exercice}
 
 \section{Rappels de cours}
 
@@ -21,19 +64,7 @@ $$\dfrac{f(x)-f(a)}{x-a}$$
 Avec $x=a+h$, ce quotient s'écrit aussi : $$\dfrac{f(a+h)-f(a)}{h}$$
 \end{definition}
 
-\begin{exercice}[0][Exercice corrigé.]
-   Soit $f$ une fonction définie sur $\R$ par $f(x)=7x-3$, calculer le taux
-   d'accroissement de $f$ entre $x$ et $a$. \\
-\textbf{Correction.}\\ \\
-   \begin{tabular}{p{0.3cm}l!{=}l}
-      &  $\dfrac{f(x)-f(a)}{x-a}$ & $\dfrac{(7x-3)-(7a-3)}{x-a}$ \\
-      & & $\dfrac{7x-7a}{x-a}$ \\
-      & & $\dfrac{7(x-a)}{x-a}$ \\
-      & & $7$ \\
-   \end{tabular} \\
-Donc le taux d'accroissement de la fonction $f$ entre $x$ et $a$ est
-égal à $7$.
-\end{exercice}
+\section{Taux d'accroissement}
 
 \begin{exercice}[0][Exercice corrigé.]
    Soit $f$ une fonction définie sur $\R$ par $f(x)=3x^2+5$, calculer le taux
@@ -47,6 +78,32 @@ Donc le taux d'accroissement de la fonction $f$ entre $x$ et $a$ est
    \end{tabular}\\
 Donc le taux d'accroissement de la fonction $f$ entre $x$ et $a+h$ est
 égal à $6h+3h^2-5$.
+\end{exercice}
+
+\begin{exercice}
+\textbf{Dans chacun des cas, calculer le taux d'accroissement entre
+$a$ et $a+h$. Exprimer le résultat en fonction de $a$ et de $h$.}
+\begin{enumerate}
+    \item Soit \( f(x) = 2x + 3 \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = -x + 5 \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = x^2 - 4x + 1 \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = 3x^2 + 19 \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = 4x^3 - 2x \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = \frac{1}{x+5} \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = \sqrt{x+2} \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = 5x^3 + x^2 - 7 \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = x^4 - 3x + 1 \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+    
+    \item Soit \( f(x) = \frac{2}{x+1} \). Calculer le taux d'accroissement de \( f \) entre \( a \) et \( a + h \).
+\end{enumerate}
 \end{exercice}
 
 \end{document}
