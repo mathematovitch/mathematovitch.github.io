@@ -1,0 +1,60 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+
+\begin{correction}[Exercice 1.1]
+Calculer le nombre dérivé de $f(x)=x^2+x$ en $a=1$.\\
+   \begin{tabular}{p{0.3cm}l!{=}l}
+      &  $f'(a)$ & $\lim_{h\to0}\dfrac{f(a+h)-f(a)}{h}$ \\
+   \end{tabular} \\
+
+Or, $a=1$ donc :
+
+   \begin{tabular}{p{0.3cm}l!{=}l}
+      &  $f'(1)$ & $\lim\limits_{h\to0}\dfrac{f(1+h)-f(1)}{h}$ \\
+   \end{tabular} \\
+
+Calculons :\\
+\begin{tabular}{p{0.3cm}l!{=}l}
+      &  $f(1+h)$ & $(1+h)^2+1+h$\\
+      &  & $1^2+2h+h^2+1+h$\\
+      &  & $2+3h+h^2$\\
+\end{tabular} \\
+
+
+Calculons :\\
+\begin{tabular}{p{0.3cm}l!{=}l}
+      &  $f(1)$ & $(1)^2+1$\\
+      &  & $2$\\
+\end{tabular} \\
+
+Donc :
+
+   \begin{tabular}{p{0.3cm}l!{=}l}
+      &  $f'(1)$ & $\lim\limits_{h\to0}\dfrac{2+3h+h^2-2}{h}$ \\
+      &   & $\lim\limits_{h\to0}\dfrac{3h+h^2}{h}$ \\
+      &   & $\lim\limits_{h\to0}3+h$ \\
+      &  $f'(1)$ & $3$ \\
+   \end{tabular} \\
+
+\end{correction}
+
+\newpage
+
+\begin{exercice}
+  
+\end{exercice}
+
+\end{document}
