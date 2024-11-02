@@ -15,6 +15,74 @@
 
 \section{Identifier les angles particuliers}
 
+\begin{exemple}
+  \begin{multicols}{2}
+    \begin{center}
+      \begin{tikzpicture}[baseline,scale = 0.4,rotate=90]
+
+    
+        \tikzset{ point/.style={ thick, draw, cross out, inner
+        sep=0pt, minimum width=5pt, minimum height=5pt, }, } \clip
+        (-3.081320233229482,-4.989038226169209) rectangle
+        (3.0925418121643005,5.487820251299121); \draw
+        [color={black},preaction={fill,color = {blue},opacity = 0.7}]
+        (0.20926942123237668,2.992692150779472) --
+        (0.1395129474882511,1.9951281005196482) --
+        (0.6545510223983052,1.1379607998175363) arc (-58.68:86.32:1) ;
+        \draw[color={black}]
+        (-25.612390798014463,44.85349313562526)--(26.406454767901018,-41.72040423528807);
+        \draw[color={black}]
+        (-3.348310739718021,-47.88307441247155)--(3.6970931084386485,52.87089466377067);
+        \draw [color={black},preaction={fill,color = {blue},opacity =
+        0.7}] (-0.034878236872062596,-0.4987820251299113) --
+        (-0.10463471061618815,-1.496346075389736) --
+        (0.2860964178730856,-2.4168509288421767) arc (-66.73:86.27:1)
+        ; \draw[color={black}]
+        (-19.641191135079886,44.52889659723229)--(19.822652842336783,-48.44209360146421);
+        \draw[color={black}]
+        (-3.5924583978224613,-51.37454858838095)--(3.45294545033421,49.379420487861296);
+        \draw [color={black}] (1.79,2.39) node[anchor =
+        center,scale=1, rotate = -76.50006] {\ang{145}}; \draw
+        [color={black}] (1.57,-1.22) node[anchor = center,scale=1,
+        rotate = -80.50002] {\ang{153}};
+
+      \end{tikzpicture}
+    \end{center}
+
+    Ci-dessus les deux angles sont correspondants.
+
+    \begin{center}
+      \begin{tikzpicture}[baseline,scale = 0.4,rotate=180]
+
+
+    \tikzset{
+      point/.style={
+        thick,
+        draw,
+        cross out,
+        inner sep=0pt,
+        minimum width=5pt,
+        minimum height=5pt,
+      },
+    }
+    \clip (-3.543225753384422,-5.480973490458728) rectangle (3.1946027823937895,5.480973490458728);
+    	\draw  [color={black},preaction={fill,color = {blue},opacity = 0.7}] (0.08715574274765758,0.9961946980917454) -- (0.17431148549531622,1.9923893961834909) -- (-0.6643590824501077,2.537028431198518) arc (147.48:265.48:1) ;
+	\draw[color={black}] (-41.75921691177589,29.22434114693484)--(42.94651045071194,-25.784201389582886);
+	\draw[color={black}] (-4.183475651887591,-47.8173455084038)--(4.619254365625881,52.79831899886253);
+	\draw  [color={black},preaction={fill,color = {blue},opacity = 0.7}] (-0.08715574274765814,-0.9961946980917457) -- (-0.17431148549531658,-1.992389396183491) -- (0.7819932704677189,-2.284761100906228) arc (-17.25:84.75:1) ;
+	\draw[color={black}] (-47.98954928364709,12.626195839953347)--(48.597231068619486,-16.903346337043065);
+	\draw[color={black}] (-4.532098622878223,-51.80212430077077)--(4.270631394635249,48.81354020649553);
+	\draw [color={black}] (-1.35,1.25) node[anchor = center,scale=1, rotate = -64.00014] {\ang{118}};
+	\draw [color={black}] (1.24,-1.04) node[anchor = center,scale=1, rotate = -55.999719999999996] {\ang{102}};
+
+      \end{tikzpicture}
+    \end{center}
+
+    Ci-dessus les deux angles sont alternes-internes.
+
+\end{multicols}
+  \end{exemple}
+
 
 \begin{exercice}[1]
 \input{.data/FA-02-ex01.tex}

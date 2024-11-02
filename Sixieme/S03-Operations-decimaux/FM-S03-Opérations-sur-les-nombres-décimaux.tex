@@ -1,0 +1,118 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 3 : Opérations sur les nombres décimaux}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section{Fractions décimales}
+
+\begin{definition}
+  Une fraction décimale est une fraction de dénominateur 10, 100, 1
+  000\ldots
+\end{definition}
+
+\begin{exemple}
+  $\dfrac{34}{100}$ est une fraction décimale. Elle se lit
+  trente-quatre centièmes.
+\end{exemple}
+
+\section{Ecriture décimale}
+
+\begin{definition}
+  Quand on additionne un nombre entier et une ou plusieurs fractions
+  décimales, on obtient un nombre appelé nombre décimal.
+\end{definition}
+
+\begin{exemple}
+  $5+\dfrac{4}{10}+\dfrac{7}{100}$ est un nombre décimal. \\
+  Sa partie entière est 5, c'est un nombre \textbf{entier}. \\
+  Sa partie \textbf{décimale} est $\dfrac{4}{10}+\dfrac{7}{100}$
+\end{exemple}
+
+\begin{definition}
+  Tout nombre décimal peut aussi s’écrire sous une autre forme. Elle
+  utilise la notation à virgule et s'appelle écriture décimale.
+\end{definition}
+
+\begin{exemple}
+  \textit{Considérons le nombre décimal :} \\
+  $203+\dfrac{4}{10}+\dfrac{5}{100}$ \\
+  $203+\dfrac{4}{10}+\dfrac{5}{100}$ s'écrit alors $203{,}452$
+\end{exemple}
+
+\begin{remarque}
+  On place la virgule entre le chiffre des unités et celui des
+  dixièmes.
+\end{remarque}
+
+\section{Addtition, soustraction de décimaux}
+
+\textit{Énoncé : }\textbf{Poser et calculer les opérations suivantes : $45,08+1,7$ et $67,453-79,06$.} \\
+
+\hfill \opadd{45,08}{1,7} \hfill \opsub{67,453}{79,06} \hfill \hfill
+
+\begin{remarque}
+  On aligne toujours les unités avec les unités mais aussi les
+  virgules jusque dans le résultat.
+\end{remarque}
+
+\section{Ordre de grandeur}
+
+\begin{definition}
+L'\textbf{ordre de grandeur} d'un nombre est une approximation de ce nombre, obtenue en l'arrondissant à une unité choisie (par exemple, la dizaine, la centaine, ou le millier) selon le contexte.
+\end{definition}
+
+\textbf{MÉTHODE :} \\
+Comment déterminer l'ordre de grandeur ?
+\begin{enumerate}
+    \item On choisit le niveau de précision souhaité : unité, dizaine, centaine, etc.
+    \item On arrondit le nombre en conséquence.
+\end{enumerate}
+
+\begin{exemple}
+L'ordre de grandeur 450 à la centaine, est 500. \\
+Pour 320, l'ordre de grandeur à la centaine est 300. \\
+\end{exemple}
+
+\section{Additions et Soustractions}
+
+\begin{exemple}
+Donner l'ordre de grandeur de la somme de 475 et 150  à la centaine :
+\[
+475 \approx 500 \quad \text{et} \quad 150 \approx 200
+\]
+L'ordre de grandeur de la somme est donc environ \(500 + 200 = 700\).
+\end{exemple}
+
+\begin{remarque}
+L'estimation avec des ordres de grandeur peut différer du résultat exact, mais elle donne une bonne idée de la valeur attendue.
+\end{remarque}
+
+\section{Problème d'Application}
+
+\begin{exercice}
+Estime la somme de 475, 150 et 85 en arrondissant chaque nombre à la centaine.
+\end{exercice}
+
+\begin{exercice}
+Un élève doit acheter trois articles coûtant environ 9,50€, 12,30€, et 3,90€. Peut-il savoir, en arrondissant chaque prix à l'unité, s'il aura assez avec un billet de 20€ ?
+\end{exercice}
+
+\begin{exercice}
+Un agriculteur doit répartir 875 kg de pommes dans des caisses de 98 kg chacune. En arrondissant les quantités à la centaine, combien de caisses pleines pourra-t-il préparer ?
+\end{exercice}
+
+\begin{exercice}
+ Claire prend le bus plusieurs fois dans la semaine pour un total de 11,75€. Elle utilise une carte de transport avec un crédit de 15€. Peut-elle savoir rapidement, en arrondissant à l’euro, combien il lui restera sur sa carte après ses trajets ?
+\end{exercice}
+
+\end{document}
