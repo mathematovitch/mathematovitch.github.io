@@ -1,0 +1,132 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Probabilités Conditionnelles}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{exercice}[1][Analyse des ventes d'articles en promotion]
+Une entreprise observe que 50 \% des articles vendus sont des vêtements, et que 30 \% des articles vendus sont à la fois des vêtements et en promotion.
+
+On interroge un client au hasard sur son achat.
+
+\begin{enu}
+\item Déterminer la probabilité que l'article acheté soit un vêtement. 
+\item Déterminer la probabilité que l'article acheté soit à la fois un vêtement et en promotion.
+\item En déduire la probabilité que l'article acheté soit en promotion sachant que c'est un vêtement.
+\end{enu}
+\end{exercice}
+
+\begin{exercice}[1][Choix de formation en entreprise]
+Dans une entreprise, 45 \% des employés ont choisi de suivre une formation de gestion. Parmi tous les employés, 25 \% ont choisi à la fois une formation de gestion et une formation en marketing. En outre, 60 \% des employés ont suivi une formation en marketing.
+
+On interroge au hasard un employé sur les formations qu'il a suivies.
+
+\begin{enu}
+\item Déterminer la probabilité que l'employé ait suivi une formation de gestion.
+\item Déterminer la probabilité que l'employé ait suivi à la fois une formation de gestion et une formation en marketing.
+\item En déduire la probabilité que l'employé ait suivi une formation en marketing sachant qu'il a également suivi une formation de gestion.
+\end{enu}
+\end{exercice}
+
+\begin{exercice}[2][Probabilité conditionnelle dans la gestion des stocks]
+Une entreprise de distribution observe que, sur 500 articles en stock :
+\begin{itemize}
+    \item 200 sont des produits électroniques ;
+    \item 75 sont à la fois des produits électroniques et en promotion.
+\end{itemize}
+
+On choisit au hasard un article dans l'entrepôt.
+
+\begin{enu}
+\item Déterminer la probabilité que l'article soit un produit électronique.
+\item Déterminer la probabilité que l'article soit à la fois un produit électronique et en promotion.
+\item En déduire la probabilité que l'article soit en promotion sachant que c'est un produit électronique.
+\end{enu}
+\textit{(On rappelle la formule \( P_B(A) = \frac{P(A \cap B)}{P(B)} \), où \( A \) représente l'événement "L'article est en promotion" et \( B \) l'événement "L'article est un produit électronique".)}
+\end{exercice}
+
+\begin{exercice}[2][Probabilité conditionnelle dans le recrutement]
+Dans une entreprise, sur 400 candidats postulant à un poste :
+\begin{itemize}
+    \item 240 ont une expérience préalable dans le domaine du management ;
+    \item 100 ont à la fois une expérience en management et une recommandation de leur ancien employeur.
+\end{itemize}
+
+On sélectionne au hasard un candidat.
+
+\begin{enu}
+\item Déterminer la probabilité que le candidat ait une expérience en management.
+\item Déterminer la probabilité que le candidat ait à la fois une expérience en management et une recommandation.
+\item En déduire la probabilité que le candidat ait une recommandation sachant qu'il a une expérience en management.
+\end{enu}
+\textit{(Utiliser la formule \( P_B(A) = \frac{P(A \cap B)}{P(B)} \), où \( A \) représente l'événement "Le candidat a une recommandation" et \( B \) l'événement "Le candidat a une expérience en management".)}
+\end{exercice}
+
+\begin{exercice}[2][Choix de formation en entreprise]
+Dans une entreprise, sur 200 employés :
+\begin{itemize}
+    \item 90 ont choisi de suivre une formation de gestion ;
+    \item 50 ont choisi à la fois une formation de gestion et une formation en marketing ;
+    \item 120 ont suivi une formation en marketing.
+\end{itemize}
+
+On interroge au hasard un employé sur les formations qu'il a suivies.
+
+\begin{enu}
+\item Déterminer la probabilité que l'employé ait suivi une formation de gestion.
+\item Déterminer la probabilité que l'employé ait suivi à la fois une formation de gestion et une formation en marketing.
+\item En déduire la probabilité que l'employé ait suivi une formation en marketing sachant qu'il a également suivi une formation de gestion.
+\end{enu}
+\end{exercice}
+
+\newpage
+\begin{exercice}[3][Analyse des choix de formules de voyage]
+Une agence de voyage propose deux formules week-end pour se rendre à Londres depuis Paris. Les clients choisissent leur moyen de transport : train ou avion. De plus, ils peuvent compléter leur formule par l'option « visites guidées ». Une étude a produit les données suivantes :
+\begin{itemize}
+    \item 36 \% des clients optent pour l'avion ;
+    \item Parmi les clients ayant choisi le train, 39 \% choisissent aussi l'option « visites guidées » ;
+    \item 21 \% des clients ont choisi à la fois l'avion et l'option « visites guidées ».
+\end{itemize}
+
+On interroge au hasard un client de l'agence ayant souscrit à une
+formule week-end à Londres. On considère les événements suivants : \\
+\(A\) : le client a choisi l'avion \hfill \(V\) : le client a choisi l'option « visites guidées ».
+
+\begin{enu}
+\item Déterminer \(P_A(V)\), la probabilité que le client ait choisi l'option « visites guidées » sachant qu'il a pris l'avion.
+\item Démontrer que la probabilité pour que le client interrogé ait choisi l'option « visites guidées » est environ égale à 0,46.
+\item Déterminer la probabilité pour que le client interrogé ait pris l'avion sachant qu'il n'a pas choisi l'option « visites guidées ». Arrondir le résultat au centième.
+\item On interroge au hasard deux clients de manière aléatoire et indépendante. Quelle est la probabilité qu'aucun des deux ne prenne l'option « visites guidées » ?
+\end{enu}
+\end{exercice}
+
+\begin{exercice}[4][Le problème de Monty Hall]
+Un jeu télévisé propose aux candidats de choisir une porte parmi trois : derrière l'une se trouve une voiture (gain), et derrière les deux autres se cachent des chèvres (pertes). Une fois le choix effectué, l'animateur, qui sait où se trouve la voiture, ouvre une des deux portes restantes, révélant une chèvre. Le candidat a alors la possibilité de rester avec son choix initial ou de changer pour l'autre porte.
+
+On note :
+\begin{itemize}
+\item \( A \) : l'événement que le candidat a initialement choisi la
+  porte avec la voiture.
+\item   \( B \) : l'événement que le candidat change
+  de porte après qu'une chèvre a été révélée.
+\end{itemize}
+
+\begin{enu}
+\item Quelle est la probabilité que le candidat ait initialement choisi la porte avec la voiture, \( P(A) \)?
+\item Quelle est la probabilité que l'animateur ouvre une porte avec une chèvre après le choix du candidat, sachant qu'il a choisi la porte avec la voiture, \( P(B|A) \) ?
+\item Quelle est la probabilité que l'animateur ouvre une porte avec une chèvre après le choix du candidat, sachant qu'il a choisi une porte avec une chèvre, \( P(B|\overline{A}) \) ?
+\item En utilisant la formule de Bayes, calculez la probabilité que le candidat gagne la voiture en changeant de porte, sachant qu'une chèvre a été révélée, \( P(A|B) \).
+\item Que recommanderiez-vous au candidat : de rester avec son choix initial ou de changer de porte ? Justifiez votre réponse en vous appuyant sur les probabilités calculées.
+\end{enu}
+\end{exercice}
+
+\end{document}

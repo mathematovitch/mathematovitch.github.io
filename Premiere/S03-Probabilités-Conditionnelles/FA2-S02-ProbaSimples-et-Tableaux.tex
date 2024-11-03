@@ -1,0 +1,161 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chaitre 2 : Probabilités conditionnelles}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section{Probabilités Simples}
+
+\begin{exercice}[1][Calculs de probabilités simples.]
+\begin{enumerate}[itemsep=1em]
+	\item Dans un tiroir de la commode il y a 22 t-shirts. 2 sont rouges, 7 sont verts, 6 sont bleus, 3 sont noirs et 4 sont blancs.\\ Magalie choisit au hasard l'un d'entre eux.\\ \textbf {a.}  Quelle est la probabilité que son choix tombe sur l'un des t-shirts verts ?\\\textbf {b.}  Quelle est la probabilité que son choix tombe sur l'un des t-shirts blancs ?\\\textbf {c.}  Quelle est la probabilité que son choix ne tombe pas sur l'un des t-shirts noirs ?\\\textbf {d.}  Quelle est la probabilité que son choix tombe sur l'un des t-shirts verts ou blancs ?
+	\item Dans une urne il y a 19 jetons. 4 sont oranges, 4 sont cyans, 2 sont roses, 4 sont jaunes et 5 sont violets.\\ Yazid choisit au hasard l'un d'entre eux.\\ \textbf {a.}  Quelle est la probabilité que son choix tombe sur l'un des jetons cyans ?\\\textbf {b.}  Quelle est la probabilité que son choix tombe sur l'un des jetons jaunes ?\\\textbf {c.}  Quelle est la probabilité que son choix ne tombe pas sur l'un des jetons violets ?\\\textbf {d.}  Quelle est la probabilité que son choix tombe sur l'un des jetons cyans ou jaunes ?
+	\item Dans un tas de jetons de poker il y a 21 jetons. 4 sont rouges, 4 sont verts, 4 sont bleus, 6 sont noirs et 3 sont jaunes.\\ Karim choisit au hasard l'un d'entre eux.\\ \textbf {a.}  Quelle est la probabilité que son choix tombe sur l'un des jetons rouges ?\\\textbf {b.}  Quelle est la probabilité que son choix tombe sur l'un des jetons bleus ?\\\textbf {c.}  Quelle est la probabilité que son choix ne tombe pas sur l'un des jetons verts ?\\\textbf {d.}  Quelle est la probabilité que son choix tombe sur l'un des jetons rouges ou bleus ?
+\end{enumerate}
+\end{exercice}
+
+\section{Probabilités conditionnelles simples}
+
+\begin{exercice}[1][Calculs simples de Probabilités conditionnelles]
+  \begin{multicols}{2}
+    Ce tableau est un tableau de probabilités avec deux événements $A$
+    et
+    $B$  d’une expérience aléatoire.\\
+    \textbf{Déterminer $P_B(A)$.}
+    \columnnbreak
+
+    \phantom{00000000000} $\renewcommand{\arraystretch}{1}
+    \begin{array}{|c|c|c|c|}
+      \hline
+      \cellcolor{lightgray}  & \cellcolor{lightgray} A & \cellcolor{lightgray} \overline{A} & \cellcolor{lightgray} \text{Total}\\
+      \hline
+      \cellcolor{lightgray} B & 0{,}25 & 0{,}35 & 0{,}6\\
+      \hline
+      \cellcolor{lightgray} \overline{B} & 0{,}11 & 0{,}29 & 0{,}4\\
+      \hline
+      \cellcolor{lightgray} \text{Total} & 0{,}36 & 0{,}64 & 1\\
+      \hline
+    \end{array}
+    \renewcommand{\arraystretch}{1}$
+  \end{multicols}
+\end{exercice}
+
+\begin{exercice}[1][Calculs simples de Probabilités conditionnelles]
+  \begin{multicols}{2}
+    Ce tableau est un tableau de probabilités avec deux événements $A$
+    et
+    $B$  d’une expérience aléatoire.\\
+     \textbf{Déterminer $P_{\overline{B}}(\overline{A})$.}
+     \columnnbreak
+
+     \phantom{00000000000}
+    $\renewcommand{\arraystretch}{1}
+    \begin{array}{|c|c|c|c|}
+      \hline
+      \cellcolor{lightgray}  & \cellcolor{lightgray} A & \cellcolor{lightgray} \overline{A} & \cellcolor{lightgray} \text{Total}\\
+      \hline
+      \cellcolor{lightgray} B & 0{,}19 & 0{,}23 & 0{,}42\\
+      \hline
+      \cellcolor{lightgray} \overline{B} & 0{,}13 & 0{,}45 & 0{,}58\\
+      \hline
+      \cellcolor{lightgray} \text{Total} & 0{,}32 & 0{,}68 & 1\\
+      \hline
+    \end{array}
+    \renewcommand{\arraystretch}{1}$
+  \end{multicols}
+\end{exercice}
+
+\section{Probabilités conditionnelles dans un tableau}
+
+\begin{exercice}[2][Probabilités conditionnelles avec tableau]
+ Le personnel d’une entreprise est constitué de $140$ personnes qui se
+ répartissent de la manière suivante :
+ \begin{center}
+   $\renewcommand{\arraystretch}{1}
+   \begin{array}{|c|c|c|c|}
+     \hline
+     \cellcolor{lightgray}  & \cellcolor{lightgray} \text{Femmes} & \cellcolor{lightgray} \text{Hommes} & \cellcolor{lightgray} \text{Total}\\
+     \hline
+     \cellcolor{lightgray} \text{Cadres} & 12 & 37 & 49\\
+     \hline
+     \cellcolor{lightgray} \text{Employés} & 36 & 55 & 91\\
+     \hline
+     \cellcolor{lightgray} \text{Total} & 48 & 92 & 140\\
+     \hline
+   \end{array}
+   \renewcommand{\arraystretch}{1}$
+ \end{center}
+               Au cours de la fête de fin d’année, le comité
+               d’entreprise offre un séjour à la montagne à une personne choisie au hasard parmi les $140$ personnes de cette
+               entreprise.\\
+               On définit les évènements suivants : \\
+               C : \og{} la personne choisie fait partie des cadres
+               \fg{} ; \\
+               F : « la personne choisie est une femme ».
+
+\medskip
+\textbf {a.}   Calculer la probabilité de l'événement : « la personne choisie est une femme qui fait partie des employés ».
+
+\medskip
+\textbf {b.}   Calculer la probabilité de l'événement $\overline{F}\cup C$.
+
+\medskip
+\textbf {c.}   On sait que la personne choisie  est une femme.\\
+          Quelle est la probabilité qu'elle soit employée ?
+\end{exercice}
+
+\begin{exercice}[2][Probabilités conditionnelles dans une entreprise]
+  Une entreprise réalise des ventes à deux types de clients : des \textbf{grandes entreprises} et des \textbf{PME}. À la fin de l'année, elle constate que certains clients sont en situation de paiement à jour, tandis que d'autres sont en retard de paiement. Le tableau ci-dessous présente la répartition des clients selon leur type et leur situation de paiement.
+
+\[
+\begin{array}{|c|c|c|c|}
+\hline
+                          & \textbf{Paiement à jour} & \textbf{Paiement en retard} & \textbf{Total} \\
+\hline
+\textbf{Grandes entreprises}  & 600 & 150 & 750 \\ \hline
+\textbf{PME}                  & 850 & 400 & 1250 \\
+\hline
+\textbf{Total}                & 1450 & 550 & 2000 \\
+\hline
+\end{array}
+\]
+
+\begin{multicols}{2}
+  \begin{enumerate}
+  \item Quelle est la probabilité qu'un client choisi au hasard soit
+    en situation de paiement à jour ?
+  \item Quelle est la probabilité qu'un client choisi au hasard soit
+    en situation de paiement en retard ?
+  \item Quelle est la probabilité qu'un client choisi soit une grande
+    entreprise ?
+  \item Quelle est la probabilité qu'un client soit en situation de
+    paiement à jour sachant que c'est une grande entreprise ?
+\item Quelle est la probabilité qu'un client soit en situation de
+  paiement en retard sachant que c'est une PME ?
+\item Quelle est la probabilité qu'un client soit une grande
+  entreprise sachant qu'il est en situation de paiement en retard ?
+\item Quelle est la probabilité qu'un client soit une grande
+  entreprise sachant qu'il est en situation de paiement à jour ?
+\item Quelle est la probabilité qu'un client soit une PME sachant
+  qu'il est en situation de paiement à jour ?
+\end{enumerate}
+\end{multicols}
+\end{exercice}
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
