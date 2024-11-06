@@ -1,0 +1,51 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap.3 - Fiche 3 : Compléter une opération décimale}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+%% XLOP CONFIGURATION %% 
+\opset{carrysub,lastcarry,columnwidth=2.5ex,offsetcarry=-0.4,decimalsepoffset=-3pt}
+
+\begin{exercice}[2][Compléter les additions à trous suivantes.]
+\opadd[operandstyle.2=\trou]{128.4}{273.9}\hfill\opadd[operandstyle.2=\trou]{512.6}{348.5}\hfill\opadd[operandstyle.2=\trou]{695.7}{214.8}\hfill\opadd[operandstyle.2=\trou]{947.2}{536.4}\hfill\opadd[operandstyle.2=\trou]{1724.9}{845.6}
+
+\vspace{1cm}
+
+\opadd[operandstyle.2=\trou]{364.8}{127.5}\hfill\opadd[operandstyle.2=\trou]{579.3}{295.6}\hfill\opadd[operandstyle.2=\trou]{1348.2}{739.5}\hfill\opadd[operandstyle.2=\trou]{2947.8}{1658.4}
+
+\vspace{1cm}
+
+\opadd[operandstyle.1.2=\trou,operandstyle.2.1=\trou,resultstyle.4=\trou,resultstyle.3=\trou]{2394.58}{4729.63}\hfill\opadd[operandstyle.2.2=\trou,operandstyle.2.1=\trou,resultstyle.4=\trou,resultstyle.3=\trou]{3521.49}{1836.27}\hfill\opadd[operandstyle.1=\trou]{4857.39}{1278.64}
+\end{exercice}
+
+
+\begin{exercice}[3][Compléter les additions à trous suivantes.]
+\opset{carryadd}
+
+\opadd[operandstyle.2=\trou]{437.2}{219.8}\hfill\opadd[operandstyle.2=\trou]{623.5}{487.9}\hfill\opadd[operandstyle.2=\trou]{859.6}{374.2}\hfill\opadd[operandstyle.2=\trou]{748.3}{512.4}\hfill\opadd[operandstyle.2=\trou]{1523.7}{684.5}
+
+\vspace{1cm}
+
+\opadd[operandstyle.2=\trou]{312.9}{184.7}\hfill\opadd[operandstyle.2=\trou]{468.5}{291.3}\hfill\opadd[operandstyle.2=\trou]{1193.4}{742.8}\hfill\opadd[operandstyle.2=\trou]{2873.1}{1574.6}
+
+\vspace{1cm}
+
+\opadd[operandstyle.1.2=\trou,operandstyle.2.1=\trou,resultstyle.4=\trou,resultstyle.3=\trou]{4629.75}{1937.62}\hfill\opadd[operandstyle.2.2=\trou,operandstyle.2.1=\trou,resultstyle.4=\trou,resultstyle.3=\trou]{5134.89}{2873.41}\hfill\opadd[operandstyle.1=\trou]{6821.43}{2934.58}
+\end{exercice}
+
+\begin{exercice}[4][Compléter les additions à trous suivantes.]
+\opadd[operandstyle.1.2=\trou,operandstyle.2.1=\trou,resultstyle.4=\trou,resultstyle.3=\trou]{6582.41}{3249.58}\hfill\opadd[operandstyle.2.2=\trou,operandstyle.2.1=\trou,resultstyle.4=\trou,resultstyle.3=\trou]{7194.32}{4387.29}\hfill\opadd[operandstyle.1=\trou]{8263.75}{5934.68}
+\end{exercice}
+
+\end{document}
+
