@@ -1,0 +1,239 @@
+.
+├── all_tex_files_combined.tex
+├── Cinquieme
+│   ├── index.html
+│   ├── S01-priorites-operatoires
+│   │   ├── FA2-5-S01.pdf
+│   │   └── FM-5-S02.pdf
+│   ├── S02-Calculs-avec-fractions
+│   │   ├── FA-01-S02-Fractions.pdf
+│   │   ├── FA-01-S02-Fractions.tex
+│   │   ├── FM-S02-Calculs-avec-fractions.pdf
+│   │   └── FM-S02-Calculs-avec-fractions.tex
+│   ├── S03-Angles
+│   │   ├── 5g3_ex1.pdf
+│   │   ├── 5g3_ex2.pdf
+│   │   ├── 5g3_ex3a.pdf
+│   │   ├── FA02-S03-Reconnaitre-et-nommer.pdf
+│   │   ├── FA-02-S03-Reconnaitre.pdf
+│   │   ├── FA-02-S03-Reconnaitre.tex
+│   │   ├── FA03-S03-Calculer-angles-triangles.pdf
+│   │   ├── FA04-S03-Marquer-angles.pdf
+│   │   ├── FA05-S03-Calculer-angles.pdf
+│   │   ├── FA06-S03-Calculs-angles-papillon.pdf
+│   │   ├── FA07-S03-Parallelisme.pdf
+│   │   ├── FA08-S03-Calculs-angles-triangle.pdf
+│   │   ├── FA09-S03-Melange.pdf
+│   │   ├── FM-01-S03-5-Rappels-mesure-angles.pdf
+│   │   ├── FM-02-S03-5-Angles-et-parallelisme.pdf
+│   │   ├── SES5096-Angles_droites_paralleles_1.pdf
+│   │   ├── SES5097-Angles_droites_paralleles_2.pdf
+│   │   ├── SES6094-Comprendre_la_notion_d_angle.pdf
+│   │   └── SES6096-Nommer_des_angles.pdf
+│   ├── S04-Relatifs
+│   │   ├── 5n4_act1a.pdf
+│   │   ├── 5n4_act2.pdf
+│   │   ├── 5n4_ex2.pdf
+│   │   ├── bataille_relative.pdf
+│   │   ├── FA1-5-S06-introduction.pdf
+│   │   ├── FA2-5-S06-droites.pdf
+│   │   ├── FA3-01-S05-reperage-plan-001.pdf
+│   │   ├── FA3-01-S05-reperage-plan-002.pdf
+│   │   ├── FA3-01-S05-reperage-plan.tex
+│   │   └── FM-5-S06.pdf
+│   └── S05-Symetrie-Centrale
+│       ├── 00.FM.5g1_crs.pdf
+│       ├── 5g1_act1.pdf
+│       ├── 5g1_act2.pdf
+│       ├── 5g1_act3.pdf
+│       ├── 5g1_act4a.pdf
+│       ├── 5g1_act4b.pdf
+│       ├── 5g1_act5.pdf
+│       ├── 5g1_ex1.pdf
+│       ├── 5g1_ex2a.pdf
+│       ├── 5g1_ex2b_cor.pdf
+│       ├── 5g1_ex2b.pdf
+│       ├── 5g1_ex3a.pdf
+│       ├── 5g1_ex3b.pdf
+│       ├── 5g1_ex3c.pdf
+│       ├── 5g1_ex4a.pdf
+│       ├── 5g1_ex4b_cor.pdf
+│       ├── 5g1_ex4b.pdf
+│       ├── 5g1_ex4c_cor.pdf
+│       ├── 5g1_ex4c.pdf
+│       ├── 5g1_ex5.pdf
+│       └── 5g1_ex6.pdf
+├── favicon.ico
+├── generate_indexes.sh
+├── index.html
+├── Premiere
+│   ├── index.html
+│   ├── S00-Rappels-équations
+│   │   └── FA1_S0_Rappels.pdf
+│   ├── S01-Polynomes-second-degré
+│   │   ├── FA1-S1-forme-canonique.pdf
+│   │   ├── FA2-S1-Variations.pdf
+│   │   ├── FA2-S1-Variations.tex
+│   │   ├── FA3-S1-1-Extremum.pdf
+│   │   ├── FA3-S1-2-Extremum.pdf
+│   │   ├── FA3-S1-3-Extremum.pdf
+│   │   ├── FA3-S1-4-Extremum.pdf
+│   │   ├── FA3-S1-Extremum.pdf
+│   │   ├── FA3-S1-Extremum.tex
+│   │   └── FM-S1-Polynome-second-degre.pdf
+│   ├── S02-Dérivation-I
+│   │   ├── FA-00-S02-Activité-Introductive.pdf
+│   │   ├── FA-00-S02-Activité-Introductive.tex
+│   │   ├── FA-00-S02-Live.pdf
+│   │   ├── FA-00-S02-Live.tex
+│   │   ├── FA-01-S02-Limites-pentes.pdf
+│   │   ├── FA-01-S02-Limites-pentes.tex
+│   │   ├── FA-02-S02-Lecture-graphique.pdf
+│   │   ├── FA-02-S02-Lecture-graphique.tex
+│   │   ├── FA-03-S02-Taux-accroissement.pdf
+│   │   ├── FA-03-S02-Taux-accroissement.tex
+│   │   ├── FA-04-S02-Tangente.pdf
+│   │   ├── FA-04-S02-Tangente.tex
+│   │   ├── FA-09-S02-Problèmes-de-recherche.pdf
+│   │   ├── FA-09-S02-Problèmes-de-recherche.tex
+│   │   ├── FM-S02-Dérivation-I.pdf
+│   │   └── FM-S02-Dérivation-I.tex
+│   ├── S03-Probabilités-Conditionnelles
+│   │   ├── 00.FM-S02-ProbaCondi.pdf
+│   │   ├── 00.FM-S02-ProbaCondi.tex
+│   │   ├── 15.FA6-S04-Problèmes.pdf
+│   │   ├── 15.FA6-S04-Problèmes.tex
+│   │   ├── FA1-S02-ProbaSimples-1.pdf
+│   │   ├── FA1-S02-ProbaSimples-2.pdf
+│   │   ├── FA1-S02-ProbaSimples-3.pdf
+│   │   ├── FA1-S02-ProbaSimples.tex
+│   │   ├── FA2-S02-ProbaSimples-et-Tableaux.pdf
+│   │   ├── FA2-S02-ProbaSimples-et-Tableaux.tex
+│   │   ├── FA3-S02-ProbaCondi-Formule.pdf
+│   │   ├── FA3-S02-ProbaCondi-Formule.tex
+│   │   ├── FA4-S02-ProbaCondi-Arbres.pdf
+│   │   ├── FA5-S02-ProbaCondi-Arbres-1.pdf
+│   │   ├── FA5-S02-ProbaCondi-Arbres-2.pdf
+│   │   ├── FA5-S02-ProbaCondi-Arbres-3.pdf
+│   │   └── FA5-S02-ProbaCondi-Arbres-4.pdf
+│   └── S04-Trigonométrie
+│       ├── 00.FM-Trigonometrie.pdf
+│       ├── 01.FA-00-S04-Rappels.pdf
+│       ├── 01.FA-00-S04-Rappels.tex
+│       ├── 01.FA-S04-Rappels-01.pdf
+│       ├── 02.FA-S04-Rappels-02.pdf
+│       ├── 03.FA-S04-Premiers-Exercices.pdf
+│       ├── 03.FA-S04-Premiers-Exercices.tex
+│       ├── 04-Autre-Exercices.pdf
+│       ├── 10.FA01-Trigo-Base.pdf
+│       ├── 11.FA01-Equations-Trigos.pdf
+│       ├── 12.FA01-Trigo-Sinus-Particuliers.pdf
+│       ├── 20.DM1-Trigonometrie-Methode-Archimède.pdf
+│       ├── 30-Exercices-trigo.pdf
+│       ├── 90.Formulaire_trigonometrie.pdf
+│       ├── Exercices-supp
+│       │   ├── 30-Exercices-trigo.pdf
+│       │   ├── 31-Angles remarquables du cercle trigonométrique.pdf
+│       │   ├── 32-Angles et valeurs remarquables du cercle trigonométrique.pdf
+│       │   ├── 33-Formules de trigonométrie.pdf
+│       │   ├── 34-Conversion de degrés en radians.pdf
+│       │   ├── 35-Mesures principales en radians.pdf
+│       │   └── 36-Formules de trigonométrie.pdf
+│       ├── tikz.aux
+│       ├── tikz.log
+│       ├── tikz.pdf
+│       └── tikz.tex
+├── Sixieme
+│   ├── index.html
+│   ├── S01-Numeration-entiere
+│   │   ├── FA-S01-6-additions posées.pdf
+│   │   └── FM-S01-6-Numération-entiere.pdf
+│   ├── S02-Notions-de-Géométrie
+│   │   ├── 6g1_ex1a.pdf
+│   │   ├── 6g1_ex1b.pdf
+│   │   ├── 6g1_ex1c.pdf
+│   │   ├── ExercicesGeometrie-01.pdf
+│   │   ├── ExercicesGeometrie-02.pdf
+│   │   ├── Exercices-Intro-Geometrie.pdf
+│   │   ├── FM-S02-Geometrie.pdf
+│   │   └── FM-S02-Geometrie.tex
+│   ├── S03-Operations-decimaux
+│   │   ├── FA-01-S03-Additions-decimales.pdf
+│   │   ├── FA-01-S03-Additions-decimales.tex
+│   │   ├── FA-02-S03-Soustractions-decimales.pdf
+│   │   ├── FA-02-S03-Soustractions-decimales.tex
+│   │   ├── FA-03-S03-Additions-decimales-trou.pdf
+│   │   ├── FA-03-S03-Additions-decimales-trou.tex
+│   │   ├── FA-03-S03-Soustractions-decimales-trou.pdf
+│   │   ├── FA-03-S03-Soustractions-decimales-trou.tex
+│   │   ├── FA-05-S03-Problemes-1.pdf
+│   │   ├── FA-05-S03-Problemes-1.tex
+│   │   ├── FA-06-S03-Ordre de grandeurs.tex
+│   │   ├── FM-S03-Opérations-sur-les-nombres-décimaux.pdf
+│   │   └── FM-S03-Opérations-sur-les-nombres-décimaux.tex
+│   ├── S04-Cercle
+│   │   ├── 00.FM-S04-Cercles.pdf
+│   │   ├── 00.FM-S04-Cercles.tex
+│   │   ├── 11.FA-01-S04-Vocabulaire-cercle.pdf
+│   │   ├── 12.FA-02-S04-Vocabulaire-cercle.pdf
+│   │   ├── 13.0.FA-03-S04-Proprietes-cercle.pdf
+│   │   ├── 13.1.CORRECTION-FA-03-S04-Proprietes-cercle.pdf
+│   │   ├── 14.FA-04-S04-Tracer-cercle.pdf.pdf
+│   │   ├── 15.0.FA-05-S04-Tracer-cercle.pdf
+│   │   ├── 15.1.CORRECTION-FA-05-S04-Tracer-cercle.pdf
+│   │   ├── 15.2.CORRECTION-FA-05-S04-Tracer-cercle.pdf
+│   │   ├── 16.FA-06-S04-Tracer-Arcs.pdf
+│   │   ├── 19.FA-09-S04-Programmes-de-constructions.pdf
+│   │   ├── 20.Activité-Perroquet.pdf
+│   │   ├── 21.1.Flammant-rose-consigne.pdf
+│   │   └── 21.2.Flammant-rose-a-remplir.pdf
+│   └── S05-Positions-relatives-de-droites
+│       ├── 01.FM-6-S09.pdf
+│       ├── 6_E06_Droites_paralleles_perpendiculaires.pdf
+│       ├── FA1-6-S09-definitions.pdf
+│       ├── FA2-6-S09-constructions-1.pdf
+│       ├── FA3-6-S09-mediatrice.pdf
+│       └── FA4-6-S09-triangle-rectangle.pdf
+├── Terminale
+│   ├── index.html
+│   ├── S01-Suites-Numériques
+│   │   ├── FA1-recurrence-explicite.pdf
+│   │   ├── FA2-Situations-problemes.pdf
+│   │   └── FM-S1-Suites.pdf
+│   ├── S02-Probabilités-Conditionnelles
+│   │   ├── FA1-S02-1-ProbaSimples.pdf
+│   │   ├── FA1-S02-ProbaSimples.tex
+│   │   ├── FA2-S02-2-ProbaSimples.pdf
+│   │   ├── FA2-S02-ProbaSimples-et-Tableaux.pdf
+│   │   ├── FA2-S02-ProbaSimples-et-Tableaux.tex
+│   │   ├── FA2-S02-ProbaSimples.pdf
+│   │   ├── FA3-S02-ProbaCondi-Formule.pdf
+│   │   ├── FA3-S02-ProbaCondi-Formule.tex
+│   │   ├── FA4-S02-ProbaCondi-Arbres.pdf
+│   │   ├── FA5-S02-ProbaCondi-Arbres-1.pdf
+│   │   ├── FA5-S02-ProbaCondi-Arbres-2.pdf
+│   │   ├── FA5-S02-ProbaCondi-Arbres-3.pdf
+│   │   ├── FA5-S02-ProbaCondi-Arbres-4.pdf
+│   │   ├── FM-S02-ProbaCondi.pdf
+│   │   └── FM-S02-ProbaCondi.tex
+│   ├── S03-Suites-Géométriques
+│   │   ├── FA-01-S03-Revisions.pdf
+│   │   ├── FA-01-S03-Revisions.tex
+│   │   ├── STI2D_TN9_crs - Suites numériques.pdf
+│   │   ├── STI2D_TN9_ex1a - Suites géométriques (exercices de base).pdf
+│   │   ├── STI2D_TN9_ex1b - Suites géométriques et pourcentages.pdf
+│   │   └── STI2D_TN9_ex3a - Bilan.pdf
+│   └── S04-Derivation
+│       ├── 00.Cours-Polynomes-Derivation-S04.tex
+│       ├── 11.FA-01-S04-Evaluation-fonction.pdf
+│       ├── 11.FA-01-S04-Evaluation-fonction.tex
+│       ├── 12.FA-02-S04-Discriminant.pdf
+│       ├── 12.FA-02-S04-Discriminant.tex
+│       ├── 13.FA-03-S04-Tableaux-variations-affines.pdf
+│       ├── 13.FA-03-S04-Tableaux-variations-affines.tex
+│       ├── 14.FA-04-S04-Tableaux-variations-polynome.pdf
+│       ├── 14.FA-04-S04-Tableaux-variations-polynome.tex
+│       └── EXERCICE-13.pdf
+└── tree.txt
+
+25 directories, 212 files
