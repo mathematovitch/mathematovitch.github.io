@@ -1,0 +1,134 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chapitre 6 : Conversions et périmètres}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\section{Unités de mesure internationales}
+
+\begin{remarque}
+Pour simplifier les échanges scientifiques entre les pays du monde
+entiers, certaines unités ont été fixées \\ internationalement.
+\end{remarque}
+
+\begin{definition}
+\begin{itemize}
+ \item Pour mesurer des longueurs, on utilise une longueur de référence, appelée mètre, que l’on peut noter en abrégé « m ».
+\item Pour mesurer des masses, on utilise une masse de référence, appelée gramme, que l’on peut noter en abrégé « g ».
+\item Pour mesurer des contenances, on utilise un volume de référence, appelée litre, que l’on peut noter en abrégé « L ».
+\item Pour mesurer un temps, on utilise un temps de référence, appelée seconde, que l’on peut noter en abrégé « s ».
+\end{itemize}
+\end{definition}
+\begin{vocabulaire}
+Mètres, Grammes, Litres et Secondes s’appellent des unités de mesure internationales.
+\end{vocabulaire}
+  
+
+\section{Tableaux de conversions}
+
+\begin{remarque}
+Comme pour la numération, les conversions se font en base 10. On 
+peut utiliser les tableaux suivants.
+\end{remarque}
+
+\textbf{Pour les longueurs :}
+\begin{center}\input{.data/tab-longueur.txt}
+\end{center}
+
+\textbf{Pour les masses :}
+\begin{center}\input{.data/tab-masse.txt}
+\end{center}
+
+\textbf{Pour les contenances :}
+\begin{center}\input{.data/tab-contenance.txt}
+\end{center}
+
+\begin{exemple}
+1\ km = 10\ hm = 100\ dam = 1\ 000\ m et 1\ m = 10\ dm = 100\ cm = 1\
+000\ mm.
+
+1\ kg = 10\ hg = 100\ dag = 1\ 000\ g et 1 g\ = 10\ dg = 100\ cg = 1\
+000\ mg.
+
+1\ kL = 10\ hL = 100\ daL = 1\ 000\ L et 1 L\ = 10\ dL = 100\ cL = 1\
+000\ mL.
+\end{exemple}
+
+\begin{remarque}
+Ce principe de base ne fonctionne pas pour le temps. En effet, les
+secondes sont exprimées en base 60. 60 secondes donnent 1 minute, 60
+minutes donnent 1 heure, 24 heures donnent 1 journée \dots
+\end{remarque}
+\section{Périmètre d'une figure}
+
+\begin{vocabulaire}
+La mesure du contour d'une figure quelconque est appelée périmètre.
+\end{vocabulaire}
+
+\begin{center}\input{.data/peri.txt}
+\end{center}
+
+Le périmètre de cette figure est de $16,83$ cm. 
+
+\begin{center}
+\opmanyadd[voperator=bottom]{4}{1}{2}{3}{4}{2.83}
+\end{center}
+
+\section{Quadrilatères}
+\begin{definition}
+Un quadrilatère est un polygone qui possède quatre côtés.
+\end{definition}
+
+\begin{multicols}{2}
+
+\begin{definition}
+Un rectangle est un quadrilatère qui possède 4 angles droits.
+\end{definition}
+
+\begin{center}
+\input{.data/rectangle.txt}
+\end{center}
+
+\begin{definition}
+Un carré est un quadrilatère qui possède 4 côtés de même longueurs
+\underline{et} 4 angles droits.
+\end{definition}
+
+\begin{center}
+\input{.data/carre.txt}
+\end{center}
+
+\end{multicols}
+
+\section{Périmètre des polygones}
+
+
+\begin{definition}
+Le périmètre $\mathcal{P}$ d'un polygone est égale à la somme des
+longueurs de ses côtés
+\end{definition}
+
+\begin{exemple} {\large
+  \begin{center}
+  \begin{tabular}{|l|c|c|}
+\hline
+Périmètre d'un \underline{carré} de coté $c$ &  $\mathcal{P}_{carre}~=~c \times 4$ \\ \hline
+Périmètre d'un \underline{rectangle} de cotés $L$ et $\ell$ &  $\mathcal{P}_{rectangle}~=(~L+\ell~) \times 2$ \\ \hline
+Périmètre d'un \underline{losange} de coté $c$ &  $\mathcal{P}_{losange}~=c \times 4$ \\ \hline
+Périmètre d'un \underline{triangle équilateral} de coté $c$ \phantom{00} &  $\mathcal{P}_{triangle}~=c \times 3$ \\ \hline
+\end{tabular} 
+\end{center} }
+\end{exemple}
+
+
+\end{document}

@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+
+\draw[white] (0,0) grid (7,5) ;
+
+\tkzDefPoints{1/1/A,6/1/B,6/4/C,1/4/D}
+
+\tkzDrawSegments(A,B B,C C,D D,A)
+
+\tkzLabelPoints[below](A,B)
+\tkzLabelPoints[above](C,D)
+\tkzDrawPoints[shape=cross out](A,B,C,D)
+
+\tkzMarkSegments[mark=||,thick](A,B C,D)
+\tkzMarkSegments[mark=s](B,C D,A)
+
+\tkzMarkRightAngle(A,B,C)
+\tkzMarkRightAngle(B,C,D)
+\tkzMarkRightAngle(C,D,A)
+\tkzMarkRightAngle(D,A,B)
+
+\end{tikzpicture}

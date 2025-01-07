@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+
+\draw[white] (0,0) grid (8,5) ;
+
+\tkzDefPoints{1/1/A,5/1/B,7/3/C,3/3/D,3/4/E,1/4/F}
+
+\tkzDrawPoints[shape=cross out](A,B,C,D,E,F)
+\tkzDrawSegments(A,B B,C C,D D,E E,F F,A)
+\tkzLabelSegment[below](A,B){$4$ cm}
+\tkzLabelSegment[sloped](B,C){$2,83$ cm}
+\tkzLabelSegment[above](C,D){$4$ cm}
+\tkzLabelSegment[left](D,E){$1$ cm}
+\tkzLabelSegment[above](E,F){$2$ cm}
+\tkzLabelSegment[right](F,A){$3$ cm}
+\end{tikzpicture}

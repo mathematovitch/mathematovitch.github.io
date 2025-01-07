@@ -1,0 +1,8 @@
+\begin{tabularx}{0.8\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+kg&hg&dag&g&dg&cg&mg \\
+\hline
+&&&&&& \\
+&&&&&& \\
+\hline
+\end{tabularx} 

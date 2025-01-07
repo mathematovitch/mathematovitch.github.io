@@ -1,0 +1,8 @@
+\begin{tabularx}{0.8\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+\hline
+km&hm&dam&m&dm&cm&mm \\
+\hline
+&&&&&& \\
+&&&&&& \\
+\hline
+\end{tabularx}

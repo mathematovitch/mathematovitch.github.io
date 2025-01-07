@@ -1,0 +1,100 @@
+\documentclass[12pt]{article}
+
+\usepackage{mathdoc}
+
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 5 : Dérivation}
+
+\begin{document}
+
+\setlength{\parindent}{0cm} 
+
+
+\section{Taux d'accroissement} 
+
+\begin{definition}
+   Le \underline{taux d'accroissement} de la fonction $f$ entre $a$ et $x$ est le quotient :
+$$\dfrac{f(x)-f(a)}{x-a}$$
+Avec $x=a+h$, ce quotient s'écrit aussi : $$\dfrac{f(a+h)-f(a)}{h}$$
+\end{definition}
+
+\begin{exemple}
+   Pour $f$ définie sur $\R$ par $f(x)=x^2$, le taux d'accroissement
+   de $f$ entre $a$ et $a+h$ est : \\ \\
+   \begin{tabular}{p{0.3cm}l!{=}l}
+      &  $\dfrac{f(a+h)-f(a)}{h}$ & $\dfrac{(a+h)^2-a^2}{h}$ \\
+      & & $\dfrac{a^2+2ah+h^2-a^2}{h}$ \\
+      &   $\dfrac{f(a+h)-f(a)}{h}$ & $2a+h$ \\
+   \end{tabular}
+\end{exemple}
+
+\section{Nombre dérivé} 
+
+\begin{definition}
+   On dit que $f$ est \underline{dérivable} en $a$ et on note cette dérivée $f'(a)$ si la limite suivante existe :
+$$f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}$$
+\end{definition}
+
+\begin{remarque}
+   On note aussi la dérivée $f'(a)$ comme la limite suivante :
+$$f'(a)=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}$$
+\end{remarque}
+
+\begin{propriete}[Interprétation géométrique]
+  Si une fonction $f$ est dérivable en $a$, alors $f'(a)$ est la pente de la
+  tangente à la courbe de $f$ en $(a, f(a))$.
+\end{propriete}
+
+\begin{exemple}
+  Pour $f$ définie sur $\R$ par $f(x)=x^2$, calculer le nombre dérivé de $f$ en $3$ puis en $-1$ :
+   \begin{enumerate}
+      \item $\dfrac{f(a+h)-f(a)}{h}=2a+h$ d'après l'exemple $1$
+      \item $f'(a)=\lim_{h\to0}2a+h=2a $
+      \item $f'(2)=2\times 3=6$
+      \item $f'(-1)=2\times (-1)=-2$
+   \end{enumerate}
+\end{exemple}
+
+\begin{exemple}
+On considère la fonction $f$ définie sur $\R$ par $f(x)=x^2+1$.\\
+Son taux d'accroissement en $a=1$ est donné par le calcul suivant :
+\begin{center}
+  \begin{tabular}{p{0.3cm}l!{=}l}
+    &  $\dfrac{f(x)-f(a)}{x-a}$ & $\dfrac{(x^2+1)-(1^2+1)}{x-1}$ \\
+    & & $\dfrac{(x+1)(x-1)}{x-1}$ \\
+    &   $\dfrac{f(x)-f(a)}{x-a}$ & $x+1$ \\
+  \end{tabular}
+\end{center}
+Or, $\lim\limits_{x\to1}x+1=2$\\
+Donc $f$ est dérivable en $1$ et $f'(1)=2$
+\end{exemple}
+
+\section{Equation de la tangente}
+
+\begin{propriete}
+   Soit $f$ une fonction numérique définie sur un intervalle $I$ et dérivable en $a\in I$\\
+La \underline{tangente} $T_a$ en à la courbe $C_f$ en $a$ a pour équation :
+$$T_a : y=f'(a)(x-a)+f(a)$$
+\end{propriete}
+
+\begin{demonstration}
+\begin{center}
+  \begin{tabular}{p{0.3cm}l!{=}l}
+    &  $f'(x)$ & $\dfrac{f(x)-f(a)}{x-a}$ \\
+    & $f'(x)+\dfrac{f(a)}{x-a}$& $\dfrac{f(x)}{x-a}$ \\
+    &   $f(x)$ & $f'(x)(x-a)+\dfrac{f(a)(x-a)}{x-a}$ \\
+    &   $f(x)$ & $f'(x)(x-a)+f(a)$ \\
+  \end{tabular}
+\end{center}
+\end{demonstration}
+
+\begin{exemple}
+   Soit $f(x)=x^2+2$. Déterminer l'équation de la tangente en $0$ et en $-1$
+   \begin{enumerate}
+      \item $f'(0)=0$ donc $T_0 : y=0\times(x-0)+f(0)=2$
+      \item $f'(-1)=-2$ donc $T_{-1} : y=-2\times(x+1)+f(-1)=-2x+1$
+   \end{enumerate}
+\end{exemple}
+
+\end{document}
