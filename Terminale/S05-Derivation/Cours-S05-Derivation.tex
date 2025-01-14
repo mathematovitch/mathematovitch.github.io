@@ -97,4 +97,99 @@ $$T_a : y=f'(a)(x-a)+f(a)$$
    \end{enumerate}
 \end{exemple}
 
+\newpage
+
+\section{Dérivés usuelles}
+
+
+
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|}\hline
+\raisebox{0.4cm}[1.2cm]{Fonction $f$} &
+\raisebox{0.4cm}[1.2cm]{Dérivée} &
+\raisebox{0.4cm}[1.2cm]{
+  $f$ est définie sur 
+}&
+\raisebox{0.4cm}[1.2cm]{
+
+  $f$ est dérivable sur  
+}
+\tabularnewline\hline
+
+\raisebox{0.1cm}[0.6cm]{$f(x)=k$ (constante)} & 
+\raisebox{0.1cm}[0.6cm]{$f'(x)=0$} & 
+\multicolumn{2}{c|}{$\R$} \\\hline 
+
+\raisebox{0.1cm}[0.6cm]{$f(x)=x$} & 
+\raisebox{0.1cm}[0.6cm]{$f'(x)=1$}  & 
+\multicolumn{2}{c|}{$\R$} \\\hline
+
+%\raisebox{0.1cm}[0.6cm]{$f(x)=ax$, $a\in\R$} & 
+%\raisebox{0.1cm}[0.6cm]{$f'(x)=a$} &
+%\multicolumn{2}{c|}{$\R$} \\\hline
+
+\raisebox{0.3cm}[1.1cm]{$f(x)=x^2$} & 
+\raisebox{0.3cm}[1.1cm]{$f'(x)=2x$} & 
+\multicolumn{2}{c|}{\raisebox{0.25cm}[1cm]{$\R$}} \\\hline
+
+\raisebox{0.3cm}[1.1cm]{$f(x)=x^n$\ \ ($n\in\N$)} & 
+\raisebox{0.3cm}[1.1cm]{$f'(x)=nx^{n-1}$} & 
+\multicolumn{2}{c|}{\raisebox{0.25cm}[1cm]{$\R$}} \\\hline
+
+\raisebox{0.25cm}[1.cm]{$f(x)=\dfrac{1}{x}$} & 
+\raisebox{0.25cm}[1cm]{$f'(x)=-\dfrac{1}{x^2}$} & 
+\multicolumn{2}{c|}{
+\raisebox{0.25cm}[1cm]{$\R^*=]-\infty;0[\cup]0;+\infty[$}} \\\hline
+
+\raisebox{0.3cm}[1cm]{$f(x)=\sqrt{x}$} & 
+\raisebox{0.3cm}[1cm]{$f'(x)=\dfrac{1}{2\sqrt{x}}$} & 
+\raisebox{0.3cm}[1cm]{$\R_+=[0;+\infty[$} & 
+\raisebox{0.3cm}[1cm]{$\R_+^*=]0;+\infty[$} 
+\\\hline
+
+\end{tabular}
+\end{center}
+
+\section{Opérations sur les dérivées}
+
+\noindent
+$u$ et $v$ désignent deux fonctions quelconques, définies et
+dérivables sur un intervalle $I$. 
+
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+\raisebox{0.4cm}[1.2cm]{Fonction} &
+\raisebox{0.4cm}[1.2cm]{Dérivée} 
+\tabularnewline\hline
+
+\raisebox{0.1cm}[0.7cm]{$ku$, $k\in\R$} & 
+\raisebox{0.1cm}[0.7cm]{$ku'$} 
+\\\hline
+
+\raisebox{0.1cm}[0.7cm]{$u+v$} & 
+\raisebox{0.1cm}[0.7cm]{$u'+v'$}  
+\\\hline
+
+\raisebox{0.1cm}[0.7cm]{$uv$} & 
+\raisebox{0.1cm}[0.7cm]{$u'v+uv'$}  
+\\\hline
+
+\raisebox{0.3cm}[1.1cm]{$\dfrac{u}{v}$} & 
+\raisebox{0.3cm}[1.1cm]{$\dfrac{u'v-uv'}{v^2}$}  
+\\\hline 
+\raisebox{0.3cm}[1cm]{$\dfrac{1}{u}$} &
+\raisebox{0.3cm}[1cm]{$-\frac{u'}{u^2}$} \\\hline
+%
+\raisebox{0.1cm}[0.6cm]{$u^2$} & 
+\raisebox{0.1cm}[0.6cm]{$2u'u$} \\\hline
+%
+\raisebox{0.1cm}[0.6cm]{$u^n$ ($n\in\N$)} & 
+\raisebox{0.1cm}[0.6cm]{$nu'u^{n-1}$} \\\hline
+%
+$\sqrt{u}$ & $\dfrac{u'}{2\sqrt{u}}$ \\\hline
+%
+\end{tabular}
+\end{center}
 \end{document}

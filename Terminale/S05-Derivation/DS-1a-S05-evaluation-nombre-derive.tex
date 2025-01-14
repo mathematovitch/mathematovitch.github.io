@@ -1,0 +1,88 @@
+
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 5 : Dérivation - Évaluation 1 : Calcul de nombre dérivé}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+\phantom{0}
+\vspace{-1cm}
+\begin{center}
+\duree{55 minutes} 
+\total{10 points}
+\coefficient{0,5}
+\calculatrice{1}
+\copieseparee{1}
+\end{center}
+
+\begin{exercice}[0][Exercice corrigé]
+Soit la fonction définie sur $\R$ par $f(x)=3x+6$
+\begin{enumerate}
+\item Soit $h$ un réel non nul. \\
+Calculer $f(1+h)-f(1)$ : \\
+$f(1+h) = 3(1+h)+6 = 3+3h+6$ \\
+$f(1)=3 \times 1 + 6 = 9$ \\
+$f(1+h)-f(1)=3+3h+6-9=3h$
+\item Donner la valeur du nombre dérivé de $f$ en $0$ : \\
+$f'(0)=\lim\limits_{h\to0}\dfrac{f(1+h)-f(1)}{h}=\lim\limits_{h\to0}\dfrac{3h}{h}$ \\
+$f'(0)=\lim\limits_{h\to0}3=3$
+\end{enumerate}
+\end{exercice}
+\begin{multicols}{2}
+\begin{exercicedevoir}[2]
+Soit la fonction définie sur $\R$ par $f(x)=2x$
+\begin{enumerate}
+\item Soit $h$ un réel non nul. \\
+Exprimer $f(5+h)-f(5)$ en fonction de h ;
+\item Determiner $f'(5)$.
+\end{enumerate}
+\end{exercicedevoir}
+\begin{exercicedevoir}[2]
+Soit la fonction définie sur $\R$ par $f(x)=-7x$
+\begin{enumerate}
+\item Soit $h$ un réel non nul. \\
+Exprimer $f(3+h)-f(3)$ en fonction de h ;
+\item Determiner $f'(3)$.
+\end{enumerate}
+\end{exercicedevoir}
+\begin{exercicedevoir}[2]
+Soit la fonction définie sur $\R$ par $f(x)=5x-2$
+\begin{enumerate}
+\item Soit $h$ un réel non nul. \\
+Exprimer $f(-1+h)-f(-1)$ en fonction de h
+\item Determiner $f'(-1)$.
+\end{enumerate}
+\end{exercicedevoir}
+\begin{exercicedevoir}[2]
+Soit la fonction définie sur $\R$ par $f(x)=-6x+3$
+\begin{enumerate}
+\item Soit $h$ un réel non nul. \\
+Exprimer $f(2+h)-f(2)$ en fonction de h ;
+\item Donner la valeur du nombre dérivé de $f$ en $2$.
+\end{enumerate}
+\end{exercicedevoir}
+\end{multicols}
+\begin{exercicedevoir}[3]
+Soit la fonction définie sur $\R$ par $f(x)=x^2$
+\begin{enumerate}
+\item Soit $h$ un réel non nul. \\
+Exprimer $f(1+h)-f(1)$ en fonction de h ;
+\item Donner la valeur du nombre dérivé de $f$ en $1$.
+\end{enumerate}
+\end{exercicedevoir}
+\nonewpage
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% TeX-master: t
+%%% End:
+
