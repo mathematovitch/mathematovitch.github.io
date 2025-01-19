@@ -110,34 +110,11 @@ u_{n+1} = (u_n)^2 + u_n, \forall n
 \end{cases} \]
 \end{exemple}
 
-\begin{definition}[Suite strictement
-croissante]
-$(u_n)$ strictement croissante $\iff$ $u_{n+1}
-> u_n$, $\forall n \ge n_0$
-\end{definition}
-
-\begin{exemple}
-
-\end{exemple}
 
 \begin{definition}[Suite décroissante]
 $(u_n)$ décroissante $\iff$ $u_{n+1}
 \le u_n$, $\forall n \ge n_0$
 \end{definition}
-
-\begin{exemple}
-
-\end{exemple}
-
-\begin{definition}[Suite strictement
-décroissante]
-$(u_n)$ strictement décroissante $\iff$ $u_{n+1}
-< u_n$, $\forall n \ge n_0$
-\end{definition}
-
-\begin{exemple}
-
-\end{exemple}
 
 \begin{definition}[Suite monotone]
 La suite $(u_n)$ est monotone si et
@@ -145,41 +122,203 @@ seulement si elle uniquement est croissante ou décroissante (sans
 changer de sens de variation).
 \end{definition}
 
-\begin{exemple}
-
-\end{exemple}
-
 \begin{definition}[Suite constante]
 $(u_n)$ constante $\iff$ $u_{n+1}
 = u_n$, $\forall n \ge n_0$
 \end{definition}
 
-\begin{exemple}
+\subsection{Représentation graphique}
 
+\begin{definition}
+Dans un repère orthonormé direct du plan, la représentation graphique
+d'une suite $u$ est l'ensemble des points ayant pour coordonnées
+$(n;u_n)$ avec $n \in \N, n \leq n_0$ 
+\end{definition}
+
+\begin{exemple}
+On considère la suite $(u_n)_{n\in\N}$ par : $u_n = n^2 - 1$  
+Les premiers termes de la suite sont donnés dans le tableau suivant :
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{n} & 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
+\textbf{$u_n$} & -1 & 0 & 3 & 8 & 15 & 24 \\ \hline
+\end{tabular}
+\end{center}
+On obtient la représentation graphique des premiers points de la suite
+:
+\begin{center}
+\begin{tikzpicture}
+    % Grille
+    \draw[step=1,gray,opacity=0.5] (-2,-2) grid (6,9);
+
+    % Axes
+    \draw[->] (-2,0) -- (6.5,0) node[below] {$n$};
+    \draw[->] (0,-2) -- (0,9) node[left] {$u_n$};
+
+    % Points de la suite
+    \foreach \n/\u in {0/-1, 1/0, 2/3, 3/8} {
+        \draw[red,thick] (\n,\u) node[cross out, draw, thick, scale=0.6] {};
+        \node[above] at (\n,\u) {$u_{\n}$};
+    }
+
+    % Noms des graduations
+    \foreach \x in {-2,-1,0,1,2,3,4,5,6} {
+        \draw (\x,0) -- (\x,-0.5) node[below] {\small $\x$};
+    }
+    \foreach \y in {-2,0,2,4,6,8} {
+        \draw (0,\y) -- (-0.2,\y) node[left] {\small $\y$};
+    }
+\end{tikzpicture}
+\end{center}
 \end{exemple}
 
-\begin{comment}
-Méthode : Calculer les premiers termes d'une suite Méthode :
-Représenter graphiquement une suite dé�nie de manière explicite
-Méthode : Représenter graphiquement une suite dé�nie par récurrence
-Méthode : Montrer qu'une suite est bornée Méthode : Montrer qu'une
-suite est arithmétique et donner sa forme explicite Méthode : Montrer
-qu'une suite est géométrique et donner sa forme explicite Méthode :
-Calculer une somme de termes consécutifs d'une suite Exercice :
-Calculer les premiers termes d'une suite dé�nie de manière explicite
-Exercice : Calculer les premiers termes d'une suite dé�nie par
-récurrence Exercice : Montrer qu'une suite est bornée Exercice :
-Déterminer si une suite est arithmétique Exercice : Calculer les
-termes d'une suite arithmétique Exercice : Déterminer le premier terme
-et la raison d'une suite arithmétique Exercice : Calculer la somme des
-termes consécutifs d'une suite arithmétique Exercice : Déterminer si
-une suite est géométrique Exercice : Calculer les termes d'une suite
-géométrique Exercice : Déterminer le premier terme et la raison d'une
-suite géométrique Exercice : Calculer la somme des termes consécutifs
-d'une suite géométrique Exercice : Calculer une somme Problème :
-Raison et premier terme d'une suite arithmétique à partir d'un système
-Problème : Etudier deux suites imbriquées Problème : Utilisation d'une
-suite géométrique dans une situation réelle Problème : Etudier une
-suite géométrique et un taux d'intérêt
-\end{comment}
+\subsection{Suites arithmétiques}
+
+\begin{definition}
+Une suite $(u_n)$ est une suite arithmétique s'il existe un nombre $r$
+tel que :
+\[ u_{n+1} = u_n + r \]
+Le nombre $r$ est appelé raison de la suite.
+\end{definition}
+
+\begin{exemple}
+Considérons $(u_n)$ définie par :
+\[ \begin{cases}
+u_0 = 1 \\
+u_{n+1} = u_n - 2, \forall n
+\in \N
+\end{cases} \]
+$(u_n)$ est une suite arithmétique de raison $r=-2$
+\end{exemple}
+
+\begin{propriete}
+Soit $(u_n)$ une suite arithmétique de raison $r$ ;
+\begin{itemize}
+\item Si $r > 0$ la suite est strictement croissante ;
+\item Si $r < 0$ la suite est strictement décroissante ;
+\item Si $r = 0$ la suite est constante.
+\end{itemize}
+\end{propriete}
+
+
+\begin{theoreme}[Terme général d'une suite arithmétique]
+Soit une suite arithmétique de raison $r$ définie à partir d'un
+certain rang $n_0$.\\
+Pour tout entier supérieur ou égal à $n_0$ son terme général est égal à :
+\[ u_n = u_{n_0}+(n-n_0)r\]
+En particulier si $n_0=0$, on a : 
+\[ u_n = u_0 + n \times r\]
+\end{theoreme}
+
+\begin{exemple}
+On considère $(u_n)$  une suite arithmétique de raison $r=2$ et de
+premier terme $u_5=18$.
+\[ \forall n \ge 5, u_n=18+(n-5)2 = 2n + 8\]
+\end{exemple}
+
+\begin{propriete}
+Soit $(u_n)$ une suite arithmétique. Les points de sa représentation graphique sont alignés.
+\end{propriete}
+
+\subsection{Suites géométriques}
+
+\begin{definition}
+Une suite $(u_n)$ est une suite géométrique s'il existe un nombre $q$
+tel que :
+\[ u_{n+1} = u_n \times q \]
+Le nombre $q$ est appelé raison de la suite.
+\end{definition}
+
+\begin{exemple}
+Considérons $(u_n)$ définie par :
+\[ \begin{cases}
+u_0 = 1 \\
+u_{n+1} = u_n \times 2, \forall n
+\in \N
+\end{cases} \]
+$(u_n)$ est une suite arithmétique de raison $r=2$
+\end{exemple}
+
+\begin{propriete}
+Soit $(u_n)$ une suite arithmétique de raison $q>0$ ;
+\begin{itemize}
+\item Si $q > 1$ la suite est strictement croissante ;
+\item Si $0 < q < 1$ la suite est strictement décroissante ;
+\item Si $q = 1$ la suite est constante.
+\end{itemize}
+\end{propriete}
+
+
+\begin{theoreme}[Terme général d'une suite géométrique]
+Soit une suite géométrique de raison $q$ définie à partir d'un
+certain rang $n_0$.\\
+Pour tout entier supérieur ou égal à $n_0$ son terme général est égal à :
+\[ u_n = u_{n_0} \times q^{(n-n_0)}\]
+En particulier si $n_0=0$, on a : 
+\[ u_n = u_0 \times q^n\]
+\end{theoreme}
+
+\begin{exemple}
+On considère $(u_n)$ une suite géométrique de raison $q=5$ et de
+premier terme $u_3=10$.
+\[ \forall n \ge 5, u_n=10 \times 5^{(n-3)} = \dfrac{10}{125} \times 5^n\]
+\end{exemple}
+
+\begin{propriete}
+Soit $(u_n)$ une suite géométrique de raison $q \neq 1$. Les points de
+sa représentation graphique ne sont pas alignés.
+\end{propriete}
+
+
+\subsection{Suites  arithmético-géométriques}
+
+\begin{definition}
+Une suite $(u_n)$ est une suite arithmético-géométrique s'il existe
+deux nombres $a$ et $b$ tels que :
+\[ u_{n+1} = a \times u_n + b \]
+\end{definition}
+
+\begin{theoreme}[Terme général d'une suite arithmético-géométrique]
+Soit $(u_n)$ une suite arithmético-géométrique avec $a \neq 1$ définie à
+partir d'un certain rang $n_0$.\\
+En posant : $r = \dfrac{b}{1-a}$
+Pour tout entier supérieur ou égal à $n_0$ son terme général est égal
+à :
+\[ u_n = a^{n-n_0}(u_{n_0}-r)+r\]
+En particulier si $n_0=0$, on a : 
+\[ u_n = a^n(u_0-r)+r\]
+\end{theoreme}
+
+
+\subsection{Séries}
+
+\begin{definition}
+Étant donné une suite de terme général $u_n$, étudier la série de
+terme général $u_n $ c'est étudier la suite de terme général $S_n$
+définie par :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k \]
+\end{definition}
+
+\begin{exemple}
+Soit $(u_n)$ la suite arithmétique de terme général $u_n=n$
+(\textit{i.e. $r=1$ ; $u_0=0$}), on a donc : 
+\[ S_n = 1 + 2 + 3 + \ldots + n = \sum_{k=0}^{n} k \]
+\end{exemple}
+
+\begin{theoreme}[Somme des termes d'une suite arithmétique.]
+Soit $(u_n)$ une suite arithmétique :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = \dfrac{(n+1)(u_0+u_n)}{2} \]
+\end{theoreme}
+
+\begin{theoreme}[Somme des termes d'une suites géométrique.]
+Soit $(u_n)$ une suite géométrique :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = u_0
+\times \dfrac{1-q^{n+1}}{1-q} \]
+Plus généralement, pour tout entier naturel $k<n$ :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = u_k
+\times \dfrac{1-q^{n-k+1}}{1-q} \]
+\end{theoreme}
+
+
 \end{document}
