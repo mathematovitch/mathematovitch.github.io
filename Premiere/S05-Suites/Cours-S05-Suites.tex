@@ -1,4 +1,3 @@
-
 %% Font size %%
 \documentclass[11pt]{article}
 
@@ -127,52 +126,6 @@ $(u_n)$ constante $\iff$ $u_{n+1}
 = u_n$, $\forall n \ge n_0$
 \end{definition}
 
-\subsection{Représentation graphique}
-
-\begin{definition}
-Dans un repère orthonormé direct du plan, la représentation graphique
-d'une suite $u$ est l'ensemble des points ayant pour coordonnées
-$(n;u_n)$ avec $n \in \N, n \leq n_0$ 
-\end{definition}
-
-\begin{exemple}
-On considère la suite $(u_n)_{n\in\N}$ par : $u_n = n^2 - 1$  
-Les premiers termes de la suite sont donnés dans le tableau suivant :
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\hline
-\textbf{n} & 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
-\textbf{$u_n$} & -1 & 0 & 3 & 8 & 15 & 24 \\ \hline
-\end{tabular}
-\end{center}
-On obtient la représentation graphique des premiers points de la suite
-:
-\begin{center}
-\begin{tikzpicture}
-    % Grille
-    \draw[step=1,gray,opacity=0.5] (-2,-2) grid (6,9);
-
-    % Axes
-    \draw[->] (-2,0) -- (6.5,0) node[below] {$n$};
-    \draw[->] (0,-2) -- (0,9) node[left] {$u_n$};
-
-    % Points de la suite
-    \foreach \n/\u in {0/-1, 1/0, 2/3, 3/8} {
-        \draw[red,thick] (\n,\u) node[cross out, draw, thick, scale=0.6] {};
-        \node[above] at (\n,\u) {$u_{\n}$};
-    }
-
-    % Noms des graduations
-    \foreach \x in {-2,-1,0,1,2,3,4,5,6} {
-        \draw (\x,0) -- (\x,-0.5) node[below] {\small $\x$};
-    }
-    \foreach \y in {-2,0,2,4,6,8} {
-        \draw (0,\y) -- (-0.2,\y) node[left] {\small $\y$};
-    }
-\end{tikzpicture}
-\end{center}
-\end{exemple}
-
 \subsection{Suites arithmétiques}
 
 \begin{definition}
@@ -289,6 +242,85 @@ termes de la suite tels que $u_{n_1}=a$ et $u_{n_2}=b$, on  à :
 \[ q = \sqrt[n_{2}-n_{1}]{\dfrac{b}{a}} = \left( \dfrac{b}{a} \right)^{\dfrac{1}{n_2-n_1}}\]
 \end{propriete}
 
+\subsection{Séries}
+
+\begin{definition}
+Étant donné une suite de terme général $u_n$, étudier la série de
+terme général $u_n $ c'est étudier la suite de terme général $S_n$
+définie par :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k \]
+\end{definition}
+
+\begin{exemple}
+Soit $(u_n)$ la suite arithmétique de terme général $u_n=n$
+(\textit{i.e. $r=1$ ; $u_0=0$}), on a donc : 
+\[ S_n = 1 + 2 + 3 + \ldots + n = \sum_{k=0}^{n} k \]
+\end{exemple}
+
+\begin{theoreme}[Somme des termes d'une suite arithmétique.]
+Soit $(u_n)$ une suite arithmétique :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = \dfrac{(n+1)(u_0+u_n)}{2} \]
+Plus généralement, pour tout entier naturel $p<n$ :
+\[S_n = u_p + u_1 + u_2 + \ldots + u_n = \sum_{k=p}^{n} u_k = \dfrac{(n-p+1)(u_p+u_n)}{2} \]
+
+\end{theoreme}
+
+\begin{theoreme}[Somme des termes d'une suites géométrique.]
+Soit $(u_n)$ une suite géométrique :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = u_0
+\times \dfrac{1-q^{n+1}}{1-q} \]
+Plus généralement, pour tout entier naturel $p<n$ :
+\[ S_n = u_p + u_1 + u_2 + \ldots + u_n = \sum_{k=p}^{n} u_k = u_p
+\times \dfrac{1-q^{n-p+1}}{1-q} \]
+\end{theoreme}
+
+\subsection{Représentation graphique}
+
+\begin{definition}
+Dans un repère orthonormé direct du plan, la représentation graphique
+d'une suite $u$ est l'ensemble des points ayant pour coordonnées
+$(n;u_n)$ avec $n \in \N, n \leq n_0$ 
+\end{definition}
+
+\begin{exemple}
+On considère la suite $(u_n)_{n\in\N}$ par : $u_n = n^2 - 1$  
+Les premiers termes de la suite sont donnés dans le tableau suivant :
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{n} & 0 & 1 & 2 & 3 & 4 & 5 \\ \hline
+\textbf{$u_n$} & -1 & 0 & 3 & 8 & 15 & 24 \\ \hline
+\end{tabular}
+\end{center}
+On obtient la représentation graphique des premiers points de la suite
+:
+\begin{center}
+\begin{tikzpicture}
+    % Grille
+    \draw[step=1,gray,opacity=0.5] (-2,-2) grid (6,9);
+
+    % Axes
+    \draw[->] (-2,0) -- (6.5,0) node[below] {$n$};
+    \draw[->] (0,-2) -- (0,9) node[left] {$u_n$};
+
+    % Points de la suite
+    \foreach \n/\u in {0/-1, 1/0, 2/3, 3/8} {
+        \draw[red,thick] (\n,\u) node[cross out, draw, thick, scale=0.6] {};
+        \node[above] at (\n,\u) {$u_{\n}$};
+    }
+
+    % Noms des graduations
+    \foreach \x in {-2,-1,0,1,2,3,4,5,6} {
+        \draw (\x,0) -- (\x,-0.5) node[below] {\small $\x$};
+    }
+    \foreach \y in {-2,0,2,4,6,8} {
+        \draw (0,\y) -- (-0.2,\y) node[left] {\small $\y$};
+    }
+\end{tikzpicture}
+\end{center}
+\end{exemple}
+
+
 
 \subsection{Suites  arithmético-géométriques}
 
@@ -308,36 +340,5 @@ Pour tout entier supérieur ou égal à $n_0$ son terme général est égal
 En particulier si $n_0=0$, on a : 
 \[ u_n = a^n(u_0-r)+r\]
 \end{theoreme}
-
-
-\subsection{Séries}
-
-\begin{definition}
-Étant donné une suite de terme général $u_n$, étudier la série de
-terme général $u_n $ c'est étudier la suite de terme général $S_n$
-définie par :
-\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k \]
-\end{definition}
-
-\begin{exemple}
-Soit $(u_n)$ la suite arithmétique de terme général $u_n=n$
-(\textit{i.e. $r=1$ ; $u_0=0$}), on a donc : 
-\[ S_n = 1 + 2 + 3 + \ldots + n = \sum_{k=0}^{n} k \]
-\end{exemple}
-
-\begin{theoreme}[Somme des termes d'une suite arithmétique.]
-Soit $(u_n)$ une suite arithmétique :
-\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = \dfrac{(n+1)(u_0+u_n)}{2} \]
-\end{theoreme}
-
-\begin{theoreme}[Somme des termes d'une suites géométrique.]
-Soit $(u_n)$ une suite géométrique :
-\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = u_0
-\times \dfrac{1-q^{n+1}}{1-q} \]
-Plus généralement, pour tout entier naturel $k<n$ :
-\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = u_k
-\times \dfrac{1-q^{n-k+1}}{1-q} \]
-\end{theoreme}
-
 
 \end{document}

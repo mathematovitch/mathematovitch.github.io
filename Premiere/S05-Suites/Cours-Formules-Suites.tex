@@ -1,0 +1,111 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 5 : Suites - Fiche de révision}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{multicols}{2}
+
+\section{Sens de variation}
+
+\begin{definition}[Suite croissante]
+$(u_n)$ croissante $\iff$ $u_{n+1}
+\ge u_n$, $\forall n \ge n_0$
+\end{definition}
+
+\begin{definition}[Suite décroissante]
+$(u_n)$ décroissante $\iff$ $u_{n+1}
+\le u_n$, $\forall n \ge n_0$
+\end{definition}
+
+\begin{definition}[Suite constante]
+$(u_n)$ constante $\iff$ $u_{n+1}
+= u_n$, $\forall n \ge n_0$
+\end{definition}
+
+\section{Suites arithmétiques}
+
+\begin{propriete}
+Soit $(u_n)$ une suite arithmétique de raison $r$ ;
+\begin{itemize}
+\item Si $r > 0$ la suite est strictement croissante ;
+\item Si $r < 0$ la suite est strictement décroissante ;
+\item Si $r = 0$ la suite est constante.
+\end{itemize}
+\end{propriete}
+
+\begin{theoreme}[Terme général.]
+Soit une suite arithmétique de raison $r$ définie à partir d'un
+certain rang $n_0$.\\
+$\forall n \ge 0$ :
+\[ u_n = u_{p}+(n-p)r\]
+En particulier si $p=0$, on a : 
+\[ u_n = u_0 + n \times r\]
+\end{theoreme}
+
+\section{Suites géométriques}
+
+\begin{propriete}
+Soit $(u_n)$ une suite arithmétique de raison $q>0$ ;
+\begin{itemize}
+\item Si $q > 1$ la suite est strictement croissante ;
+\item Si $0 < q < 1$ la suite est strictement décroissante ;
+\item Si $q = 1$ la suite est constante.
+\end{itemize}
+\end{propriete}
+
+\begin{theoreme}[Terme général.]
+Soit une suite géométrique de raison $q$ définie à partir d'un
+certain rang $n_0$.\\
+$\forall n \ge 0$ :
+\[ u_n = u_{p} \times q^{(n-p)}\]
+En particulier si $p=0$, on a : 
+\[ u_n = u_0 \times q^n\]
+\end{theoreme}
+
+\newcolumn
+
+\section{Déterminer la raison}
+
+\begin{propriete}
+Soit $(u_n)$ une suite arithmétique, étant donné $n_1$ et $n_2$ deux
+rangs de la suite tels que $u_{n_1}$ et $u_{n_2}$, on  à :
+\[ r = \dfrac{u_{n_2}-u_{n_1}}{n_2-n_1}\]
+\end{propriete}
+
+\begin{propriete}
+Soit $(u_n)$ une suite géométrique, étant donné $n_1$ et $n_2$ deux
+termes de la suite tels que $u_{n_1}=a$ et $u_{n_2}=b$, on  à:
+\[ q = \sqrt[k]{\dfrac{u_{n_2}}{u_{n_1}}} = \left(
+ \dfrac{u_{n_2}}{u_{n_1}} \right)^{\dfrac{1}{k}}, \text{ Avec : }
+k = n_{2}-n_{1}\]
+\end{propriete}
+
+\section{Séries}
+
+\begin{theoreme}[Suite arithmétique.]
+Soit $(u_n)$ une suite arithmétique :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = \dfrac{(n+1)(u_0+u_n)}{2} \]
+Plus généralement, pour tout entier naturel $p<n$ :
+\[S_n = u_p + u_1 + u_2 + \ldots + u_n = \sum_{k=p}^{n} u_k = \dfrac{(n-p+1)(u_p+u_n)}{2} \]
+\end{theoreme}
+
+\begin{theoreme}[Suites géométrique.]
+Soit $(u_n)$ une suite géométrique :
+\[ S_n = u_0 + u_1 + u_2 + \ldots + u_n = \sum_{k=0}^{n} u_k = u_0
+\times \dfrac{1-q^{n+1}}{1-q} \]
+Plus généralement, pour tout entier naturel $p<n$ :
+\[ S_n = u_p + u_1 + u_2 + \ldots + u_n = \sum_{k=p}^{n} u_k = u_p
+\times \dfrac{1-q^{n-p+1}}{1-q} \]
+\end{theoreme}
+\end{multicols}
+
+\end{document}

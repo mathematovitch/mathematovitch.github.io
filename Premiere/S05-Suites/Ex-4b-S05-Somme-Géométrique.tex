@@ -1,0 +1,70 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 5 : Suites - Somme des termes d'une
+  suite géométrique}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{exercice}[1][Par définition]
+\begin{multicols}{2}
+\begin{enumerate}
+\item Soit $v$ la suite géométrique de premier terme $v_0 = 3$ et de
+raison $0{,}5$.\\Calculer
+$\displaystyle S = v_0 + v_1 + ... + v_{15} =\sum_{k=0}^{15}v_k$ et
+donner un arrondi au millième près.
+\item Soit $v$ la suite géométrique de premier terme $v_0 = 6$ et de
+raison $0{,}2$.\\Calculer
+$\displaystyle S = v_0 + v_1 + ... + v_{15} =\sum_{k=0}^{15}v_k$.
+\item Soit $v$ la suite géométrique de premier terme $v_0 = 3$ et de
+raison $1{,}5$.\\Calculer
+$\displaystyle S = v_0 + v_1 + ... + v_{10} =\sum_{k=0}^{10}v_k$ et
+donner un arrondi au millième près.
+\item Soit $w$ la suite géométrique de premier terme $w_1 = 5$ et de
+raison $1{,}1$.\\Calculer
+$\displaystyle S = w_1 + w_2 + ... + w_{12} =\sum_{k=1}^{12}w_k$ et
+donner un arrondi au millième près.
+\end{enumerate}
+\end{multicols}
+\end{exercice}
+
+\begin{exercice}[2][Calcul de raison, puis somme des termes]
+\begin{enumerate}
+\item Soit $v$ la suite géométrique telle que $v_6 = 3$ et $v_8 =
+0,75$.\\
+Calculer $\displaystyle S = v_4 + v_5 + ... + v_{15} =\sum_{k=4}^{15}v_k$ et donner un arrondi au millième près.
+\item Soit $v$ la suite géométrique telle que $v_{19} = \dfrac{116}{2}$ et $v_{35} = \dfrac{1~657}{13}$.\\
+Calculer $\displaystyle S = v_{25} + v_{26} + ... + v_{40}
+=\sum_{k=25}^{40}v_k$ et donner un arrondi au millième près.
+\end{enumerate}
+\end{exercice}
+
+\begin{exercice}[2][Par extension]
+Somme des termes d'une suite géométrique .
+\begin{enumerate}
+    \item Calculer : \( S = 4 + 4^2 + 4^3 + \dots + 4^7 \)
+    \item Calculer : \( S = \frac{1}{4} + \frac{1}{8} + \frac{1}{16} + \dots + \frac{1}{1~048~576} \)
+    \item Calculer : \( S = \frac{1}{3} - \frac{1}{9} + \frac{1}{27} - \dots - \frac{1}{6~561} \)
+    \item Calculer : \( S = 1 + \frac{1}{10} + \frac{1}{100} + \dots + \frac{1}{10^7} \)
+\end{enumerate}
+\end{exercice}
+
+\begin{exercice}[3][Problème]
+\( (u_n) \) est une suite géométrique croissante dont les termes sont négatifs. Son premier terme est \( u_1 \).
+    \begin{enumerate}
+        \item Que peut-on dire de sa raison ?
+        \item On sait que \( u_1 \times u_3 = \frac{4}{9} \) et \( u_1
+        + u_2 + u_3 = -\frac{19}{9} \). \\
+        Calculer \( u_1 \), \( u_2 \) et \( u_3 \).
+        \item Calculer \( u_n \) en fonction de \( n \).
+        \end{enumerate}
+\end{exercice}
+
+\end{document}
