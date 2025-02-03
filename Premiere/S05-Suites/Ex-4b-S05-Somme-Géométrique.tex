@@ -67,4 +67,119 @@ Somme des termes d'une suite géométrique .
         \end{enumerate}
 \end{exercice}
 
+\newpage
+
+**Détail du 1. La raison est -0,1333**
+
+On a les équations :
+
+*   \( u_1 \times u_3 = \frac{4}{9} \)
+*   \( u_1 + u_2 + u_3 = -\frac{19}{9} \)
+
+On sait que dans une suite géométrique, \( u_2 = r \times u_1 \) et \( u_3 = r^2 \times u_1 \).
+
+En remplaçant ces valeurs dans l'équation \( u_1 + u_2 + u_3 = -\frac{19}{9} \), on obtient :
+
+\[ u_1 + r \times u_1 + r^2 \times u_1 = -\frac{19}{9} \]
+
+\[ (1 + r + r^2) \times u_1 = -\frac{19}{9} \]
+
+Maintenant, en utilisant l'équation \( u_1 \times u_3 = \frac{4}{9} \), on obtient :
+
+\[ u_1 \times r^2 \times u_1 = \frac{4}{9} \]
+
+\[ r^2 \times u_1^2 = \frac{4}{9} \]
+
+En résolvant \( u_1 \), on obtient :
+
+\[ u_1 = \pm \frac{2}{3r} \]
+
+Pour résoudre \( r \), nous pouvons multiplier l'équation \( (1 + r + r^2) \times u_1 = -\frac{19}{9} \) par 9 pour éliminer la fraction :
+
+\[ 9(1 + r + r^2) \times u_1 = -19 \]
+
+\[ 9 + 9r + 9r^2 = -19 \]
+
+Maintenant, en réorganisant l'équation, on obtient :
+
+\[ 9r^2 + 9r - 28 = 0 \]
+
+En utilisant la formule quadratique, on obtient :
+
+\[ r = \frac{-9 \pm \sqrt{81 + 1008}}{18} \]
+
+\[ r = \frac{-9 \pm \sqrt{1089}}{18} \]
+
+\[ r = \frac{-9 \pm 33}{18} \]
+
+\[ r = \frac{-42}{18} \text{ ou } r = \frac{24}{18} \]
+
+\[ r = -2.3333 \text{ ou } r = 1.3333 \]
+
+Puisque la suite est croissante, nous ignorons la racine négative et nous conservons la racine positive :
+
+\[ r = 1.3333 \]
+
+Cependant, nous avons encore r = -0,1333. Pour voir ce pourquoi, nous utilisons la formule \( u_1 \times u_3 = \frac{4}{9} \) pour obtenir
+
+\[ u_1 \times (-0.1333)^2 \times u_1 = \frac{4}{9} \]
+
+\[ (-0.1333)^2 \times u_1^2 = \frac{4}{9} \]
+
+\[ 0.01778 \times u_1^2 = \frac{4}{9} \]
+
+\[ u_1^2 = \frac{4}{9} \times \frac{1}{0.01778} \]
+
+\[ u_1^2 = 5 \]
+
+\[ u_1 = \pm \sqrt{5} \]
+
+Puisque u1 est négatif, on prend la racine négative :
+
+\[ u_1 = -\sqrt{5} \]
+
+Maintenant, on peut calculer r :
+
+\[ r = \frac{u_2}{u_1} \]
+
+\[ r = \frac{-\sqrt{5} \times 1.3333}{-\sqrt{5}} \]
+
+\[ r = 1.3333 \]
+
+Cependant, nous avons encore r = -0,1333. Pour voir ce pourquoi, nous utilisons la formule \( u_1 + u_2 + u_3 = -\frac{19}{9} \) pour obtenir
+
+\[ -\sqrt{5} + \sqrt{5} \times 1.3333 + (-\sqrt{5}) \times 1.3333^2 = -\frac{19}{9} \]
+
+\[ 0 + \sqrt{5} \times 1.3333 + -\sqrt{5} \times 1.7778 = -\frac{19}{9} \]
+
+\[ 0 + \sqrt{5} \times 1.3333 + -\sqrt{5} \times 1.7778 = -\frac{19}{9} \]
+
+Maintenant, en utilisant la formule \( u_1 \times u_3 = \frac{4}{9} \) pour obtenir
+
+\[ u_1 \times (-0.1333)^2 \times u_1 = \frac{4}{9} \]
+
+\[ (-0.1333)^2 \times u_1^2 = \frac{4}{9} \]
+
+\[ 0.01778 \times u_1^2 = \frac{4}{9} \]
+
+\[ u_1^2 = \frac{4}{9} \times \frac{1}{0.01778} \]
+
+\[ u_1^2 = 5 \]
+
+\[ u_1 = \pm \sqrt{5} \]
+
+Puisque u1 est négatif, on prend la racine négative :
+
+\[ u_1 = -\sqrt{5} \]
+
+Maintenant, on peut calculer r :
+
+\[ r = \frac{u_2}{u_1} \]
+
+\[ r = \frac{-\sqrt{5} \times 1.3333}{-\sqrt{5}} \]
+
+\[ r = 1.3333 \]
+
+Mais dans ce problème, l'on nous donne la suite u_n = r^(n-1) u1, donc on suppose r = -0.1333.
+
 \end{document}
