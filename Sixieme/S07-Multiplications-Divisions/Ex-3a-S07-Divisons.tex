@@ -1,68 +1,100 @@
 %% Font size %%
-\documentclass[11pt]{article}
+\documentclass[8pt]{extarticle}
 
 %% Load the custom package
 \usepackage{Mathdoc}
 
 %% Numéro de séquence %% Titre de la séquence %%
-\renewcommand{\centerhead}{}
+\renewcommand{\centerhead}{Chapitre 7 : Multiplications, divisions -
+  Effectuer une division euclidienne}
 
 %% Spacing commands %%
 \renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
 
 \begin{document}
 
+\newcommand{\exercicedivision}[2]{
 \begin{multicols}{2}
-\begin{exercice}[1]
-\begin{multicols}{2}
-\begin{enumerate}[label=]
-\item $2 \times 0 = \ldots$
-\item $2 \times 1 = \ldots$
-\item $2 \times 2 = \ldots$
-\item $2 \times 3 = \ldots$
-\item $2 \times 4 = \ldots$
-\item $2 \times 5 = \ldots$
-\item $2 \times 6 = \ldots$
-\item $2 \times 7 = \ldots$
-\item $2 \times 8 = \ldots$
-\item $2 \times 9 = \ldots$
-\item $2 \times 10 = \ldots$
-\item $2 \times 11 = \ldots$
-\end{enumerate}
-
+ $#2 \times 0 = \ldots$\\
+ $#2 \times 1 = \ldots$\\
+ $#2 \times 2 = \ldots$\\
+ $#2 \times 3 = \ldots$\\
+ $#2 \times 4 = \ldots$\\
+ $#2 \times 5 = \ldots$\\
+ $#2 \times 6 = \ldots$\\
+ $#2 \times 7 = \ldots$\\
+ $#2 \times 8 = \ldots$\\
+ $#2 \times 9 = \ldots$\\
+ $#2 \times 10 = \ldots$\\
+ $#2 \times 11 = \ldots$
 \columnbreak
 
-\mydivision{9~765}{2}{1.5}
+\begin{flushleft}
+\opidiv[remainderstyle=\color{white},intermediarystyle=\color{white},resultstyle=\color{white},shiftdecimalsep=none,decimalsepsymbol={,}]{#1}{#2}
+\end{flushleft}
 \end{multicols}
+}
+
+\begin{multicols}{3}
+\begin{exercice}[1]
+\exercicedivision{6765}{2}
 \end{exercice}
 
 \begin{exercice}[1]
-\begin{multicols}{2}
-\begin{enumerate}[label=]
-\item $3 \times 0 = \ldots$
-\item $3 \times 1 = \ldots$
-\item $3 \times 2 = \ldots$
-\item $3 \times 3 = \ldots$
-\item $3 \times 4 = \ldots$
-\item $3 \times 5 = \ldots$
-\item $3 \times 6 = \ldots$
-\item $3 \times 7 = \ldots$
-\item $3 \times 8 = \ldots$
-\item $3 \times 9 = \ldots$
-\item $3 \times 10 = \ldots$
-\item $3 \times 11 = \ldots$
-\end{enumerate}
+\exercicedivision{6578}{3}
+\end{exercice}
 
-\columnbreak
-
-\mydivision{8~174}{3}{1.5}
-\end{multicols}
+\begin{exercice}[1]
+\exercicedivision{8328}{2}
 \end{exercice}
 \end{multicols}
+
+\begin{multicols}{3}
+\begin{exercice}[2]
+\exercicedivision{4856}{4}
+\end{exercice}
+
+\begin{exercice}[2]
+\exercicedivision{7392}{5}
+\end{exercice}
+
+\begin{exercice}[2]
+\exercicedivision{5624}{4}
+\end{exercice}
+\end{multicols}
+
+\begin{multicols}{3}
+\begin{exercice}[2]
+\exercicedivision{8943}{3}
+\end{exercice}
+
+\begin{exercice}[2]
+\exercicedivision{7268}{5}
+\end{exercice}
+
+\begin{exercice}[2]
+\exercicedivision{9537}{7}
+\end{exercice}
+\end{multicols}
+
+\begin{multicols}{3}
+\begin{exercice}[3]
+\exercicedivision{6578}{8}
+\end{exercice}
+
+\begin{exercice}[3]
+\exercicedivision{8328}{9}
+\end{exercice}
+
+\begin{exercice}[3]
+\exercicedivision{7392}{9}
+\end{exercice}
+\end{multicols}
+
 \end{document}
 
 % Local Variables:
 % gptel-model: deepseek-chat
 % gptel--backend-name: "DeepSeek"
-% gptel--bounds: ((424 . 706) (737 . 765) (919 . 1201) (1232 . 1260))
+% gptel--bounds: ((391 . 683) (714 . 743) (885 . 942) (962 . 1151) (1166 . 1168) (1188 . 1377) (1392 . 1394) (1414 . 1602) (1640 . 1828))
 % End:
