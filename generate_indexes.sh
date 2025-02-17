@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## MAj cd function
+unset -f cd
+
 ## DELETE JUNK FILES ##
 
 # Define the directory to start searching from (default is the current directory)
@@ -16,6 +19,10 @@ done
 echo "Deleted junk files"
 
 ## CREATE SUB-LEVELS INDEXES ##
+## e.g. /Sixieme
+##      |S01
+##         COURS
+##         EXOS
 
 # Initialize an empty array
 dir_array=()
@@ -38,6 +45,10 @@ for dir in "${dir_array[@]}"; do
 done
 
 ## CREATE TOP-LEVEL INDEX ##
+## e.g. /Cours
+##      |Sixieme
+##      |Cinquieme
+##      |Quatrieme
 
 tree -H './' -L 1 --noreport -T 'Cours de Maths' -d --charset utf-8 -o index.html # Tree make top-level index
 sleep 0.25
