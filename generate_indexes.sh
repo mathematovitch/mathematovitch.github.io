@@ -33,7 +33,7 @@ for dir in "${dir_array[@]}"; do
     sleep 0.25
     sed -i 's|<a href="././">.</a><br>|<a href="https://outerovitch-maths.github.io/">↰</a><br>|' index.html # Make href .. point to top-level index
     sed -i '/<p class="VERSION">/,/<\/p>/d' index.html # Remove the version information block
-    cd ../
+    cd ..
     echo "Created index: $dir"
 done
 
