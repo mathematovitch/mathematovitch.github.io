@@ -1,0 +1,58 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\newcommand{\vecteur}[3]{
+$\vec{#1} = \begin{pmatrix} #2 \\ #3 \end{pmatrix}$}
+
+\begin{document}
+
+\begin{exercice}[1][Calculer les produits scalaires suivants]
+\underline{Rappels} : Soit $ \vec{u} = \begin{pmatrix} x \\ y \end{pmatrix} $ et $\vec{v} = \begin{pmatrix} x' \\ y' \end{pmatrix}$ alors $\vec{u}
+. \vec{v} = xx' + yy'$
+
+\begin{multicols}{2}
+\begin{enumerate}
+\item $\vec{a} = \begin{pmatrix} 3 \\ 7 \end{pmatrix}$ et
+$\vec{b} = \begin{pmatrix} 11 \\ 3 \end{pmatrix}$
+\item \vecteur{c}{4}{9} et \vecteur{d}{-1}{2}
+\item \vecteur{d}{-2}{8} et \vecteur{d}{-3}{6}
+\item \vecteur{a}{3}{5} et \vecteur{b}{2}{-4}  
+\item \vecteur{u}{-1}{7} et \vecteur{v}{6}{3}  
+\item \vecteur{x}{0}{-2} et \vecteur{y}{5}{4}
+\end{enumerate}
+\end{multicols}
+\end{exercice}
+
+\begin{exercice}
+Soit $A=(0;0)$, $B=(1;2)$, $C=(-3;9)$ et $D=(-1;-8)$ \\
+Calculer $\vec{AB}.\vec{AC}$, $\vec{AB}.\vec{DC}$ et $\vec{BC}.\vec{AD}$
+\end{exercice}
+
+\begin{exercice}
+Soit $IJK$ un triangle rectangle-isocèle en I tel que $IK=5cm$
+\begin{enumerate}
+\item En utilisant le théorème de Pythagore déterminer
+$\|\vec{JK}\|$
+\item on se place dans le repère orthonormé direct de
+$(I,\vec{IJ},\vec{IK})$, calculer les coordonnées des vecteurs
+$\vec{IJ}$, $\vec{IK}$ et $\vec{IK}$
+\item Calculer $\vec{IJ}.\vec{JK}$ et $\vec{IJ}.\vec{IK}$, que remarque-t-on ?
+\end{enumerate}
+\end{exercice}
+
+\end{document}
+
+% Local Variables:
+% gptel-model: deepseek-chat
+% gptel--backend-name: "DeepSeek"
+% gptel--bounds: ((290 . 339) (451 . 498) (505 . 553) (640 . 686) (692 . 739) (833 . 975))
+% End:
