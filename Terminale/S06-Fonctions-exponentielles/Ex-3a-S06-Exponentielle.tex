@@ -1,0 +1,103 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 6 : Fonction exponentielle -
+  Simplification et équations}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{multicols}{2}
+\begin{exercice}[1]
+Simplifier les expressions suivantes.
+\begin{multicols}{2}
+\begin{enumerate}[label=\Alph*]
+\item = $(e^x)^3e^{-2x}$
+\item = $\dfrac{e^{2x+1}}{e^{-2x}}$
+\item = $\dfrac{e^{3x-1}}{e^{2-x}}$
+\item = $(e^{2x})^2e^{-3x}$
+\item = $\dfrac{e^{x+2}}{e^{-x}}$
+\item = $\dfrac{e^{4x-2}}{e^{x+1}}$
+\end{enumerate}
+\end{multicols}
+\end{exercice}
+
+\begin{exercice}[2]
+Simplifier les expressions suivantes.
+\begin{multicols}{2}
+\begin{enumerate}[label={}]
+\item $A = (e^{2x})^{2} - e^{2x} \times e^{5x}$
+\item $B = (e^{-x+2})^{2} \times (e^{3x+4})^{3}$
+\item $C = (e^{-2x+2})^{2}$
+\item $D = \dfrac{(e^{5x-4})^{3}}{e^{-x+5}}$
+\item $E = \dfrac{e^{-5x+4} \times e^{3x+3}}{e^{-5x+3}}$
+\item $F = e^{5x+1} \times (e^{-x+2} + e^{-4x+5})$
+\end{enumerate}
+\end{multicols}
+\end{exercice}
+\end{multicols}
+
+\begin{exercice}[0][Exercice corrigé]
+Pour résoudre l'inéquation \( e^{-2x} < e^{3x+1} \), on utilise la croissance de la fonction exponentielle :
+\[
+-2x < 3x + 1
+\]
+En regroupant les termes en \( x \):
+\[
+-2x - 3x < 1 \quad \Rightarrow \quad -5x < 1
+\]
+En divisant par \(-5\) (ce qui inverse l'inégalité) :
+\[
+x > -\frac{1}{5}
+\]
+La solution est donc \( x > -\frac{1}{5} \).
+\end{exercice}
+
+\begin{multicols}{2}
+\begin{exercice}[2]
+Résoudre les équations suivantes.
+\begin{enumerate}
+\begin{multicols}{2}
+\item \( e^{x} > e^{2x-1} \)
+\item \( e^{3x} \leq e^{x+2} \)
+\item \( e^{-x} \geq e^{4x-3} \)
+\item \( e^{2x+1} < e^{5x-2} \)
+\end{multicols}
+\end{enumerate}
+\end{exercice}
+
+\begin{exercice}[3]
+Simplifier puis résoudre les équations suivantes.
+\begin{enumerate}
+\item $\dfrac{e^{-5x-3} \times e^{-4x+3}}{e^{-5x+2}} < \dfrac{e^{-4x-4} \times e^{4x+5}}{e^{-x+3}}$
+\item $\dfrac{e^{3x+4} \times e^{x-3}}{e^{-2x+5}} > \dfrac{e^{2x-3} \times e^{3x-2}}{e^{2x-5}}$
+\end{enumerate}
+\end{exercice}
+\end{multicols}
+
+
+\begin{exercice}[3][Résoudre les équations suivantes]
+\begin{multicols}{2}
+\begin{enumerate}
+\item $e^{x^2-5}=e^{-4x}$
+\item $e^{x+1}\times e^{3x+5} =1$
+\item \( e^{2x^2 - 3x} = e^{x + 7} \)
+\item \( e^{4x - 1} \times e^{x^2 + 2} = 1 \)
+\item \( e^{3x^2 - 2x} \times e^{-x + 4} = e^{x^2 + 5} \)
+\item \( \dfrac{e^{2x^2 - 3x} \times e^{x - 1}}{e^{x^2 + 2}} = e^{4x - 7} \)
+\end{enumerate}
+\end{multicols}
+\end{exercice}
+
+\end{document}
+% Local Variables:
+% gptel-model: deepseek-chat
+% gptel--backend-name: "DeepSeek"
+% gptel--bounds: ((462 . 476) (574 . 671) (1207 . 1544) (1681 . 1704) (1710 . 1736) (1742 . 1769) (1775 . 1800) (2340 . 2373) (2378 . 2418) (2424 . 2477) (2482 . 2553))
+% End:
