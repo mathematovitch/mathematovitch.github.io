@@ -1,23 +1,39 @@
-\input{~/Documents/Cours/.parametre/parametre-fm/parametre-fm.tex}
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
 
 \begin{document}
 
-\entete{17}{FM}{Angles et rapporteur}
-
-\colonnesep{0}
-
 \section{Définitions, exemples}
 
-\noindent \textbf{Définition :} Deux demi-droites de même origine définissent un angle. \\ Cette origine est le \textbf{sommet} de l'angle et les deux demi-droites sont appelées \textbf{côtés} de l'angle.
+\begin{definition}
+Deux demi-droites de même origine définissent un angle.
+\end{definition}
 
-\noindent \textbf{Notation :} Pour noter un angle, on utilise trois lettres :
-\begin{itemize}[label=\textbullet]
+\begin{vocabulaire}
+Cette origine est le \textbf{sommet} de l'angle et les deux demi-droites sont
+appelées \textbf{côtés} de l'angle.
+\end{vocabulaire}
+
+\begin{notation}
+Pour noter un angle, on utilise trois lettres :
+\begin{itemize}
 \item La lettre du milieu est le sommet de l'angle;
 \item les deux autres lettres sont chacune sur un côtés de l'angle.
 \end{itemize}
+\end{notation}
 
-
-\noindent \textbf{Exemples :} \\ On a représenté l'angle  $\widehat{AOB}$
+\begin{exemple}
+On a représenté l'angle $\widehat{AOB}$
+\end{exemple}
 \begin{center}
 \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
 \clip(-4.5,-2) rectangle (9.5,5.5);
@@ -50,10 +66,11 @@
 \end{scriptsize}
 \end{tikzpicture}
 \end{center}
-\noindent Le point O est le sommet de l'angle et les demi-droites [OA) et [OB) sont les côtés de l'angle $\widehat{AOB}$.
+Le point O est le sommet de l'angle et les demi-droites [OA) et [OB) sont les côtés de l'angle $\widehat{AOB}$.
 
 
 \section{Angles particuliers}
+
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline 
@@ -113,10 +130,12 @@
 \end{tabular}
 \end{center}
 
-\newpage
 \section{Mesurer un angle}
 
-\noindent \textbf{Définition :} L'unité de mesure des angles est le degré, noté "\textbf{°}" \\ Pour mesurer un angle on peut utiliser un rapporteur
+\begin{definition}
+L'unité de mesure des angles est le degré, noté "$\degre$" \\ Pour mesurer un
+angle on peut utiliser un rapporteur
+\end{definition}
 
 \begin{multicols}{2}
 \encart{5cm}
@@ -129,8 +148,7 @@
 
 
 \begin{multicols}{2}
-\makebox[\linewidth]{ } \\ \makebox[\linewidth]{ } \\
-\noindent \textbf{Notation :} Deux angles de même mesure sont codés de la même façon. $\widehat{IHJ}=\widehat{KML}$
+Deux angles de même mesure sont codés de la même façon. $\widehat{IHJ}=\widehat{KML}$
 \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=2cm,y=2cm]
 \clip(-0.5,-1) rectangle (3.5,1);
 \draw [shift={(0,0)},line width=1pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (0:0.47730452283397756) arc (0:26.56505117707799:0.47730452283397756) -- cycle;
@@ -161,13 +179,16 @@
 \end{scriptsize}
 \end{tikzpicture}
 \end{multicols}
-\noindent \textbf{Remarque :} Il existe deux angles particuliers : \textbf{L'angle droit} mesure 90° et \textbf{l'angle plat} mesure 180°.
 
+\begin{remarque}
+Il existe deux angles particuliers : \textbf{L'angle droit} mesure 90°
+et \textbf{l'angle plat} mesure 180°.
+\end{remarque}
 
 \newpage
 \section{Construire un angle}
 
-\noindent \textbf{Énoncé :} Tracer un angle $\widehat{BAC}$ de mesure $137$°.
+\textbf{Énoncé :} Tracer un angle $\widehat{BAC}$ de mesure $137$°.
 
 \begin{multicols}{2}
 \makebox[\linewidth]{} \\ \makebox[\linewidth]{} \\ 
