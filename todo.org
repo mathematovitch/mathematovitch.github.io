@@ -1,8 +1,8 @@
 * 5ème
-- [ ] Cours Exercices Proportionnalité
+- [X] Cours Exercices Proportionnalité
 
 
 * Term
-- [ ] Cours Exercices Stats
+- [X] Cours Exercices Stats
 - [X] DS Stats
 
