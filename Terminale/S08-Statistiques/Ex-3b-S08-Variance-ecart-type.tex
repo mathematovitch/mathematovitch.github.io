@@ -1,0 +1,84 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chap. 8 : Statistique à deux variables - Variance}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+\phm
+\vspace{-1cm}
+
+\begin{exercice}[1][Variance]
+Voici un tableau de valeurs représentant une série statistique à deux variables.
+
+\begin{center}
+
+\scalebox{1.3}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+$x_i$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+$y_i$ & 11 & 6 & 4 & 6 & 8 & 5 & 7 \\ \hline
+$x_i^2$ & \phm\phm & \phm\phm & \phm\phm & \phm\phm & \phm\phm &
+\phm\phm & \phm\phm \\ \hline
+$y_i^2$ & \phm\phm & \phm\phm & \phm\phm & \phm\phm & \phm\phm &
+\phm\phm & \phm\phm \\ \hline
+\end{tabular}
+}
+\end{center}
+
+\begin{enumerate}
+\item Compléter les lignes du tableau en calculant les valeurs
+des $x_i^2$ et $y_i^2$ ;
+\item calculer $\overline{x}$, la moyenne des $x_i$ : \dotfill \\ \dtf
+\item calculer $\overline{y}$, la moyenne de $y_i$ : \dotfill  \\ \dtf
+\item calculer $\overline{x^2}$, la moyenne des $x_i$ : \dotfill \\ \dtf
+\item calculer $\overline{y^2}$, la moyenne de $y_i$ : \dotfill  \\ \dtf
+\item en déduire les valeurs de $V(x)$ et $V(y)$ :
+\dotfill \\ \dtf
+\end{enumerate}
+\end{exercice}
+
+\begin{exercice}[1][Variance, Covariance]
+Voici un tableau de valeurs représentant une série statistique à deux variables.
+
+\begin{center}
+
+\scalebox{1.3}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+$x_i$ & 5 & 8 & 7 & 10 & 30 & 5 & 1 \\ \hline
+$y_i$ & 600 & 960 & 840 & 1~200 & 3~600 & 600 & 120 \\ \hline
+$x_i^2$ & \phm\phm & \phm\phm & \phm\phm & \phm\phm & \phm\phm &
+\phm\phm & \phm\phm \\ \hline
+$x_iy_i$ & \phm\phm & \phm\phm & \phm\phm & \phm\phm & \phm\phm &
+\phm\phm & \phm\phm \\ \hline
+\end{tabular}
+}
+\end{center}
+
+\begin{enumerate}
+\item Compléter les lignes du tableau en calculant les valeurs
+des $x_i^2$ et $x_iy_i$ ;
+\item calculer $\overline{x}$, la moyenne des $x_i$ : \dotfill \\ \dtf
+\item calculer $\overline{xy}$, la moyenne de $y$ : \dotfill  \\ \dtf
+\item calculer $\overline{x^2}$, la moyenne des $x_i$ : \dotfill \\ \dtf
+\item calculer $\overline{xy}$, la moyenne de $x_iy_i$ : \dotfill  \\ \dtf
+\item en déduire les valeurs de $V(x)$ et $Cov(x,y)$ :
+\dotfill \\ \dtf
+\end{enumerate}
+\end{exercice}
+
+\end{document}
+
+% Local Variables:
+% gptel-model: deepseek-chat
+% gptel--backend-name: "DeepSeek"
+% gptel--bounds: nil
+% End:
