@@ -1,0 +1,101 @@
+%%CLASS%%
+\documentclass[french,12pt]{article}
+%%PACKAGES%%
+\usepackage[T1]{fontenc}
+\usepackage[none]{hyphenat}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol, caption}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\renewcommand{\arraystretch}{1.5}
+%\setlength{\arrayrulewidth}{0,5mm}
+%\usepackage[french]{babel}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{mathtools, bm}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pstricks}
+\usepackage{titlesec}
+\usepackage{xlop}
+\usepackage[pdftex=true,colorlinks=true,linkcolor=black,citecolor=black,filecolor=black,urlcolor=black,bookmarks=true,bookmarksopen=false,bookmarksnumbered=false,bookmarksopenlevel=0,pdfstartview=FitH,pdftitle={},pdfauthor={ColinOUTEROVITCH,bookmarks=false}]{hyperref}
+\newenvironment{Figure}
+  {\par\medskip\noindent\minipage{\linewidth}}
+  {\endminipage\par\medskip}
+%usepackage{biblatex}
+%\addbibresource{biblio.bib}
+\usepackage{fancyhdr}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+
+%%PAGE STYLE%%
+\pagestyle{fancy}
+\usepackage{tikz}
+\fancyhf{}
+
+%%NEW COMMAND%%
+
+
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+\renewcommand{\baselinestretch}{1}
+\titleformat{\section}
+{\normalfont\Large\bfseries}{\thesection}{1em}{-~~}
+
+\newcommand{\mc}[1]{\begin{multicols}{2}#1\end{multicols}}
+
+\newcommand{\enu}[1]{\begin{enumerate}[label=(\alph*)]#1\end{enumerate}}
+
+\newcommand{\itmz}[1]{\begin{itemize}[label=\textbullet]#1\end{itemize}}
+
+\newcommand{\cntr}[1]{\begin{center}#1\end{center}}
+
+\newcommand{\dtf}{\makebox[\linewidth]{\dotfill}}
+
+\newcommand{\exercice}{\section{}}
+
+\newcommand{\mkb}[2]{\makebox[#1]{#2}}
+
+\newcommand{\mybox}[1]{\begin{tabular}{|l|}
+\hline
+#1 \\
+\hline
+\end{tabular}}
+
+\newcommand{\mkbdtf}[1]{\makebox[#1cm]{\dotfill}}
+
+\newcommand{\mkblw}[1]{\makebox[\linewidth]{#1}}
+
+\newcommand{\myrule}[1]{\rule[2mm]{#1cm}{.1pt}}
+
+\newcommand{\myfigure}[1]{\begin{Figure}
+\centering
+\includegraphics[width=\linewidth]{images/#1}
+\end{Figure}}
+
+\newcommand{\entete}[1]{\lhead{Collège La Vallée - \textit{Mathématiques}}   \rhead{2021/2022}
+\renewcommand{\headrulewidth}{0.5pt}
+\cfoot{\circled{\thepage}}
+\chead{\textbf{#1}}}
+
+\newcommand{\titre}[2]{\cntr{
+\begin{LARGE}
+\myrule{#2} \textsc{#1} \myrule{#2}
+\end{LARGE}}}
+
+\newcommand{\colonnesep}[1]{\setlength{\columnseprule}{#1pt}}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries}{Exercice~\thesection}{1em}{}
+
+\setlength{\columnseprule}{1pt}
+\setlength{\parindent}{0pt}
+
+\newcommand{\myfig}[2]{\begin{Figure}
+\centering
+\includegraphics[width=#1]{images/#2}
+\end{Figure}}
