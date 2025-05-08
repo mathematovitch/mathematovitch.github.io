@@ -1,0 +1,107 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Statistiques à deux variables}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+
+\begin{document}
+
+\begin{center}
+\entetedevoirs{20} \duree{55 min} \calculatrice{1} \copieseparee{0}
+\soin
+\end{center}
+
+\begin{exercicedevoir}[20]
+Sur le graphique ci-dessous est représenté l'évolution annuelle des ventes en ligne et des ventes en magasin d'une enseigne de prêt-à-porter. Ces données permettent d'étudier l'impact de la digitalisation sur le comportement d'achat des consommateurs.
+\end{exercicedevoir}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+% Points avec croix
+\foreach \x/\y in {2.5/1, 4/2, 5/2.5, 4.5/3, 5.5/3} 
+    \draw (\x,\y) node[draw, cross out, minimum size=5pt] {};
+
+
+% Tracer les axes en gris
+\draw[gray!80, thin, step=0.5] (0, 0) grid (7, 7);  
+
+% Repère
+\draw[->] (0,0) -- (7,0) node[right] {En ligne (M€)};
+\draw[->] (0,0) -- (0, 7) node[above] {En magasin (M€)};
+
+% Graduations axe x (en ligne)
+\foreach \x/\text in {1/5, 2/10, 3/15, 4/20, 5/25, 6/30}
+    \draw (\x,0.1) -- (\x,-0.1) node[below] {\text};
+
+% Graduations axe y (magasin)
+\foreach \y/\text in {1/5, 2/10, 3/15, 4/20, 5/25, 6/30}
+    \draw (0.1,\y) -- (-0.1,\y) node[left] {\text};
+
+
+\end{tikzpicture}
+\end{center}
+
+
+\begin{enumerate}
+\item Compléter les 5 premières colonnes du tableau ci-dessous ; \bareme{5}
+\renewcommand{\arraystretch}{1.5}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\phantom{0000} & \phantom{0000} & \phantom{0000} &\phantom{0000}  & \phantom{0000} & \phantom{0000} & Moyenne  \\
+\hline
+$x_i$ : Ventes en ligne (M€) &  &  &  &  &  &  \\
+\hline
+$y_i$ : Ventes en magasin (M€)  &  &  &  &  &  &  \\
+\hline
+$x_iy_i$  &  &  &  &  &  &  \\
+\hline
+$x_i^2$  &  &  &  &  &  &  \\
+\hline
+$y_i^2$  &  &  &  &  &  &  \\
+\hline
+\end{tabular}
+\end{center}
+\item Calculer $\overline{x_i}$ et l'ajouter dans le tableau ; \bareme{1}
+\\ \dtf \\ \dtf \\ \dtf
+\item Calculer $\overline{y_i}$ et l'ajouter dans le tableau ; \bareme{1}
+\\ \dtf \\ \dtf \\ \dtf
+\item Déterminer les coordonnées du point moyen
+$M(\overline{x_i};\overline{y_i})$ et le placer sur le graphique ; \bareme{1}
+\\ \dtf \\ \dtf
+\item Calculer $\overline{x_iy_i}$ et l'ajouter dans le tableau ; \bareme{1}
+\\ \dtf \\ \dtf \\ \dtf
+\item Calculer $\overline{x_i^2}$ et l'ajouter dans le tableau ; \bareme{1}
+\\ \dtf \\ \dtf \\ \dtf
+\item Calculer $\overline{y_i^2}$ et l'ajouter dans le tableau ; \bareme{1}
+\\ \dtf \\ \dtf \\ \dtf
+\item Calculer la valeur de  $Cov(x_i,y_i)$  ; \bareme{2}
+\\ \dtf \\ \dtf \\ \dtf
+\item Calculer la valeur de  $Var(x_i)$  ; \bareme{2}
+\\ \dtf \\ \dtf \\ \dtf
+\item Calculer la valeur de  $Var(y_i)$  ; \bareme{2}
+\\ \dtf \\ \dtf \\ \dtf
+\item Déterminer   $(d_{x_i}) : ax_i+b=y_i$ la droite de regression
+linéaire des $x_i$ en $y_i$ ; \bareme{2}
+\\ \dtf \\ \dtf \\ \dtf
+\item Déterminer   $(d_{y_i}) : a'x_i+b'=y_i$ la droite de regression
+linéaire des $y_i$ en $x_i$. \bareme{2}
+\\ \dtf \\ \dtf \\ \dtf
+
+\end{enumerate}
+
+
+\end{document}
+
+% Local Variables:
+% gptel-model: deepseek-chat
+% gptel--backend-name: "DeepSeek"
+% gptel--bounds: ((response (714 896) (897 1413)))
+% End:
