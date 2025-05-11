@@ -1,0 +1,63 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Statistiques à deux variables}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+
+\begin{document}
+
+\begin{exercice}[1][Droites de régressions]
+On considère deux variables statistiques $x_i$ et $y_i$. On donne les
+valeurs suivantes : 
+\begin{multicols}{2}
+
+
+
+\end{multicols}
+\end{exercice}
+
+
+\begin{exercice}[1][Droites de régressions]
+\begin{multicols}{2}
+\begin{tikzpicture}[scale=1.2]
+% Points avec croix
+\foreach \x/\y in {1/1, 2/1.5, 3.5/3.5, 4.5/4, 5.5/3, 6/5} \draw (\x,\y) node[draw, cross out, minimum size=5pt] {};
+
+
+% Tracer les axes en gris
+\draw[gray!80, thin, step=0.5] (0, 0) grid (7, 7);
+
+% Repère
+\draw[->] (0,0) -- (7,0) node[right] {$x_i$}; \draw[->] (0,0) -- (0, 7) node[above] {$y_i$};
+
+% Graduations axe x (en ligne)
+\foreach \x/\text in {1/10, 2/20, 3/30, 4/40, 5/50, 6/60} \draw (\x,0.1) -- (\x,-0.1) node[below] {\text};
+
+% Graduations axe y (magasin)
+\foreach \y/\text in {1/10, 2/20, 3/30, 4/40, 5/50, 6/60} \draw (0.1,\y) -- (-0.1,\y) node[left] {\text};
+\end{tikzpicture}
+
+\begin{enumerate}
+\item Déterminer les coordonnées du point moyen $M$ ;
+\item Déterminer $Cov(x_i,y_i)$ ;
+\item Déterminer $Var(x_i)$ ;
+\item Déterminer $Var(y_i)$ ;
+\item Déterminer $(d_{x_i}) : ax_i+b=y_i$ la droite de regression linéaire des $x_i$ en $y_i$ ;
+\item Déterminer $(d_{y_i}) : a'x_i+b'=y_i$ la droite de regression linéaire des $y_i$ en $x_i$.
+\end{enumerate}
+\end{multicols}
+\end{exercice}
+\end{document}
+
+% Local Variables:
+% gptel-model: deepseek-chat
+% gptel--backend-name: "DeepSeek"
+% gptel--bounds: ((response (714 896) (897 1413)))
+% End:
