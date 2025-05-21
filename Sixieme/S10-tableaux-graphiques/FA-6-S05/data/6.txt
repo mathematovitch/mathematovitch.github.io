@@ -1,0 +1,32 @@
+\textbf{Répondre aux questions à l'aide du texte.} \\
+
+Plusieurs amis reviennent du marché. Il s'agit de David, Léa, Rémi et Arthur.\\
+David rapporte $6$ pommes, $8$ mangues, $10$ melons, $3$ poires, $5$ bananes et $10$ citrons. \\
+Léa rapporte $6$ melons, $7$ bananes, $10$ poires, $6$ pommes, $5$ mangues et $7$ citrons. \\
+Rémi rapporte $10$ citrons, $10$ mangues, $2$ pommes, $6$ bananes, $6$ poires et $6$ melons. \\
+Arthur rapporte $4$ pommes, $10$ bananes, $6$ citrons, $7$ mangues, $2$ melons et $3$ poires. \\
+
+\enu{
+\item  Compléter le tableau ci-dessous.
+\item Quel est le nombre total de fruits achetés par les amis ? \\ \dtf 
+\item Qui a rapporté le plus de fruits ? \\ \dtf
+\item Quel fruit a été rapporté en la plus grosse quantité ? \\ \dtf }
+
+\medskip
+\cntr{
+$\begin{array}{|l|c|c|c|c|c|c|c|}
+\hline
+  & \textbf{\text{Banane}} & \textbf{\text{Pomme}} & \textbf{\text{Poire}} & \textbf{\text{Mangue}} & \textbf{\text{Citron}} & \textbf{\text{Melon}}& \textbf{TOTAL}\\
+\hline
+\textbf{\text{David}}& & & & & &  & \\
+\hline
+\textbf{\text{Léa}}& & & & & &  & \\
+\hline
+\textbf{\text{Rémi}}& & & & & &  & \\
+\hline
+\textbf{\text{Arthur}}& & & & & &  & \\
+\hline
+\textbf{TOTAL}& & & & & &  & \\
+\hline
+\end{array}
+$ }

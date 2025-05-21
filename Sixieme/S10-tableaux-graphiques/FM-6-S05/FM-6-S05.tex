@@ -1,0 +1,111 @@
+\input{~/Documents/Cours/.parametre/parametre-fm/parametre-fm.tex}
+
+\begin{document}
+
+\entete{Chapitre 5}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\colonnesep{1}
+
+\titre{Gestion de données}{4}
+
+\section{Tableau simple}
+
+\definition{
+Un tableau simple est un tableau qui comprend uniquement deux lignes ou uniquement deux colonnes.}
+
+\exemple{
+Nombre d'habitants des quatres villes françaises les plus peuplées en 2013 :
+\cntr{
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Ville&Paris&Marseille&Lyon&Toulouse \tabline
+Nombre d'habitants&2~201~000&826~700&467~400&437~100 \tabline
+\end{tabular}}
+
+La quatrième colonne indique que Lyon avait 467~400 habitants en 2013.}
+
+\exemple{
+Altitude des trois plus hauts sommets africains :
+
+\cntr{
+\begin{tabular}{|c|c|}
+\hline
+Nom du sommet&Altitude (en m) \tabline
+Kilimandjaro&5~815 \tabline
+Mont Kenya&5~199 \tabline
+Mawenzi&5~149 \tabline
+\end{tabular}}
+
+
+La troisième ligne indique que le Mont Kenya a une altitude de 5~199 m. }
+
+\newpage
+\section{Tableau à double entrée}
+
+\definition{
+Un tableau à double entrée est un tableau qui comporte plus de deux lignes et plus de deux colonnes de données.}
+
+\exemple{
+Nombre de tee-shirts dans une boutique de vêtement :
+
+\cntr{
+\rowcolors{2}{gray!10}{gray!40}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\backslashbox{Taille}{Couleur}&Jaune&	Bleu&	Rouge&	Vert&	Orange&	Total \tabline
+S&	10&	12&	8&	5&	4&	39 \tabline
+M&	9&	12&	10&	11&	9&	51 \tabline
+L&	12&	15&	17&	16&	12&	72 \tabline
+XL&	8&	7&	5&	6&	8&	34 \tabline
+Total&	39&	46&	40&	38&	33&	196 \tabline
+\end{tabular}}
+
+On lit dans le tableau que l'on peut trouver 11 tee-shirts verts en taille M dans la boutique.}
+
+\newpage
+\section{Graphique cartésien}
+
+\definition{
+Un graphique cartésien est une représentation qui permet de visualiser l'évolution d'une grandeur (en ordonnées) « en fonction » d'une autre (en abscisse).}
+
+\remarque{
+L'abscisse se lit sur l'axe horizontal et l'ordonnée se lit sur l'axe vertical.}
+
+\exemple{
+Ce graphique cartésien représente l'évolution de la population française en fonction de l'année :
+
+\cntr{\input{figures/graph1.txt}}
+
+On y lit que la population française atteint environ 65 millions d'habitants en 2010 alors qu'elle était d'environ 55 millions d'habitants en 1990.}
+
+\newpage
+
+\section{Diagramme en bâtons}
+
+\definition{
+Un diagramme en bâtons (ou en barres) est formé de bâtons (de barres) dont les hauteurs sont proportionnelles aux nombres qu'ils représentent.}
+
+\exemple{
+Voici le diagramme en bâtons représentant une série de notes obtenue par une classe :
+
+\cntr{\input{figures/graph2.txt}}
+
+On y lit que 12 élèves ont eu au moins la moyenne.}
+
+\newpage
+\section{Diagramme circulaire}
+
+\definition{
+Un diagramme circulaire est formé de secteurs circulaires dont la mesure des angles est proportionnelle aux nombres ou aux pourcentages qu'ils représentent.}
+
+\exemple{
+Voici le diagramme circulaire représentant le moyen de transport principal utilisé par les élèves d'un collège pour venir en cours :
+
+\cntr{\input{figures/graph3.txt}}
+
+On y lit que 45 \% des élèves prennent le bus.}
+
+
+\end{document}

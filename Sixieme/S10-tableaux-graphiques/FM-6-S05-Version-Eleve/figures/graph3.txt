@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+\usetikzlibrary{patterns}
+  \draw[pattern=north west lines, thick] (0,0) -- (0:3cm) arc (0:162:3cm);
+  \node (rect) at (81:1.8cm) [draw,thick,minimum width=1cm,minimum height=1cm, fill=white] {45 \%};
+  \draw (81:3cm) -- (81:3.5cm) node[above] {En bus};
+  
+  \draw[pattern=vertical lines, thick] (0,0) -- (162:3cm) arc (162:234:3cm);
+  \node (rect) at (198:1.8cm) [draw,thick,minimum width=1cm,minimum height=1cm, fill=white] {20 \%};
+  \draw (198:3cm) -- (198:3.5cm) node[left] {En voiture};
+  
+  \draw[pattern=grid, thick] (0,0) -- (234:3cm) arc (234:324:3cm);
+  \node (rect) at (279:1.8cm) [draw,thick,minimum width=1cm,minimum height=1cm, fill=white] {25 \%};
+  \draw (279:3cm) -- (279:3.5cm) node[below] {En vélo};
+  
+  \draw[fill=white, thick] (0,0) -- (324:3cm) arc (324:360:3cm);
+  \node at (342:1.8cm) {10 \%};
+  \draw (342:3cm) -- (342:3.5cm) node[right] {À pied};
+\end{tikzpicture}

@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+\pgfkeys{/pgf/number format/.cd,1000 sep={}}
+\begin{axis}[
+		axis x line=bottom,
+		axis y line = left,
+    title={\textit{Évolution de la population française en fonction de l'année}},
+    xlabel={Année},
+    ylabel={Population (en millions)},
+    xmin=1960, xmax=2015,
+    ymin=35, ymax=68,
+    xtick={1960,1970,1980,1990,2000,2010},
+    ytick={40,45,50,55,60,65},
+    legend pos=north west,
+    ymajorgrids=true,
+    xmajorgrids=true,
+    grid style=dashed,
+]
+
+\addplot[
+    color=gray,
+    ]
+    coordinates {
+    (1960,47)(1970,52)(1980,55)(1990,58)(2000,62)(2010,65)
+    };
+\end{axis}
+\end{tikzpicture}

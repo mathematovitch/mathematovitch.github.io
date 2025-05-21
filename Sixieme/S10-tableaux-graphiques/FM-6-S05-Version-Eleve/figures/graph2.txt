@@ -1,0 +1,29 @@
+\begin{tikzpicture}
+\begin{axis}[
+		axis x line=bottom,
+		axis y line = left,
+		title={\textit{Notes obtenues par la classe}},
+    xmin=0, xmax=21,
+    width=15cm,
+    ymajorgrids=true,
+    xmajorgrids=false,
+    %minor tick num=1,
+    %xminorgrids=true,
+    ymin=0, ymax=6.5,
+    %symbolic x coords={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20},
+    xtick={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21},
+    ytick={0,1,2,3,4,5,6},
+	ylabel=Nombre d'élèves,
+	xlabel=Notes,
+	%enlargelimits=0.05,
+	legend style={at={(0.8,-0.1)},
+ %grid = both,
+  grid style=dashed,
+	anchor=north,legend columns=-1},
+	ybar interval=0.4,
+]
+\addplot[color=black,fill=black]
+	coordinates {(0,0) (1,0) (2,0) (3,0) (4,1) (5,1) (6,2) (7,3) (8,5) (9,6) (10,2) (11,3) (12,0) (13,2) (14,0) (15,1) (16,1) (17,0) (18,1) (19,2) (20,0) (21,0)};
+
+\end{axis}
+\end{tikzpicture}

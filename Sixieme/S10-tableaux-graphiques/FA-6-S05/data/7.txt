@@ -1,0 +1,114 @@
+\begin{enumerate}
+	\item Dans le parc naturel de Secai, il y a beaucoup d'animaux.\\
+ Voici un diagramme qui représente les effectifs de quelques espèces.
+
+\medskip
+\begin{tikzpicture}[baseline,scale = 0.5]
+\usetikzlibrary{patterns}
+    \tikzset{
+      point/.style={
+        thick,
+        draw,
+        cross out,
+        inner sep=0pt,
+        minimum width=5pt,
+        minimum height=5pt,
+      },
+    }
+    \clip (-6.5,-3) rectangle (20,7);
+
+
+    	\draw[color={black},preaction={fill,color = {blue}, opacity = 0.3},pattern color = {black} , pattern = north east lines] (1.7,0)--(1.7,0.5)--(2.3,0.5)--(2.3,0)--cycle;
+\draw [color={black}] (2,-0.2) node[anchor = west, rotate = -66] {Buffles};
+	\draw[color={black},preaction={fill,color = {GreenYellow}, opacity = 0.3},pattern color = {black} , pattern = north east lines] (3.7,0)--(3.7,4)--(4.3,4)--(4.3,0)--cycle;
+\draw [color={black}] (4,-0.2) node[anchor = west, rotate = -66] {Rhinocéros};
+	\draw[color={black},preaction={fill,color = {brown}, opacity = 0.3},pattern color = {black} , pattern = north east lines] (5.7,0)--(5.7,2.5)--(6.3,2.5)--(6.3,0)--cycle;
+\draw [color={black}] (6,-0.2) node[anchor = west, rotate = -66] {Servals};
+	\draw[color={black},preaction={fill,color = {LightSlateBlue}, opacity = 0.3},pattern color = {black} , pattern = north east lines] (7.7,0)--(7.7,1)--(8.3,1)--(8.3,0)--cycle;
+\draw [color={black}] (8,-0.2) node[anchor = west, rotate = -66] {Hyènes};
+	
+	\draw[color ={black},line width = 2] (0,0)--(10,0);
+	\draw[color ={black},line width = 2,->] (0,0)--(0,6);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,1)--(10,1);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,2)--(10,2);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,3)--(10,3);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,4)--(10,4);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,5)--(10,5);
+	\draw[color ={black},line width = 2] (-0.2,1)--(0.2,1);
+	\draw[color ={black},line width = 2] (-0.2,2)--(0.2,2);
+	\draw[color ={black},line width = 2] (-0.2,3)--(0.2,3);
+	\draw[color ={black},line width = 2] (-0.2,4)--(0.2,4);
+	\draw[color ={black},line width = 2] (-0.2,5)--(0.2,5);
+	\draw [color={black},fill opacity = 1] (-0.5,1) node[anchor = center,scale=1] {$10$};
+	\draw [color={black},fill opacity = 1] (-0.5,2) node[anchor = center,scale=1] {$20$};
+	\draw [color={black},fill opacity = 1] (-0.5,3) node[anchor = center,scale=1] {$30$};
+	\draw [color={black},fill opacity = 1] (-0.5,4) node[anchor = center,scale=1] {$40$};
+	\draw [color={black},fill opacity = 1] (-0.5,5) node[anchor = center,scale=1] {$50$};
+	\draw [color={black},fill opacity = 1] (0.5,6.5) node[anchor = west,scale=1] {Nombre d'individus};
+
+\end{tikzpicture}\\
+\textbf {a.}  Quelle est l'espèce la moins nombreuse ?	$\square\;$ Buffles\qquad$\square\;$ Hyènes\qquad$\square\;$ Servals\qquad$\square\;$ Rhinocéros\qquad\\
+\textbf {b.}  Quelle est l'espèce la plus nombreuse ?	$\square\;$ Buffles\qquad$\square\;$ Hyènes\qquad$\square\;$ Servals\qquad$\square\;$ Rhinocéros\qquad\\
+\textbf {c.}  L'espèce la plus nombreuse représente ...	$\square\;$ Moins de la moitié des animaux\qquad$\square\;$ La moitié des animaux\qquad$\square\;$ Plus de la moitié des animaux\qquad
+	\item Dans le parc naturel de Fohenlan, il y a beaucoup d'animaux.\\
+ Voici un diagramme qui représente les effectifs de quelques espèces.
+
+\medskip
+\begin{tikzpicture}[baseline,scale = 0.5]
+\usetikzlibrary{patterns}
+    \tikzset{
+      point/.style={
+        thick,
+        draw,
+        cross out,
+        inner sep=0pt,
+        minimum width=5pt,
+        minimum height=5pt,
+      },
+    }
+    \clip (-6.5,-3) rectangle (20,7);
+
+
+    	\draw [color={black}] (2,-0.2) node[anchor = west, rotate = -66] {Crocodiles};
+	\draw[color ={black}] (2,-0.1)--(2,0.1);
+	\draw [color={black}] (4,-0.2) node[anchor = west, rotate = -66] {Guépards};
+	\draw[color ={black}] (4,-0.1)--(4,0.1);
+	\draw [color={black}] (6,-0.2) node[anchor = west, rotate = -66] {Phacochères};
+	\draw[color ={black}] (6,-0.1)--(6,0.1);
+	\draw [color={black}] (8,-0.2) node[anchor = west, rotate = -66] {Buffles};
+	\draw[color ={black}] (8,-0.1)--(8,0.1);
+	
+	\draw[color ={black},line width = 2] (0,0)--(10,0);
+	\draw[color ={black},line width = 2,->] (0,0)--(0,6);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,1)--(10,1);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,2)--(10,2);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,3)--(10,3);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,4)--(10,4);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,5)--(10,5);
+	\draw[color ={black},line width = 2] (-0.2,1)--(0.2,1);
+	\draw[color ={black},line width = 2] (-0.2,2)--(0.2,2);
+	\draw[color ={black},line width = 2] (-0.2,3)--(0.2,3);
+	\draw[color ={black},line width = 2] (-0.2,4)--(0.2,4);
+	\draw[color ={black},line width = 2] (-0.2,5)--(0.2,5);
+	\draw [color={black},fill opacity = 1] (-0.5,1) node[anchor = center,scale=1] {$10$};
+	\draw [color={black},fill opacity = 1] (-0.5,2) node[anchor = center,scale=1] {$20$};
+	\draw [color={black},fill opacity = 1] (-0.5,3) node[anchor = center,scale=1] {$30$};
+	\draw [color={black},fill opacity = 1] (-0.5,4) node[anchor = center,scale=1] {$40$};
+	\draw [color={black},fill opacity = 1] (-0.5,5) node[anchor = center,scale=1] {$50$};
+	\draw [color={black},fill opacity = 1] (0.5,6.5) node[anchor = west,scale=1] {Nombre d'individus};
+	
+	
+	\draw[color={{red}},opacity = 0.8,fill opacity = 0.4,preaction={fill,color = r}] (2,2.5) circle (0.1);
+	
+	\draw[color={{red}},opacity = 0.8,fill opacity = 0.4,preaction={fill,color = r}] (4,2.2) circle (0.1);
+	
+	\draw[color={{red}},opacity = 0.8,fill opacity = 0.4,preaction={fill,color = r}] (6,3.7) circle (0.1);
+	
+	\draw[color={{red}},opacity = 0.8,fill opacity = 0.4,preaction={fill,color = r}] (8,1.2000000000000002) circle (0.1);
+	\draw[color={lightgray}] (2,2.5)--(4,2.2)--(6,3.7)--(8,1.2000000000000002);
+
+\end{tikzpicture}\\
+\textbf {a.}  Quelle est l'espèce la moins nombreuse ?	$\square\;$ Guépards\qquad$\square\;$ Crocodiles\qquad$\square\;$ Phacochères\qquad$\square\;$ Buffles\qquad\\
+\textbf {b.}  Quelle est l'espèce la plus nombreuse ?	$\square\;$ Phacochères\qquad$\square\;$ Crocodiles\qquad$\square\;$ Guépards\qquad$\square\;$ Buffles\qquad\\
+\textbf {c.}  L'espèce la plus nombreuse représente ...	$\square\;$ Plus de la moitié des animaux\qquad$\square\;$ La moitié des animaux\qquad$\square\;$ Moins de la moitié des animaux\qquad
+\end{enumerate}

@@ -1,0 +1,41 @@
+  {\sffamily Les plus grands fleuves mondiaux}\par
+  La quatrième colonne indique le nombre de pays traversés (Source :
+  Encyclopedia Universalis).
+  \cntr{
+\scalebox{0.8}{
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    \rowcolor{gray!15}Fleuve&Longueur (en km)&Débit (en L/s)&Pays\\
+    \hline
+    Amazone&{70~25}&{150~000}&{6}\\
+    \hline
+    Amour&{4~400}&{11~000}&{2}\\
+    \hline
+    Congo&{4~000}&{40~000}&{3}\\
+    \hline
+    Huanghe&{5~464}&{1~300}&{1}\\
+    \hline
+    Ienisseï&{5~539}&{19~800}&{2}\\
+    \hline
+    Lena&{4~400}&{16~500}&{1}\\
+    \hline
+    Mississippi&{6~800}&{18~000}&{1}\\
+    \hline
+    Nil&{6~671}&{3~000}&{10}\\
+    \hline
+    Ob&{5~410}&{12~760}&{1}\\
+    \hline
+    Yangzijang&{5~980}&{30~000}&{1}\\
+    \hline
+  \end{tabular}
+} }
+\columnbreak
+\enu{
+  \item Quelle est la longueur du fleuve Lena ? Quel est son débit ?
+    Combien de pays traverse-t-il ? \\ \dtf \\ \dtf
+  \item Parmi ces fleuves, lequel est le plus long ? A-t-il le plus
+    grand débit ? \\ \dtf \\ \dtf
+  \item Parmi ces fleuves, lequel est le moins long ? A-t-il le plus
+    petit débit ? \\ \dtf \\ \dtf
+  \item Parmi ces fleuves, lequel traverse le plus de pays ? \\ \dtf \\ \dtf
+}

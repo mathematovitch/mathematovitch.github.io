@@ -1,0 +1,73 @@
+
+\textbf{Répondre aux questions à l'aide du graphique.}
+
+
+Dans le parc naturel de Fohenlan, il y a beaucoup d'animaux.\\
+Voici un diagramme en bâtons qui donne le nombre d'individus pour chaque espèce.
+\mc{
+\enu{
+\item Quels sont les animaux les plus nombreux?\\ \dtf 
+\item Quels sont les animaux les moins nombreux ?\\ \dtf 
+\item Donner un encadrement, à la centaine, du nombre de Hyènes ? \\ \dtf }
+
+\medskip
+\begin{tikzpicture}[baseline,scale = 0.5]
+
+    \tikzset{
+      point/.style={
+        thick,
+        draw,
+        cross out,
+        inner sep=0pt,
+        minimum width=5pt,
+        minimum height=5pt,
+      },
+    }
+    \clip (-5,-5) rectangle (11,11);
+
+
+    	
+	\draw[color ={black},line width = 2] (0,0)--(10,0);
+	\draw[color ={black},line width = 2,->] (0,0)--(0,10);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,1)--(10,1);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,2)--(10,2);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,3)--(10,3);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,4)--(10,4);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,5)--(10,5);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,6)--(10,6);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,7)--(10,7);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,8)--(10,8);
+	\draw[color ={black},opacity = 0.5, dashed ] (0,9)--(10,9);
+	\draw[color ={black},line width = 2] (-0.2,1)--(0.2,1);
+	\draw[color ={black},line width = 2] (-0.2,2)--(0.2,2);
+	\draw[color ={black},line width = 2] (-0.2,3)--(0.2,3);
+	\draw[color ={black},line width = 2] (-0.2,4)--(0.2,4);
+	\draw[color ={black},line width = 2] (-0.2,5)--(0.2,5);
+	\draw[color ={black},line width = 2] (-0.2,6)--(0.2,6);
+	\draw[color ={black},line width = 2] (-0.2,7)--(0.2,7);
+	\draw[color ={black},line width = 2] (-0.2,8)--(0.2,8);
+	\draw[color ={black},line width = 2] (-0.2,9)--(0.2,9);
+	\draw [color={black},fill opacity = 1] (-0.5,1) node[anchor = east,scale=1] {$100$};
+	\draw [color={black},fill opacity = 1] (-0.5,2) node[anchor = east,scale=1] {$200$};
+	\draw [color={black},fill opacity = 1] (-0.5,3) node[anchor = east,scale=1] {$300$};
+	\draw [color={black},fill opacity = 1] (-0.5,4) node[anchor = east,scale=1] {$400$};
+	\draw [color={black},fill opacity = 1] (-0.5,5) node[anchor = east,scale=1] {$500$};
+	\draw [color={black},fill opacity = 1] (-0.5,6) node[anchor = east,scale=1] {$600$};
+	\draw [color={black},fill opacity = 1] (-0.5,7) node[anchor = east,scale=1] {$700$};
+	\draw [color={black},fill opacity = 1] (-0.5,8) node[anchor = east,scale=1] {$800$};
+	\draw [color={black},fill opacity = 1] (-0.5,9) node[anchor = east,scale=1] {$900$};
+	\draw [color={black},fill opacity = 1] (0.5,10.5) node[anchor = west,scale=1] {Nombre d'individus};
+	\draw[color={black},preaction={fill,color = {blue}, opacity = 0.3}] (1.1285714285714286,0)--(1.1285714285714286,4.6000000000000005)--(1.7285714285714286,4.6000000000000005)--(1.7285714285714286,0)--cycle;
+\draw [color={black}] (1.4285714285714286,-0.2) node[anchor = west, rotate = -66] {Gazelles};
+	\draw[color={black},preaction={fill,color = {blue}, opacity = 0.3}] (2.5571428571428574,0)--(2.5571428571428574,4.8)--(3.157142857142857,4.8)--(3.157142857142857,0)--cycle;
+\draw [color={black}] (2.857142857142857,-0.2) node[anchor = west, rotate = -66] {Rhinocéros};
+	\draw[color={black},preaction={fill,color = {blue}, opacity = 0.3}] (3.9857142857142858,0)--(3.9857142857142858,3.8000000000000003)--(4.585714285714285,3.8000000000000003)--(4.585714285714285,0)--cycle;
+\draw [color={black}] (4.285714285714286,-0.2) node[anchor = west, rotate = -66] {Hyènes};
+	\draw[color={black},preaction={fill,color = {blue}, opacity = 0.3}] (5.414285714285715,0)--(5.414285714285715,2.2)--(6.014285714285714,2.2)--(6.014285714285714,0)--cycle;
+\draw [color={black}] (5.714285714285714,-0.2) node[anchor = west, rotate = -66] {Léopards};
+	\draw[color={black},preaction={fill,color = {blue}, opacity = 0.3}] (6.842857142857143,0)--(6.842857142857143,8.1)--(7.442857142857143,8.1)--(7.442857142857143,0)--cycle;
+\draw [color={black}] (7.142857142857143,-0.2) node[anchor = west, rotate = -66] {Guépards};
+	\draw[color={black},preaction={fill,color = {blue}, opacity = 0.3}] (8.27142857142857,0)--(8.27142857142857,3.3000000000000003)--(8.871428571428572,3.3000000000000003)--(8.871428571428572,0)--cycle;
+\draw [color={black}] (8.571428571428571,-0.2) node[anchor = west, rotate = -66] {Crocodiles}; 
+
+\end{tikzpicture} }

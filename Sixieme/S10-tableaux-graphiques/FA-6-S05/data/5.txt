@@ -1,0 +1,18 @@
+Pour vérifier la bonne marche des machines nouvellement achetées, un
+entrepreneur commande une étude auprès d'un organisme
+agrée. L'entrepreneur souhaite savoir le diamètre moyen des boulons de
+8~mm que ses machines fabriquent.
+\par Après avoir effectué les tests nécessaires, l'organisme remet à
+l'entrepreneur le document suivant :
+\begin{quote}
+  {\cursive Voici les résultats de notre enquête :}
+  \[\includegraphics{4gestionexo26.1}\]
+  {\cursive Grâce à cette étude, nous pouvons
+    affirmer que le diamètre moyen est de 8,01~mm.}
+\end{quote}
+\begin{Enumerate}
+\item Combien de boulons de 7,95~mm de diamètre ont été mesurés ?
+\item Combien de boulons ont été mesurés ?
+\item Combien de boulons ont un diamètre supérieur ou égal au
+  diamètre moyen ?
+\end{Enumerate}

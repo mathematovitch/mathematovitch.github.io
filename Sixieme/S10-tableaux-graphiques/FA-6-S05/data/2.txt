@@ -1,0 +1,24 @@
+Ce tableau donne la répartition des élèves d'un collège.
+\begin{center}
+  \begin{tabular}{|l|c|c|c|c|c|}
+    \hline         & $6^{eme}$  & $5^{eme}$& $4^{eme}$  & $3^{eme}$ & Total \\
+    \hline Filles  & 75   & 84    &  \ldots & 87  &\ldots \\ 
+    \hline Garçons &\ldots& 68    & 95   &\ldots& \ldots   \\
+    \hline Total  & 159  &\ldots& 182  &\ldots& 657  \\
+    \hline  
+  \end{tabular}
+\end{center}
+
+\vspace{1cm}
+
+\mc{
+\enu{
+\item Calculer le nombre de garçons en $6^{eme}$.
+\item Calculer le nombre d'élèves en $5^{eme}$.
+\item Calculer le nombre de filles en $4^{eme}$.
+\item Calculer le nombre d'élèves en $3^{eme}$.
+\columnbreak
+\item Utilise le résultat précédent pour calculer le nombre de garçons en $3^{eme}$.
+\item Combien y a t-il de filles dans ce collège? \\ \dtf
+\item Combien y a t-il de garçons dans ce collège? \\ \dtf
+}}

@@ -1,0 +1,160 @@
+\input{~/Documents/Cours/.parametre/parametre-fm/parametre-fm.tex}
+
+\begin{document}
+
+\entete{Chapitre 5}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\colonnesep{1}
+
+\vfill
+
+\titre{Gestion de données}{4.5}
+
+\section{Tableau simple}
+
+\vfill
+
+\definition{
+\dtf \\ \dtf \\ \dtf }
+
+\vfill
+
+\exemple{
+Nombre d'habitants des quatres villes françaises les plus peuplées en 2013 :
+
+\vfill
+
+\cntr{
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Ville&Paris&Marseille&Lyon&Toulouse \tabline
+Nombre d'habitants&2~201~000&826~700&467~400&437~100 \tabline
+\end{tabular}}
+
+\vfill
+
+La quatrième colonne indique que Lyon avait \dotfill habitants en 2013.}
+
+\vfill
+
+\exemple{
+Altitude des trois plus hauts sommets africains :
+
+\vfill
+
+\cntr{
+\begin{tabular}{|c|c|}
+\hline
+Nom du sommet&Altitude (en m) \tabline
+Kilimandjaro&5~815 \tabline
+Mont Kenya&5~199 \tabline
+Mawenzi&5~149 \tabline
+\end{tabular}}
+
+\vfill
+
+La troisième ligne indique que le \dotfill a une altitude de 5~199 m. }
+
+\newpage
+\section{Tableau à double entrée}
+
+\vspace{1cm}
+
+\definition{
+\dtf \\ \dtf \\ \dtf}
+
+\vspace{0.5cm}
+
+\exemple{
+Nombre de tee-shirts dans une boutique de vêtement :
+
+\vspace{1cm}
+
+\cntr{
+\rowcolors{2}{gray!10}{gray!40}
+\begin{tabular}{|c||c|c|c|c|c||c|}
+\hline
+\backslashbox{Taille}{Couleur}&Jaune&	Bleu&	Rouge&	Vert&	Orange&	Total \\ \hline \hline
+S&	10&	12&	8&	5&	4&	39 \tabline 
+M&	9&	12&	10&	11&	9&	51 \tabline
+L&	12&	15&	17&	16&	12&	72 \tabline
+XL&	8&	7&	5&	6&	8&	34 \tabline \hline
+Total&	39&	46&	40&	38&	33&	196 \tabline
+\end{tabular}}
+
+\vspace{1cm}
+
+On lit dans le tableau que l'on peut trouver \dotfill tee-shirts verts en taille M dans la boutique. \\
+Et que la taille ayant le plus de quantité est le \ldots\ldots\ldots\ldots}
+
+\newpage
+\section{Graphique cartésien}
+
+\vfill
+
+\definition{
+\dtf \\ \dtf \\ \dtf \\ \dtf }
+
+\vfill
+
+\remarque{
+\dtf \\ \dtf}
+
+\vfill
+
+\exemple{
+Ce graphique cartésien représente l'évolution de la population française en fonction de l'année :
+
+\vfill
+
+\cntr{\input{figures/graph1.txt}}
+
+\vfill
+
+On y lit que la population française atteint environ \dotfill millions d'habitants en 2010  \\ alors qu'elle était d'environ 55 millions d'habitants en \dotfill.}
+
+\newpage
+
+\section{Diagramme en bâtons}
+
+\definition{
+\dtf \\ \dtf \\ \dtf \\ \dtf }
+
+\vfill
+
+\exemple{
+Voici le diagramme en bâtons représentant une série de notes obtenue par une classe :
+
+\vfill
+
+\cntr{\input{figures/graph2.txt}}
+
+\vfill
+
+On y lit que \dotfill élèves ont eu plus de 10.}
+
+\newpage
+\section{Diagramme circulaire}
+
+\vspace{1cm}
+
+\definition{
+\dtf \\ \dtf \\ \dtf \\ \dtf }
+
+\vspace{1cm}
+
+\exemple{
+Voici le diagramme circulaire représentant le moyen de transport principal utilisé par les élèves d'un collège pour venir en cours :
+
+\vspace{1cm}
+
+\cntr{\input{figures/graph3.txt}}
+
+\vspace{1cm}
+
+On y lit que \ldots\ldots\ldots\ldots\ldots\ldots des élèves prennent le bus.}
+
+
+\end{document}
