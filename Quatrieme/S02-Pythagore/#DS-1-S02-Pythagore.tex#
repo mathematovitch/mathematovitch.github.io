@@ -1,0 +1,23 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Chapitre 02 : Pythagore - Étapes de Résolutions}
+
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+
+\end{document}
+
+% Local Variables:
+% gptel-model: deepseek-chat
+% gptel--backend-name: "DeepSeek"
+% gptel--bounds: ((response (345 1024) (1025 1093) (1116 1268) (1283 1285) (1301 1776) (1793 1830) (1831 1838) (1861 1937) (1967 1968) (1985 2463) (2480 2517) (2518 2528) (2551 2636) (2666 2667) (2692 3173) (3190 3227) (3228 3238) (3261 3345) (3376 3377)))
+% End:
