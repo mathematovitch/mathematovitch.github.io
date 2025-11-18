@@ -1,0 +1,97 @@
+\message{ !name(DS-1-S06-Tracer-Perpendiculaires.tex)}%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{}
+\setlength{\headheight}{14pt}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+\message{ !name(DS-1-S06-Tracer-Perpendiculaires.tex) !offset(-3) }
+
+
+%\phantom{0}
+
+\entetedevoirs{10}
+
+\begin{exercicedevoir}[5]
+\textbf {a.} Tracer les droites $(MN)$, $(MO)$ et $(NO)$.\\
+\textbf {b.} Tracer la droite $(d_1)$ perpendiculaire à $(MN)$ passant par $O$.\\
+\textbf {c.} Tracer la droite $(d_2)$ perpendiculaire à $(MO)$ passant par $N$.\\
+\textbf {d.} Tracer la droite $(d_3)$ perpendiculaire à $(NO)$ passant par $M$.
+
+\begin{tikzpicture}[baseline,scale = 0.5]
+
+
+    \tikzset{
+      point/.style={
+        thick,
+        draw,
+        cross out,
+        inner sep=0pt,
+        minimum width=5pt,
+        minimum height=5pt,
+      },
+    }
+    \clip (-1,-3) rectangle (21,9);
+    	\draw[color ={black},line width = 0.625,opacity = 0.8] (-0.19,0.19)--(0.19,-0.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (-0.19,-0.19)--(0.19,0.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (19.81,-1.81)--(20.19,-2.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (19.81,-2.19)--(20.19,-1.81);\draw[color ={black},line width = 0.625,opacity = 0.8] (3.81,8.19)--(4.19,7.81);\draw[color ={black},line width = 0.625,opacity = 0.8] (3.81,7.81)--(4.19,8.19);
+	\draw [color={black}] (-0.5,0.5) node[anchor = center,scale=1, rotate = 0] {M};
+	\draw [color={black}] (20.5,-1.5) node[anchor = center,scale=1, rotate = 0] {N};
+	\draw [color={black}] (3.5,8.5) node[anchor = center,scale=1, rotate = 0] {O};
+	
+	
+
+\end{tikzpicture}\\
+
+\end{exercicedevoir}
+
+
+\begin{exercicedevoir}[1]
+
+ \textbf {a.}  Utiliser un crayon à papier afin de pouvoir gommer si besoin.\\\textbf {b.}  Tracer la droite perpendiculaire à $(AB)$ passant par $B$.\\\textbf {c.}  Tracer la droite perpendiculaire à $(AB)$ passant par $C$ et nomme $M$, le point d'intersection de cette droite avec la droite $(AB)$.\\\textbf {d.}  Tracer la droite parallèle à $(AB)$ passant par $D$ et nomme $N$, le point d'intersection de cette droite avec la droite $(BE)$.\\\textbf {e.}  Tracer la droite parallèle à $(AB)$ passant par $E$ et nomme $O$, le point d'intersection de cette droite avec la droite $(CM)$.
+
+\medskip
+\begin{tikzpicture}[baseline,scale = 0.5]
+
+    \tikzset{
+      point/.style={
+        thick,
+        draw,
+        cross out,
+        inner sep=0pt,
+        minimum width=5pt,
+        minimum height=5pt,
+      },
+    }
+    \clip (-1,-8) rectangle (12,6);
+    	\draw[color ={black},line width = 0.625,opacity = 0.8] (-0.19,0.19)--(0.19,-0.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (-0.19,-0.19)--(0.19,0.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (9.81,-1.81)--(10.19,-2.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (9.81,-2.19)--(10.19,-1.81);\draw[color ={black},line width = 0.625,opacity = 0.8] (1.81,3.19)--(2.19,2.81);\draw[color ={black},line width = 0.625,opacity = 0.8] (1.81,2.81)--(2.19,3.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (7.81,-5.81)--(8.19,-6.19);\draw[color ={black},line width = 0.625,opacity = 0.8] (7.81,-6.19)--(8.19,-5.81);\draw[color ={black},line width = 0.625,opacity = 0.8] (10.81,3.19)--(11.19,2.81);\draw[color ={black},line width = 0.625,opacity = 0.8] (10.81,2.81)--(11.19,3.19);
+	\draw [color={black}] (-0.5,0.5) node[anchor = center,scale=1, rotate = 0] {A};
+	\draw [color={black}] (10.5,-1.5) node[anchor = center,scale=1, rotate = 0] {B};
+	\draw [color={black}] (1.5,3.5) node[anchor = center,scale=1, rotate = 0] {C};
+	\draw [color={black}] (8,-5.5) node[anchor = center,scale=1, rotate = 0] {D};
+	\draw [color={black}] (10.5,3) node[anchor = center,scale=1, rotate = 0] {E};
+	\draw[color={black}] (-49.03,9.81)--(59.03,-11.81);
+	
+	
+
+\end{tikzpicture}\\
+
+\end{exercicedevoir}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% TeX-master: t
+%%% End:
+
+
+\message{ !name(DS-1-S06-Tracer-Perpendiculaires.tex) !offset(-97) }
