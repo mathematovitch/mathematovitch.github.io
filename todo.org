@@ -1,8 +1,7 @@
-* 5ème
-- [X] Cours Exercices Proportionnalité
-
-
-* Term
-- [X] Cours Exercices Stats
-- [X] DS Stats
-
+* 6ème
+- [ ] controle division
+  
+* 4ème
+- [ ] chapitre puissances ? eval + exos
+- [ ] DM capytale
+  
