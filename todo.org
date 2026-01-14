@@ -1,7 +1,8 @@
 * 6ème
-- [ ] controle division
-  
+- [ ] controle prop
+- [ ] livret prop
+    
 * 4ème
-- [ ] chapitre puissances ? eval + exos
-- [ ] DM capytale
-  
+- [ ] controle prop
+- [ ] livret prop
+    
