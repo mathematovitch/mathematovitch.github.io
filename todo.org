@@ -1,5 +1,5 @@
 * 6ème
-- [ ] controle prop
+- [ ] controle prop : reconnaitre un tableau et une situation
 - [ ] livret prop
     
 * 4ème
