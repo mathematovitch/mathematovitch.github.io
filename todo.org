@@ -1,8 +1,8 @@
 * 6ème
-- [ ] controle prop : reconnaitre un tableau et une situation
-- [ ] livret prop
+- [ ] 
+- [ ] 
     
 * 4ème
-- [ ] controle prop
-- [ ] livret prop
-    
+- [ ] cours calcul littéral
+- [ ] exercices calcul littéral
+- [ ] controles calcul littéral    
