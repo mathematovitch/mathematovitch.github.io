@@ -1,61 +1,138 @@
 #!/bin/bash
 
-## MAj cd function
 unset -f cd
 
-## DELETE JUNK FILES ##
-
-# Define the directory to start searching from (default is the current directory)
 DIR=${1:-.}
+MAX_DEPTH=5
 
-# List of extensions considered as junk files
+########################################
+# DELETE LATEX JUNK FILES
+########################################
+
 EXTENSIONS=("aux" "log" "out" "toc" "synctex.gz" "fls" "fdb_latexmk")
 
-# Loop through each extension and delete the files
 for ext in "${EXTENSIONS[@]}"; do
-    find "$DIR" -type f -name "*.$ext" -exec rm -f {} +
+    find "$DIR" -type f -name "*.$ext" -delete
 done
 
 echo "Deleted junk files"
 
-## CREATE SUB-LEVELS INDEXES ##
-## e.g. /Sixieme
-##      |S01
-##         COURS
-##         EXOS
+########################################
+# CLEAN FILENAMES / DIRECTORY NAMES
+########################################
 
-# Initialize an empty array
+rename_safe() {
+
+    local path="$1"
+
+    local dir
+    dir="$(dirname "$path")"
+
+    local file
+    file="$(basename "$path")"
+
+    # Convert accents -> ASCII
+    local cleaned
+    cleaned=$(echo "$file" \
+        | iconv -f UTF-8 -t ASCII//TRANSLIT \
+        | sed -E '
+            s/[[:space:]]+/_/g;
+            s/[^A-Za-z0-9._-]/_/g;
+            s/_+/_/g;
+            s/^_//;
+            s/_$//
+        ')
+
+    if [[ "$file" != "$cleaned" ]]; then
+
+        local target="$dir/$cleaned"
+
+        if [[ ! -e "$target" ]]; then
+            mv "$path" "$target"
+            echo "Renamed:"
+            echo "  $path"
+            echo "  -> $target"
+        else
+            echo "Skipped (already exists): $target"
+        fi
+    fi
+}
+
+export -f rename_safe
+
+########################################
+# RENAME FILES
+########################################
+
+find "$DIR" -depth -maxdepth "$MAX_DEPTH" \( -type f -o -type d \) \
+    | while read -r item; do
+        rename_safe "$item"
+    done
+
+echo "Renaming finished"
+
+########################################
+# CREATE SUB INDEXES
+########################################
+
 dir_array=()
 
-# Loop through all directories in the current directory and append to array
 for dir in */; do
-    # Remove the trailing slash from directory name
     dir_array+=("${dir%/}")
 done
 
-# Create index for each level
 for dir in "${dir_array[@]}"; do
-    cd "$dir"
-    tree -H './' -L 2 --noreport --dirsfirst -T "Cours de Maths/$dir" --charset utf-8 -I "index.html" -I "*.tex" -o index.html # Tree make sub-levels indexes
+
+    cd "$dir" || continue
+
+    tree -H './' \
+         -L 2 \
+         --noreport \
+         --dirsfirst \
+         -T "Cours de Maths/$dir" \
+         --charset utf-8 \
+         -I "index.html|*.tex" \
+         -o index.html
+
     sleep 0.25
-    sed -i 's|<a href="././">.</a><br>|<a href="https://outerovitch-maths.github.io/">↰</a><br>|' index.html # Make href .. point to top-level index
-    sed -i '/<p class="VERSION">/,/<\/p>/d' index.html # Remove the version information block
-    cd ../
+
+    sed -i \
+        's|<a href="././">.</a><br>|<a href="https://outerovitch-maths.github.io/">↰</a><br>|' \
+        index.html
+
+    sed -i '/<p class="VERSION">/,/<\/p>/d' index.html
+
+    cd ../ || exit
+
     echo "Created index: $dir"
 done
 
-## CREATE TOP-LEVEL INDEX ##
-## e.g. /Cours
-##      |Sixieme
-##      |Cinquieme
-##      |Quatrieme
+########################################
+# CREATE TOP INDEX
+########################################
 
-tree -H './' -L 1 --noreport -T 'Cours de Maths' -d --charset utf-8 -o index.html # Tree make top-level index
+tree -H './' \
+     -L 1 \
+     --noreport \
+     -T 'Cours de Maths' \
+     -d \
+     --charset utf-8 \
+     -o index.html
+
 sleep 0.25
-sed -i 's|<a href="./\([^"]*\)/">|\<a href="./\1/index.html">|g' index.html # Make href point to sub-indexes
+
+sed -i \
+    's|<a href="./\([^"]*\)/">|<a href="./\1/index.html">|g' \
+    index.html
+
 sleep 0.25
-sed -i '/<head>/a<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />' index.html # Add the sum icon to HTML head
-sed -i '/<p class="VERSION">/,/<\/p>/d' index.html # Remove the version information block
+
+sed -i \
+    '/<head>/a<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />' \
+    index.html
+
+sed -i '/<p class="VERSION">/,/<\/p>/d' index.html
+
 echo "Created general index"
 
 echo "All indexes successfully created."
