@@ -5,188 +5,161 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Progression 4e &mdash; Maths</title>
 <style>
-:root{
-  --cn:#FAEEDA;--cnb:#854F0B;--cnt:#633806;
-  --bg:#f8f7f4;--surface:#fff;--border:rgba(0,0,0,.1);
-  --text:#1a1a18;--muted:#6b6a65;--mono:'Courier New',monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);}
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;}
-header a{color:var(--muted);font-size:.85rem;}
-header h1{font-size:1.1rem;font-weight:600;}
-.badge-niv{display:inline-block;background:var(--cn);color:var(--cnt);border:1px solid var(--cnb);
-  font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:20px;}
-main{max-width:960px;margin:0 auto;padding:2rem;}
-table{width:100%;border-collapse:collapse;background:var(--surface);
-  border-radius:10px;overflow:hidden;border:1px solid var(--border);}
-thead th{background:var(--cn);color:var(--cnt);padding:.65rem .9rem;
-  text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.02em;
-  border-bottom:1px solid var(--cnb);}
-tbody tr{border-bottom:.5px solid var(--border);}
-tbody tr:last-child{border-bottom:none;}
-tbody tr:hover{background:#fdf4e4;}
-td{padding:.75rem .9rem;vertical-align:top;font-size:.82rem;}
-.seq{font-family:var(--mono);font-size:.75rem;color:var(--muted);white-space:nowrap;}
-.titre{font-weight:600;font-size:.85rem;}
-.theme{display:inline-block;font-family:var(--mono);font-size:.7rem;font-weight:600;
-  padding:.2rem .5rem;border-radius:4px;background:var(--cn);color:var(--cnt);border:1px solid var(--cnb);}
-.comp-list{display:flex;flex-direction:column;gap:5px;}
-.comp-item{display:flex;align-items:flex-start;gap:6px;}
-.comp-code{font-family:var(--mono);font-size:.7rem;font-weight:600;
-  background:var(--cn);color:var(--cnt);padding:.15rem .4rem;
-  border-radius:3px;white-space:nowrap;border:1px solid var(--cnb);}
-.comp-label{color:var(--muted);font-size:.78rem;line-height:1.4;}
-.obj{color:var(--muted);font-size:.78rem;font-style:italic;}
-@media print{
-  body{background:#fff;}
-  header a{display:none;}
-  thead th{background:#FAEEDA !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .theme,.comp-code{background:#FAEEDA !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-}
+body{font-family:monospace,sans-serif;color:#000;background:#fff;margin:2rem;}
+a{color:#000;}
+a:hover{text-decoration:underline;}
+h1{font-size:1.1rem;margin:0 0 1rem 0;}
+table{border-collapse:collapse;width:100%;}
+th,td{border:1px solid #000;padding:.4rem .6rem;text-align:left;vertical-align:top;font-size:.85rem;}
 </style>
 </head>
 <body>
-<header>
-  <a href="../index.html">&larr; Retour</a>
-  <span class="badge-niv">4e</span>
-  <h1>Progression Maths &mdash; Quatri&egrave;me</h1>
-</header>
-<main>
+<a href="../index.html">&larr; Retour</a>
+<h1>Progression Maths &mdash; Quatri&egrave;me</h1>
 <table>
   <thead>
     <tr>
-      <th style="width:9%">S&eacute;quence</th>
-      <th style="width:22%">Titre</th>
-      <th style="width:7%">Th&egrave;me</th>
-      <th style="width:38%">Comp&eacute;tences</th>
-      <th style="width:24%">Objectif principal</th>
+      <th>S&eacute;quence</th>
+      <th>Titre</th>
+      <th>Th&egrave;me</th>
+      <th>Comp&eacute;tences</th>
+      <th>Objectif principal</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><span class="seq">4e-S01</span></td>
-      <td class="titre">Relatifs &mdash; rappels et repérage</td>
-      <td><span class="theme">NUM</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">NUM01</span><span class="comp-label">Comparer et ranger des nombres relatifs</span></div>
-        <div class="comp-item"><span class="comp-code">NUM02</span><span class="comp-label">Additionner et soustraire des relatifs</span></div>
-        <div class="comp-item"><span class="comp-code">NUM03</span><span class="comp-label">Repérer un point dans un plan (x, y)</span></div>
-      </div></td>
-      <td class="obj">Consolider les relatifs acquis en 5e</td>
+      <td>4C01</td>
+      <td>Relatifs &mdash; rappels et rep&eacute;rage</td>
+      <td>NUM</td>
+      <td>
+        4C01-NUM01 &mdash; Comparer et ranger des nombres relatifs<br>
+        4C01-NUM02 &mdash; Additionner et soustraire des relatifs<br>
+        4C01-NUM03 &mdash; Rep&eacute;rer un point dans un plan (x, y)
+      </td>
+      <td>Consolider les relatifs acquis en 5e</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S02</span></td>
-      <td class="titre">Théorème de Pythagore</td>
-      <td><span class="theme">GEO</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">GEO01</span><span class="comp-label">Énoncer et appliquer le théorème de Pythagore</span></div>
-        <div class="comp-item"><span class="comp-code">GEO02</span><span class="comp-label">Calculer l&rsquo;hypoténuse d&rsquo;un triangle rectangle</span></div>
-        <div class="comp-item"><span class="comp-code">GEO03</span><span class="comp-label">Calculer une racine carrée</span></div>
-      </div></td>
-      <td class="obj">Maîtriser Pythagore et les racines carrées</td>
+      <td>4C02</td>
+      <td>Th&eacute;or&egrave;me de Pythagore</td>
+      <td>GEO</td>
+      <td>
+        4C02-GEO01 &mdash; &Eacute;noncer et appliquer le th&eacute;or&egrave;me de Pythagore<br>
+        4C02-GEO02 &mdash; Calculer l&rsquo;hypot&eacute;nuse d&rsquo;un triangle rectangle<br>
+        4C02-GEO03 &mdash; Calculer une racine carr&eacute;e
+      </td>
+      <td>Ma&icirc;triser Pythagore et les racines carr&eacute;es</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S03</span></td>
-      <td class="titre">Produits et quotients de relatifs</td>
-      <td><span class="theme">CALC</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">CALC01</span><span class="comp-label">Déterminer le signe d&rsquo;un produit</span></div>
-        <div class="comp-item"><span class="comp-code">CALC02</span><span class="comp-label">Multiplier des nombres relatifs</span></div>
-        <div class="comp-item"><span class="comp-code">CALC03</span><span class="comp-label">Diviser des nombres relatifs</span></div>
-      </div></td>
-      <td class="obj">Ma&icirc;triser les quatre op&eacute;rations sur &#8484;</td>
+      <td>4C03</td>
+      <td>Produits et quotients de relatifs</td>
+      <td>CALC</td>
+      <td>
+        4C03-CALC01 &mdash; D&eacute;terminer le signe d&rsquo;un produit<br>
+        4C03-CALC02 &mdash; Multiplier des nombres relatifs<br>
+        4C03-CALC03 &mdash; Diviser des nombres relatifs
+      </td>
+      <td>Ma&icirc;triser les quatre op&eacute;rations sur &#8484;</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S04</span></td>
-      <td class="titre">Op&eacute;rations sur les fractions</td>
-      <td><span class="theme">NUM</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">NUM04</span><span class="comp-label">Simplifier et comparer des fractions</span></div>
-        <div class="comp-item"><span class="comp-code">NUM05</span><span class="comp-label">Additionner et soustraire des fractions</span></div>
-        <div class="comp-item"><span class="comp-code">NUM06</span><span class="comp-label">Multiplier des fractions</span></div>
-      </div></td>
-      <td class="obj">Op&eacute;rer sur les fractions avec aisance</td>
+      <td>4C04</td>
+      <td>Op&eacute;rations sur les fractions</td>
+      <td>NUM</td>
+      <td>
+        4C04-NUM04 &mdash; Simplifier et comparer des fractions<br>
+        4C04-NUM05 &mdash; Additionner et soustraire des fractions<br>
+        4C04-NUM06 &mdash; Multiplier des fractions
+      </td>
+      <td>Op&eacute;rer sur les fractions avec aisance</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S05</span></td>
-      <td class="titre">R&eacute;ciproque de Pythagore</td>
-      <td><span class="theme">GEO</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">GEO04</span><span class="comp-label">Rappeler l&rsquo;&eacute;galit&eacute; de Pythagore</span></div>
-        <div class="comp-item"><span class="comp-code">GEO05</span><span class="comp-label">Appliquer la r&eacute;ciproque pour montrer qu&rsquo;un triangle est rectangle</span></div>
-        <div class="comp-item"><span class="comp-code">GEO06</span><span class="comp-label">R&eacute;soudre des probl&egrave;mes avec la r&eacute;ciproque</span></div>
-      </div></td>
-      <td class="obj">Utiliser la r&eacute;ciproque de Pythagore</td>
+      <td>4C05</td>
+      <td>R&eacute;ciproque de Pythagore</td>
+      <td>GEO</td>
+      <td>
+        4C05-GEO04 &mdash; Rappeler l&rsquo;&eacute;galit&eacute; de Pythagore<br>
+        4C05-GEO05 &mdash; Appliquer la r&eacute;ciproque pour montrer qu&rsquo;un triangle est rectangle<br>
+        4C05-GEO06 &mdash; R&eacute;soudre des probl&egrave;mes avec la r&eacute;ciproque
+      </td>
+      <td>Utiliser la r&eacute;ciproque de Pythagore</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S06</span></td>
-      <td class="titre">Statistiques descriptives</td>
-      <td><span class="theme">STAT</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">STAT01</span><span class="comp-label">Calculer &eacute;tendue et fr&eacute;quence</span></div>
-        <div class="comp-item"><span class="comp-code">STAT02</span><span class="comp-label">Calculer la moyenne d&rsquo;une s&eacute;rie</span></div>
-        <div class="comp-item"><span class="comp-code">STAT03</span><span class="comp-label">D&eacute;terminer la m&eacute;diane</span></div>
-      </div></td>
-      <td class="obj">D&eacute;crire une s&eacute;rie de donn&eacute;es</td>
+      <td>4C06</td>
+      <td>Statistiques descriptives</td>
+      <td>STAT</td>
+      <td>
+        4C06-STAT01 &mdash; Calculer &eacute;tendue et fr&eacute;quence<br>
+        4C06-STAT02 &mdash; Calculer la moyenne d&rsquo;une s&eacute;rie<br>
+        4C06-STAT03 &mdash; D&eacute;terminer la m&eacute;diane
+      </td>
+      <td>D&eacute;crire une s&eacute;rie de donn&eacute;es</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S07</span></td>
-      <td class="titre">Puissances</td>
-      <td><span class="theme">NUM</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">NUM07</span><span class="comp-label">Calculer des produits et quotients de puissances</span></div>
-        <div class="comp-item"><span class="comp-code">NUM08</span><span class="comp-label">Calculer des puissances de puissances</span></div>
-        <div class="comp-item"><span class="comp-code">NUM09</span><span class="comp-label">Utiliser les puissances de 10 et l&rsquo;&eacute;criture d&eacute;cimale</span></div>
-      </div></td>
-      <td class="obj">Ma&icirc;triser le calcul avec les puissances</td>
+      <td>4C07</td>
+      <td>Puissances</td>
+      <td>NUM</td>
+      <td>
+        4C07-NUM07 &mdash; Calculer des produits et quotients de puissances<br>
+        4C07-NUM08 &mdash; Calculer des puissances de puissances<br>
+        4C07-NUM09 &mdash; Utiliser les puissances de 10 et l&rsquo;&eacute;criture d&eacute;cimale
+      </td>
+      <td>Ma&icirc;triser le calcul avec les puissances</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S08</span></td>
-      <td class="titre">Proportionnalit&eacute;</td>
-      <td><span class="theme">PROP</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">PROP01</span><span class="comp-label">Reconna&icirc;tre une situation proportionnelle</span></div>
-        <div class="comp-item"><span class="comp-code">PROP02</span><span class="comp-label">Utiliser coefficient et produit en croix</span></div>
-        <div class="comp-item"><span class="comp-code">PROP03</span><span class="comp-label">R&eacute;soudre des probl&egrave;mes de proportionnalit&eacute;</span></div>
-      </div></td>
-      <td class="obj">Approfondir le raisonnement proportionnel</td>
+      <td>4C08</td>
+      <td>Proportionnalit&eacute;</td>
+      <td>PROP</td>
+      <td>
+        4C08-PROP01 &mdash; Reconna&icirc;tre une situation proportionnelle<br>
+        4C08-PROP02 &mdash; Utiliser coefficient et produit en croix<br>
+        4C08-PROP03 &mdash; R&eacute;soudre des probl&egrave;mes de proportionnalit&eacute;
+      </td>
+      <td>Approfondir le raisonnement proportionnel</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S09</span></td>
-      <td class="titre">P&eacute;rim&egrave;tres et aires</td>
-      <td><span class="theme">MEAS</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">MEAS01</span><span class="comp-label">Calculer le p&eacute;rim&egrave;tre de figures compos&eacute;es</span></div>
-        <div class="comp-item"><span class="comp-code">MEAS02</span><span class="comp-label">Calculer l&rsquo;aire de figures compos&eacute;es</span></div>
-        <div class="comp-item"><span class="comp-code">MEAS03</span><span class="comp-label">Choisir la bonne formule selon la figure</span></div>
-      </div></td>
-      <td class="obj">G&eacute;n&eacute;raliser le calcul d&rsquo;aires et p&eacute;rim&egrave;tres</td>
+      <td>4C09</td>
+      <td>P&eacute;rim&egrave;tres et aires</td>
+      <td>MEAS</td>
+      <td>
+        4C09-MEAS01 &mdash; Calculer le p&eacute;rim&egrave;tre de figures compos&eacute;es<br>
+        4C09-MEAS02 &mdash; Calculer l&rsquo;aire de figures compos&eacute;es<br>
+        4C09-MEAS03 &mdash; Choisir la bonne formule selon la figure
+      </td>
+      <td>G&eacute;n&eacute;raliser le calcul d&rsquo;aires et p&eacute;rim&egrave;tres</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S10</span></td>
-      <td class="titre">Sommes de fractions (d&eacute;nom. diff&eacute;rents)</td>
-      <td><span class="theme">NUM</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">NUM10</span><span class="comp-label">D&eacute;composer et r&eacute;duire au m&ecirc;me d&eacute;nominateur</span></div>
-        <div class="comp-item"><span class="comp-code">NUM11</span><span class="comp-label">Additionner des fractions &agrave; d&eacute;nominateurs multiples</span></div>
-        <div class="comp-item"><span class="comp-code">NUM12</span><span class="comp-label">Additionner des fractions relatives</span></div>
-      </div></td>
-      <td class="obj">Consolider les sommes de fractions</td>
+      <td>4C10</td>
+      <td>Sommes de fractions (d&eacute;nom. diff&eacute;rents)</td>
+      <td>NUM</td>
+      <td>
+        4C10-NUM10 &mdash; D&eacute;composer et r&eacute;duire au m&ecirc;me d&eacute;nominateur<br>
+        4C10-NUM11 &mdash; Additionner des fractions &agrave; d&eacute;nominateurs multiples<br>
+        4C10-NUM12 &mdash; Additionner des fractions relatives
+      </td>
+      <td>Consolider les sommes de fractions</td>
     </tr>
     <tr>
-      <td><span class="seq">4e-S11</span></td>
-      <td class="titre">Calcul litt&eacute;ral</td>
-      <td><span class="theme">ALG</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">ALG01</span><span class="comp-label">Substituer une valeur dans une expression litt&eacute;rale</span></div>
-        <div class="comp-item"><span class="comp-code">ALG02</span><span class="comp-label">Utiliser des programmes de calcul</span></div>
-        <div class="comp-item"><span class="comp-code">ALG03</span><span class="comp-label">R&eacute;duire et ordonner une expression alg&eacute;brique</span></div>
-      </div></td>
-      <td class="obj">Introduire l&rsquo;alg&egrave;bre formelle</td>
+      <td>4C11</td>
+      <td>Calcul litt&eacute;ral</td>
+      <td>ALG</td>
+      <td>
+        4C11-ALG01 &mdash; Substituer une valeur dans une expression litt&eacute;rale<br>
+        4C11-ALG02 &mdash; Utiliser des programmes de calcul<br>
+        4C11-ALG03 &mdash; R&eacute;duire et ordonner une expression alg&eacute;brique
+      </td>
+      <td>Introduire l&rsquo;alg&egrave;bre formelle</td>
+    </tr>
+    <tr>
+      <td>4C12</td>
+      <td>Probabilit&eacute;s</td>
+      <td>STAT</td>
+      <td>
+        4C12-STAT04 &mdash; D&eacute;terminer les issues possibles d&rsquo;une exp&eacute;rience al&eacute;atoire<br>
+        4C12-STAT05 &mdash; Calculer une probabilit&eacute; par d&eacute;nombrement<br>
+        4C12-STAT06 &mdash; Utiliser la notion d&rsquo;&eacute;v&eacute;nement contraire
+      </td>
+      <td>Approfondir le calcul des probabilit&eacute;s</td>
     </tr>
   </tbody>
 </table>
-</main>
 </body>
 </html>
