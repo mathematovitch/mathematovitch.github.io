@@ -1,8 +1,10 @@
 * 6ème
-- [ ] 
-- [ ] 
-    
+- [ ] Progression détaillée 
+- [ ] Ranger
+      
 * 4ème
-- [ ] cours calcul littéral
-- [ ] exercices calcul littéral
-- [ ] controles calcul littéral    
+- [ ] Ranger
+
+
+* NSA
+- [ ] Bout de gomme PDF + automatismes
