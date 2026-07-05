@@ -94,8 +94,6 @@ for dir in "${dir_array[@]}"; do
          -I "index.html|*.tex" \
          -o index.html
 
-    sleep 0.25
-
     sed -i \
         's|<a href="././">.</a><br>|<a href="https://outerovitch-maths.github.io/">↰</a><br>|' \
         index.html
@@ -119,13 +117,9 @@ tree -H './' \
      --charset utf-8 \
      -o index.html
 
-sleep 0.25
-
 sed -i \
     's|<a href="./\([^"]*\)/">|<a href="./\1/index.html">|g' \
     index.html
-
-sleep 0.25
 
 sed -i \
     '/<head>/a<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />' \
