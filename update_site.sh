@@ -3,7 +3,6 @@
 unset -f cd
 
 DIR=${1:-.}
-MAX_DEPTH=5
 
 ########################################
 # DELETE LATEX JUNK FILES
@@ -64,7 +63,7 @@ export -f rename_safe
 # RENAME FILES
 ########################################
 
-find "$DIR" -depth -maxdepth "$MAX_DEPTH" \( -type f -o -type d \) \
+find "$DIR" -depth \( -type f -o -type d \) \
     | while read -r item; do
         rename_safe "$item"
     done
@@ -86,7 +85,6 @@ for dir in "${dir_array[@]}"; do
     cd "$dir" || continue
 
     tree -H './' \
-         -L 2 \
          --noreport \
          --dirsfirst \
          -T "Cours de Maths/$dir" \
