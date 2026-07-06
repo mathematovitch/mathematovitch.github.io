@@ -1,0 +1,57 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{progtable}[2026/07/06 Tables de progression Maths]
+
+\RequirePackage[margin=1.5cm]{geometry}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{array}
+\RequirePackage{longtable}
+\RequirePackage{textcomp}
+\RequirePackage{amssymb}
+
+% La source .tex utilise des caractères Unicode "bruts" (ℕ, ℤ, −, …) plutôt
+% que des commandes LaTeX, pour rester du texte simple recopié tel quel par
+% gen_html.py. On mappe ici les quelques symboles non couverts nativement
+% par utf8.def vers leur rendu LaTeX.
+\DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb{N}}}
+\DeclareUnicodeCharacter{2124}{\ensuremath{\mathbb{Z}}}
+\DeclareUnicodeCharacter{2212}{\textminus}
+
+\renewcommand{\arraystretch}{1.15}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% \progheader{Nom long}{Label court}
+% Ex: \progheader{Sixième}{6e}
+\newcommand{\progheader}[2]{%
+  \begin{center}
+    {\large\bfseries Progression Maths --- #1 (#2)}
+  \end{center}
+  \vspace{0.5em}
+}
+
+% Conteneur de la table de progression
+\newenvironment{proglist}{%
+  \begin{longtable}{|l|p{3.2cm}|l|p{7cm}|p{3.8cm}|}
+  \hline
+  \textbf{Séquence} & \textbf{Titre} & \textbf{Thème} & \textbf{Compétences} & \textbf{Objectif principal} \\
+  \hline
+  \endhead
+}{%
+  \end{longtable}
+}
+
+% \seq{ID}{Titre}{Thème}{Objectif}{ \item ... \item ... }
+% Une ligne de séquence. Le 5e argument (les compétences, un \item par ligne)
+% doit rester entre accolades : une ligne de tableau ne peut pas être coupée
+% entre deux appels de macro séparés (\halign ne le supporte pas proprement
+% avec des colonnes p{}), donc toute la ligne est construite d'un seul coup.
+\newcommand{\seq}[5]{%
+  #1 & #2 & #3 &
+  \begin{itemize}\itemsep0pt\parskip0pt\parsep0pt
+  #5
+  \end{itemize}
+  & #4 \\
+  \hline
+}
+
+\endinput

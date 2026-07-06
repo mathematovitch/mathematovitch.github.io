@@ -91,7 +91,7 @@ for dir in "${dir_array[@]}"; do
          --dirsfirst \
          -T "Cours de Maths/$dir" \
          --charset utf-8 \
-         -I "index.html|*.tex" \
+         -I "index.html|*.tex|*.sty" \
          -o index.html
 
     sed -i \

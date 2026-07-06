@@ -3,135 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Progression 3e &mdash; Maths</title>
+<title>Progression 3e — Maths</title>
 <style>
-:root{
-  --cn:#FAECE7;--cnb:#993C1D;--cnt:#712B13;
-  --bg:#f8f7f4;--surface:#fff;--border:rgba(0,0,0,.1);
-  --text:#1a1a18;--muted:#6b6a65;--mono:'Courier New',monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);}
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;}
-header a{color:var(--muted);font-size:.85rem;}
-header h1{font-size:1.1rem;font-weight:600;}
-.badge-niv{display:inline-block;background:var(--cn);color:var(--cnt);border:1px solid var(--cnb);
-  font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:20px;}
-main{max-width:960px;margin:0 auto;padding:2rem;}
-table{width:100%;border-collapse:collapse;background:var(--surface);
-  border-radius:10px;overflow:hidden;border:1px solid var(--border);}
-thead th{background:var(--cn);color:var(--cnt);padding:.65rem .9rem;
-  text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.02em;
-  border-bottom:1px solid var(--cnb);}
-tbody tr{border-bottom:.5px solid var(--border);}
-tbody tr:last-child{border-bottom:none;}
-tbody tr:hover{background:#fdf0eb;}
-td{padding:.75rem .9rem;vertical-align:top;font-size:.82rem;}
-.seq{font-family:var(--mono);font-size:.75rem;color:var(--muted);white-space:nowrap;}
-.titre{font-weight:600;font-size:.85rem;}
-.theme{display:inline-block;font-family:var(--mono);font-size:.7rem;font-weight:600;
-  padding:.2rem .5rem;border-radius:4px;background:var(--cn);color:var(--cnt);border:1px solid var(--cnb);}
-.comp-list{display:flex;flex-direction:column;gap:5px;}
-.comp-item{display:flex;align-items:flex-start;gap:6px;}
-.comp-code{font-family:var(--mono);font-size:.7rem;font-weight:600;
-  background:var(--cn);color:var(--cnt);padding:.15rem .4rem;
-  border-radius:3px;white-space:nowrap;border:1px solid var(--cnb);}
-.comp-label{color:var(--muted);font-size:.78rem;line-height:1.4;}
-.obj{color:var(--muted);font-size:.78rem;font-style:italic;}
-@media print{
-  body{background:#fff;}
-  header a{display:none;}
-  thead th{background:#FAECE7 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .theme,.comp-code{background:#FAECE7 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-}
+body{font-family:monospace,sans-serif;color:#000;background:#fff;margin:2rem;}
+a{color:#000;}
+a:hover{text-decoration:underline;}
+h1{font-size:1.1rem;margin:0 0 1rem 0;}
+table{border-collapse:collapse;width:100%;}
+th,td{border:1px solid #000;padding:.4rem .6rem;text-align:left;vertical-align:top;font-size:.85rem;}
 </style>
 </head>
 <body>
-<header>
-  <a href="../index.html">&larr; Retour</a>
-  <span class="badge-niv">3e</span>
-  <h1>Progression Maths &mdash; Troisi&egrave;me</h1>
-</header>
-<main>
+<a href="../index.html">← Retour</a>
+<h1>Progression Maths — Troisième</h1>
 <table>
   <thead>
     <tr>
-      <th style="width:9%">S&eacute;quence</th>
-      <th style="width:22%">Titre</th>
-      <th style="width:7%">Th&egrave;me</th>
-      <th style="width:38%">Comp&eacute;tences</th>
-      <th style="width:24%">Objectif principal</th>
+      <th>Séquence</th>
+      <th>Titre</th>
+      <th>Thème</th>
+      <th>Compétences</th>
+      <th>Objectif principal</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><span class="seq">3e-S01</span></td>
-      <td class="titre">Identit&eacute;s remarquables</td>
-      <td><span class="theme">ALG</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">ALG01</span><span class="comp-label">D&eacute;velopper (a+b)&sup2; et (a&minus;b)&sup2;</span></div>
-        <div class="comp-item"><span class="comp-code">ALG02</span><span class="comp-label">Factoriser avec les identit&eacute;s remarquables</span></div>
-        <div class="comp-item"><span class="comp-code">ALG03</span><span class="comp-label">Simplifier des expressions complexes</span></div>
-      </div></td>
-      <td class="obj">Ma&icirc;triser les identit&eacute;s remarquables</td>
+      <td>3C01</td>
+      <td>Identités remarquables</td>
+      <td>ALG</td>
+      <td>
+        3C01-ALG01 — Développer (a+b)² et (a−b)²<br>
+        3C01-ALG02 — Factoriser avec les identités remarquables<br>
+        3C01-ALG03 — Simplifier des expressions complexes
+      </td>
+      <td>Maîtriser les identités remarquables</td>
     </tr>
     <tr>
-      <td><span class="seq">3e-S02</span></td>
-      <td class="titre">Syst&egrave;mes d&rsquo;&eacute;quations lin&eacute;aires</td>
-      <td><span class="theme">ALG</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">ALG04</span><span class="comp-label">R&eacute;soudre par substitution</span></div>
-        <div class="comp-item"><span class="comp-code">ALG05</span><span class="comp-label">R&eacute;soudre par combinaison lin&eacute;aire</span></div>
-        <div class="comp-item"><span class="comp-code">ALG06</span><span class="comp-label">Mod&eacute;liser un probl&egrave;me par un syst&egrave;me</span></div>
-      </div></td>
-      <td class="obj">R&eacute;soudre des syst&egrave;mes 2&times;2</td>
+      <td>3C02</td>
+      <td>Systèmes d’équations linéaires</td>
+      <td>ALG</td>
+      <td>
+        3C02-ALG04 — Résoudre par substitution<br>
+        3C02-ALG05 — Résoudre par combinaison linéaire<br>
+        3C02-ALG06 — Modéliser un problème par un système
+      </td>
+      <td>Résoudre des systèmes 2×2</td>
     </tr>
     <tr>
-      <td><span class="seq">3e-S03</span></td>
-      <td class="titre">Fonctions &mdash; notion et repr&eacute;sentation</td>
-      <td><span class="theme">FUNC</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">FUNC01</span><span class="comp-label">Comprendre la notion de fonction</span></div>
-        <div class="comp-item"><span class="comp-code">FUNC02</span><span class="comp-label">Lire et tracer une courbe repr&eacute;sentative</span></div>
-        <div class="comp-item"><span class="comp-code">FUNC03</span><span class="comp-label">Distinguer fonction lin&eacute;aire et affine</span></div>
-      </div></td>
-      <td class="obj">Introduire la notion de fonction</td>
+      <td>3C03</td>
+      <td>Fonctions — notion et représentation</td>
+      <td>FUNC</td>
+      <td>
+        3C03-FUNC01 — Comprendre la notion de fonction<br>
+        3C03-FUNC02 — Lire et tracer une courbe représentative<br>
+        3C03-FUNC03 — Distinguer fonction linéaire et affine
+      </td>
+      <td>Introduire la notion de fonction</td>
     </tr>
     <tr>
-      <td><span class="seq">3e-S04</span></td>
-      <td class="titre">G&eacute;om&eacute;trie &mdash; Thal&egrave;s et similitude</td>
-      <td><span class="theme">GEO</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">GEO01</span><span class="comp-label">Appliquer le th&eacute;or&egrave;me de Thal&egrave;s</span></div>
-        <div class="comp-item"><span class="comp-code">GEO02</span><span class="comp-label">Utiliser la similitude dans les triangles</span></div>
-        <div class="comp-item"><span class="comp-code">GEO03</span><span class="comp-label">Appliquer Pythagore en 3D</span></div>
-      </div></td>
-      <td class="obj">G&eacute;n&eacute;raliser les th&eacute;or&egrave;mes en espace</td>
+      <td>3C04</td>
+      <td>Géométrie — Thalès et similitude</td>
+      <td>GEO</td>
+      <td>
+        3C04-GEO01 — Appliquer le théorème de Thalès<br>
+        3C04-GEO02 — Utiliser la similitude dans les triangles<br>
+        3C04-GEO03 — Appliquer Pythagore en 3D
+      </td>
+      <td>Généraliser les théorèmes en espace</td>
     </tr>
     <tr>
-      <td><span class="seq">3e-S05</span></td>
-      <td class="titre">Probabilit&eacute;s &mdash; calculs et arbres</td>
-      <td><span class="theme">STAT</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">STAT01</span><span class="comp-label">Calculer une probabilit&eacute; par d&eacute;nombrement</span></div>
-        <div class="comp-item"><span class="comp-code">STAT02</span><span class="comp-label">Construire et lire un arbre de probabilit&eacute;s</span></div>
-        <div class="comp-item"><span class="comp-code">STAT03</span><span class="comp-label">Aborder les probabilit&eacute;s conditionnelles simples</span></div>
-      </div></td>
-      <td class="obj">Raisonner sur des &eacute;v&eacute;nements al&eacute;atoires</td>
+      <td>3C05</td>
+      <td>Probabilités — calculs et arbres</td>
+      <td>STAT</td>
+      <td>
+        3C05-STAT01 — Calculer une probabilité par dénombrement<br>
+        3C05-STAT02 — Construire et lire un arbre de probabilités<br>
+        3C05-STAT03 — Aborder les probabilités conditionnelles simples
+      </td>
+      <td>Raisonner sur des événements aléatoires</td>
     </tr>
     <tr>
-      <td><span class="seq">3e-S06</span></td>
-      <td class="titre">R&eacute;visions brevet &mdash; r&eacute;solution de probl&egrave;mes</td>
-      <td><span class="theme">BREV</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">BREV01</span><span class="comp-label">Mobiliser plusieurs notions dans un probl&egrave;me</span></div>
-        <div class="comp-item"><span class="comp-code">BREV02</span><span class="comp-label">R&eacute;diger une d&eacute;monstration compl&egrave;te</span></div>
-        <div class="comp-item"><span class="comp-code">BREV03</span><span class="comp-label">Communiquer et argumenter math&eacute;matiquement</span></div>
-      </div></td>
-      <td class="obj">Pr&eacute;parer le DNB en situation complexe</td>
+      <td>3C06</td>
+      <td>Révisions brevet — résolution de problèmes</td>
+      <td>BREV</td>
+      <td>
+        3C06-BREV01 — Mobiliser plusieurs notions dans un problème<br>
+        3C06-BREV02 — Rédiger une démonstration complète<br>
+        3C06-BREV03 — Communiquer et argumenter mathématiquement
+      </td>
+      <td>Préparer le DNB en situation complexe</td>
     </tr>
   </tbody>
 </table>
-</main>
 </body>
 </html>

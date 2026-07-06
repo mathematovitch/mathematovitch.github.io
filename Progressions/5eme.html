@@ -3,135 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Progression 5e &mdash; Maths</title>
+<title>Progression 5e — Maths</title>
 <style>
-:root{
-  --cn:#EAF3DE;--cnb:#3B6D11;--cnt:#27500A;
-  --bg:#f8f7f4;--surface:#fff;--border:rgba(0,0,0,.1);
-  --text:#1a1a18;--muted:#6b6a65;--mono:'Courier New',monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);}
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 2rem;display:flex;align-items:center;gap:1rem;}
-header a{color:var(--muted);font-size:.85rem;}
-header h1{font-size:1.1rem;font-weight:600;}
-.badge-niv{display:inline-block;background:var(--cn);color:var(--cnt);border:1px solid var(--cnb);
-  font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:20px;}
-main{max-width:960px;margin:0 auto;padding:2rem;}
-table{width:100%;border-collapse:collapse;background:var(--surface);
-  border-radius:10px;overflow:hidden;border:1px solid var(--border);}
-thead th{background:var(--cn);color:var(--cnt);padding:.65rem .9rem;
-  text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.02em;
-  border-bottom:1px solid var(--cnb);}
-tbody tr{border-bottom:.5px solid var(--border);}
-tbody tr:last-child{border-bottom:none;}
-tbody tr:hover{background:#f2fae8;}
-td{padding:.75rem .9rem;vertical-align:top;font-size:.82rem;}
-.seq{font-family:var(--mono);font-size:.75rem;color:var(--muted);white-space:nowrap;}
-.titre{font-weight:600;font-size:.85rem;}
-.theme{display:inline-block;font-family:var(--mono);font-size:.7rem;font-weight:600;
-  padding:.2rem .5rem;border-radius:4px;background:var(--cn);color:var(--cnt);border:1px solid var(--cnb);}
-.comp-list{display:flex;flex-direction:column;gap:5px;}
-.comp-item{display:flex;align-items:flex-start;gap:6px;}
-.comp-code{font-family:var(--mono);font-size:.7rem;font-weight:600;
-  background:var(--cn);color:var(--cnt);padding:.15rem .4rem;
-  border-radius:3px;white-space:nowrap;border:1px solid var(--cnb);}
-.comp-label{color:var(--muted);font-size:.78rem;line-height:1.4;}
-.obj{color:var(--muted);font-size:.78rem;font-style:italic;}
-@media print{
-  body{background:#fff;}
-  header a{display:none;}
-  thead th{background:#EAF3DE !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .theme,.comp-code{background:#EAF3DE !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-}
+body{font-family:monospace,sans-serif;color:#000;background:#fff;margin:2rem;}
+a{color:#000;}
+a:hover{text-decoration:underline;}
+h1{font-size:1.1rem;margin:0 0 1rem 0;}
+table{border-collapse:collapse;width:100%;}
+th,td{border:1px solid #000;padding:.4rem .6rem;text-align:left;vertical-align:top;font-size:.85rem;}
 </style>
 </head>
 <body>
-<header>
-  <a href="../index.html">&larr; Retour</a>
-  <span class="badge-niv">5e</span>
-  <h1>Progression Maths &mdash; Cinqui&egrave;me</h1>
-</header>
-<main>
+<a href="../index.html">← Retour</a>
+<h1>Progression Maths — Cinquième</h1>
 <table>
   <thead>
     <tr>
-      <th style="width:9%">S&eacute;quence</th>
-      <th style="width:22%">Titre</th>
-      <th style="width:7%">Th&egrave;me</th>
-      <th style="width:38%">Comp&eacute;tences</th>
-      <th style="width:24%">Objectif principal</th>
+      <th>Séquence</th>
+      <th>Titre</th>
+      <th>Thème</th>
+      <th>Compétences</th>
+      <th>Objectif principal</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><span class="seq">5e-S01</span></td>
-      <td class="titre">Nombres relatifs &mdash; introduction</td>
-      <td><span class="theme">NUM</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">NUM01</span><span class="comp-label">Comprendre et situer les nombres relatifs</span></div>
-        <div class="comp-item"><span class="comp-code">NUM02</span><span class="comp-label">Comparer et ordonner des relatifs</span></div>
-        <div class="comp-item"><span class="comp-code">NUM03</span><span class="comp-label">Repr&eacute;senter sur une droite gradu&eacute;e</span></div>
-      </div></td>
-      <td class="obj">Introduire l&rsquo;ensemble &#8484; et la notion de signe</td>
+      <td>5C01</td>
+      <td>Nombres relatifs — introduction</td>
+      <td>NUM</td>
+      <td>
+        5C01-NUM01 — Comprendre et situer les nombres relatifs<br>
+        5C01-NUM02 — Comparer et ordonner des relatifs<br>
+        5C01-NUM03 — Représenter sur une droite graduée
+      </td>
+      <td>Introduire l’ensemble ℤ et la notion de signe</td>
     </tr>
     <tr>
-      <td><span class="seq">5e-S02</span></td>
-      <td class="titre">Addition et soustraction de relatifs</td>
-      <td><span class="theme">CALC</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">CALC01</span><span class="comp-label">Additionner des nombres relatifs</span></div>
-        <div class="comp-item"><span class="comp-code">CALC02</span><span class="comp-label">Soustraire des nombres relatifs</span></div>
-        <div class="comp-item"><span class="comp-code">CALC03</span><span class="comp-label">Simplifier une somme alg&eacute;brique</span></div>
-      </div></td>
-      <td class="obj">Ma&icirc;triser additions et soustractions sur &#8484;</td>
+      <td>5C02</td>
+      <td>Addition et soustraction de relatifs</td>
+      <td>CALC</td>
+      <td>
+        5C02-CALC01 — Additionner des nombres relatifs<br>
+        5C02-CALC02 — Soustraire des nombres relatifs<br>
+        5C02-CALC03 — Simplifier une somme algébrique
+      </td>
+      <td>Maîtriser additions et soustractions sur ℤ</td>
     </tr>
     <tr>
-      <td><span class="seq">5e-S03</span></td>
-      <td class="titre">G&eacute;om&eacute;trie &mdash; triangles et angles</td>
-      <td><span class="theme">GEO</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">GEO01</span><span class="comp-label">Utiliser les propri&eacute;t&eacute;s des triangles</span></div>
-        <div class="comp-item"><span class="comp-code">GEO02</span><span class="comp-label">Calculer des angles (droites transversales)</span></div>
-        <div class="comp-item"><span class="comp-code">GEO03</span><span class="comp-label">Construire la m&eacute;diatrice et la bissectrice</span></div>
-      </div></td>
-      <td class="obj">Approfondir la g&eacute;om&eacute;trie des triangles</td>
+      <td>5C03</td>
+      <td>Géométrie — triangles et angles</td>
+      <td>GEO</td>
+      <td>
+        5C03-GEO01 — Utiliser les propriétés des triangles<br>
+        5C03-GEO02 — Calculer des angles (droites transversales)<br>
+        5C03-GEO03 — Construire la médiatrice et la bissectrice
+      </td>
+      <td>Approfondir la géométrie des triangles</td>
     </tr>
     <tr>
-      <td><span class="seq">5e-S04</span></td>
-      <td class="titre">Fractions &mdash; op&eacute;rations</td>
-      <td><span class="theme">NUM</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">NUM04</span><span class="comp-label">Additionner des fractions (m&ecirc;me d&eacute;nom.)</span></div>
-        <div class="comp-item"><span class="comp-code">NUM05</span><span class="comp-label">R&eacute;duire au m&ecirc;me d&eacute;nominateur</span></div>
-        <div class="comp-item"><span class="comp-code">NUM06</span><span class="comp-label">Multiplier et diviser des fractions</span></div>
-      </div></td>
-      <td class="obj">Calculer avec les fractions</td>
+      <td>5C04</td>
+      <td>Fractions — opérations</td>
+      <td>NUM</td>
+      <td>
+        5C04-NUM04 — Additionner des fractions (même dénom.)<br>
+        5C04-NUM05 — Réduire au même dénominateur<br>
+        5C04-NUM06 — Multiplier et diviser des fractions
+      </td>
+      <td>Calculer avec les fractions</td>
     </tr>
     <tr>
-      <td><span class="seq">5e-S05</span></td>
-      <td class="titre">Aires et p&eacute;rim&egrave;tres &mdash; figures compos&eacute;es</td>
-      <td><span class="theme">MEAS</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">MEAS01</span><span class="comp-label">Calculer aire et p&eacute;rim&egrave;tre du disque</span></div>
-        <div class="comp-item"><span class="comp-code">MEAS02</span><span class="comp-label">D&eacute;composer des figures complexes</span></div>
-        <div class="comp-item"><span class="comp-code">MEAS03</span><span class="comp-label">Distinguer p&eacute;rim&egrave;tre et aire</span></div>
-      </div></td>
-      <td class="obj">Calculer sur des figures compos&eacute;es</td>
+      <td>5C05</td>
+      <td>Aires et périmètres — figures composées</td>
+      <td>MEAS</td>
+      <td>
+        5C05-MEAS01 — Calculer aire et périmètre du disque<br>
+        5C05-MEAS02 — Décomposer des figures complexes<br>
+        5C05-MEAS03 — Distinguer périmètre et aire
+      </td>
+      <td>Calculer sur des figures composées</td>
     </tr>
     <tr>
-      <td><span class="seq">5e-S06</span></td>
-      <td class="titre">Probabilit&eacute;s et statistiques</td>
-      <td><span class="theme">STAT</span></td>
-      <td><div class="comp-list">
-        <div class="comp-item"><span class="comp-code">STAT01</span><span class="comp-label">Calculer une fr&eacute;quence</span></div>
-        <div class="comp-item"><span class="comp-code">STAT02</span><span class="comp-label">Lire et construire un tableau statistique</span></div>
-        <div class="comp-item"><span class="comp-code">STAT03</span><span class="comp-label">Introduction &agrave; la notion de probabilit&eacute;</span></div>
-      </div></td>
-      <td class="obj">Initier &agrave; la pens&eacute;e statistique</td>
+      <td>5C06</td>
+      <td>Probabilités et statistiques</td>
+      <td>STAT</td>
+      <td>
+        5C06-STAT01 — Calculer une fréquence<br>
+        5C06-STAT02 — Lire et construire un tableau statistique<br>
+        5C06-STAT03 — Introduction à la notion de probabilité
+      </td>
+      <td>Initier à la pensée statistique</td>
     </tr>
   </tbody>
 </table>
-</main>
 </body>
 </html>
