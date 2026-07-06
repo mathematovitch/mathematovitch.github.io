@@ -15,7 +15,7 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 ├── Sixieme              # Cours/exercices de 6e, organisés par séquence (S01, S02, ...)
 ├── Quatrieme             # Cours/exercices de 4e, organisés par séquence (S01, S02, ...)
 ├── Utils                # Documents utilitaires (grilles, tables, suivi corrections, DNL)
-├── generate_indexes.sh  # Script de génération des index.html et de nettoyage des noms de fichiers
+├── update_site.sh       # Script de génération des index.html et de nettoyage des noms de fichiers
 └── favicon.ico
 ```
 
@@ -27,7 +27,7 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 
 ### Génération des index
 
-`generate_indexes.sh` :
+`update_site.sh` :
 1. supprime les fichiers indésirables générés par LaTeX (`.aux`, `.log`, `.toc`, ...) ;
 2. nettoie les noms de fichiers/dossiers (accents, espaces, caractères spéciaux) ;
 3. régénère les `index.html` de chaque sous-dossier et l'index racine via `tree`.
