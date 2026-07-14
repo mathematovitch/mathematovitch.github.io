@@ -125,6 +125,20 @@ sed -i \
 
 sed -i '/<p class="VERSION">/,/<\/p>/d' index.html
 
+# Remplace le <h1> par défaut par le bandeau ASCII de .scripts/title.txt,
+# uniquement sur l'index racine.
+if [[ -f .scripts/title.txt ]]; then
+    python3 - <<'PYEOF'
+with open('index.html', encoding='utf-8') as f:
+    html = f.read()
+with open('.scripts/title.txt', encoding='utf-8') as f:
+    banner = f.read().rstrip('\n')
+html = html.replace('<h1>Cours de Maths</h1>', f'<pre>\n{banner}\n</pre>')
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(html)
+PYEOF
+fi
+
 echo "Created general index"
 
 echo "All indexes successfully created."
