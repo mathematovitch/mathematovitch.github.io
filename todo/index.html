@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+<title>Todo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+  * { box-sizing: border-box; }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    background: #f2f0ef;
+    font-family: 'Fira Code', monospace;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    user-select: text;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  #toolbar {
+    background-color: #ffffffdd;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: saturate(180%) blur(8px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .sep { border-left: 1px solid #ccc; height: 20px; margin: 0 6px; }
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-family: inherit;
+  }
+  button:hover { background-color: #e0e0e0; }
+  button svg { width: 18px; height: 18px; fill: currentColor; }
+  #decreaseFontBtn, #increaseFontBtn { font-family: Arial, sans-serif; line-height: 1; user-select: none; }
+  #decreaseFontBtn { font-weight: 100; font-size: 18px; }
+  #increaseFontBtn { font-weight: 900; font-size: 24px; }
+  #editor {
+    flex: 1;
+    padding: 15px 20px;
+    font-size: 18px;
+    line-height: 1.5;
+    overflow-y: auto;
+    background-color: transparent;
+    outline: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 100%;
+    width: 100%;
+    max-width: 100vw;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: inherit;
+  }
+  .monospace-mode #editor { font-family: 'monospace', Consolas, Courier New, Monaco, sans-serif; font-weight: 800; }
+  body.dark-mode { background-color: #000000; color: #ffff8c; }
+  body.dark-mode #toolbar { background-color: #000000; border-bottom-color: #ffff8c; backdrop-filter: none; }
+  body.dark-mode .sep { border-left-color: #444; }
+  body.dark-mode button { color: #ffff8c; }
+  body.dark-mode button:hover { background-color: rgba(255,255,140,0.12); }
+  body.dark-mode #editor { color: #ffff8c; font-weight: 400; }
+
+  #status { font-size: 13px; display: flex; align-items: center; gap: 6px; padding: 0 4px; }
+  #statusDot { width: 9px; height: 9px; border-radius: 50%; background: #999; flex-shrink: 0; }
+  #status.synced #statusDot { background: #2ea640; }
+  #status.pending #statusDot, #status.saving #statusDot { background: #e0a020; }
+  #status.error #statusDot { background: #d02020; }
+  #status.offline #statusDot { background: #999; }
+
+  .modal, .backdrop {
+    position: fixed; z-index: 1000;
+  }
+  .backdrop { top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; }
+  .modal {
+    display: none;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: #f9f9f9; border: 1px solid #ccc; padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); z-index: 1001;
+    min-width: 280px; max-width: 90vw;
+  }
+  .modal h3 { margin-top: 0; }
+  .modal input[type="password"], .modal input[type="text"] {
+    width: 100%; padding: 6px; margin: 6px 0 10px; font-family: inherit;
+  }
+  .modal .row { display: flex; justify-content: flex-end; gap: 10px; }
+  .modal p.hint { font-size: 12px; color: #666; margin: 4px 0 0; }
+  .modal p.error { font-size: 12px; color: #b00; margin: 4px 0 0; }
+  body.dark-mode .modal { background: #111; border-color: #ffff8c; color: #ffff8c; }
+  body.dark-mode .modal p.hint { color: #ccc; }
+
+  @media (max-width: 720px) {
+    #toolbar { padding: 4px 8px; gap: 5px; font-size: 14px; }
+    button { padding: 5px 6px; font-size: 14px; }
+    #editor { font-size: 16px; padding: 10px 12px; }
+    #status span.label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="backdrop" id="modalBackdrop"></div>
+
+  <div class="modal" id="settingsModal">
+    <h3>Synchronisation GitHub</h3>
+    <label for="tokenInput">Token GitHub (scope <code>gist</code> uniquement)</label>
+    <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off" />
+    <p class="hint" id="gistLink"></p>
+    <p class="error" id="settingsError" style="display:none"></p>
+    <div class="row">
+      <button type="button" id="tokenClearBtn">Déconnecter</button>
+      <button type="button" id="tokenSaveBtn">Connecter</button>
+      <button type="button" id="settingsCloseBtn">Fermer</button>
+    </div>
+  </div>
+
+  <div id="toolbar" role="toolbar" aria-label="Barre d'outils">
+    <div class="group">
+      <button type="button" id="clearBtn" title="Tout effacer" aria-label="Tout effacer">
+        <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 16h18v2H3v-2zm5-9h8v2H8v-2z"/></svg>
+      </button>
+      <button type="button" id="openBtn" title="Importer un .txt" aria-label="Importer">
+        <svg viewBox="0 0 24 24"><path d="M20 6v12H4V6h16m0-2H4c-1.1 0-2 .9-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6c0-1.1-.9-2-2-2zM8 12l4-4 4 4H8z"/></svg>
+      </button>
+      <button type="button" id="exportBtn" title="Exporter en .txt" aria-label="Exporter">
+        <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v14a2 2 0 002 2h10c1.1 0 2-.9 2-2V7l-4-4zM7 19V5h8v4h-3v6H7z"/></svg>
+      </button>
+      <div class="sep"></div>
+      <button type="button" id="decreaseFontBtn" title="Réduire la police">A</button>
+      <button type="button" id="increaseFontBtn" title="Agrandir la police">A</button>
+      <div class="sep"></div>
+      <button type="button" id="fontSpaceBtn" title="Police proportionnelle / à chasse fixe" style="font-weight:bold;font-size:20px;">P/M</button>
+      <div class="sep"></div>
+      <button type="button" id="darkModeToggle" title="Mode sombre">
+        <svg viewBox="0 0 24 24"><path d="M 12,0 A 8 8 0 1 0 12, 24 A 14 14 0 0 1 12, 0"/></svg>
+      </button>
+    </div>
+    <div class="group">
+      <div id="status" class="offline"><span id="statusDot"></span><span class="label" id="statusLabel">hors ligne</span></div>
+      <button type="button" id="reloadBtn" title="Recharger depuis le gist" aria-label="Recharger">
+        <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08a6 6 0 11-1.38-6.36L13 11h7V4l-2.35 2.35z"/></svg>
+      </button>
+      <button type="button" id="settingsBtn" title="Connexion GitHub" aria-label="Réglages de synchronisation">
+        <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7zm7.43-2.5c0-.32-.03-.63-.07-.94l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7.3 7.3 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.9 9.84a.5.5 0 00.12.64l2.03 1.58c-.04.31-.07.62-.07.94s.03.63.07.94l-2.03 1.58a.5.5 0 00-.12.64l1.92 3.32c.14.24.42.32.6.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.23.1.51.02.6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58c.04-.31.07-.62.07-.94z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="editor" contenteditable="true" spellcheck="true" aria-label="Todo" role="textbox" aria-multiline="true"></div>
+
+  <input type="file" id="fileInput" accept=".txt" style="display:none" />
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const GIST_MARKER = 'outerovitch-todo-store-v1';
+    const GIST_FILENAME = 'todo.txt';
+    const LS_TOKEN = 'todoGhToken';
+    const LS_GIST_ID = 'todoGistId';
+    const LS_CACHE = 'todoLocalCache';
+    const LS_DARK = 'todoDarkMode';
+    const LS_MONO = 'todoMonospace';
+
+    const editor = document.getElementById('editor');
+    const clearBtn = document.getElementById('clearBtn');
+    const openBtn = document.getElementById('openBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const fileInput = document.getElementById('fileInput');
+    const decreaseFontBtn = document.getElementById('decreaseFontBtn');
+    const increaseFontBtn = document.getElementById('increaseFontBtn');
+    const fontSpaceBtn = document.getElementById('fontSpaceBtn');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const reloadBtn = document.getElementById('reloadBtn');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const tokenInput = document.getElementById('tokenInput');
+    const tokenSaveBtn = document.getElementById('tokenSaveBtn');
+    const tokenClearBtn = document.getElementById('tokenClearBtn');
+    const gistLink = document.getElementById('gistLink');
+    const settingsError = document.getElementById('settingsError');
+    const statusEl = document.getElementById('status');
+    const statusLabel = document.getElementById('statusLabel');
+
+    let ghToken = localStorage.getItem(LS_TOKEN) || '';
+    let syncTimer = null;
+
+    /* ---------- préférences d'affichage ---------- */
+    let isMonospace = localStorage.getItem(LS_MONO) === 'true';
+    if (isMonospace) {
+      document.body.classList.add('monospace-mode');
+      fontSpaceBtn.textContent = 'M/P';
+    } else {
+      fontSpaceBtn.textContent = 'P/M';
+    }
+    fontSpaceBtn.addEventListener('click', () => {
+      isMonospace = !isMonospace;
+      document.body.classList.toggle('monospace-mode', isMonospace);
+      fontSpaceBtn.textContent = isMonospace ? 'M/P' : 'P/M';
+      localStorage.setItem(LS_MONO, isMonospace);
+    });
+
+    let currentFontSize = 18;
+    function updateEditorFontSize() { editor.style.fontSize = currentFontSize + 'px'; }
+    decreaseFontBtn.addEventListener('click', () => { if (currentFontSize > 12) { currentFontSize -= 2; updateEditorFontSize(); } });
+    increaseFontBtn.addEventListener('click', () => { if (currentFontSize < 80) { currentFontSize += 2; updateEditorFontSize(); } });
+    updateEditorFontSize();
+
+    function setDarkMode(on) {
+      document.body.classList.toggle('dark-mode', on);
+      localStorage.setItem(LS_DARK, on ? 'true' : 'false');
+    }
+    darkModeToggle.addEventListener('click', () => setDarkMode(!document.body.classList.contains('dark-mode')));
+    if (localStorage.getItem(LS_DARK) === 'true') setDarkMode(true);
+
+    /* ---------- import / export manuels (secours, indépendants du gist) ---------- */
+    clearBtn.addEventListener('click', () => {
+      if (confirm('Tout effacer ? Cette action sera aussi synchronisée.')) {
+        editor.textContent = '';
+        onEditorChange();
+      }
+    });
+    openBtn.addEventListener('click', () => { fileInput.value = ''; fileInput.click(); });
+    fileInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => { editor.textContent = reader.result; onEditorChange(); };
+      reader.readAsText(file);
+    });
+    exportBtn.addEventListener('click', () => {
+      const blob = new Blob([editor.textContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'todo.txt';
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 0);
+    });
+
+    /* ---------- statut de synchro ---------- */
+    function setStatus(state, message) {
+      statusEl.className = state;
+      const labels = { synced: 'synchronisé', pending: 'modifié', saving: 'sauvegarde…', error: 'erreur', offline: 'hors ligne', loading: 'chargement…' };
+      statusLabel.textContent = message || labels[state] || state;
+      statusEl.title = message || '';
+    }
+
+    /* ---------- API GitHub (gist) ---------- */
+    async function ghFetch(path, opts = {}) {
+      const res = await fetch('https://api.github.com' + path, {
+        ...opts,
+        headers: {
+          'Authorization': 'token ' + ghToken,
+          'Accept': 'application/vnd.github+json',
+          ...(opts.headers || {})
+        }
+      });
+      if (!res.ok) {
+        let detail = '';
+        try { detail = (await res.json()).message || ''; } catch (e) {}
+        throw new Error('GitHub API ' + res.status + (detail ? ' : ' + detail : ''));
+      }
+      return res.status === 204 ? null : res.json();
+    }
+
+    async function resolveGistId() {
+      let id = localStorage.getItem(LS_GIST_ID);
+      if (id) return id;
+      for (let page = 1; page <= 5; page++) {
+        const gists = await ghFetch('/gists?per_page=100&page=' + page);
+        const found = gists.find(g => g.description === GIST_MARKER);
+        if (found) { localStorage.setItem(LS_GIST_ID, found.id); return found.id; }
+        if (gists.length < 100) break;
+      }
+      const created = await ghFetch('/gists', {
+        method: 'POST',
+        body: JSON.stringify({
+          description: GIST_MARKER,
+          public: false,
+          files: { [GIST_FILENAME]: { content: editor.textContent || '\n' } }
+        })
+      });
+      localStorage.setItem(LS_GIST_ID, created.id);
+      return created.id;
+    }
+
+    function showGistLink(id) {
+      gistLink.innerHTML = 'Gist : <a href="https://gist.github.com/' + id + '" target="_blank" rel="noopener noreferrer">' + id + '</a>';
+    }
+
+    async function loadFromGist() {
+      setStatus('loading');
+      const id = await resolveGistId();
+      showGistLink(id);
+      const gist = await ghFetch('/gists/' + id);
+      const file = gist.files[GIST_FILENAME];
+      const content = file ? file.content : '';
+      editor.textContent = (content === '\n') ? '' : content;
+      localStorage.setItem(LS_CACHE, editor.textContent);
+      setStatus('synced');
+    }
+
+    async function syncToGist() {
+      setStatus('saving');
+      const id = await resolveGistId();
+      showGistLink(id);
+      await ghFetch('/gists/' + id, {
+        method: 'PATCH',
+        body: JSON.stringify({ files: { [GIST_FILENAME]: { content: editor.textContent || '\n' } } })
+      });
+      setStatus('synced');
+    }
+
+    function onEditorChange() {
+      localStorage.setItem(LS_CACHE, editor.textContent);
+      if (!ghToken) { setStatus('offline'); return; }
+      setStatus('pending');
+      clearTimeout(syncTimer);
+      syncTimer = setTimeout(() => {
+        syncToGist().catch(err => { console.error(err); setStatus('error', err.message); });
+      }, 1500);
+    }
+    editor.addEventListener('input', onEditorChange);
+
+    reloadBtn.addEventListener('click', () => {
+      if (!ghToken) { openSettings(); return; }
+      loadFromGist().catch(err => { console.error(err); setStatus('error', err.message); });
+    });
+
+    /* ---------- panneau de connexion ---------- */
+    function openSettings() {
+      tokenInput.value = ghToken || '';
+      settingsError.style.display = 'none';
+      if (localStorage.getItem(LS_GIST_ID)) showGistLink(localStorage.getItem(LS_GIST_ID));
+      else gistLink.textContent = '';
+      settingsModal.style.display = 'block';
+      modalBackdrop.style.display = 'block';
+    }
+    function closeSettings() {
+      settingsModal.style.display = 'none';
+      modalBackdrop.style.display = 'none';
+    }
+    settingsBtn.addEventListener('click', openSettings);
+    settingsCloseBtn.addEventListener('click', closeSettings);
+    modalBackdrop.addEventListener('click', closeSettings);
+
+    tokenSaveBtn.addEventListener('click', async () => {
+      const val = tokenInput.value.trim();
+      if (!val) { settingsError.textContent = 'Colle un token.'; settingsError.style.display = 'block'; return; }
+      ghToken = val;
+      localStorage.setItem(LS_TOKEN, ghToken);
+      settingsError.style.display = 'none';
+      try {
+        await loadFromGist();
+        closeSettings();
+      } catch (err) {
+        console.error(err);
+        settingsError.textContent = 'Échec de connexion : ' + err.message;
+        settingsError.style.display = 'block';
+      }
+    });
+
+    tokenClearBtn.addEventListener('click', () => {
+      ghToken = '';
+      localStorage.removeItem(LS_TOKEN);
+      localStorage.removeItem(LS_GIST_ID);
+      tokenInput.value = '';
+      gistLink.textContent = '';
+      setStatus('offline');
+    });
+
+    /* ---------- démarrage ---------- */
+    const cached = localStorage.getItem(LS_CACHE);
+    if (cached !== null) editor.textContent = cached;
+    editor.focus();
+
+    if (ghToken) {
+      loadFromGist().catch(err => { console.error(err); setStatus('error', err.message); });
+    } else {
+      setStatus('offline');
+    }
+  });
+  </script>
+</body>
+</html>

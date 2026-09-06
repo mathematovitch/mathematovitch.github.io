@@ -77,7 +77,11 @@ echo "Renaming finished"
 dir_array=()
 
 for dir in */; do
-    dir_array+=("${dir%/}")
+    name="${dir%/}"
+    case "$name" in
+        dev|todo) continue ;;
+    esac
+    dir_array+=("$name")
 done
 
 for dir in "${dir_array[@]}"; do
@@ -113,6 +117,7 @@ tree -H './' \
      -T 'Cours de Maths' \
      -d \
      --charset utf-8 \
+     -I "dev|todo" \
      -o index.html
 
 sed -i \
