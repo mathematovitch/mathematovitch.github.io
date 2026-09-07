@@ -8,6 +8,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
   * { box-sizing: border-box; }
+  :root { --content-font-size: 18px; }
   body, html {
     margin: 0; padding: 0; height: 100%;
     background: #f2f0ef;
@@ -55,29 +56,105 @@
   #decreaseFontBtn, #increaseFontBtn { font-family: Arial, sans-serif; line-height: 1; user-select: none; }
   #decreaseFontBtn { font-weight: 100; font-size: 18px; }
   #increaseFontBtn { font-weight: 900; font-size: 24px; }
-  #editor {
+
+  #listBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 8px 20px;
+    border-bottom: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+  }
+  #listSelect {
+    font-family: inherit;
+    font-size: 15px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: inherit;
+    max-width: 60vw;
+  }
+  #listBar button svg { width: 16px; height: 16px; }
+
+  #newTaskForm { display: flex; gap: 8px; padding: 10px 20px; }
+  #newTaskInput {
     flex: 1;
-    padding: 15px 20px;
-    font-size: 18px;
-    line-height: 1.5;
-    overflow-y: auto;
-    background-color: transparent;
-    outline: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    max-height: 100%;
-    width: 100%;
-    max-width: 100vw;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    min-width: 0;
+    font-family: inherit;
+    font-size: var(--content-font-size);
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
     color: inherit;
   }
-  .monospace-mode #editor { font-family: 'monospace', Consolas, Courier New, Monaco, sans-serif; font-weight: 800; }
+  #newTaskForm button[type="submit"] { flex-shrink: 0; }
+
+  #taskList {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0;
+    padding: 6px 20px 40px;
+    list-style: none;
+    font-size: var(--content-font-size);
+  }
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 2px;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  .task-item:last-child { border-bottom: none; }
+  .task-checkbox { width: 19px; height: 19px; flex-shrink: 0; cursor: pointer; accent-color: #333; }
+  .task-text {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+    padding: 4px 6px;
+    border-radius: 3px;
+    cursor: text;
+  }
+  .task-text:hover, .task-text:focus { background: rgba(0,0,0,0.05); outline: none; }
+  .task-item.done .task-text { text-decoration: line-through; opacity: 0.5; }
+  .task-edit-input {
+    flex: 1;
+    min-width: 0;
+    font-family: inherit;
+    font-size: var(--content-font-size);
+    padding: 4px 6px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #fff;
+    color: inherit;
+  }
+  .task-delete { flex-shrink: 0; font-size: 20px; line-height: 1; color: #999; }
+  .task-delete:hover { color: #c00; background: #f0e0e0; }
+
+  #emptyState { flex: 1; padding: 40px 20px; text-align: center; opacity: 0.5; font-size: 15px; }
+
+  .monospace-mode #taskList, .monospace-mode #newTaskInput,
+  .monospace-mode .task-edit-input, .monospace-mode #listSelect {
+    font-family: 'monospace', Consolas, Courier New, Monaco, sans-serif;
+    font-weight: 800;
+  }
+
   body.dark-mode { background-color: #000000; color: #ffff8c; }
   body.dark-mode #toolbar { background-color: #000000; border-bottom-color: #ffff8c; backdrop-filter: none; }
   body.dark-mode .sep { border-left-color: #444; }
   body.dark-mode button { color: #ffff8c; }
   body.dark-mode button:hover { background-color: rgba(255,255,140,0.12); }
-  body.dark-mode #editor { color: #ffff8c; font-weight: 400; }
+  body.dark-mode #listBar { border-bottom-color: #444; }
+  body.dark-mode #listSelect, body.dark-mode #newTaskInput, body.dark-mode .task-edit-input {
+    background: #000; color: #ffff8c; border-color: #444;
+  }
+  body.dark-mode .task-item { border-bottom-color: #1a1a1a; }
+  body.dark-mode .task-checkbox { accent-color: #ffff8c; }
+  body.dark-mode .task-text:hover, body.dark-mode .task-text:focus { background: rgba(255,255,140,0.1); }
+  body.dark-mode .task-delete { color: #887; }
+  body.dark-mode .task-delete:hover { color: #ff8080; background: rgba(255,128,128,0.15); }
 
   #status { font-size: 13px; display: flex; align-items: center; gap: 6px; padding: 0 4px; }
   #statusDot { width: 9px; height: 9px; border-radius: 50%; background: #999; flex-shrink: 0; }
@@ -110,7 +187,8 @@
   @media (max-width: 720px) {
     #toolbar { padding: 4px 8px; gap: 5px; font-size: 14px; }
     button { padding: 5px 6px; font-size: 14px; }
-    #editor { font-size: 16px; padding: 10px 12px; }
+    #listBar, #newTaskForm, #taskList { padding-left: 10px; padding-right: 10px; }
+    #listSelect { max-width: 50vw; font-size: 13px; }
     #status span.label { display: none; }
   }
 </style>
@@ -134,7 +212,7 @@
 
   <div id="toolbar" role="toolbar" aria-label="Barre d'outils">
     <div class="group">
-      <button type="button" id="clearBtn" title="Tout effacer" aria-label="Tout effacer">
+      <button type="button" id="clearBtn" title="Vider la liste courante" aria-label="Vider la liste courante">
         <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 16h18v2H3v-2zm5-9h8v2H8v-2z"/></svg>
       </button>
       <button type="button" id="openBtn" title="Importer un .txt" aria-label="Importer">
@@ -164,7 +242,28 @@
     </div>
   </div>
 
-  <div id="editor" contenteditable="true" spellcheck="true" aria-label="Todo" role="textbox" aria-multiline="true"></div>
+  <div id="listBar" role="toolbar" aria-label="Gestion des listes">
+    <select id="listSelect" aria-label="Liste courante"></select>
+    <button type="button" id="addListBtn" title="Nouvelle liste" aria-label="Nouvelle liste">
+      <svg viewBox="0 0 24 24"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+    </button>
+    <button type="button" id="renameListBtn" title="Renommer la liste" aria-label="Renommer la liste">
+      <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>
+    </button>
+    <button type="button" id="deleteListBtn" title="Supprimer la liste" aria-label="Supprimer la liste">
+      <svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+    </button>
+  </div>
+
+  <form id="newTaskForm" autocomplete="off">
+    <input type="text" id="newTaskInput" placeholder="Nouvelle tâche…" aria-label="Nouvelle tâche" />
+    <button type="submit" title="Ajouter" aria-label="Ajouter la tâche">
+      <svg viewBox="0 0 24 24"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+    </button>
+  </form>
+
+  <ul id="taskList" aria-label="Tâches"></ul>
+  <p id="emptyState" hidden>Aucune tâche pour l'instant.</p>
 
   <input type="file" id="fileInput" accept=".txt" style="display:none" />
 
@@ -177,8 +276,17 @@
     const LS_CACHE = 'todoLocalCache';
     const LS_DARK = 'todoDarkMode';
     const LS_MONO = 'todoMonospace';
+    const LS_LAST_LIST = 'todoLastList';
+    const DEBOUNCE_MS = 2500;
 
-    const editor = document.getElementById('editor');
+    const listSelect = document.getElementById('listSelect');
+    const addListBtn = document.getElementById('addListBtn');
+    const renameListBtn = document.getElementById('renameListBtn');
+    const deleteListBtn = document.getElementById('deleteListBtn');
+    const newTaskForm = document.getElementById('newTaskForm');
+    const newTaskInput = document.getElementById('newTaskInput');
+    const taskListEl = document.getElementById('taskList');
+    const emptyStateEl = document.getElementById('emptyState');
     const clearBtn = document.getElementById('clearBtn');
     const openBtn = document.getElementById('openBtn');
     const exportBtn = document.getElementById('exportBtn');
@@ -202,6 +310,263 @@
 
     let ghToken = localStorage.getItem(LS_TOKEN) || '';
 
+    /* ---------- modèle de données : plusieurs listes, sérialisation façon org-mode ---------- */
+    let state = { lists: [], currentListId: null };
+    let uidCounter = 0;
+    function genId() { uidCounter++; return 'id' + uidCounter + Math.random().toString(36).slice(2, 8); }
+
+    function sanitizeInlineText(v) { return (v || '').replace(/[\r\n]+/g, ' ').trim(); }
+
+    function sortTasks(list) { list.tasks.sort((a, b) => (a.done ? 1 : 0) - (b.done ? 1 : 0)); }
+
+    function parseSerialized(text) {
+      const lists = [];
+      let current = null;
+      const lines = (text || '').split(/\r\n|\r|\n/);
+      for (const rawLine of lines) {
+        const line = rawLine.trimEnd();
+        const listMatch = /^\*\s+(.*)$/.exec(line);
+        if (listMatch) {
+          current = { id: genId(), name: sanitizeInlineText(listMatch[1]) || 'Sans titre', tasks: [] };
+          lists.push(current);
+          continue;
+        }
+        const taskMatch = /^-\s*\[([ xX])\]\s*(.*)$/.exec(line);
+        if (taskMatch) {
+          if (!current) {
+            current = { id: genId(), name: 'Sans titre', tasks: [] };
+            lists.push(current);
+          }
+          current.tasks.push({ id: genId(), text: sanitizeInlineText(taskMatch[2]), done: taskMatch[1].toLowerCase() === 'x' });
+        }
+        // toute autre ligne (vide, mal formée) est ignorée silencieusement
+      }
+      lists.forEach(sortTasks);
+      return lists;
+    }
+
+    function serializeLists(lists) {
+      return lists.map(list => {
+        const header = '* ' + (list.name || 'Sans titre');
+        const tasks = list.tasks.map(t => '- [' + (t.done ? 'X' : ' ') + '] ' + t.text).join('\n');
+        return tasks ? header + '\n' + tasks : header;
+      }).join('\n\n') + '\n';
+    }
+
+    function ensureAtLeastOneList() {
+      if (state.lists.length === 0) {
+        state.lists.push({ id: genId(), name: 'Sans titre', tasks: [] });
+      }
+      if (!state.lists.find(l => l.id === state.currentListId)) {
+        state.currentListId = state.lists[0].id;
+      }
+    }
+
+    function getCurrentList() { return state.lists.find(l => l.id === state.currentListId); }
+
+    function loadStateFromText(text) {
+      state.lists = parseSerialized(text);
+      const lastName = localStorage.getItem(LS_LAST_LIST);
+      const match = lastName ? state.lists.find(l => l.name === lastName) : null;
+      state.currentListId = match ? match.id : (state.lists[0] ? state.lists[0].id : null);
+      ensureAtLeastOneList();
+    }
+
+    /* ---------- rendu ---------- */
+    function renderListSelect() {
+      listSelect.innerHTML = '';
+      state.lists.forEach(l => {
+        const opt = document.createElement('option');
+        opt.value = l.id;
+        const open = l.tasks.filter(t => !t.done).length;
+        opt.textContent = l.name + (open ? ' (' + open + ')' : '');
+        if (l.id === state.currentListId) opt.selected = true;
+        listSelect.appendChild(opt);
+      });
+    }
+
+    function buildTaskRow(task) {
+      const li = document.createElement('li');
+      li.className = 'task-item' + (task.done ? ' done' : '');
+      li.dataset.id = task.id;
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'task-checkbox';
+      checkbox.checked = task.done;
+      checkbox.setAttribute('aria-label', task.done ? 'Marquer comme à faire' : 'Marquer comme fait');
+      checkbox.addEventListener('change', () => toggleTask(task.id));
+
+      const textSpan = document.createElement('span');
+      textSpan.className = 'task-text';
+      textSpan.textContent = task.text;
+      textSpan.tabIndex = 0;
+      textSpan.setAttribute('role', 'button');
+      textSpan.title = 'Cliquer pour modifier';
+      const startEdit = () => editTaskInline(task.id, li);
+      textSpan.addEventListener('click', startEdit);
+      textSpan.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); startEdit(); } });
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'task-delete';
+      delBtn.setAttribute('aria-label', 'Supprimer la tâche');
+      delBtn.title = 'Supprimer';
+      delBtn.textContent = '×';
+      delBtn.addEventListener('click', () => deleteTask(task.id));
+
+      li.appendChild(checkbox);
+      li.appendChild(textSpan);
+      li.appendChild(delBtn);
+      return li;
+    }
+
+    function editTaskInline(taskId, li) {
+      const list = getCurrentList();
+      const task = list && list.tasks.find(t => t.id === taskId);
+      if (!task) return;
+      const textSpan = li.querySelector('.task-text');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'task-edit-input';
+      input.value = task.text;
+      li.replaceChild(input, textSpan);
+      input.focus();
+      input.select();
+
+      let done = false;
+      function commit() {
+        if (done) return;
+        done = true;
+        const val = sanitizeInlineText(input.value);
+        if (val) task.text = val;
+        mutateState();
+      }
+      function cancel() {
+        if (done) return;
+        done = true;
+        render();
+      }
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); commit(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+      });
+      input.addEventListener('blur', commit);
+    }
+
+    function renderTaskList() {
+      const list = getCurrentList();
+      taskListEl.innerHTML = '';
+      if (!list || list.tasks.length === 0) {
+        taskListEl.hidden = true;
+        emptyStateEl.hidden = false;
+        return;
+      }
+      taskListEl.hidden = false;
+      emptyStateEl.hidden = true;
+      list.tasks.forEach(task => taskListEl.appendChild(buildTaskRow(task)));
+    }
+
+    function render() {
+      const active = document.activeElement;
+      let restoreId = null;
+      if (active && active.classList && active.classList.contains('task-checkbox')) {
+        const li = active.closest('li[data-id]');
+        if (li) restoreId = li.dataset.id;
+      }
+      renderListSelect();
+      renderTaskList();
+      if (restoreId) {
+        const li = taskListEl.querySelector('li[data-id="' + restoreId + '"]');
+        const cb = li && li.querySelector('.task-checkbox');
+        if (cb) cb.focus();
+      }
+    }
+
+    /* ---------- mutations ---------- */
+    function mutateState() {
+      localStorage.setItem(LS_CACHE, serializeLists(state.lists));
+      const current = getCurrentList();
+      if (current) localStorage.setItem(LS_LAST_LIST, current.name);
+      markDirty();
+      render();
+    }
+
+    function toggleTask(id) {
+      const list = getCurrentList();
+      const task = list && list.tasks.find(t => t.id === id);
+      if (!task) return;
+      task.done = !task.done;
+      sortTasks(list);
+      mutateState();
+    }
+
+    function addTask(rawText) {
+      const text = sanitizeInlineText(rawText);
+      if (!text) return;
+      const list = getCurrentList();
+      if (!list) return;
+      list.tasks.unshift({ id: genId(), text, done: false });
+      sortTasks(list);
+      mutateState();
+    }
+
+    function deleteTask(id) {
+      const list = getCurrentList();
+      if (!list) return;
+      list.tasks = list.tasks.filter(t => t.id !== id);
+      mutateState();
+    }
+
+    function addList() {
+      const name = prompt('Nom de la nouvelle liste :');
+      if (name === null) return;
+      const trimmed = sanitizeInlineText(name);
+      if (!trimmed) return;
+      const list = { id: genId(), name: trimmed, tasks: [] };
+      state.lists.push(list);
+      state.currentListId = list.id;
+      mutateState();
+    }
+
+    function renameCurrentList() {
+      const list = getCurrentList();
+      if (!list) return;
+      const name = prompt('Renommer la liste :', list.name);
+      if (name === null) return;
+      const trimmed = sanitizeInlineText(name);
+      if (!trimmed) return;
+      list.name = trimmed;
+      mutateState();
+    }
+
+    function deleteCurrentList() {
+      const list = getCurrentList();
+      if (!list) return;
+      if (!confirm('Supprimer la liste « ' + list.name + ' » et toutes ses tâches ?')) return;
+      state.lists = state.lists.filter(l => l.id !== list.id);
+      ensureAtLeastOneList();
+      mutateState();
+    }
+
+    listSelect.addEventListener('change', () => {
+      const list = state.lists.find(l => l.id === listSelect.value);
+      if (!list) return;
+      state.currentListId = list.id;
+      localStorage.setItem(LS_LAST_LIST, list.name);
+      render();
+    });
+    addListBtn.addEventListener('click', addList);
+    renameListBtn.addEventListener('click', renameCurrentList);
+    deleteListBtn.addEventListener('click', deleteCurrentList);
+
+    newTaskForm.addEventListener('submit', e => {
+      e.preventDefault();
+      addTask(newTaskInput.value);
+      newTaskInput.value = '';
+      newTaskInput.focus();
+    });
+
     /* ---------- préférences d'affichage ---------- */
     let isMonospace = localStorage.getItem(LS_MONO) === 'true';
     if (isMonospace) {
@@ -218,10 +583,10 @@
     });
 
     let currentFontSize = 18;
-    function updateEditorFontSize() { editor.style.fontSize = currentFontSize + 'px'; }
-    decreaseFontBtn.addEventListener('click', () => { if (currentFontSize > 12) { currentFontSize -= 2; updateEditorFontSize(); } });
-    increaseFontBtn.addEventListener('click', () => { if (currentFontSize < 80) { currentFontSize += 2; updateEditorFontSize(); } });
-    updateEditorFontSize();
+    function updateFontSize() { document.documentElement.style.setProperty('--content-font-size', currentFontSize + 'px'); }
+    decreaseFontBtn.addEventListener('click', () => { if (currentFontSize > 12) { currentFontSize -= 2; updateFontSize(); } });
+    increaseFontBtn.addEventListener('click', () => { if (currentFontSize < 80) { currentFontSize += 2; updateFontSize(); } });
+    updateFontSize();
 
     function setDarkMode(on) {
       document.body.classList.toggle('dark-mode', on);
@@ -232,9 +597,11 @@
 
     /* ---------- import / export manuels (secours, indépendants du gist) ---------- */
     clearBtn.addEventListener('click', () => {
-      if (confirm('Tout effacer ? Cette action sera aussi synchronisée.')) {
-        editor.textContent = '';
-        onEditorChange();
+      const list = getCurrentList();
+      if (!list || list.tasks.length === 0) return;
+      if (confirm('Vider la liste « ' + list.name + ' » ? Cette action sera aussi synchronisée.')) {
+        list.tasks = [];
+        mutateState();
       }
     });
     openBtn.addEventListener('click', () => { fileInput.value = ''; fileInput.click(); });
@@ -242,11 +609,11 @@
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = () => { editor.textContent = reader.result; onEditorChange(); };
+      reader.onload = () => { loadStateFromText(reader.result); mutateState(); };
       reader.readAsText(file);
     });
     exportBtn.addEventListener('click', () => {
-      const blob = new Blob([editor.textContent], { type: 'text/plain;charset=utf-8' });
+      const blob = new Blob([serializeLists(state.lists)], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url; a.download = 'todo.txt';
@@ -255,10 +622,10 @@
     });
 
     /* ---------- statut de synchro ---------- */
-    function setStatus(state, message) {
-      statusEl.className = state;
+    function setStatus(statusState, message) {
+      statusEl.className = statusState;
       const labels = { synced: 'synchronisé', pending: 'modifié', saving: 'sauvegarde…', error: 'erreur', offline: 'hors ligne', loading: 'chargement…' };
-      statusLabel.textContent = message || labels[state] || state;
+      statusLabel.textContent = message || labels[statusState] || statusState;
       statusEl.title = message || '';
     }
 
@@ -301,7 +668,7 @@
         body: JSON.stringify({
           description: GIST_MARKER,
           public: false,
-          files: { [GIST_FILENAME]: { content: editor.textContent || '\n' } }
+          files: { [GIST_FILENAME]: { content: serializeLists(state.lists) || '\n' } }
         })
       });
       localStorage.setItem(LS_GIST_ID, created.id);
@@ -319,8 +686,9 @@
       const gist = await ghFetch('/gists/' + id);
       const file = gist.files[GIST_FILENAME];
       const content = file ? file.content : '';
-      editor.textContent = (content === '\n') ? '' : content;
-      localStorage.setItem(LS_CACHE, editor.textContent);
+      loadStateFromText(content === '\n' ? '' : content);
+      localStorage.setItem(LS_CACHE, serializeLists(state.lists));
+      render();
       setStatus('synced');
     }
 
@@ -330,25 +698,28 @@
       showGistLink(id);
       await ghFetch('/gists/' + id, {
         method: 'PATCH',
-        body: JSON.stringify({ files: { [GIST_FILENAME]: { content: editor.textContent || '\n' } } })
+        body: JSON.stringify({ files: { [GIST_FILENAME]: { content: serializeLists(state.lists) || '\n' } } })
       });
       setStatus('synced');
     }
 
     let dirty = false;
-    function onEditorChange() {
-      localStorage.setItem(LS_CACHE, editor.textContent);
+    let debounceTimer = null;
+    function markDirty() {
       dirty = true;
       setStatus(ghToken ? 'pending' : 'offline');
+      if (!ghToken) return;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(flushSync, DEBOUNCE_MS);
     }
-    editor.addEventListener('input', onEditorChange);
 
     function flushSync() {
+      clearTimeout(debounceTimer);
       if (!ghToken || !dirty) return;
       dirty = false;
       syncToGist().catch(err => { console.error(err); dirty = true; setStatus('error', err.message); });
     }
-    // Pas de sauvegarde à chaque caractère : on synchronise seulement quand
+    // Filet de sécurité en plus du debounce : sauvegarde garantie quand
     // l'onglet passe en arrière-plan/se ferme (visibilitychange est le signal
     // fiable ; pagehide/beforeunload en secours).
     document.addEventListener('visibilitychange', () => {
@@ -405,9 +776,8 @@
     });
 
     /* ---------- démarrage ---------- */
-    const cached = localStorage.getItem(LS_CACHE);
-    if (cached !== null) editor.textContent = cached;
-    editor.focus();
+    loadStateFromText(localStorage.getItem(LS_CACHE) || '');
+    render();
 
     if (ghToken) {
       loadFromGist().catch(err => { console.error(err); setStatus('error', err.message); });
