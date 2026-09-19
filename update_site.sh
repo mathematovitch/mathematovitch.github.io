@@ -4,6 +4,13 @@ unset -f cd
 
 DIR=${1:-.}
 
+# Dossiers de niveau : chacun doit contenir un _Archive (créé s'il manque).
+LEVELS=(Sixieme Quatrieme)
+
+for level in "${LEVELS[@]}"; do
+    mkdir -p "$DIR/$level/_Archive"
+done
+
 ########################################
 # DELETE LATEX JUNK FILES
 ########################################
@@ -29,6 +36,9 @@ rename_safe() {
 
     local file
     file="$(basename "$path")"
+
+    # _Archive garde son nom (le nettoyage retirerait le "_" initial)
+    [[ "$file" == "_Archive" ]] && return
 
     # Convert accents -> ASCII
     local cleaned
@@ -101,6 +111,9 @@ for dir in "${dir_array[@]}"; do
         index.html
 
     sed -i '/<p class="VERSION">/,/<\/p>/d' index.html
+
+    # _Archive reste listé, mais sans son contenu
+    sed -i '\|href="\./\./_Archive/[^"]|d' index.html
 
     cd ../ || exit
 
