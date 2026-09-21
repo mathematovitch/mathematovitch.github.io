@@ -1,0 +1,104 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+\usetikzlibrary{calc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Notation des demi-droites}
+
+\setlength{\parindent}{0pt}
+
+% Demi-droite d'origine #1 passant par #2, prolongée au-delà de #2 (sans flèche)
+\newcommand{\demidroite}[2]{\draw[thick] (#1) -- ($(#1)!1.5!(#2)$);}
+
+\begin{document}
+
+\textbf{Exercice 1 : Tracer des demi-droites} \\
+À la règle, trace les demi-droites $[AB)$, $[BA)$, $[CD)$ et $[DE)$.
+
+\begin{center}
+\begin{tikzpicture}
+  \tkzDefPoint(0.5,0.6){A}
+  \tkzDefPoint(3.2,2.9){B}
+  \tkzDefPoint(4.8,0.4){C}
+  \tkzDefPoint(8.8,3.2){D}
+  \tkzDefPoint(6.5,4.0){E}
+  \tkzDrawPoints[shape=cross out,size=9](A,B,C,D,E)
+  \tkzLabelPoints[below=1.5mm](A,B,C,D,E)
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3cm}
+\textbf{Exercice 2 : Nommer des demi-droites} \\
+Écris le nom de chaque demi-droite tracée.
+
+\begin{center}
+\begin{tikzpicture}
+  \tkzDefPoint(0.3,4.3){A}
+  \tkzDefPoint(3.0,3.4){B}
+  \tkzDefPoint(4.9,3.9){C}
+  \tkzDefPoint(5.5,1.9){D}
+  \tkzDefPoint(0.3,0.6){E}
+  \tkzDefPoint(3.3,1.8){F}
+  \tkzDefPoint(7.2,3.8){G}
+  \tkzDefPoint(8.8,1.4){H}
+  \demidroite{B}{A}
+  \demidroite{C}{D}
+  \demidroite{F}{E}
+  \demidroite{G}{H}
+  \tkzDrawPoints[shape=cross out,size=9](A,B,C,D,E,F,G,H)
+  \tkzLabelPoints[above=1.5mm](A,B)
+  \tkzLabelPoints[left=1.5mm](C,D)
+  \tkzLabelPoints[below=1.5mm](E,F)
+  \tkzLabelPoints[right=1.5mm](G,H)
+  \node[circle,draw,inner sep=1.5pt] at ($(B)!1.75!(A)$) {1};
+  \node[circle,draw,inner sep=1.5pt] at ($(C)!1.75!(D)$) {2};
+  \node[circle,draw,inner sep=1.5pt] at ($(F)!1.75!(E)$) {3};
+  \node[circle,draw,inner sep=1.5pt] at ($(G)!1.75!(H)$) {4};
+\end{tikzpicture}
+\end{center}
+
+Demi-droite \circled{1} : $[\ldots\ldots)$ \hfill
+Demi-droite \circled{2} : $[\ldots\ldots)$ \hfill
+Demi-droite \circled{3} : $[\ldots\ldots)$ \hfill
+Demi-droite \circled{4} : $[\ldots\ldots)$
+
+\vspace{0.4cm}
+\textbf{Exercice 3 : Relier figure et notation} \\
+Relie chaque figure à sa notation.
+
+\begin{center}
+\begin{tikzpicture}
+  % Figures (colonne de gauche)
+  % segment [AB]
+  \draw[thick] (1.2,0) -- (3.4,0);
+  % droite (AB)
+  \draw[thick] (0.3,-1.5) -- (4.3,-1.5);
+  % demi-droite [AB)
+  \draw[thick] (1.2,-3) -- (4.3,-3);
+  % demi-droite [BA)
+  \draw[thick] (3.4,-4.5) -- (0.3,-4.5);
+  \foreach \y in {0,-1.5,-3,-4.5} {
+    \node[cross out,draw,minimum size=9pt,inner sep=0pt] at (1.2,\y) {};
+    \node[cross out,draw,minimum size=9pt,inner sep=0pt] at (3.4,\y) {};
+    \node[below=1.5mm] at (1.2,\y) {$A$};
+    \node[below=1.5mm] at (3.4,\y) {$B$};
+    \draw (5.8,\y) circle (2pt);
+    \draw (8.2,\y) circle (2pt);
+  }
+  % Notations (colonne de droite, dans le désordre)
+  \node[right] at (8.6,0) {$(AB)$};
+  \node[right] at (8.6,-1.5) {$[BA)$};
+  \node[right] at (8.6,-3) {$[AB]$};
+  \node[right] at (8.6,-4.5) {$[AB)$};
+\end{tikzpicture}
+\end{center}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
