@@ -1,0 +1,84 @@
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+\usetikzlibrary{calc}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{Notation des droites}
+
+\setlength{\parindent}{0pt}
+
+% Droite passant par #1 et #2, prolongée des deux côtés (sans flèche)
+\newcommand{\droite}[2]{\draw[thick] ($(#1)!-0.35!(#2)$) -- ($(#1)!1.35!(#2)$);}
+
+\begin{document}
+
+\textbf{Exercice 1 : Tracer des droites} \\
+À la règle, trace les droites $(AB)$, $(CD)$, $(BE)$ et $(AC)$.
+
+\begin{center}
+\begin{tikzpicture}
+  \tkzDefPoint(0.5,0.6){A}
+  \tkzDefPoint(3.2,2.9){B}
+  \tkzDefPoint(4.8,0.4){C}
+  \tkzDefPoint(8.8,3.2){D}
+  \tkzDefPoint(6.5,4.0){E}
+  \tkzDrawPoints[shape=cross out,size=9](A,B,C,D,E)
+  \tkzLabelPoints[below=1.5mm](A,B,C,D,E)
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3cm}
+\textbf{Exercice 2 : Nommer des droites} \\
+Écris le nom de chaque droite tracée.
+
+\begin{center}
+\begin{tikzpicture}
+  \tkzDefPoint(0.3,4.3){A}
+  \tkzDefPoint(3.0,3.4){B}
+  \tkzDefPoint(4.9,3.9){C}
+  \tkzDefPoint(5.5,1.9){D}
+  \tkzDefPoint(0.3,0.6){E}
+  \tkzDefPoint(3.3,1.8){F}
+  \tkzDefPoint(7.2,3.8){G}
+  \tkzDefPoint(8.8,1.4){H}
+  \droite{A}{B}
+  \droite{C}{D}
+  \droite{E}{F}
+  \droite{G}{H}
+  \tkzDrawPoints[shape=cross out,size=9](A,B,C,D,E,F,G,H)
+  \tkzLabelPoints[above=1.5mm](A,B)
+  \tkzLabelPoints[left=1.5mm](C,D)
+  \tkzLabelPoints[below=1.5mm](E,F)
+  \tkzLabelPoints[right=1.5mm](G,H)
+  \node[circle,draw,inner sep=1.5pt] at ($(A)!-0.6!(B)$) {1};
+  \node[circle,draw,inner sep=1.5pt] at ($(C)!-0.6!(D)$) {2};
+  \node[circle,draw,inner sep=1.5pt] at ($(E)!-0.6!(F)$) {3};
+  \node[circle,draw,inner sep=1.5pt] at ($(G)!-0.6!(H)$) {4};
+\end{tikzpicture}
+\end{center}
+
+Droite \circled{1} : $(\ldots\ldots)$ \hfill
+Droite \circled{2} : $(\ldots\ldots)$ \hfill
+Droite \circled{3} : $(\ldots\ldots)$ \hfill
+Droite \circled{4} : $(\ldots\ldots)$
+
+\vspace{0.4cm}
+\textbf{Exercice 3 : Tracer à partir des noms} \\
+Dans le carré, trace les droites $(AB)$, $(CD)$, $(EF)$ et $(d)$. \\
+Place les points et écris les noms.
+
+\begin{center}
+\begin{tikzpicture}
+  \draw[gray!70] (0,0) rectangle (6,6);
+\end{tikzpicture}
+\end{center}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:

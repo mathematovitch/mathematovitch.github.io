@@ -5,7 +5,7 @@
 \usepackage{Mathdoc}
 
 %% Numéro de séquence %% Titre de la séquence %%
-\renewcommand{\centerhead}{Chap. 2 : Points, droites, segments}
+\renewcommand{\centerhead}{Notation des points}
 
 \setlength{\parindent}{0pt}
 
@@ -33,7 +33,7 @@ Observe la figure, puis entoure Vrai ou Faux.
   \tkzDefPoint(6.8,0.5){F}
   \tkzDefPoint(1.7,-1.6){G}
   \tkzDrawPoints[shape=cross out,size=9](D,E,F,G)
-  \tkzLabelPoints(D,E,F,G)
+  \tkzLabelPoints[below=1.5mm](D,E,F,G)
 \end{tikzpicture}
 \end{center}
 
@@ -53,13 +53,13 @@ Certains points ci-dessous ne sont pas notés correctement. Entoure-les tous.
   \tkzDefPoint(4.8,0){B}
   \tkzDefPoint(9.6,0){E}
   \tkzDrawPoints[shape=cross out,size=9](A,B,E)
-  \tkzLabelPoints(A,B,E)
+  \tkzLabelPoints[below=1.5mm](A,B,E)
   \fill (2.4,0) circle (3.5pt);
-  \node[above] at (2.4,0.2) {$c$};
+  \node[below=1.5mm] at (2.4,0) {$c$};
   \fill (7.2,0) circle (3.5pt);
-  \node[above] at (7.2,0.2) {$D$};
+  \node[below=1.5mm] at (7.2,0) {$D$};
   \draw[thick] (12,0) circle (3.5pt);
-  \node[above] at (12,0.2) {$f$};
+  \node[below=1.5mm] at (12,0) {$f$};
 \end{tikzpicture}
 \end{center}
 
