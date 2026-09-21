@@ -3,6 +3,7 @@
 
 %% Load the custom package
 \usepackage{Mathdoc}
+\usetikzlibrary{arrows.meta}
 
 %% Numéro de séquence %% Titre de la séquence %%
 \renewcommand{\centerhead}{Chap. 2 : Points, droites, segments}
@@ -14,40 +15,93 @@
 \begin{document}
 
 \section{Points}
+
 \begin{definition}
-  En géométrie, un point est un objet sans taille ni dimension, souvent défini comme l'intersection de deux droites. Le point est défini uniquement par sa position.
+  Un point est une position exacte du plan, sans dimension.
 \end{definition}
 
 \begin{notation}
-  \begin{enuspaced}  
-  \item Il est représenté par une petite croix (un X) symbolisant
-    l'intersection de deux droites.  
-  \item Un point se note avec une lettre
-    en majuscule.
+  \begin{enuspaced}
+  \item On le représente par une croix.
+  \item On le nomme par une lettre \textbf{majuscule}.
   \end{enuspaced}
 \end{notation}
 
 \begin{exemple}
-Soit A un point du plan : \\ \\
-    \begin{tikzpicture}[scale=1.5]
-      \tkzDefPoint(4,0){A} \tkzDrawPoints[shape=cross out](A)
-      \tkzLabelPoints(A)
-    \end{tikzpicture}
+Trois points du plan : A, B et C. \\
+\begin{tikzpicture}[scale=1]
+  \tkzDefPoint(0,0){A}
+  \tkzDefPoint(2.5,1){B}
+  \tkzDefPoint(1.2,-0.6){C}
+  \tkzDrawPoints[shape=cross out](A,B,C)
+  \tkzLabelPoints(A,B,C)
+\end{tikzpicture}
 \end{exemple}
 
-\section{Segments}
+\section{Droites et demi-droites}
 
-  \begin{definition}
-    Un segment est l'ensemble des points alignés qui se situent entre
-    le point A et le point B.
-  \end{definition}
+\begin{definition}
+  Une droite est une infinité de points alignés, sans début ni fin.
+\end{definition}
 
-  \begin{vocabulaire}
-    Les points A et B sont les extrémités de ce segment.
-  \end{vocabulaire}
-  
 \begin{notation}
-Ce segment se note $[AB]$ ou $[BA]$, sa longueur se note $AB$ ou $BA$.
+  Elle se note $(AB)$ (deux points qu'elle traverse) ou $(d)$ (une
+  lettre minuscule). On la trace \textbf{à la règle}, avec une flèche
+  à chaque bout.
+\end{notation}
+
+\begin{definition}
+  Une demi-droite est une droite coupée en un point : son
+  \textbf{origine}. Un seul côté continue à l'infini.
+\end{definition}
+
+\begin{notation}
+  Elle se note $[AB)$ : $A$ est l'origine, la flèche est du côté de $B$.
+\end{notation}
+
+\begin{exemple}
+Mêmes points $A$ et $B$, trois objets différents : \\ \\
+\begin{center}
+\begin{tabular}{ccc}
+\begin{tikzpicture}[scale=0.9]
+  \tkzDefPoint(0,0){A}
+  \tkzDefPoint(2.5,0){B}
+  \draw[thick] (A) -- (B);
+  \tkzDrawPoints[shape=cross out](A,B)
+  \tkzLabelPoints[below](A,B)
+\end{tikzpicture}
+&
+\begin{tikzpicture}[scale=0.9]
+  \tkzDefPoint(0,0){A}
+  \tkzDefPoint(2.5,0){B}
+  \draw[thick,{Latex}-{Latex}] (-0.6,0) -- (3.1,0);
+  \tkzDrawPoints[shape=cross out](A,B)
+  \tkzLabelPoints[below](A,B)
+\end{tikzpicture}
+&
+\begin{tikzpicture}[scale=0.9]
+  \tkzDefPoint(0,0){A}
+  \tkzDefPoint(2.5,0){B}
+  \draw[thick,-{Latex}] (A) -- (3.1,0);
+  \tkzDrawPoints[shape=cross out](A,B)
+  \tkzLabelPoints[below](A,B)
+\end{tikzpicture}
+\\
+Segment $[AB]$ & Droite $(AB)$ & Demi-droite $[AB)$
+\end{tabular}
+\end{center}
+\end{exemple}
+
+\section{Segments et appartenance}
+
+\begin{definition}
+  Un segment est la portion de droite comprise entre deux points $A$
+  et $B$ : ses \textbf{extrémités}.
+\end{definition}
+
+\begin{notation}
+  On le note $[AB]$ (ou $[BA]$), sa longueur se note $AB$. Pas de
+  flèche : le trait s'arrête pile à $A$ et à $B$.
 \end{notation}
 
 \begin{exemple}
@@ -55,159 +109,69 @@ Ce segment se note $[AB]$ ou $[BA]$, sa longueur se note $AB$ ou $BA$.
       \input{.figures/segment1.txt}
 \end{exemple}
 
-\section{Appartenance à un segment}
-
 \begin{definition}
-Si C est un point du segment $[AB]$, on dit qu'il appartient au segment. \\
-On note $C\in [AB]$
+  $C$ \textbf{appartient} au segment $[AB]$ si $C$ est situé entre
+  $A$ et $B$, sur le segment. On note $C \in [AB]$. \\
+  Sinon, on note $D \notin [AB]$.
 \end{definition}
 
+\begin{exemple}
+  Soit $[AB]$ un segment, avec $C \in [AB]$ et $D \notin [AB]$ : \\
+      \input{.figures/segment2.txt}
+\end{exemple}
+
+\section{Appartenance à une droite, à une demi-droite}
+
+\begin{definition}
+  $C$ appartient à une droite $(d)$ si $C$ est l'un des points de
+  cette droite (n'importe où : la droite est infinie). On note $C \in (d)$.
+\end{definition}
+
+\begin{exemple}
+  Ici, $C \in (d)$ : \\
+\begin{tikzpicture}[scale=1.1]
+  \tkzDefPoint(0,0){A}
+  \tkzDefPoint(3,1.5){B}
+  \tkzDefPoint(2,1){C}
+  \draw[thick,{Latex}-{Latex}] (-0.9,-0.45) -- (3.9,1.95);
+  \tkzDrawPoints[shape=cross out](C)
+  \tkzLabelPoints[above](C)
+  \tkzLabelSegment[sloped,below](A,B){$(d)$}
+\end{tikzpicture}
+\end{exemple}
+
 \begin{remarque}
-Réciproquement, on note $D \notin [AB]$ pour D n'appartient pas à $[AB]$.
+  Un point de la droite $(AB)$ n'appartient pas forcément à la
+  demi-droite $[AB)$ !
 \end{remarque}
 
-\newpage
 \begin{exemple}
- Soit $[AB]$ un segment, avec $C \in [AB]$ et $D \notin [AB]$ : \\
-      \input{.figures/segment2.txt}
-  \end{exemple}
+  Ici, $C \in (AB)$ mais $C \notin [AB)$ : \\
+\begin{tikzpicture}[scale=1.1]
+  \tkzDefPoint(0,0){A}
+  \tkzDefPoint(2,1){B}
+  \tkzDefPoint(-1,-0.5){C}
+  \draw[thick,-{Latex}] (A) -- (3.6,1.8);
+  \tkzDrawPoints[shape=cross out](A,B,C)
+  \tkzLabelPoints[above](A,B,C)
+  \tkzLabelSegment[sloped,below](A,B){$[AB)$}
+\end{tikzpicture}
+\end{exemple}
 
 \section{Milieu d'un segment}
 
-  \begin{definition}
-    Le milieu d'un segment $[AB]$ est le point I, tel que :
-    \begin{enu}
-    \item $I \in [AB]$ (I appartient au segment)
-    \item $IA=IB$ (I est à égale distance de A et de B)
-    \end{enu}
-  \end{definition}
-  
-  \begin{exemple}
-    Soit $I$ le milieu du segment $[AB]$ : \\
+\begin{definition}
+  Le milieu d'un segment $[AB]$ est le point $I$ qui vérifie :
+  \begin{enu}
+  \item $I \in [AB]$ ($I$ appartient au segment) ;
+  \item $IA = IB$ ($I$ est à égale distance de $A$ et de $B$).
+  \end{enu}
+\end{definition}
+
+\begin{exemple}
+  Soit $I$ le milieu du segment $[AB]$ : \\
       \input{.figures/segment3.txt}
-  \end{exemple}
-
-\section{Droites}
-
-\begin{definition}
-  Une droite est composée d'une infinités de points alignés entre eux.
-\end{definition}
-
-\begin{notation}
-  On note une droite entre parenthèse, soit avec un couple de points
-  (en majuscule), soit avec une lettre en minuscule.
-\end{notation}
-
-\begin{exemple}
-Soit $(AB)$ la droite passant par les points A et B : \\
-\begin{tikzpicture}
-
-\tkzDefPoint(0,0){D}    
-\tkzDefPoint(1,0){A}
-\tkzDefPoint(6,0){B}
-\tkzDefPoint(7,0){F}
-
-\tkzDrawPoints[shape=cross out](A,B)
-
-\tkzLabelPoints(A,B)
-
-\tkzDrawSegments(D,F)
-
-\tkzLabelSegment[sloped, above](A,B){$(AB)$}
-
-\end{tikzpicture}
 \end{exemple}
-
-\begin{propriete}
-  Par deux points on peut faire passer une droite et une seule : c'est-à-dire que deux points sont toujours alignés.
-\end{propriete}
-
-\section{Appartenance à une droite}
-
-\begin{definition}
-Si C est un point de la droite $(d)$, on dit qu'il appartient à cette droite. \\
-On note $C\in (d)$
-\end{definition}
-
-\begin{exemple}
-Ici, on a bien $C \in (d)$ : \\
-\begin{tikzpicture} 
-    
-\tkzDefPoint(0,0){A}
-\tkzDefPoint(3,3){B}
-\tkzDefPoint(2,2){C}
-
-\tkzDrawPoint[shape=cross out](C)
-
-\tkzLabelPoints(C)
-
-\tkzDrawSegments(A,B)
-
-\tkzLabelSegment[sloped, above](A,B){$(d)$}
-
-\end{tikzpicture}
-\end{exemple}
-
-\section{Demi-droites}
-
-\begin{definition}
-Une demi-droite est une portion de droite limitée d'un seul côté par un point.
-\end{definition}
-
-\begin{vocabulaire}
-On appelle ce point, l'origine de la demi-droite.
-\end{vocabulaire}
-
-\begin{notation}
-On note la demi-droite avec deux points, fermés par un crochet $[$
-côté origine ; et une parenthèse $)$. 
-\end{notation}
-
-\begin{exemple}
-Soit $[DE)$ la demi-droite d'origine $E$ : \\
-\begin{tikzpicture}
-    
-\tkzDefPoint(0,0){D}
-\tkzDefPoint(4,2){E}
-\tkzDefPoint(6,3){F}
-
-\tkzDrawPoints[shape=cross out](D,E)
-
-\tkzLabelPoints(D,E)
-
-\tkzDrawSegments(D,F)
-
-\tkzLabelSegment[sloped, above](D,E){$[DE)$}
-\end{tikzpicture}
-\end{exemple}
-
-\begin{remarque}
-Un point appartenant à la droite $[AB]$, n'appartient pas
-nécessairement à la demi-droite $(AB]$.
-\end{remarque}
-
-
-\begin{exemple}
-  $C \in (AB)$ mais $C \notin (AB]$ :
-  
-\begin{tikzpicture}
-    
-\tkzDefPoint(2,1){A}
-\tkzDefPoint(4,2){B}
-\tkzDefPoint(5,2.5){C}
-\tkzDefPoint(0,0){D}
-\tkzDefPoint(6,3){F}
-
-\tkzDrawPoints[shape=cross out](A,B,C)
-
-\tkzLabelPoints(A,B,C)
-
-\tkzDrawSegments(D,F)
-
-\tkzLabelSegment[sloped, above](D,F){$(AB]$}
-\end{tikzpicture}
-\end{exemple}
-
 
 \end{document}
 
