@@ -28,6 +28,7 @@ a:hover{{text-decoration:underline;}}
 h1{{font-size:1.1rem;margin:0 0 1rem 0;}}
 table{{border-collapse:collapse;width:100%;}}
 th,td{{border:1px solid #000;padding:.4rem .6rem;text-align:left;vertical-align:top;font-size:.85rem;}}
+td.vac{{text-align:center;font-weight:bold;}}
 </style>
 </head>
 <body>
@@ -59,6 +60,10 @@ ROW_TEMPLATE = """    <tr>
         {items}
       </td>
       <td>{obj}</td>
+    </tr>"""
+
+VAC_TEMPLATE = """    <tr>
+      <td colspan="5" class="vac">{nom}</td>
     </tr>"""
 
 
@@ -103,35 +108,43 @@ def parse_tex(path):
     (long_name, short_name), _ = read_n_braced_args(text, m.end() - 1, 2)
 
     rows = []
-    for m in re.finditer(r"\\seq\{", text):
+    for m in re.finditer(r"\\(seq|vacances)\{", text):
+        if m.group(1) == "vacances":
+            (nom,), _ = read_n_braced_args(text, m.end() - 1, 1)
+            rows.append({"vacances": nom})
+            continue
         (id_, titre, theme, obj, items_body), _ = read_n_braced_args(text, m.end() - 1, 5)
         items = [it.strip() for it in items_body.split(r"\item") if it.strip()]
         rows.append({"id": id_, "titre": titre, "theme": theme, "obj": obj, "items": items})
 
-    if not rows:
+    if not any("id" in r for r in rows):
         raise ValueError(f"{path}: aucune séquence \\seq trouvée")
 
     return long_name, short_name, rows
 
 
+def render_row(r):
+    if "vacances" in r:
+        return VAC_TEMPLATE.format(nom=escape_html(r["vacances"]))
+    return ROW_TEMPLATE.format(
+        id=escape_html(r["id"]),
+        titre=escape_html(r["titre"]),
+        theme=escape_html(r["theme"]),
+        obj=escape_html(r["obj"]),
+        items="<br>\n        ".join(escape_html(it) for it in r["items"]),
+    )
+
+
 def render(path):
     long_name, short_name, rows = parse_tex(path)
-    rows_html = "\n".join(
-        ROW_TEMPLATE.format(
-            id=escape_html(r["id"]),
-            titre=escape_html(r["titre"]),
-            theme=escape_html(r["theme"]),
-            obj=escape_html(r["obj"]),
-            items="<br>\n        ".join(escape_html(it) for it in r["items"]),
-        )
-        for r in rows
-    )
+    rows_html = "\n".join(render_row(r) for r in rows)
     html = HTML_TEMPLATE.format(
         short=escape_html(short_name), long=escape_html(long_name), rows=rows_html
     )
     out = path.with_suffix(".html")
     out.write_text(html, encoding="utf-8")
-    print(f"{path.name} -> {out.name} ({len(rows)} séquences)")
+    n_seq = sum("id" in r for r in rows)
+    print(f"{path.name} -> {out.name} ({n_seq} séquences, {len(rows) - n_seq} vacances)")
 
 
 def main():

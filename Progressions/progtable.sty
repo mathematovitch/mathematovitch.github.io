@@ -15,6 +15,8 @@
 \DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb{N}}}
 \DeclareUnicodeCharacter{2124}{\ensuremath{\mathbb{Z}}}
 \DeclareUnicodeCharacter{2212}{\textminus}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\leq}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
 
 \renewcommand{\arraystretch}{1.15}
 \pagestyle{empty}
@@ -51,6 +53,13 @@
   #5
   \end{itemize}
   & #4 \\
+  \hline
+}
+
+% \vacances{Nom}
+% Ligne pleine largeur marquant une période de vacances entre deux séquences.
+\newcommand{\vacances}[1]{%
+  \multicolumn{5}{|c|}{\textbf{#1}} \\
   \hline
 }
 
