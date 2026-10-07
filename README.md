@@ -6,7 +6,7 @@ Site statique regroupant les cours, exercices et documents de mathématiques (co
 
 ## Architecture
 
-Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable via des pages d'index générées automatiquement. Chaque dossier contient un `index.html` produit par la commande `tree`, avec un lien de retour (`↰`) vers la page parente.
+Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable via des pages d'index générées automatiquement. Chaque dossier contient un `index.html` produit par `build.py` (fil d'Ariane, séquences repliables, recherche, aperçu de la 1re page des PDF au survol).
 
 ```
 .
@@ -15,7 +15,10 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 ├── Sixieme              # Cours/exercices de 6e, organisés par séquence (S01, S02, ...)
 ├── Quatrieme             # Cours/exercices de 4e, organisés par séquence (S01, S02, ...)
 ├── Utils                # Documents utilitaires (grilles, tables, suivi corrections, DNL)
-├── update_site.sh       # Script de génération des index.html et de nettoyage des noms de fichiers
+├── thumbs               # Vignettes des PDF (générées par build.py)
+├── build.py             # Construction du site : nettoyage, vignettes, index.html
+├── legacy               # Ancien site « tree » (index seulement), généré par build.sh
+├── build.sh             # Point d'entrée : build.py puis legacy/
 └── favicon.ico
 ```
 
@@ -27,10 +30,13 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 
 ### Génération des index
 
-`update_site.sh` :
+`./build.sh` (ou `python3 build.py` pour le nouveau site seul) :
 1. supprime les fichiers indésirables générés par LaTeX (`.aux`, `.log`, `.toc`, ...) ;
 2. nettoie les noms de fichiers/dossiers (accents, espaces, caractères spéciaux) ;
-3. régénère les `index.html` de chaque sous-dossier et l'index racine via `tree`.
+3. génère les vignettes des PDF dans `thumbs/` (nécessite `pdftoppm`, paquet poppler ; seuls les PDF nouveaux ou modifiés sont rendus) ;
+4. recompile les progressions (`Progressions/NIVEAU.pdf`) si leur `.tex` a changé ;
+5. régénère l'`index.html` de chaque dossier, l'accueil et la page 404 ;
+6. (`build.sh` seulement) régénère l'ancien site `tree` dans `legacy/`, accessible sur `/legacy/`.
 
 ## Déploiement
 

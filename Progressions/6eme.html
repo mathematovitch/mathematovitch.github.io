@@ -1,303 +1,187 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Progression 6e — Maths</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Progression Sixième — Cours de Maths</title>
+<link rel="icon" href="../favicon.ico">
 <style>
-body{font-family:monospace,sans-serif;color:#000;background:#fff;margin:2rem;}
-a{color:#000;}
-a:hover{text-decoration:underline;}
-h1{font-size:1.1rem;margin:0 0 1rem 0;}
-table{border-collapse:collapse;width:100%;}
-th,td{border:1px solid #000;padding:.4rem .6rem;text-align:left;vertical-align:top;font-size:.85rem;}
-td.vac{text-align:center;font-weight:bold;}
+:root{--bg:#fafaf9;--fg:#1c1c1a;--mut:#6b6b66;--line:#e4e3df;--card:#fff;
+--acc:#2547d0;--hover:#f1f0ec;--pill:#efeee9;
+--t-cours:#2547d0;--t-act:#8a5a00;--t-ex:#1f7a4d;--t-ds:#b3261e;--t-res:#6b6b66}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#e9e8e4;--mut:#9a9993;
+--line:#2c2c2a;--card:#1d1d1b;--acc:#8aa4ff;--hover:#252523;--pill:#2a2a28;
+--t-cours:#8aa4ff;--t-act:#e0b45c;--t-ex:#6fcf9b;--t-ds:#ff8a80;--t-res:#9a9993}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+.mono,code{font-family:ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+.wrap.wide{max-width:1200px}
+header.top{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+header.top .wrap{display:flex;align-items:center;gap:12px;height:52px}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;color:var(--mut);min-width:0}
+.crumbs a:hover{color:var(--fg)}
+.crumbs .sep{opacity:.5}
+.crumbs .cur{color:var(--fg);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home{margin-left:auto;font-size:13px;color:var(--mut);border:1px solid var(--line);
+border-radius:6px;padding:3px 9px;white-space:nowrap}
+.home:hover{color:var(--fg);background:var(--hover)}
+main{padding:28px 0 64px}
+h1{font-size:26px;letter-spacing:-.01em;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 24px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);
+font-weight:600;margin:36px 0 10px}
+.banner{font-size:9px;line-height:1.15;color:var(--fg);margin:0 0 6px;overflow:hidden;white-space:pre}
+/* cartes accueil */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;
+padding:16px 16px 14px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--acc);transform:translateY(-1px)}
+.card .t{font-weight:600;font-size:17px;display:flex;justify-content:space-between;align-items:center}
+.card .t .ext{color:var(--mut);font-size:13px;font-weight:400}
+.card .d{color:var(--mut);font-size:13px;margin-top:4px}
+/* listes */
+.list{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+a.row:hover,.row a.main:hover{background:var(--hover)}
+.row .ico{width:18px;flex:none;text-align:center;color:var(--mut)}
+.row .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .meta{color:var(--mut);font-size:12.5px;white-space:nowrap}
+.pill{font-size:11px;font-weight:600;padding:1px 7px;border-radius:99px;background:var(--pill);
+white-space:nowrap;flex:none;min-width:44px;text-align:center}
+/* séquences */
+.tools{display:flex;gap:8px;margin:0 0 14px}
+.tools input{flex:1;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;
+background:var(--card);color:var(--fg);outline:none}
+.tools input:focus{border-color:var(--acc)}
+.tools button{font:inherit;font-size:13px;padding:0 12px;border:1px solid var(--line);
+border-radius:8px;background:var(--card);color:var(--mut);cursor:pointer}
+.tools button:hover,.tools .btn:hover{color:var(--fg);background:var(--hover)}
+.tools .btn{display:flex;align-items:center;font-size:13px;padding:0 12px;border:1px solid var(--line);
+border-radius:8px;background:var(--card);color:var(--mut);white-space:nowrap}
+.doc.skill code{color:var(--mut);font-size:12px;flex:none;width:8em}
+.godocs{display:block;padding:8px 14px 10px;font-size:13px;color:var(--acc);border-top:1px dashed var(--line)}
+.godocs:hover{background:var(--hover)}
+.meta.soon{font-style:italic}
+.row a.main{padding:2px 0}
+.row a.dl{border:1px solid var(--line);border-radius:6px;padding:1px 8px}
+.row a.dl:hover{color:var(--fg);background:var(--hover)}
+/* tableau de progression */
+.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+.progtab th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--bg)}
+.progtab td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+.progtab tbody tr:first-child td{border-top:0}
+.progtab tbody tr:not(.vacrow):hover td{background:var(--hover)}
+.progtab td.id{color:var(--mut);font-size:12.5px;white-space:nowrap}
+.progtab td.tt{font-weight:600;min-width:150px}
+.progtab td.tt a:hover{color:var(--acc)}
+.progtab td.tt .ext{color:var(--mut);font-weight:400;font-size:12px}
+.progtab .cnt{font-weight:400;font-size:12px;color:var(--mut);margin-top:2px}
+.progtab .cnt.soon{font-style:italic}
+.progtab ul{list-style:none;margin:0;padding:0}
+.progtab li{padding:1px 0}
+.progtab li code{color:var(--mut);font-size:11.5px;margin-right:4px}
+.progtab td.goal{color:var(--mut);font-style:italic;min-width:160px}
+.progtab tr.vacrow td{text-align:center;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);background:var(--bg);padding:7px}
+.progtab tr:target td{background:var(--hover)}
+/* bouton « copier le lien » d'une séquence */
+.lnk{font:inherit;font-size:13px;color:var(--mut);background:none;border:0;cursor:pointer;
+padding:0 4px;border-radius:4px;opacity:0;transition:opacity .12s}
+summary:hover .lnk,.lnk:focus-visible,.lnk.ok{opacity:1}
+.lnk:hover{color:var(--fg);background:var(--pill)}
+@media (hover:none){.lnk{opacity:1}}
+@media print{.tablewrap{border:0;overflow:visible}table.progtab{min-width:0}header.top,.tools,.chev,.godocs,#pv{display:none!important}
+body{background:#fff;color:#000;font-size:12px}main{padding:0}
+details.seq{break-inside:avoid;border-color:#ccc}}
+details.seq{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;scroll-margin-top:64px}
+details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 14px;user-select:none}
+details.seq>summary::-webkit-details-marker{display:none}
+details.seq>summary:hover{background:var(--hover)}
+details.seq>summary .num{color:var(--mut);font-size:13px;width:2.2em}
+details.seq>summary .tt{flex:1;font-weight:600}
+details.seq>summary .chev{color:var(--mut);transition:transform .15s}
+details.seq[open]>summary .chev{transform:rotate(90deg)}
+details.seq[open]>summary{border-bottom:1px solid var(--line)}
+.grp{padding:6px 0 4px}
+.grp+.grp{border-top:1px dashed var(--line)}
+.grp h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;margin:6px 14px 2px;font-weight:600}
+.doc{display:flex;align-items:center;gap:10px;padding:5px 14px 5px 14px}
+.doc:hover{background:var(--hover)}
+.doc .id{color:var(--mut);font-size:12.5px;width:2.6em;flex:none}
+.doc .name{flex:1;min-width:0}
+.doc .meta{color:var(--mut);font-size:12px}
+.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
+.c-ds{color:var(--t-ds)}.c-res{color:var(--t-res)}
+.seq.archive{opacity:.7}
+.theme{font-size:10.5px;color:var(--mut);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.seq.upcoming{display:flex;align-items:center;gap:12px;padding:9px 14px;margin-bottom:8px;
+border:1px dashed var(--line);border-radius:10px;color:var(--mut)}
+.seq.upcoming .num{font-size:13px;width:2.2em}
+.seq.upcoming .tt{flex:1}
+.seq.upcoming .meta{font-size:12px;font-style:italic}
+.vac{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:11.5px;
+text-transform:uppercase;letter-spacing:.06em;margin:16px 2px}
+.vac::before,.vac::after{content:"";flex:1;border-top:1px solid var(--line)}
+.prog{padding:10px 14px 4px}
+.prog .goal{margin:0;color:var(--mut);font-size:13.5px;font-style:italic}
+details.skills{margin-top:4px}
+details.skills>summary{cursor:pointer;font-size:12.5px;color:var(--acc);width:max-content}
+details.skills ul{list-style:none;margin:6px 0 2px;padding:0}
+details.skills li{display:flex;gap:10px;font-size:13.5px;padding:2px 0}
+details.skills code{color:var(--mut);font-size:12px;flex:none;width:7.5em}
+.hide{display:none!important}
+#pv{position:fixed;z-index:20;width:240px;pointer-events:none;background:#fff;
+border:1px solid var(--line);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.25);
+opacity:0;transition:opacity .12s}
+#pv.on{opacity:1}
+footer{color:var(--mut);font-size:12px;line-height:1.5;padding:16px 0 24px;border-top:1px solid var(--line);text-align:right}
+footer a{text-decoration:underline;text-underline-offset:2px}footer a:hover{color:var(--fg)}
+@media (max-width:560px){.row .meta.sz,.doc .meta{display:none}h1{font-size:22px}}
 </style>
 </head>
 <body>
-<a href="../index.html">← Retour</a>
-<h1>Progression Maths — Sixième</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Séquence</th>
-      <th>Titre</th>
-      <th>Thème</th>
-      <th>Compétences</th>
-      <th>Objectif principal</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>6C01</td>
-      <td>Fractions</td>
-      <td>NUM</td>
-      <td>
-        6C01-NUM01 — Connaître le vocabulaire des fractions (numérateur, dénominateur)<br>
-        6C01-NUM02 — Comparer une fraction avec l’unité<br>
-        6C01-NUM03 — Écrire une fraction sous forme décomposée<br>
-        6C01-NUM04 — Encadrer une fraction avec &lt; et &gt;<br>
-        6C01-NUM05 — Encadrer une fraction avec ≤ et ≥<br>
-        6C01-NUM06 — Placer une fraction sur une droite graduée
-      </td>
-      <td>Découvrir la notion de fraction et l'encadrement</td>
-    </tr>
-    <tr>
-      <td>6C02</td>
-      <td>Points et droites</td>
-      <td>GEO</td>
-      <td>
-        6C02-GEO01 — Reconnaître points et droites<br>
-        6C02-GEO02 — Utiliser le vocabulaire d’appartenance et d’alignement<br>
-        6C02-GEO03 — Reconnaître et tracer des demi-droites<br>
-        6C02-GEO04 — Construire un segment, sa longueur et son milieu<br>
-        6C02-GEO05 — Coder et lire une figure géométrique<br>
-        6C02-GEO06 — Distinguer droites sécantes et parallèles<br>
-        6C02-GEO07 — Reconnaître des droites perpendiculaires<br>
-        6C02-GEO08 — Tracer parallèles et perpendiculaires aux instruments<br>
-        6C02-GEO09 — Connaître les propriétés des droites parallèles
-      </td>
-      <td>Poser le vocabulaire de base en géométrie plane</td>
-    </tr>
-    <tr>
-      <td>6C03</td>
-      <td>Fractions égales</td>
-      <td>NUM</td>
-      <td>
-        6C03-NUM07 — Reconnaître des fractions égales<br>
-        6C03-NUM08 — Simplifier une fraction
-      </td>
-      <td>Reconnaître et produire des fractions égales</td>
-    </tr>
-    <tr>
-      <td>6C04</td>
-      <td>Angles</td>
-      <td>GEO</td>
-      <td>
-        6C04-GEO10 — Connaître le vocabulaire des angles<br>
-        6C04-GEO11 — Mesurer un angle au rapporteur<br>
-        6C04-GEO12 — Utiliser le rapporteur pour construire un angle<br>
-        6C04-GEO13 — Construire un angle de mesure donnée<br>
-        6C04-GEO14 — Construire la bissectrice d’un angle
-      </td>
-      <td>Utiliser le rapporteur avec précision</td>
-    </tr>
-    <tr>
-      <td colspan="5" class="vac">Vacances d’Automne</td>
-    </tr>
-    <tr>
-      <td>6C05</td>
-      <td>Nombres décimaux</td>
-      <td>NUM</td>
-      <td>
-        6C05-NUM09 — Reconnaître une fraction décimale<br>
-        6C05-NUM10 — Lire et écrire un nombre décimal (écriture à virgule)<br>
-        6C05-NUM11 — Décomposer un nombre décimal (numération décimale)<br>
-        6C05-NUM12 — Placer un décimal sur une demi-droite graduée<br>
-        6C05-NUM13 — Comparer et encadrer des décimaux<br>
-        6C05-NUM14 — Donner une valeur approchée ou arrondie
-      </td>
-      <td>Consolider la numération décimale</td>
-    </tr>
-    <tr>
-      <td>6C06</td>
-      <td>Cercles et triangles</td>
-      <td>GEO</td>
-      <td>
-        6C06-GEO15 — Tracer un cercle au compas<br>
-        6C06-GEO16 — Caractériser cercle et disque<br>
-        6C06-GEO17 — Construire des arcs et des figures avec des cercles<br>
-        6C06-GEO18 — Connaître le vocabulaire des polygones et des triangles<br>
-        6C06-GEO19 — Construire un triangle<br>
-        6C06-GEO20 — Connaître et utiliser l’inégalité triangulaire<br>
-        6C06-GEO21 — Reconnaître les triangles usuels<br>
-        6C06-GEO22 — Reconnaître les quadrilatères usuels
-      </td>
-      <td>Maîtriser le compas et le vocabulaire des triangles</td>
-    </tr>
-    <tr>
-      <td>6C07</td>
-      <td>Addition, soustraction, multiplication</td>
-      <td>CALC</td>
-      <td>
-        6C07-CALC01 — Additionner et soustraire des nombres décimaux<br>
-        6C07-CALC02 — Multiplier un décimal par un entier<br>
-        6C07-CALC03 — Multiplier par 10, 100, 1000<br>
-        6C07-CALC04 — Multiplier deux nombres décimaux<br>
-        6C07-CALC05 — Appliquer les règles de priorité des opérations
-      </td>
-      <td>Maîtriser le calcul décimal posé et les priorités opératoires</td>
-    </tr>
-    <tr>
-      <td>6C08</td>
-      <td>Gestion des données</td>
-      <td>STAT</td>
-      <td>
-        6C08-STAT01 — Lire et compléter un tableau de données<br>
-        6C08-STAT02 — Construire et lire un diagramme en barres<br>
-        6C08-STAT03 — Construire et lire un graphique<br>
-        6C08-STAT04 — Interpréter des données statistiques
-      </td>
-      <td>Organiser, représenter et interpréter des données</td>
-    </tr>
-    <tr>
-      <td colspan="5" class="vac">Vacances de Noël</td>
-    </tr>
-    <tr>
-      <td>6C09</td>
-      <td>Positions d’angles</td>
-      <td>GEO</td>
-      <td>
-        6C09-GEO23 — Reconnaître des angles adjacents<br>
-        6C09-GEO24 — Reconnaître des angles supplémentaires<br>
-        6C09-GEO25 — Reconnaître des angles opposés par le sommet<br>
-        6C09-GEO26 — Reconnaître des angles correspondants et alternes-internes<br>
-        6C09-GEO27 — Connaître la somme des angles d’un triangle
-      </td>
-      <td>Reconnaître les positions relatives d’angles</td>
-    </tr>
-    <tr>
-      <td>6C10</td>
-      <td>Division entière</td>
-      <td>CALC</td>
-      <td>
-        6C10-CALC06 — Poser et effectuer une division entière<br>
-        6C10-CALC07 — Reconnaître multiples et diviseurs<br>
-        6C10-CALC08 — Connaître les critères de divisibilité par 2, 5, 10<br>
-        6C10-CALC09 — Connaître les critères de divisibilité par 3, 9
-      </td>
-      <td>Maîtriser la division entière et la divisibilité</td>
-    </tr>
-    <tr>
-      <td>6C11</td>
-      <td>Médiatrices</td>
-      <td>GEO</td>
-      <td>
-        6C11-GEO28 — Construire la médiatrice d’un segment<br>
-        6C11-GEO29 — Construire les médiatrices d’un triangle<br>
-        6C11-GEO30 — Construire le cercle circonscrit à un triangle
-      </td>
-      <td>Construire médiatrices et cercle circonscrit</td>
-    </tr>
-    <tr>
-      <td colspan="5" class="vac">Vacances d’Hiver</td>
-    </tr>
-    <tr>
-      <td>6C12</td>
-      <td>Division décimale</td>
-      <td>CALC</td>
-      <td>
-        6C12-CALC10 — Poser et effectuer une division décimale<br>
-        6C12-CALC11 — Diviser par 10, 100, 1000<br>
-        6C12-CALC12 — Résoudre un problème en choisissant les bonnes opérations
-      </td>
-      <td>Maîtriser la division décimale et la résolution de problèmes</td>
-    </tr>
-    <tr>
-      <td>6C13</td>
-      <td>Aire et périmètre</td>
-      <td>MEAS</td>
-      <td>
-        6C13-MEAS01 — Connaître les unités de longueur usuelles<br>
-        6C13-MEAS02 — Calculer le périmètre d’un polygone<br>
-        6C13-MEAS03 — Calculer le périmètre d’un disque<br>
-        6C13-MEAS04 — Connaître les unités d’aire usuelles<br>
-        6C13-MEAS05 — Calculer l’aire d’un rectangle ou d’un triangle rectangle<br>
-        6C13-MEAS06 — Calculer l’aire d’un triangle quelconque ou d’un disque
-      </td>
-      <td>Distinguer et calculer périmètre et aire</td>
-    </tr>
-    <tr>
-      <td>6C14</td>
-      <td>Proportionnalité</td>
-      <td>PROP</td>
-      <td>
-        6C14-PROP01 — Reconnaître des grandeurs proportionnelles<br>
-        6C14-PROP02 — Compléter un tableau de proportionnalité<br>
-        6C14-PROP03 — Utiliser les opérations sur les colonnes (linéarité)<br>
-        6C14-PROP04 — Utiliser le coefficient de proportionnalité<br>
-        6C14-PROP05 — Utiliser une échelle<br>
-        6C14-PROP06 — Tracer un diagramme circulaire
-      </td>
-      <td>Raisonner dans des situations proportionnelles</td>
-    </tr>
-    <tr>
-      <td colspan="5" class="vac">Vacances de Printemps</td>
-    </tr>
-    <tr>
-      <td>6C15</td>
-      <td>Fractions et quotient</td>
-      <td>NUM</td>
-      <td>
-        6C15-NUM15 — Reconnaître l’écriture fractionnaire d’un quotient<br>
-        6C15-NUM16 — Comparer et additionner des fractions de même dénominateur<br>
-        6C15-NUM17 — Comparer des fractions de dénominateurs quelconques<br>
-        6C15-NUM18 — Additionner des fractions de dénominateurs quelconques
-      </td>
-      <td>Relier fraction et quotient, additionner des fractions</td>
-    </tr>
-    <tr>
-      <td>6C16</td>
-      <td>Symétrie axiale</td>
-      <td>GEO</td>
-      <td>
-        6C16-GEO31 — Connaître la définition de la symétrie axiale<br>
-        6C16-GEO32 — Construire le symétrique d’une figure<br>
-        6C16-GEO33 — Connaître les propriétés de la symétrie axiale<br>
-        6C16-GEO34 — Construire le symétrique des figures usuelles<br>
-        6C16-GEO35 — Reconnaître les axes de symétrie d’une figure
-      </td>
-      <td>Construire et caractériser la symétrie axiale</td>
-    </tr>
-    <tr>
-      <td>6C17</td>
-      <td>Proportions et pourcentages</td>
-      <td>PROP</td>
-      <td>
-        6C17-PROP07 — Appliquer une proportion<br>
-        6C17-PROP08 — Calculer une proportion<br>
-        6C17-PROP09 — Appliquer un pourcentage<br>
-        6C17-PROP10 — Calculer un pourcentage
-      </td>
-      <td>Appliquer et calculer proportions et pourcentages</td>
-    </tr>
-    <tr>
-      <td>6C18</td>
-      <td>Géométrie dans l’espace</td>
-      <td>GEO</td>
-      <td>
-        6C18-GEO36 — Reconnaître un assemblage de cubes en perspective<br>
-        6C18-GEO37 — Connaître le vocabulaire des solides usuels (cube, pavé, prisme, pyramide, cylindre, cône, boule)<br>
-        6C18-GEO38 — Connaître les unités de volume usuelles (cm³)<br>
-        6C18-GEO39 — Calculer le volume d’un cube ou d’un pavé droit<br>
-        6C18-GEO40 — Relier volume et contenance
-      </td>
-      <td>Se repérer dans l’espace et calculer des volumes</td>
-    </tr>
-    <tr>
-      <td>6C19</td>
-      <td>Probabilités</td>
-      <td>STAT</td>
-      <td>
-        6C19-STAT05 — Décrire les issues d’une expérience aléatoire<br>
-        6C19-STAT06 — Calculer la probabilité d’un événement<br>
-        6C19-STAT07 — Distinguer des événements contraires<br>
-        6C19-STAT08 — Étudier la répétition d’expériences aléatoires
-      </td>
-      <td>Découvrir le vocabulaire et le calcul des probabilités</td>
-    </tr>
-    <tr>
-      <td>6C99</td>
-      <td>Numération entière (non traité cette année)</td>
-      <td>NUM</td>
-      <td>
-        6C99-NUM19 — Lire et écrire les grands nombres entiers<br>
-        6C99-NUM20 — Décomposer un entier (unités, dizaines…)<br>
-        6C99-NUM21 — Comparer et ordonner des entiers
-      </td>
-      <td>Maîtriser la numération de position</td>
-    </tr>
-  </tbody>
-</table>
+<header class="top"><div class="wrap wide"><nav class="crumbs"><a href="../index.html">Cours de Maths</a><span class="sep">/</span><a href="./index.html">Progressions</a><span class="sep">/</span><span class="cur">Progression Sixième</span></nav><a class="home" href="../index.html">⌂ Accueil</a></div></header>
+<main><div class="wrap wide">
+<h1>Progression — Sixième</h1><p class="sub">20 séquences · 4 périodes de vacances</p><div class="tools"><input id="q" type="search" placeholder="Filtrer…  ( / )" autocomplete="off"><a class="btn" href="6eme.pdf" target="_blank" rel="noopener">PDF ↗</a><a class="btn" href="../Sixieme/index.html" target="_blank" rel="noopener">Documents ↗</a></div><div class="tablewrap"><table class="progtab"><thead><tr><th>Séquence</th><th>Titre</th><th>Thème</th><th>Compétences</th><th>Objectif principal</th></tr></thead><tbody><tr id="6C01"><td class="mono id">6C01</td><td class="tt"><a href="../Sixieme/index.html#S01-Fractions" target="_blank" rel="noopener" title="Documents de la séquence">Fractions <span class="ext">↗</span></a><div class="cnt mono">13 docs</div></td><td><span class="theme mono">NUM</span></td><td><ul><li><code>6C01-NUM01</code> Connaître le vocabulaire des fractions (numérateur, dénominateur)</li><li><code>6C01-NUM02</code> Comparer une fraction avec l’unité</li><li><code>6C01-NUM03</code> Écrire une fraction sous forme décomposée</li><li><code>6C01-NUM04</code> Encadrer une fraction avec &lt; et &gt;</li><li><code>6C01-NUM05</code> Encadrer une fraction avec ≤ et ≥</li><li><code>6C01-NUM06</code> Placer une fraction sur une droite graduée</li></ul></td><td class="goal">Découvrir la notion de fraction et l&#x27;encadrement</td></tr><tr id="6C02"><td class="mono id">6C02</td><td class="tt"><a href="../Sixieme/index.html#S02-Points-et-Droites" target="_blank" rel="noopener" title="Documents de la séquence">Points et droites <span class="ext">↗</span></a><div class="cnt mono">21 docs</div></td><td><span class="theme mono">GEO</span></td><td><ul><li><code>6C02-GEO01</code> Reconnaître points et droites</li><li><code>6C02-GEO02</code> Utiliser le vocabulaire d’appartenance et d’alignement</li><li><code>6C02-GEO03</code> Reconnaître et tracer des demi-droites</li><li><code>6C02-GEO04</code> Construire un segment, sa longueur et son milieu</li><li><code>6C02-GEO05</code> Coder et lire une figure géométrique</li><li><code>6C02-GEO06</code> Distinguer droites sécantes et parallèles</li><li><code>6C02-GEO07</code> Reconnaître des droites perpendiculaires</li><li><code>6C02-GEO08</code> Tracer parallèles et perpendiculaires aux instruments</li><li><code>6C02-GEO09</code> Connaître les propriétés des droites parallèles</li></ul></td><td class="goal">Poser le vocabulaire de base en géométrie plane</td></tr><tr id="6C03"><td class="mono id">6C03</td><td class="tt"><a href="../Sixieme/index.html#S03-Fractions-Egales" target="_blank" rel="noopener" title="Documents de la séquence">Fractions égales <span class="ext">↗</span></a><div class="cnt mono">12 docs</div></td><td><span class="theme mono">NUM</span></td><td><ul><li><code>6C03-NUM07</code> Reconnaître des fractions égales</li><li><code>6C03-NUM08</code> Simplifier une fraction</li></ul></td><td class="goal">Reconnaître et produire des fractions égales</td></tr><tr id="6C04"><td class="mono id">6C04</td><td class="tt"><a href="../Sixieme/index.html#S04-Angles" target="_blank" rel="noopener" title="Documents de la séquence">Angles <span class="ext">↗</span></a><div class="cnt mono">13 docs</div></td><td><span class="theme mono">GEO</span></td><td><ul><li><code>6C04-GEO10</code> Connaître le vocabulaire des angles</li><li><code>6C04-GEO11</code> Mesurer un angle au rapporteur</li><li><code>6C04-GEO12</code> Utiliser le rapporteur pour construire un angle</li><li><code>6C04-GEO13</code> Construire un angle de mesure donnée</li><li><code>6C04-GEO14</code> Construire la bissectrice d’un angle</li></ul></td><td class="goal">Utiliser le rapporteur avec précision</td></tr><tr class="vacrow"><td colspan="5">Vacances d’Automne</td></tr><tr id="6C05"><td class="mono id">6C05</td><td class="tt"><a href="../Sixieme/index.html#S05-Nombres-Decimaux" target="_blank" rel="noopener" title="Documents de la séquence">Nombres décimaux <span class="ext">↗</span></a><div class="cnt mono">16 docs</div></td><td><span class="theme mono">NUM</span></td><td><ul><li><code>6C05-NUM09</code> Reconnaître une fraction décimale</li><li><code>6C05-NUM10</code> Lire et écrire un nombre décimal (écriture à virgule)</li><li><code>6C05-NUM11</code> Décomposer un nombre décimal (numération décimale)</li><li><code>6C05-NUM12</code> Placer un décimal sur une demi-droite graduée</li><li><code>6C05-NUM13</code> Comparer et encadrer des décimaux</li><li><code>6C05-NUM14</code> Donner une valeur approchée ou arrondie</li></ul></td><td class="goal">Consolider la numération décimale</td></tr><tr id="6C06"><td class="mono id">6C06</td><td class="tt"><a href="../Sixieme/index.html#S06-Cercles-et-Triangles" target="_blank" rel="noopener" title="Documents de la séquence">Cercles et triangles <span class="ext">↗</span></a><div class="cnt mono">17 docs</div></td><td><span class="theme mono">GEO</span></td><td><ul><li><code>6C06-GEO15</code> Tracer un cercle au compas</li><li><code>6C06-GEO16</code> Caractériser cercle et disque</li><li><code>6C06-GEO17</code> Construire des arcs et des figures avec des cercles</li><li><code>6C06-GEO18</code> Connaître le vocabulaire des polygones et des triangles</li><li><code>6C06-GEO19</code> Construire un triangle</li><li><code>6C06-GEO20</code> Connaître et utiliser l’inégalité triangulaire</li><li><code>6C06-GEO21</code> Reconnaître les triangles usuels</li><li><code>6C06-GEO22</code> Reconnaître les quadrilatères usuels</li></ul></td><td class="goal">Maîtriser le compas et le vocabulaire des triangles</td></tr><tr id="6C07"><td class="mono id">6C07</td><td class="tt"><a href="../Sixieme/index.html#S07-Addition-Soustraction-Multiplication" target="_blank" rel="noopener" title="Documents de la séquence">Addition, soustraction, multiplication <span class="ext">↗</span></a><div class="cnt mono">11 docs</div></td><td><span class="theme mono">CALC</span></td><td><ul><li><code>6C07-CALC01</code> Additionner et soustraire des nombres décimaux</li><li><code>6C07-CALC02</code> Multiplier un décimal par un entier</li><li><code>6C07-CALC03</code> Multiplier par 10, 100, 1000</li><li><code>6C07-CALC04</code> Multiplier deux nombres décimaux</li><li><code>6C07-CALC05</code> Appliquer les règles de priorité des opérations</li></ul></td><td class="goal">Maîtriser le calcul décimal posé et les priorités opératoires</td></tr><tr id="6C08"><td class="mono id">6C08</td><td class="tt"><a href="../Sixieme/index.html#S08-Gestion-des-Donnees" target="_blank" rel="noopener" title="Documents de la séquence">Gestion des données <span class="ext">↗</span></a><div class="cnt mono">4 docs</div></td><td><span class="theme mono">STAT</span></td><td><ul><li><code>6C08-STAT01</code> Lire et compléter un tableau de données</li><li><code>6C08-STAT02</code> Construire et lire un diagramme en barres</li><li><code>6C08-STAT03</code> Construire et lire un graphique</li><li><code>6C08-STAT04</code> Interpréter des données statistiques</li></ul></td><td class="goal">Organiser, représenter et interpréter des données</td></tr><tr class="vacrow"><td colspan="5">Vacances de Noël</td></tr><tr id="6C09"><td class="mono id">6C09</td><td class="tt">Positions d’angles<div class="cnt soon">à venir</div></td><td><span class="theme mono">GEO</span></td><td><ul><li><code>6C09-GEO23</code> Reconnaître des angles adjacents</li><li><code>6C09-GEO24</code> Reconnaître des angles supplémentaires</li><li><code>6C09-GEO25</code> Reconnaître des angles opposés par le sommet</li><li><code>6C09-GEO26</code> Reconnaître des angles correspondants et alternes-internes</li><li><code>6C09-GEO27</code> Connaître la somme des angles d’un triangle</li></ul></td><td class="goal">Reconnaître les positions relatives d’angles</td></tr><tr id="6C10"><td class="mono id">6C10</td><td class="tt"><a href="../Sixieme/index.html#S10-Division-Entiere" target="_blank" rel="noopener" title="Documents de la séquence">Division entière <span class="ext">↗</span></a><div class="cnt mono">8 docs</div></td><td><span class="theme mono">CALC</span></td><td><ul><li><code>6C10-CALC06</code> Poser et effectuer une division entière</li><li><code>6C10-CALC07</code> Reconnaître multiples et diviseurs</li><li><code>6C10-CALC08</code> Connaître les critères de divisibilité par 2, 5, 10</li><li><code>6C10-CALC09</code> Connaître les critères de divisibilité par 3, 9</li></ul></td><td class="goal">Maîtriser la division entière et la divisibilité</td></tr><tr id="6C11"><td class="mono id">6C11</td><td class="tt"><a href="../Sixieme/index.html#S11-Mediatrices" target="_blank" rel="noopener" title="Documents de la séquence">Médiatrices <span class="ext">↗</span></a><div class="cnt mono">1 docs</div></td><td><span class="theme mono">GEO</span></td><td><ul><li><code>6C11-GEO28</code> Construire la médiatrice d’un segment</li><li><code>6C11-GEO29</code> Construire les médiatrices d’un triangle</li><li><code>6C11-GEO30</code> Construire le cercle circonscrit à un triangle</li></ul></td><td class="goal">Construire médiatrices et cercle circonscrit</td></tr><tr class="vacrow"><td colspan="5">Vacances d’Hiver</td></tr><tr id="6C12"><td class="mono id">6C12</td><td class="tt"><a href="../Sixieme/index.html#S12-Division-Decimale" target="_blank" rel="noopener" title="Documents de la séquence">Division décimale <span class="ext">↗</span></a><div class="cnt mono">1 docs</div></td><td><span class="theme mono">CALC</span></td><td><ul><li><code>6C12-CALC10</code> Poser et effectuer une division décimale</li><li><code>6C12-CALC11</code> Diviser par 10, 100, 1000</li><li><code>6C12-CALC12</code> Résoudre un problème en choisissant les bonnes opérations</li></ul></td><td class="goal">Maîtriser la division décimale et la résolution de problèmes</td></tr><tr id="6C13"><td class="mono id">6C13</td><td class="tt"><a href="../Sixieme/index.html#S13-Aire-et-Perimetre" target="_blank" rel="noopener" title="Documents de la séquence">Aire et périmètre <span class="ext">↗</span></a><div class="cnt mono">21 docs</div></td><td><span class="theme mono">MEAS</span></td><td><ul><li><code>6C13-MEAS01</code> Connaître les unités de longueur usuelles</li><li><code>6C13-MEAS02</code> Calculer le périmètre d’un polygone</li><li><code>6C13-MEAS03</code> Calculer le périmètre d’un disque</li><li><code>6C13-MEAS04</code> Connaître les unités d’aire usuelles</li><li><code>6C13-MEAS05</code> Calculer l’aire d’un rectangle ou d’un triangle rectangle</li><li><code>6C13-MEAS06</code> Calculer l’aire d’un triangle quelconque ou d’un disque</li></ul></td><td class="goal">Distinguer et calculer périmètre et aire</td></tr><tr id="6C14"><td class="mono id">6C14</td><td class="tt"><a href="../Sixieme/index.html#S14-Proportionnalite" target="_blank" rel="noopener" title="Documents de la séquence">Proportionnalité <span class="ext">↗</span></a><div class="cnt mono">18 docs</div></td><td><span class="theme mono">PROP</span></td><td><ul><li><code>6C14-PROP01</code> Reconnaître des grandeurs proportionnelles</li><li><code>6C14-PROP02</code> Compléter un tableau de proportionnalité</li><li><code>6C14-PROP03</code> Utiliser les opérations sur les colonnes (linéarité)</li><li><code>6C14-PROP04</code> Utiliser le coefficient de proportionnalité</li><li><code>6C14-PROP05</code> Utiliser une échelle</li><li><code>6C14-PROP06</code> Tracer un diagramme circulaire</li></ul></td><td class="goal">Raisonner dans des situations proportionnelles</td></tr><tr class="vacrow"><td colspan="5">Vacances de Printemps</td></tr><tr id="6C15"><td class="mono id">6C15</td><td class="tt">Fractions et quotient<div class="cnt soon">à venir</div></td><td><span class="theme mono">NUM</span></td><td><ul><li><code>6C15-NUM15</code> Reconnaître l’écriture fractionnaire d’un quotient</li><li><code>6C15-NUM16</code> Comparer et additionner des fractions de même dénominateur</li><li><code>6C15-NUM17</code> Comparer des fractions de dénominateurs quelconques</li><li><code>6C15-NUM18</code> Additionner des fractions de dénominateurs quelconques</li></ul></td><td class="goal">Relier fraction et quotient, additionner des fractions</td></tr><tr id="6C16"><td class="mono id">6C16</td><td class="tt">Symétrie axiale<div class="cnt soon">à venir</div></td><td><span class="theme mono">GEO</span></td><td><ul><li><code>6C16-GEO31</code> Connaître la définition de la symétrie axiale</li><li><code>6C16-GEO32</code> Construire le symétrique d’une figure</li><li><code>6C16-GEO33</code> Connaître les propriétés de la symétrie axiale</li><li><code>6C16-GEO34</code> Construire le symétrique des figures usuelles</li><li><code>6C16-GEO35</code> Reconnaître les axes de symétrie d’une figure</li></ul></td><td class="goal">Construire et caractériser la symétrie axiale</td></tr><tr id="6C17"><td class="mono id">6C17</td><td class="tt">Proportions et pourcentages<div class="cnt soon">à venir</div></td><td><span class="theme mono">PROP</span></td><td><ul><li><code>6C17-PROP07</code> Appliquer une proportion</li><li><code>6C17-PROP08</code> Calculer une proportion</li><li><code>6C17-PROP09</code> Appliquer un pourcentage</li><li><code>6C17-PROP10</code> Calculer un pourcentage</li></ul></td><td class="goal">Appliquer et calculer proportions et pourcentages</td></tr><tr id="6C18"><td class="mono id">6C18</td><td class="tt">Géométrie dans l’espace<div class="cnt soon">à venir</div></td><td><span class="theme mono">GEO</span></td><td><ul><li><code>6C18-GEO36</code> Reconnaître un assemblage de cubes en perspective</li><li><code>6C18-GEO37</code> Connaître le vocabulaire des solides usuels (cube, pavé, prisme, pyramide, cylindre, cône, boule)</li><li><code>6C18-GEO38</code> Connaître les unités de volume usuelles (cm³)</li><li><code>6C18-GEO39</code> Calculer le volume d’un cube ou d’un pavé droit</li><li><code>6C18-GEO40</code> Relier volume et contenance</li></ul></td><td class="goal">Se repérer dans l’espace et calculer des volumes</td></tr><tr id="6C19"><td class="mono id">6C19</td><td class="tt"><a href="../Sixieme/index.html#S19-Probabilites" target="_blank" rel="noopener" title="Documents de la séquence">Probabilités <span class="ext">↗</span></a><div class="cnt mono">9 docs</div></td><td><span class="theme mono">STAT</span></td><td><ul><li><code>6C19-STAT05</code> Décrire les issues d’une expérience aléatoire</li><li><code>6C19-STAT06</code> Calculer la probabilité d’un événement</li><li><code>6C19-STAT07</code> Distinguer des événements contraires</li><li><code>6C19-STAT08</code> Étudier la répétition d’expériences aléatoires</li></ul></td><td class="goal">Découvrir le vocabulaire et le calcul des probabilités</td></tr><tr id="6C99"><td class="mono id">6C99</td><td class="tt"><a href="../Sixieme/index.html#S99-Numeration-entiere" target="_blank" rel="noopener" title="Documents de la séquence">Numération entière (non traité cette année) <span class="ext">↗</span></a><div class="cnt mono">10 docs · archivé</div></td><td><span class="theme mono">NUM</span></td><td><ul><li><code>6C99-NUM19</code> Lire et écrire les grands nombres entiers</li><li><code>6C99-NUM20</code> Décomposer un entier (unités, dizaines…)</li><li><code>6C99-NUM21</code> Comparer et ordonner des entiers</li></ul></td><td class="goal">Maîtriser la numération de position</td></tr></tbody></table></div>
+</div></main>
+<footer><div class="wrap wide">
+<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
+</div></footer>
+<script>
+(()=>{
+if(!matchMedia('(hover:hover)').matches)return;
+const pv=document.createElement('img');pv.id='pv';pv.alt='';document.body.append(pv);
+let cur=null,mx=0;
+// À droite de la liste si la place le permet, sinon près du curseur ; centré sur la ligne.
+const place=()=>{if(!cur)return;const w=240,m=16,r=cur.getBoundingClientRect();
+ const h=pv.complete&&pv.naturalWidth?pv.offsetHeight:340;
+ let x=r.right+m;if(x+w+m>innerWidth)x=mx+w+40<innerWidth?mx+24:mx-w-24;
+ const y=Math.max(m,Math.min(r.top+r.height/2-h/2,innerHeight-h-m));
+ pv.style.left=x+'px';pv.style.top=y+'px'};
+pv.addEventListener('load',place);
+document.addEventListener('mouseover',ev=>{const a=ev.target.closest('[data-thumb]');
+ mx=ev.clientX;if(a===cur)return;cur=a;
+ if(!a){pv.classList.remove('on');return}
+ pv.src=a.dataset.thumb;pv.classList.add('on');place()});
+addEventListener('scroll',()=>{cur=null;pv.classList.remove('on')},{passive:true});
+})();
+
+(()=>{
+const q=document.getElementById('q');if(!q)return;
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const rows=[...document.querySelectorAll('.progtab tbody tr')];
+q.addEventListener('input',()=>{const v=norm(q.value.trim());
+ rows.forEach(r=>r.classList.toggle('hide',!!v&&(r.classList.contains('vacrow')||!norm(r.textContent).includes(v))))});
+addEventListener('keydown',ev=>{if(ev.key==='/'&&document.activeElement!==q){ev.preventDefault();q.focus()}
+ if(ev.key==='Escape'){q.value='';q.dispatchEvent(new Event('input'));q.blur()}});
+})();
+</script>
 </body>
 </html>

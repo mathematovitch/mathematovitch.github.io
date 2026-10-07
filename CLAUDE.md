@@ -21,20 +21,30 @@ main : elles sont **générées** depuis des sources `.tex` du même nom, pour
   (é, è, —, …, ℕ, ℤ, ×, −, ² écrits directement, pas d'entités HTML/LaTeX).
   Codes de compétence uniques au format `{niveau}C{NN}-{THEME}{NN}`
   (ex. `6C01-NUM01`), numérotation continue par thème sur tout le niveau.
-- **`Progressions/gen_html.py`** : script Python 3 stdlib-only (pas de TeX
-  exécuté) qui parse `\progheader{...}` et les blocs `\seq{...}{...}{...}{...}{...}`
-  par un parseur de groupes `{ }` à profondeur (pas de regex naïve, les
-  arguments peuvent contenir des accolades), découpe le 5e argument sur
-  `\item`, et réémet le HTML avec le template sobre (mono, noir/blanc) déjà
-  utilisé par 6e/4e. Idempotent.
+- **`Progressions/gen_html.py`** : désormais **parseur seul** (`parse_tex`,
+  stdlib, pas de TeX exécuté) : `\progheader`, `\vacances` et blocs
+  `\seq{...}{...}{...}{...}{...}` via un parseur de groupes `{ }` à
+  profondeur (pas de regex naïve), 5e argument découpé sur `\item`. Le
+  rendu HTML est fait par `../build.py` : **tableau** (l'utilisateur ne veut
+  pas de dépliement pour les progressions, il veut tout voir d'un coup), aux
+  couleurs du site (sombre/clair), titre de séquence lié à
+  `Sixieme/index.html#S{NN}-…`. Lancé directement, il relance `build.py`.
+- Toutes les pages portent l'auteur (`AUTHOR`) dans l'en-tête et la licence
+  **CC0 1.0** en pied de page (choix de l'utilisateur : le plus ouvert
+  possible), avec exclusion explicite des ressources tierces.
+- **Compilation automatique** : à chaque run, `build.py` recompile
+  `NIVEAU.pdf` (2 passes `pdflatex`, longtable) si `NIVEAU.tex` ou
+  `progtable.sty` est plus récent que le PDF, puis supprime nommément
+  `.aux/.log/.out`. `SOURCE_DATE_EPOCH` figé : même source ⇒ PDF identique
+  à l'octet (pas de faux diff git après un pull qui touche les mtimes).
+- Vacances : `\vacances{...}` présents en 6e et 4e (placement 4e proposé
+  par Claude, 3/3/2/2/2 séquences, à ajuster) ; absents en 5e/3e.
 
 ### Workflow
 
 ```
 # éditer Progressions/NIVEAU.tex sous Emacs (AUCTeX), puis :
-python3 Progressions/gen_html.py            # régénère tous les NIVEAU.html
-python3 Progressions/gen_html.py 6eme.tex   # ou un seul niveau
-pdflatex Progressions/NIVEAU.tex            # optionnel : PDF imprimable
+./build.sh             # nouveau site + legacy/ (ou python3 build.py : nouveau site seul)
 ```
 
 ### Pièges LaTeX rencontrés (`progtable.sty`)
@@ -55,8 +65,8 @@ pdflatex Progressions/NIVEAU.tex            # optionnel : PDF imprimable
 
 ### Points d'attention
 
-- `update_site.sh` exclut `*.tex` et `*.sty` de l'index `tree` généré
-  (`-I "index.html|*.tex|*.sty"`) — ne pas retirer ce filtre.
+- `build.py` masque `*.tex`, `*.sty`, `*.py`… des index générés
+  (`HIDDEN_EXT`) — ne pas retirer `.tex`/`.sty` de ce filtre.
 - Compiler avec `pdflatex` produit des `.aux`/`.log`/`.pdf` dans
   `Progressions/` ; seul `Progression_6eme_2025_2.pdf` (fichier suivi,
   préexistant) est un livrable voulu. Ne pas supprimer avec un joker large
@@ -104,10 +114,29 @@ dédupliquer sans consulter l'utilisateur.
 - Toujours utiliser des chemins/suppressions nommés explicitement plutôt que
   des jokers larges (`rm -f *.ext`) dans un dossier contenant des fichiers
   suivis par git.
-- Le script actif de génération des index est `update_site.sh` à la racine
-  du dépôt (renommé depuis `generate_indexes.sh` car il fait bien plus que
-  générer des index : nettoyage LaTeX, renommage de fichiers, index ; pas
-  de `sleep` : `tree -o` et `sed -i` sont synchrones). Les anciens scripts
+- Point d'entrée : **`./build.sh`** (ex-`update_site.sh`, renommé à la
+  demande de l'utilisateur). Il lance `build.py` (nouveau site, à la racine),
+  puis régénère **l'ancien site `tree` dans `legacy/`**
+  (`outerovitch-maths.github.io/legacy/`), que l'utilisateur veut garder
+  actif. `legacy/` ne contient que des `index.html` : `tree -H "/SECTION"`
+  produit des liens absolus vers les vrais fichiers (pas de duplication), et
+  les `sed` corrigent les liens (`/Sixieme./` → `/Sixieme/`, `../X/` →
+  `./X/index.html`, « . » → `↰` vers `/legacy/index.html`). `legacy` et
+  `thumbs` sont exclus des deux générateurs.
+- `build.py` (Python stdlib, + `pdftoppm` pour les vignettes, `pdflatex`
+  pour les progressions), en une passe : `_Archive` manquants, suppression des
+  fichiers temporaires LaTeX, nettoyage des noms (accents/espaces),
+  vignettes de la 1re page des PDF dans `thumbs/` (cache par mtime,
+  orphelines supprimées — `thumbs/` est généré, ne pas l'éditer), puis un
+  `index.html` stylé par dossier (plus de `tree`). L'accueil ouvre chaque
+  section dans un nouvel onglet (choix voulu de l'utilisateur). La table
+  `ACCENTS` de `build.py` recolle les accents perdus dans les titres
+  affichés : y ajouter les mots manquants plutôt que renommer. Les pages de
+  niveau suivent `Progressions/NIVEAU.tex` (lu via `gen_html.parse_tex`, sans
+  dupliquer le parseur) : ordre et titres accentués de la progression,
+  thème, objectif et compétences par séquence, séparateurs de vacances,
+  séquences sans dossier affichées « à venir » (sauf `C9x`). Le lien se fait
+  par le numéro : dossier `S{NN}-…` ↔ `\seq{6C{NN}}`. Les anciens scripts
   redondants sous `Utils/` (`autogit.sh`, `clean.sh`, `copy_template.sh`,
   `generate_indexes.sh`, `goto_dir.sh`, `new_chapter.sh`) ont été supprimés
   car obsolètes — ne pas les recréer.

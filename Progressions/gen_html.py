@@ -1,74 +1,21 @@
 #!/usr/bin/env python3
-"""Génère les Progressions/*.html à partir des sources .tex (progtable.sty).
+"""Parseur des sources Progressions/*.tex (progtable.sty), utilisé par ../build.py.
 
-Ne fait pas tourner TeX : parse juste \\progheader{...}{...} et les blocs
-\\seq{ID}{Titre}{Thème}{Objectif}{ \\item ... \\item ... } par un parseur de
-groupes { } à profondeur, puis réémet le template HTML sobre du site.
+Ne fait pas tourner TeX : parse juste \\progheader{...}{...}, \\vacances{...} et les
+blocs \\seq{ID}{Titre}{Thème}{Objectif}{ \\item ... \\item ... } par un parseur de
+groupes { } à profondeur (les arguments peuvent contenir des accolades).
 
-Usage:
-    python3 gen_html.py            # régénère tous les Progressions/*.tex
-    python3 gen_html.py 6eme.tex    # ne régénère que ce fichier
+Le rendu HTML (et la compilation PDF si le .tex a changé) est fait par build.py,
+pour que les progressions aient le même style que le reste du site. Lancer ce
+fichier directement relance simplement build.py :
+    python3 Progressions/gen_html.py
 """
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-
-HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Progression {short} — Maths</title>
-<style>
-body{{font-family:monospace,sans-serif;color:#000;background:#fff;margin:2rem;}}
-a{{color:#000;}}
-a:hover{{text-decoration:underline;}}
-h1{{font-size:1.1rem;margin:0 0 1rem 0;}}
-table{{border-collapse:collapse;width:100%;}}
-th,td{{border:1px solid #000;padding:.4rem .6rem;text-align:left;vertical-align:top;font-size:.85rem;}}
-td.vac{{text-align:center;font-weight:bold;}}
-</style>
-</head>
-<body>
-<a href="../index.html">← Retour</a>
-<h1>Progression Maths — {long}</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Séquence</th>
-      <th>Titre</th>
-      <th>Thème</th>
-      <th>Compétences</th>
-      <th>Objectif principal</th>
-    </tr>
-  </thead>
-  <tbody>
-{rows}
-  </tbody>
-</table>
-</body>
-</html>
-"""
-
-ROW_TEMPLATE = """    <tr>
-      <td>{id}</td>
-      <td>{titre}</td>
-      <td>{theme}</td>
-      <td>
-        {items}
-      </td>
-      <td>{obj}</td>
-    </tr>"""
-
-VAC_TEMPLATE = """    <tr>
-      <td colspan="5" class="vac">{nom}</td>
-    </tr>"""
-
-
-def escape_html(s):
-    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def read_braced_arg(text, pos):
@@ -123,39 +70,5 @@ def parse_tex(path):
     return long_name, short_name, rows
 
 
-def render_row(r):
-    if "vacances" in r:
-        return VAC_TEMPLATE.format(nom=escape_html(r["vacances"]))
-    return ROW_TEMPLATE.format(
-        id=escape_html(r["id"]),
-        titre=escape_html(r["titre"]),
-        theme=escape_html(r["theme"]),
-        obj=escape_html(r["obj"]),
-        items="<br>\n        ".join(escape_html(it) for it in r["items"]),
-    )
-
-
-def render(path):
-    long_name, short_name, rows = parse_tex(path)
-    rows_html = "\n".join(render_row(r) for r in rows)
-    html = HTML_TEMPLATE.format(
-        short=escape_html(short_name), long=escape_html(long_name), rows=rows_html
-    )
-    out = path.with_suffix(".html")
-    out.write_text(html, encoding="utf-8")
-    n_seq = sum("id" in r for r in rows)
-    print(f"{path.name} -> {out.name} ({n_seq} séquences, {len(rows) - n_seq} vacances)")
-
-
-def main():
-    args = sys.argv[1:]
-    paths = [Path(a) for a in args] if args else sorted(HERE.glob("*.tex"))
-    if not paths:
-        print("Aucun fichier .tex trouvé", file=sys.stderr)
-        sys.exit(1)
-    for p in paths:
-        render(p)
-
-
 if __name__ == "__main__":
-    main()
+    sys.exit(subprocess.run([sys.executable, str(HERE.parent / "build.py")]).returncode)

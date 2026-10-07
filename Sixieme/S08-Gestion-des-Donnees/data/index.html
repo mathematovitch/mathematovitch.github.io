@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>data — Cours de Maths</title>
+<link rel="icon" href="../../../favicon.ico">
+<style>
+:root{--bg:#fafaf9;--fg:#1c1c1a;--mut:#6b6b66;--line:#e4e3df;--card:#fff;
+--acc:#2547d0;--hover:#f1f0ec;--pill:#efeee9;
+--t-cours:#2547d0;--t-act:#8a5a00;--t-ex:#1f7a4d;--t-ds:#b3261e;--t-res:#6b6b66}
+@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#e9e8e4;--mut:#9a9993;
+--line:#2c2c2a;--card:#1d1d1b;--acc:#8aa4ff;--hover:#252523;--pill:#2a2a28;
+--t-cours:#8aa4ff;--t-act:#e0b45c;--t-ex:#6fcf9b;--t-ds:#ff8a80;--t-res:#9a9993}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+.mono,code{font-family:ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+.wrap.wide{max-width:1200px}
+header.top{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+header.top .wrap{display:flex;align-items:center;gap:12px;height:52px}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;color:var(--mut);min-width:0}
+.crumbs a:hover{color:var(--fg)}
+.crumbs .sep{opacity:.5}
+.crumbs .cur{color:var(--fg);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home{margin-left:auto;font-size:13px;color:var(--mut);border:1px solid var(--line);
+border-radius:6px;padding:3px 9px;white-space:nowrap}
+.home:hover{color:var(--fg);background:var(--hover)}
+main{padding:28px 0 64px}
+h1{font-size:26px;letter-spacing:-.01em;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 24px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);
+font-weight:600;margin:36px 0 10px}
+.banner{font-size:9px;line-height:1.15;color:var(--fg);margin:0 0 6px;overflow:hidden;white-space:pre}
+/* cartes accueil */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;
+padding:16px 16px 14px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--acc);transform:translateY(-1px)}
+.card .t{font-weight:600;font-size:17px;display:flex;justify-content:space-between;align-items:center}
+.card .t .ext{color:var(--mut);font-size:13px;font-weight:400}
+.card .d{color:var(--mut);font-size:13px;margin-top:4px}
+/* listes */
+.list{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+a.row:hover,.row a.main:hover{background:var(--hover)}
+.row .ico{width:18px;flex:none;text-align:center;color:var(--mut)}
+.row .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .meta{color:var(--mut);font-size:12.5px;white-space:nowrap}
+.pill{font-size:11px;font-weight:600;padding:1px 7px;border-radius:99px;background:var(--pill);
+white-space:nowrap;flex:none;min-width:44px;text-align:center}
+/* séquences */
+.tools{display:flex;gap:8px;margin:0 0 14px}
+.tools input{flex:1;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;
+background:var(--card);color:var(--fg);outline:none}
+.tools input:focus{border-color:var(--acc)}
+.tools button{font:inherit;font-size:13px;padding:0 12px;border:1px solid var(--line);
+border-radius:8px;background:var(--card);color:var(--mut);cursor:pointer}
+.tools button:hover,.tools .btn:hover{color:var(--fg);background:var(--hover)}
+.tools .btn{display:flex;align-items:center;font-size:13px;padding:0 12px;border:1px solid var(--line);
+border-radius:8px;background:var(--card);color:var(--mut);white-space:nowrap}
+.doc.skill code{color:var(--mut);font-size:12px;flex:none;width:8em}
+.godocs{display:block;padding:8px 14px 10px;font-size:13px;color:var(--acc);border-top:1px dashed var(--line)}
+.godocs:hover{background:var(--hover)}
+.meta.soon{font-style:italic}
+.row a.main{padding:2px 0}
+.row a.dl{border:1px solid var(--line);border-radius:6px;padding:1px 8px}
+.row a.dl:hover{color:var(--fg);background:var(--hover)}
+/* tableau de progression */
+.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+.progtab th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--bg)}
+.progtab td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+.progtab tbody tr:first-child td{border-top:0}
+.progtab tbody tr:not(.vacrow):hover td{background:var(--hover)}
+.progtab td.id{color:var(--mut);font-size:12.5px;white-space:nowrap}
+.progtab td.tt{font-weight:600;min-width:150px}
+.progtab td.tt a:hover{color:var(--acc)}
+.progtab td.tt .ext{color:var(--mut);font-weight:400;font-size:12px}
+.progtab .cnt{font-weight:400;font-size:12px;color:var(--mut);margin-top:2px}
+.progtab .cnt.soon{font-style:italic}
+.progtab ul{list-style:none;margin:0;padding:0}
+.progtab li{padding:1px 0}
+.progtab li code{color:var(--mut);font-size:11.5px;margin-right:4px}
+.progtab td.goal{color:var(--mut);font-style:italic;min-width:160px}
+.progtab tr.vacrow td{text-align:center;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);background:var(--bg);padding:7px}
+.progtab tr:target td{background:var(--hover)}
+/* bouton « copier le lien » d'une séquence */
+.lnk{font:inherit;font-size:13px;color:var(--mut);background:none;border:0;cursor:pointer;
+padding:0 4px;border-radius:4px;opacity:0;transition:opacity .12s}
+summary:hover .lnk,.lnk:focus-visible,.lnk.ok{opacity:1}
+.lnk:hover{color:var(--fg);background:var(--pill)}
+@media (hover:none){.lnk{opacity:1}}
+@media print{.tablewrap{border:0;overflow:visible}table.progtab{min-width:0}header.top,.tools,.chev,.godocs,#pv{display:none!important}
+body{background:#fff;color:#000;font-size:12px}main{padding:0}
+details.seq{break-inside:avoid;border-color:#ccc}}
+details.seq{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;scroll-margin-top:64px}
+details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 14px;user-select:none}
+details.seq>summary::-webkit-details-marker{display:none}
+details.seq>summary:hover{background:var(--hover)}
+details.seq>summary .num{color:var(--mut);font-size:13px;width:2.2em}
+details.seq>summary .tt{flex:1;font-weight:600}
+details.seq>summary .chev{color:var(--mut);transition:transform .15s}
+details.seq[open]>summary .chev{transform:rotate(90deg)}
+details.seq[open]>summary{border-bottom:1px solid var(--line)}
+.grp{padding:6px 0 4px}
+.grp+.grp{border-top:1px dashed var(--line)}
+.grp h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;margin:6px 14px 2px;font-weight:600}
+.doc{display:flex;align-items:center;gap:10px;padding:5px 14px 5px 14px}
+.doc:hover{background:var(--hover)}
+.doc .id{color:var(--mut);font-size:12.5px;width:2.6em;flex:none}
+.doc .name{flex:1;min-width:0}
+.doc .meta{color:var(--mut);font-size:12px}
+.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
+.c-ds{color:var(--t-ds)}.c-res{color:var(--t-res)}
+.seq.archive{opacity:.7}
+.theme{font-size:10.5px;color:var(--mut);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.seq.upcoming{display:flex;align-items:center;gap:12px;padding:9px 14px;margin-bottom:8px;
+border:1px dashed var(--line);border-radius:10px;color:var(--mut)}
+.seq.upcoming .num{font-size:13px;width:2.2em}
+.seq.upcoming .tt{flex:1}
+.seq.upcoming .meta{font-size:12px;font-style:italic}
+.vac{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:11.5px;
+text-transform:uppercase;letter-spacing:.06em;margin:16px 2px}
+.vac::before,.vac::after{content:"";flex:1;border-top:1px solid var(--line)}
+.prog{padding:10px 14px 4px}
+.prog .goal{margin:0;color:var(--mut);font-size:13.5px;font-style:italic}
+details.skills{margin-top:4px}
+details.skills>summary{cursor:pointer;font-size:12.5px;color:var(--acc);width:max-content}
+details.skills ul{list-style:none;margin:6px 0 2px;padding:0}
+details.skills li{display:flex;gap:10px;font-size:13.5px;padding:2px 0}
+details.skills code{color:var(--mut);font-size:12px;flex:none;width:7.5em}
+.hide{display:none!important}
+#pv{position:fixed;z-index:20;width:240px;pointer-events:none;background:#fff;
+border:1px solid var(--line);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.25);
+opacity:0;transition:opacity .12s}
+#pv.on{opacity:1}
+footer{color:var(--mut);font-size:12px;line-height:1.5;padding:16px 0 24px;border-top:1px solid var(--line);text-align:right}
+footer a{text-decoration:underline;text-underline-offset:2px}footer a:hover{color:var(--fg)}
+@media (max-width:560px){.row .meta.sz,.doc .meta{display:none}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><nav class="crumbs"><a href="../../../index.html">Cours de Maths</a><span class="sep">/</span><a href="../../index.html">Sixième</a><span class="sep">/</span><a href="../index.html">S08 · Gestion des Données</a><span class="sep">/</span><span class="cur">data</span></nav><a class="home" href="../../../index.html">⌂ Accueil</a></div></header>
+<main><div class="wrap">
+<h1>data</h1><p class="sub">0 dossiers · 0 fichiers</p><div class="list"><div class=row><span class=name>Dossier vide</span></div></div>
+</div></main>
+<footer><div class="wrap">
+<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
+</div></footer>
+<script>
+(()=>{
+if(!matchMedia('(hover:hover)').matches)return;
+const pv=document.createElement('img');pv.id='pv';pv.alt='';document.body.append(pv);
+let cur=null,mx=0;
+// À droite de la liste si la place le permet, sinon près du curseur ; centré sur la ligne.
+const place=()=>{if(!cur)return;const w=240,m=16,r=cur.getBoundingClientRect();
+ const h=pv.complete&&pv.naturalWidth?pv.offsetHeight:340;
+ let x=r.right+m;if(x+w+m>innerWidth)x=mx+w+40<innerWidth?mx+24:mx-w-24;
+ const y=Math.max(m,Math.min(r.top+r.height/2-h/2,innerHeight-h-m));
+ pv.style.left=x+'px';pv.style.top=y+'px'};
+pv.addEventListener('load',place);
+document.addEventListener('mouseover',ev=>{const a=ev.target.closest('[data-thumb]');
+ mx=ev.clientX;if(a===cur)return;cur=a;
+ if(!a){pv.classList.remove('on');return}
+ pv.src=a.dataset.thumb;pv.classList.add('on');place()});
+addEventListener('scroll',()=>{cur=null;pv.classList.remove('on')},{passive:true});
+})();
+</script>
+</body>
+</html>
