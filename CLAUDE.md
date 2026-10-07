@@ -29,8 +29,9 @@ main : elles sont **générées** depuis des sources `.tex` du même nom, pour
   pas de dépliement pour les progressions, il veut tout voir d'un coup), aux
   couleurs du site (sombre/clair), titre de séquence lié à
   `Sixieme/index.html#S{NN}-…`. Lancé directement, il relance `build.py`.
-- Toutes les pages portent l'auteur (`AUTHOR`) dans l'en-tête et la licence
-  **CC0 1.0** en pied de page (choix de l'utilisateur : le plus ouvert
+- L'accueil affiche sous le bandeau ASCII l'auteur, le collège (`AUTHOR`,
+  `SCHOOL`) et l'année scolaire (calculée, bascule au 1er août) ; toutes les
+  pages portent la licence **CC0 1.0** en pied de page (choix de l'utilisateur : le plus ouvert
   possible), avec exclusion explicite des ressources tierces.
 - **Compilation automatique** : à chaque run, `build.py` recompile
   `NIVEAU.pdf` (2 passes `pdflatex`, longtable) si `NIVEAU.tex` ou
