@@ -1,0 +1,131 @@
+% Calcul mental 6e : compléments à 100 puis à 360 (préparation des angles).
+% Diaporama à défilement automatique : 25 s par question
+% (5 overlays de 5 s, \transduration -> entrée /Dur de chaque page du PDF).
+% Titre, « Fin » et correction : pas de durée (le professeur avance à la main).
+% Avancement automatique respecté par Okular, Adobe Reader (plein écran)...
+% mais pas par les visionneuses des navigateurs.
+\documentclass[aspectratio=169,12pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+% babel french non installé sur cette machine : compilé sans babel
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{array}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{frametitle}{fg=black,bg=white}
+\setbeamerfont{frametitle}{size=\LARGE,series=\bfseries}
+
+\definecolor{barre}{RGB}{40,110,200}
+\definecolor{urgent}{RGB}{200,40,40}
+
+% Barre de compte à rebours : 5 étapes de 5 s (25 s, 20 s, ..., 5 s)
+\newcommand{\compteur}{%
+  \foreach \k in {1,...,5}{%
+    \only<\k>{%
+      \pgfmathsetmacro{\reste}{6-\k}%
+      \pgfmathtruncatemacro{\sec}{5*(6-\k)}%
+      \begin{tikzpicture}
+        \draw[gray!60,line width=0.8pt,rounded corners=3pt] (0,0) rectangle (10,0.6);
+        \ifnum\k<5
+          \fill[barre,rounded corners=3pt] (0,0) rectangle ({10*\reste/5},0.6);
+        \else
+          \fill[urgent,rounded corners=3pt] (0,0) rectangle ({10*\reste/5},0.6);
+        \fi
+        \node[anchor=west,font=\Large\bfseries] at (10.3,0.3) {\sec\,s};
+      \end{tikzpicture}%
+    }%
+  }%
+}
+
+% \question{numéro}{total visé}{nombre donné}
+\newcommand{\question}[3]{%
+  \begin{frame}
+    \transduration<1-5>{5}% 5 overlays x 5 s = 25 s
+    \frametitle{Complète pour faire #2}
+    \begin{center}
+      {\Large Question #1 / 20}\par\vspace{1.2cm}
+      {\fontsize{42}{50}\selectfont\bfseries\mbox{#3 + \dots{} = #2}}\par\vspace{1.5cm}
+      \compteur
+    \end{center}
+  \end{frame}
+}
+
+\begin{document}
+
+% --- Titre : pas de durée, le professeur lance avec une touche ---
+\begin{frame}
+  \begin{center}
+    {\fontsize{40}{48}\selectfont\bfseries Calcul mental}\par\vspace{0.8cm}
+    {\LARGE 20 questions — 25 s par question}\par\vspace{1cm}
+    {\Large Compléments à 100, puis à 360\par\vspace{0.2cm}
+      \small(360° = un tour complet)}\par\vspace{1cm}
+    {\Large\bfseries Écris seulement le résultat,\\[0.2cm] numérote de 1 à 20.}
+  \end{center}
+\end{frame}
+
+% --- Série 1 : compléments à 100 ---
+\question{1}{100}{70}
+\question{2}{100}{40}
+\question{3}{100}{35}
+\question{4}{100}{85}
+\question{5}{100}{64}
+\question{6}{100}{37}
+\question{7}{100}{8}
+\question{8}{100}{91}
+\question{9}{100}{43}
+\question{10}{100}{19}
+
+% --- Série 2 : compléments à 360 ---
+\question{11}{360}{300}
+\question{12}{360}{180}
+\question{13}{360}{270}
+\question{14}{360}{90}
+\question{15}{360}{200}
+\question{16}{360}{330}
+\question{17}{360}{245}
+\question{18}{360}{172}
+\question{19}{360}{318}
+\question{20}{360}{87}
+
+% --- Fin : pas de durée ---
+\begin{frame}
+  \begin{center}
+    {\fontsize{50}{60}\selectfont\bfseries Fin}\par\vspace{1cm}
+    {\LARGE Posez les stylos !}
+  \end{center}
+\end{frame}
+
+% --- Correction : pas de durée ---
+\newcommand{\rep}[1]{\textcolor{urgent}{\textbf{#1}}}
+
+\begin{frame}
+  \frametitle{Correction — compléments à 100}
+  \begin{center}\LARGE
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{>{\bfseries}r l @{\hspace{0.6cm}} >{\bfseries}r l}
+      1. & 70 + \rep{30} = 100 &  6. & 37 + \rep{63} = 100 \\
+      2. & 40 + \rep{60} = 100 &  7. & 8 + \rep{92} = 100 \\
+      3. & 35 + \rep{65} = 100 &  8. & 91 + \rep{9} = 100 \\
+      4. & 85 + \rep{15} = 100 &  9. & 43 + \rep{57} = 100 \\
+      5. & 64 + \rep{36} = 100 & 10. & 19 + \rep{81} = 100 \\
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Correction — compléments à 360}
+  \begin{center}\Large
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{>{\bfseries}r l @{\hspace{0.6cm}} >{\bfseries}r l}
+      11. & 300 + \rep{60} = 360  & 16. & 330 + \rep{30} = 360 \\
+      12. & 180 + \rep{180} = 360 & 17. & 245 + \rep{115} = 360 \\
+      13. & 270 + \rep{90} = 360  & 18. & 172 + \rep{188} = 360 \\
+      14. & 90 + \rep{270} = 360  & 19. & 318 + \rep{42} = 360 \\
+      15. & 200 + \rep{160} = 360 & 20. & 87 + \rep{273} = 360 \\
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\end{document}
