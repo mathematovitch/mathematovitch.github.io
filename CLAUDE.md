@@ -86,7 +86,9 @@ Tous les fichiers de cours suivent le format
 `Ex-4C02-1a-Calcul.pdf`, `DS-6C05-1-...`).
 
 - **Type** : `Cours` (leçon), `Ex` (exercice), `Act` (activité), `DS` (devoir
-  surveillé/évaluation). Anciens codes obsolètes rencontrés et convertis :
+  surveillé/évaluation). Côté enseignant : `Seq` (plan de séquence : séances,
+  documents, toutes les évaluations y compris hors papier, ex. Capytale) et
+  `Prep` (préparation de séance) ; `build.py` les affiche en tête de séquence. Anciens codes obsolètes rencontrés et convertis :
   `FA-` (fiche d'activité) → `Ex`, `FM-` (fiche méthode) → `Cours`.
 - **Niveau** : un seul caractère — `6`/`5`/`4`/`3` pour le collège,
   `2`/`1`/`T` pour le lycée (Seconde/Première/Terminale).

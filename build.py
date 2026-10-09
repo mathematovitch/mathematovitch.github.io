@@ -47,9 +47,9 @@ THUMBS = ROOT / "thumbs"
 THUMB_WIDTH = 240
 PDFTOPPM = shutil.which("pdftoppm")
 
-TYPES = [("Cours", "Cours"), ("Act", "Activités"), ("Ex", "Exercices"),
-         ("DS", "Évaluations")]
-DOC_RE = re.compile(r"^(Cours|Ex|Act|DS)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
+TYPES = [("Seq", "Séquence"), ("Prep", "Préparations"), ("Cours", "Cours"),
+         ("Act", "Activités"), ("Ex", "Exercices"), ("DS", "Évaluations")]
+DOC_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
 SEQ_RE = re.compile(r"^S(\d{2})-(.+)$")
 
 # Accents perdus par le nettoyage des noms de fichiers (rename_all)
@@ -298,10 +298,10 @@ def thumb_attr(d, f):
 CSS = """
 :root{--bg:#fafaf9;--fg:#1c1c1a;--mut:#6b6b66;--line:#e4e3df;--card:#fff;
 --acc:#2547d0;--hover:#f1f0ec;--pill:#efeee9;
---t-cours:#2547d0;--t-act:#8a5a00;--t-ex:#1f7a4d;--t-ds:#b3261e;--t-res:#6b6b66}
+--t-seq:#6a3fb5;--t-prep:#00707a;--t-cours:#2547d0;--t-act:#8a5a00;--t-ex:#1f7a4d;--t-ds:#b3261e;--t-res:#6b6b66}
 @media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#e9e8e4;--mut:#9a9993;
 --line:#2c2c2a;--card:#1d1d1b;--acc:#8aa4ff;--hover:#252523;--pill:#2a2a28;
---t-cours:#8aa4ff;--t-act:#e0b45c;--t-ex:#6fcf9b;--t-ds:#ff8a80;--t-res:#9a9993}}
+--t-seq:#c3a6ff;--t-prep:#5fd0d8;--t-cours:#8aa4ff;--t-act:#e0b45c;--t-ex:#6fcf9b;--t-ds:#ff8a80;--t-res:#9a9993}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);
@@ -407,7 +407,7 @@ details.seq[open]>summary{border-bottom:1px solid var(--line)}
 .doc .id{color:var(--mut);font-size:12.5px;width:2.6em;flex:none}
 .doc .name{flex:1;min-width:0}
 .doc .meta{color:var(--mut);font-size:12px}
-.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
+.c-seq{color:var(--t-seq)}.c-prep{color:var(--t-prep)}.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
 .c-ds{color:var(--t-ds)}.c-res{color:var(--t-res)}
 .seq.archive{opacity:.7}
 .theme{font-size:10.5px;color:var(--mut);border:1px solid var(--line);border-radius:4px;padding:0 5px}
