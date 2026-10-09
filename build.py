@@ -32,7 +32,7 @@ AUTHOR = "Colin Outerovitch"
 SCHOOL = "Collège Jean Moulin"
 LICENSE_URL = "https://creativecommons.org/publicdomain/zero/1.0/deed.fr"
 
-EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy"}
+EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy", "images"}
 HIDDEN_EXT = {".tex", ".sty", ".py", ".sh", ".org", ".md", ".odg", ".txt", ".ico"}
 LEVELS = {"Sixieme": "Sixième", "Cinquieme": "Cinquième",
           "Quatrieme": "Quatrième", "Troisieme": "Troisième"}

@@ -99,6 +99,11 @@ Tous les fichiers de cours suivent le format
   `Ex-4C02-4a-...`).
 - Renommage effectué avec `git mv` (pas `mv`) pour préserver l'historique.
 
+**Figures sources** : sous-dossier `images/` d'une séquence (exclu des index
+via `EXCLUDE_DIRS` de `build.py`). Ex. `S04-Angles/images/Sesa-*-nb.pdf` :
+figures Sésamath découpées (vectoriel, niveaux de gris via ghostscript) dans
+`_Archive/pg_94.pdf`.
+
 **Contenu tiers à ne jamais renommer** (reconnaissable à ces motifs) :
 `mathsenligne/*`, `Sesa-NN-*` (ressources Sésamath), `pg_NN.pdf` (pages de
 manuel scanné), `Chapitre_N_-_Nom.pdf` (extraits de manuel). Les fichiers
