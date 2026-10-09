@@ -111,6 +111,35 @@ byte-à-byte via `md5sum`) entre deux niveaux différents — constaté entre
 le niveau du dossier où le fichier se trouve réellement ; ne pas tenter de
 dédupliquer sans consulter l'utilisateur.
 
+## Préférences pédagogiques (fiches, contrôles, séances)
+
+Élèves de 6e en **REP+** : tout doit rester simple et court.
+
+- **Énoncés courts** : une ligne de consigne par exercice. Les procédures de
+  manipulation (pliage, etc.) sont expliquées à l'oral, jamais rédigées sur la
+  fiche élève. Préférer des pointillés à compléter (ex. `<`, `>`, `=`) et plus
+  d'items plutôt que du texte.
+- **Fiches d'exercices** : une fiche = une compétence. Page 1 : sujet avec
+  rappel de leçon + exercice traité (exemple grisé) ; page 2 : la même feuille
+  avec les réponses en rouge (`\feuille` imprimée deux fois, `\ifcorrige`).
+  Même principe pour un diaporama de calcul mental.
+- **Contrôles (`DS`)** : recto-verso, deux compétences par contrôle (une par
+  face), 35 min, noté sur 40. En haut : en-tête avec la note, **grille de
+  compétences juste dessous**, puis la consigne ; bandeau « Compétence … » en
+  tête de chaque face. Le PDF publié est le sujet seul (corrigé : passer
+  `\corrigefalse` à `\corrigetrue`). Modèle : `Sixieme/S04-Angles/DS-6C04-0[1-3]-*.tex`.
+- **Grille de compétences** : Insuffisant / Fragile / Satisfaisant / Très
+  satisfaisant (vocabulaire BO, jamais « Expert ») — macro `\competences` de
+  `~/texmf/tex/latex/Mathdoc/mathdoc.sty`.
+- **Angles** : les angles droits sont toujours codés (petit carré) ; pas
+  d'exercice « vérifie à l'équerre ». L'angle **nul** fait partie des angles
+  particuliers enseignés en 6e (avec aigu, droit, obtus, plat). Figures à
+  mesurer en vraie grandeur (imprimer à 100 %).
+- **Séances (`Prep`)** : pas d'ardoise, tout se fait dans le cahier
+  d'exercices (calcul mental, activités, exercices). La trace écrite est
+  **écrite au tableau et copiée** par les élèves (jamais projetée) : prévoir
+  du temps (~15 min). Pas de « ticket de sortie ».
+
 ## Conventions générales
 
 - Ne jamais committer sans demande explicite de l'utilisateur.
