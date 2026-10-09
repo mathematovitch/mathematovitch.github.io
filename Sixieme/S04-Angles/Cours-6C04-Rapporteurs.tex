@@ -5,132 +5,156 @@
 \usepackage{Mathdoc}
 
 %% Numéro de séquence %% Titre de la séquence %%
-\renewcommand{\centerhead}{}
+\renewcommand{\centerhead}{S04 - Les angles}
+
+
+\usetikzlibrary{calc}
+% Angle de sommet V : \angleCours[échelle]{mesure}{rotation}{L1}{V}{L2}
+\newcommand{\angleCours}[6][1]{%
+  \begin{tikzpicture}[scale=#1,baseline=(V.base)]
+    \coordinate (V) at (0,0);
+    \ifnum#2=90
+      \draw[gray!70!black, fill=gray!25] (0,0) -- (#3:3mm)
+        -- ($(#3:3mm)+({#3+90}:3mm)$) -- ({#3+90}:3mm) -- cycle;
+    \else\ifnum#2>0
+      \draw[gray!70!black, fill=gray!25] (0,0) -- (#3:4.5mm)
+        arc[start angle=#3, delta angle=#2, radius=4.5mm] -- cycle;
+    \fi\fi
+    \draw[thick] (#3:1.6) -- (V) -- ({#3+#2}:1.6);
+    \foreach \a in {#3,{#3+#2}} \draw (\a:1.2) ++(-1.5pt,-1.5pt) -- ++(3pt,3pt) ++(-3pt,0) -- ++(3pt,-3pt);
+    \node at (#3:1.2) [shift={({#3-90}:2.5mm)}] {$#4$};
+    \node at ({#3+#2/2+180}:3.5mm) {$#5$};
+    \node at ({#3+#2}:1.2) [shift={({#3+#2+90}:2.5mm)}] {$#6$};
+  \end{tikzpicture}%
+}
+% Encadré « compétence » en tête de partie
+\newcommand{\comp}[2]{\par\smallskip\noindent\colorbox{gray!15}{\parbox{\dimexpr\linewidth-2\fboxsep}{\small\textbf{Compétence #1} : #2}}\par\smallskip}
 
 %% Spacing commands %%
 \renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
 
 \begin{document}
 
-\section{Définitions, exemples}
+\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.6pt,arc=2mm,title={\textbf{Ce que je dois savoir faire à la fin du chapitre}},coltitle=black,colbacktitle=gray!15]
+\begin{tabular}{@{}ll@{}}
+\textbf{6C04-GEO10} & \textbf{Nommer} un angle \hfill (partie 1)\\
+\textbf{6C04-GEO11} & Donner le \textbf{sommet} et les \textbf{côtés} d'un angle \hfill (partie 1)\\
+\textbf{6C04-GEO12} & Reconnaître la \textbf{nature} d'un angle (nul, aigu, droit, obtus, plat) \hfill (partie 2)\\
+\textbf{6C04-GEO13} & \textbf{Classer} des angles selon leur nature \hfill (partie 2)\\
+\textbf{6C04-GEO14} & \textbf{Mesurer} un angle au rapporteur \hfill (partie 3)\\
+\textbf{6C04-GEO15/16} & \textbf{Construire} un angle de mesure donnée \hfill (partie 4)\\
+\end{tabular}
+\end{tcolorbox}
+
+\section{Vocabulaire : nommer un angle}
 
 \begin{definition}
-Deux demi-droites de même origine définissent un angle.
+Deux \textbf{demi-droites de même origine} forment un \textbf{angle}.
 \end{definition}
 
+\subsection{Sommet et côtés}
+\comp{6C04-GEO11}{donner le sommet et les côtés d'un angle \hfill \textit{Fiche Ex-6C04-04}}
+
 \begin{vocabulaire}
-Cette origine est le \textbf{sommet} de l'angle et les deux demi-droites sont
-appelées \textbf{côtés} de l'angle.
+\begin{itemize}
+\item L'origine commune des deux demi-droites est le \textbf{sommet} de l'angle (c'est un \textbf{point}).
+\item Les deux demi-droites sont les \textbf{côtés} de l'angle. Elles commencent au sommet :
+on écrit le sommet \textbf{en premier}, avec un crochet : $[BA)$, $[BC)$.
+\end{itemize}
 \end{vocabulaire}
 
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+  \coordinate (B) at (0,0); \coordinate (A) at (35:2.6); \coordinate (C) at (-5:3);
+  \draw[gray!70!black, fill=gray!25] (B) -- (-5:6mm) arc[start angle=-5, delta angle=40, radius=6mm] -- cycle;
+  \draw[very thick,->,>=stealth] (B) -- (35:4);
+  \draw[very thick,->,>=stealth] (B) -- (-5:4.4);
+  \foreach \P in {A,C} \draw (\P) ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);
+  \node[above left] at (A) {$A$}; \node[below] at (C) {$C$}; \node[left] at (B) {$B$};
+  \node[anchor=west,align=left] (s) at (-4.3,-1.2) {\textbf{sommet} : le point $B$};
+  \draw[->,gray] (s.north east) to[bend left=15] (-0.15,-0.1);
+  \node[anchor=west,align=left] at (4.2,2.3) {\textbf{côté} $[BA)$};
+  \node[anchor=west,align=left] at (4.5,-0.4) {\textbf{côté} $[BC)$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Nommer un angle}
+\comp{6C04-GEO10}{nommer un angle avec trois lettres \hfill \textit{Fiche Ex-6C04-03}}
+
 \begin{notation}
-Pour noter un angle, on utilise trois lettres :
+Pour nommer un angle, on écrit \textbf{trois lettres} sous un \textbf{chapeau} : $\widehat{ABC}$.
 \begin{itemize}
-\item La lettre du milieu est le sommet de l'angle;
-\item les deux autres lettres sont chacune sur un côtés de l'angle.
+\item la lettre \textbf{du milieu} est \textbf{le sommet} ;
+\item les deux autres lettres sont des points, \textbf{un sur chaque côté}.
 \end{itemize}
 \end{notation}
 
 \begin{exemple}
-On a représenté l'angle $\widehat{AOB}$
+L'angle de la figure ci-dessus se note $\widehat{ABC}$ ou $\widehat{CBA}$ (même angle : le sommet $B$ reste au milieu).\\
+Son sommet est le point $B$, ses côtés sont les demi-droites $[BA)$ et $[BC)$.
 \end{exemple}
+
+\begin{remarque}
+\textbf{Attention :} $\widehat{BAC}$ n'est \textbf{pas} le même angle : son sommet est $A$ ! \\
+Si plusieurs points sont sur un même côté, l'angle a plusieurs noms : si $D \in [BA)$, alors $\widehat{ABC} = \widehat{DBC}$.
+\end{remarque}
+
+\section{Nature d'un angle : les angles particuliers}
+\comp{6C04-GEO12 et GEO13}{reconnaître la nature d'un angle, classer des angles \hfill \textit{Fiches Ex-6C04-05 et 06}}
+
+\begin{definition}
+Il y a \textbf{cinq} angles particuliers à connaître : l'angle \textbf{nul}, l'angle \textbf{aigu}, l'angle \textbf{droit},
+l'angle \textbf{obtus} et l'angle \textbf{plat}. Pour trouver la nature d'un angle, on le compare à l'\textbf{angle droit}
+(codé par un petit carré) et à l'\textbf{angle plat}.
+\end{definition}
+
 \begin{center}
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-4.5,-2) rectangle (9.5,5.5);
-\draw [shift={(0,0)},line width=2.8pt,fill=black,fill opacity=0.6] (0,0) -- (-14.036243467926479:1.323915838904143) arc (-14.036243467926479:33.69006752597979:1.323915838904143) -- cycle;
-\draw [line width=1pt] (0,0)-- (3,2);
-\draw [line width=1pt] (0,0)-- (4,-1);
-\draw [line width=1pt] (9,0)-- (9,3);
-\draw [line width=1pt] (9,3)-- (4,3);
-\draw [line width=1pt] (4,3)-- (4,0);
-\draw [line width=1pt] (4,0)-- (9,0);
-\draw [line width=1pt] (-4,2)-- (-4,5);
-\draw [line width=1pt] (-4,5)-- (1,5);
-\draw [line width=1pt] (1,5)-- (1,2);
-\draw [line width=1pt] (1,2)-- (-4,2);
-\draw [line width=1pt] (-0.7573394331848615,2)-- (-0.13320768055862275,0.4232778463907834);
-\draw [line width=1pt] (4,1.1608880994945172)-- (1.7581006607330099,1.0474095990170196);
-\draw [line width=1pt] (4,1.1608880994945172)-- (2.2498408294688343,-0.23868007306128536);
-\begin{scriptsize}
-\draw [color=black] (0,0)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (-0.8140786834236104,0.13012505349058154) node {$O$};
-\draw [color=black] (1.4676923076923076,0.9784615384615384)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (1.474404409539265,1.5675193928722164) node {$A$};
-
-\draw[color=black] (6.5,1.5675193928722164) node {\textbf{Côtés de l'angle}};
-
-\draw[color=black] (-1.5,3.5) node {\textbf{Sommet de l'angle}};
-
-\draw [color=black] (1.9694117647058824,-0.4923529411764706)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (2.0417969119267547,-1.118138451761891) node {$B$};
-\end{scriptsize}
-\end{tikzpicture}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\linewidth}{|>{\centering\arraybackslash}m{1.9cm}|*{5}{>{\centering\arraybackslash}X|}}
+\hline
+\textit{Nom} & \textbf{Angle nul} & \textbf{Angle aigu} & \textbf{Angle droit} & \textbf{Angle obtus} & \textbf{Angle plat} \\ \hline
+\textit{Figure} &
+\angleCours[0.8]{0}{10}{A}{O}{B} &
+\angleCours[0.8]{40}{10}{A}{O}{B} &
+\angleCours[0.8]{90}{10}{A}{O}{B} &
+\angleCours[0.8]{135}{10}{A}{O}{B} &
+\angleCours[0.8]{180}{0}{A}{O}{B} \\ \hline
+\textit{Je le reconnais} &
+Les deux côtés sont confondus &
+Plus \textbf{petit} qu'un angle droit &
+Il est codé par un \textbf{petit carré} &
+Plus \textbf{grand} qu'un angle droit, plus petit qu'un plat &
+Les côtés sont dans le prolongement : $A$, $O$, $B$ \textbf{alignés} \\ \hline
+\textit{Mesure} & $0\degre$ & entre $0\degre$ et $90\degre$ & $90\degre$ & entre $90\degre$ et $180\degre$ & $180\degre$ \\ \hline
+\end{tabularx}
 \end{center}
-Le point O est le sommet de l'angle et les demi-droites [OA) et [OB) sont les côtés de l'angle $\widehat{AOB}$.
 
+\begin{remarque}
+Un angle droit, c'est la \textbf{moitié} d'un angle plat : $180\degre \div 2 = 90\degre$.
+\end{remarque}
 
-\section{Angles particuliers}
-
+\begin{exercice}[0][Exercice traité : reconnaître et classer]
+\textbf{Méthode :} je compare l'angle à un angle droit.
+\begin{itemize}
+\item Les deux côtés sont \textbf{confondus} $\to$ l'angle est \textbf{nul}.
+\item Il est \textbf{plus petit} qu'un angle droit $\to$ \textbf{aigu} ;\quad codé par un \textbf{petit carré} $\to$ \textbf{droit}.
+\item Il est \textbf{plus grand} qu'un angle droit $\to$ \textbf{obtus} ;\quad les points sont \textbf{alignés} $\to$ \textbf{plat}.
+\end{itemize}
+\textbf{Classer les mesures} $35\degre$ ; $90\degre$ ; $150\degre$ ; $180\degre$ ; $89\degre$ ; $91\degre$ ; $0\degre$ :
 \begin{center}
+\renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|c|c|c|c|c|}
-\hline 
-\textit{Nom} & \textbf{Angle Plat} & \textbf{Angle droit}& \textbf{Angle obtus}& \textbf{Angle Aigu}\\
 \hline
- & Formé de trois & Moitié & Plus grand & Plus petit \\
-\textit{Propriété} & points alignés & d'un angle plat& qu'un angle droit & qu'un angle droit \\
-\hline
-\textit{Exemple} 
-&
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-1.5,-0.5) rectangle (2,1);
-\draw [shift={(0,0)},line width=1pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (0:0.4491382054346098) arc (0:180:0.4491382054346098) -- cycle;
-\draw [line width=1pt] (-1.5,0)-- (2,0);
-\draw [line width=1pt] (2,0)-- (-1.5,0);
-\begin{scriptsize}
-\draw [color=black] (-1,0)-- ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);
-\draw[color=black] (-0.9201149059420427,0.19462655568832887) node {$A$};
-\draw [color=black] (0,0)-- ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);
-\draw[color=black] (0.07796999502375684,0.19462655568832887) node {$B$};
-\draw [color=black] (1.5,0)-- ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);
-\draw[color=black] (1.575097346472456,0.19462655568832887) node {$C$};
-\end{scriptsize}
-\end{tikzpicture}
-&
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-1.5,-0.5) rectangle (2,1.5);
-\draw[line width=1pt,fill=black,fill opacity=0.10000000149011612] (0.31758867075276925,0) -- (0.3175886707527693,0.31758867075276925) -- (0,0.31758867075276925) -- (0,0) -- cycle; 
-\draw [line width=1pt] (1.5,0)-- (0,0);
-\draw [line width=1pt] (0,0)-- (0,1);
-\begin{scriptsize}
-\draw [color=black] (0,0)-- ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);
-\draw[color=black] (-0.23143632427564098,0.2345499517269608) node {};
-\end{scriptsize}
-\end{tikzpicture}
-&
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-1.5,-0.5) rectangle (2,1.5);
-\draw [shift={(0,0)},line width=1pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (0:0.4491382054346098) arc (0:153.434948822922:0.4491382054346098) -- cycle;
-\draw [line width=1pt] (1.5,0)-- (0,0);
-\draw [line width=1pt] (0,0)-- (-1,0.5);
-\begin{scriptsize}
-\draw [color=black] (0,0)-- ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);
-\end{scriptsize}
-\end{tikzpicture}
-&
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-1.5,-0.5) rectangle (2,1.5);
-\draw [shift={(0,0)},line width=1pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (0:0.4491382054346098) arc (0:26.56505117707799:0.4491382054346098) -- cycle;
-\draw [line width=1pt] (1.5,0)-- (0,0);
-\draw [line width=1pt] (0,0)-- (1,0.5);
-\begin{scriptsize}
-\draw [color=black] (0,0)-- ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);
-\end{scriptsize}
-\end{tikzpicture} \\
-\hline
+\textbf{Nul} & \textbf{Aigus} & \textbf{Droit} & \textbf{Obtus} & \textbf{Plat} \\ \hline
+$0\degre$ & $35\degre$ ; $89\degre$ & $90\degre$ & $150\degre$ ; $91\degre$ & $180\degre$ \\ \hline
 \end{tabular}
 \end{center}
+\textit{Piège :} $89\degre$ et $91\degre$ sont tout près de l'angle droit, mais le premier est aigu et le second obtus.
+\end{exercice}
 
+\newpage
 \section{Mesurer un angle}
+\comp{6C04-GEO14}{mesurer un angle au rapporteur}
 
 \begin{definition}
 L'unité de mesure des angles est le degré, noté "$\degre$" \\ Pour mesurer un
@@ -181,12 +205,13 @@ Deux angles de même mesure sont codés de la même façon. $\widehat{IHJ}=\wide
 \end{multicols}
 
 \begin{remarque}
-Il existe deux angles particuliers : \textbf{L'angle droit} mesure 90°
-et \textbf{l'angle plat} mesure 180°.
+Rappel (partie 2) : \textbf{l'angle droit} mesure $90\degre$
+et \textbf{l'angle plat} mesure $180\degre$.
 \end{remarque}
 
 \newpage
 \section{Construire un angle}
+\comp{6C04-GEO15/16}{construire un angle de mesure donnée}
 
 \textbf{Énoncé :} Tracer un angle $\widehat{BAC}$ de mesure $137$°.
 
