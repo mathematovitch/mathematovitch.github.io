@@ -9,23 +9,40 @@
 
 
 \usetikzlibrary{calc}
-% Angle de sommet V : \angleCours[échelle]{mesure}{rotation}{L1}{V}{L2}
-\newcommand{\angleCours}[6][1]{%
-  \begin{tikzpicture}[scale=#1,baseline=(V.base)]
-    \coordinate (V) at (0,0);
-    \ifnum#2=90
-      \draw[gray!70!black, fill=gray!25] (0,0) -- (#3:3mm)
-        -- ($(#3:3mm)+({#3+90}:3mm)$) -- ({#3+90}:3mm) -- cycle;
-    \else\ifnum#2>0
-      \draw[gray!70!black, fill=gray!25] (0,0) -- (#3:4.5mm)
-        arc[start angle=#3, delta angle=#2, radius=4.5mm] -- cycle;
+% Croix sur un point
+\newcommand{\croix}[1]{\draw #1 ++(-2pt,-2pt) -- ++(4pt,4pt) ++(-4pt,0) -- ++(4pt,-4pt);}
+% Angle du tableau des angles particuliers : \angleTab{mesure}
+% Sommet O, côté [OA) horizontal vers la droite, côté [OB) tourné de « mesure ».
+\newcommand{\angleTab}[1]{%
+  \begin{tikzpicture}[baseline=(O.base)]
+    \coordinate (O) at (0,0);
+    \ifnum#1=90 \draw[gray!70!black, fill=gray!25] (0,0) rectangle (3mm,3mm);
+    \else\ifnum#1>0 \draw[gray!70!black, fill=gray!25] (0,0) -- (4mm,0) arc[start angle=0, delta angle=#1, radius=4mm] -- cycle;
     \fi\fi
-    \draw[thick] (#3:1.6) -- (V) -- ({#3+#2}:1.6);
-    \foreach \a in {#3,{#3+#2}} \draw (\a:1.2) ++(-1.5pt,-1.5pt) -- ++(3pt,3pt) ++(-3pt,0) -- ++(3pt,-3pt);
-    \node at (#3:1.2) [shift={({#3-90}:2.5mm)}] {$#4$};
-    \node at ({#3+#2/2+180}:3.5mm) {$#5$};
-    \node at ({#3+#2}:1.2) [shift={({#3+#2+90}:2.5mm)}] {$#6$};
+    \draw[thick] (1.25,0) -- (0,0) -- (#1:1.25);
+    \fill (0,0) circle (1.2pt);
+    \node[below] at (0,0) {$O$};
+    \croix{(1,0)} \node[below] at (1,0) {$A$};
+    \ifnum#1=0 \croix{(0.6,0)} \node[above] at (0.6,0) {$B$};
+    \else\ifnum#1=180 \croix{(-1,0)} \node[below] at (-1,0) {$B$};
+    \else \croix{(#1:1)} \node at ($(#1:1)+({#1+90}:3mm)$) {$B$};
+    \fi\fi
   \end{tikzpicture}%
+}
+% Rapporteur dessiné (centre à l'origine, rayon 2.6) :
+% graduation extérieure : 0 à droite ; graduation intérieure : 0 à gauche.
+\newcommand{\rapporteur}{%
+  \fill[blue!4] (3.3,0) arc[start angle=0, end angle=180, radius=3.3] -- cycle;
+  \draw[blue!60!black] (3.3,0) arc[start angle=0, end angle=180, radius=3.3] -- cycle;
+  \draw[blue!60!black] (2.1,0) arc[start angle=0, end angle=180, radius=2.1];
+  \foreach \t in {0,5,...,180} \draw[blue!60!black] (\t:3.3) -- (\t:3.15);
+  \foreach \t in {0,10,...,180} {
+    \draw[blue!60!black] (\t:3.3) -- (\t:3.0);
+    \node[blue!60!black, font=\fontsize{4.5pt}{5pt}\selectfont, inner sep=0pt, rotate=\t-90] at (\t:2.8) {\t};
+    \pgfmathtruncatemacro{\u}{180-\t}
+    \node[blue!60!black, font=\fontsize{4.5pt}{5pt}\selectfont, inner sep=0pt, rotate=\t-90] at (\t:2.45) {\u};
+  }
+  \draw[blue!60!black] (-0.15,0) -- (0.15,0) (0,0) -- (0,0.15);
 }
 % Encadré « compétence » en tête de partie
 \newcommand{\comp}[2]{\par\smallskip\noindent\colorbox{gray!15}{\parbox{\dimexpr\linewidth-2\fboxsep}{\small\textbf{Compétence #1} : #2}}\par\smallskip}
@@ -53,7 +70,7 @@ Deux \textbf{demi-droites de même origine} forment un \textbf{angle}.
 \end{definition}
 
 \subsection{Sommet et côtés}
-\comp{6C04-GEO11}{donner le sommet et les côtés d'un angle \hfill \textit{Fiche Ex-6C04-04}}
+\comp{6C04-GEO11}{donner le sommet et les côtés d'un angle \hfill \textit{Fiche Ex-6C04-02}}
 
 \begin{vocabulaire}
 \begin{itemize}
@@ -79,7 +96,7 @@ on écrit le sommet \textbf{en premier}, avec un crochet : $[BA)$, $[BC)$.
 \end{center}
 
 \subsection{Nommer un angle}
-\comp{6C04-GEO10}{nommer un angle avec trois lettres \hfill \textit{Fiche Ex-6C04-03}}
+\comp{6C04-GEO10}{nommer un angle avec trois lettres \hfill \textit{Fiche Ex-6C04-01}}
 
 \begin{notation}
 Pour nommer un angle, on écrit \textbf{trois lettres} sous un \textbf{chapeau} : $\widehat{ABC}$.
@@ -100,7 +117,7 @@ Si plusieurs points sont sur un même côté, l'angle a plusieurs noms : si $D \
 \end{remarque}
 
 \section{Nature d'un angle : les angles particuliers}
-\comp{6C04-GEO12 et GEO13}{reconnaître la nature d'un angle, classer des angles \hfill \textit{Fiches Ex-6C04-05 et 06}}
+\comp{6C04-GEO12 et GEO13}{reconnaître la nature d'un angle, classer des angles \hfill \textit{Fiches Ex-6C04-03 et 04}}
 
 \begin{definition}
 Il y a \textbf{cinq} angles particuliers à connaître : l'angle \textbf{nul}, l'angle \textbf{aigu}, l'angle \textbf{droit},
@@ -114,11 +131,11 @@ l'angle \textbf{obtus} et l'angle \textbf{plat}. Pour trouver la nature d'un ang
 \hline
 \textit{Nom} & \textbf{Angle nul} & \textbf{Angle aigu} & \textbf{Angle droit} & \textbf{Angle obtus} & \textbf{Angle plat} \\ \hline
 \textit{Figure} &
-\angleCours[0.8]{0}{10}{A}{O}{B} &
-\angleCours[0.8]{40}{10}{A}{O}{B} &
-\angleCours[0.8]{90}{10}{A}{O}{B} &
-\angleCours[0.8]{135}{10}{A}{O}{B} &
-\angleCours[0.8]{180}{0}{A}{O}{B} \\ \hline
+\rule{0pt}{1.6cm}\angleTab{0} &
+\angleTab{40} &
+\angleTab{90} &
+\angleTab{135} &
+\angleTab{180} \\[3mm] \hline
 \textit{Je le reconnais} &
 Les deux côtés sont confondus &
 Plus \textbf{petit} qu'un angle droit &
@@ -157,52 +174,60 @@ $0\degre$ & $35\degre$ ; $89\degre$ & $90\degre$ & $150\degre$ ; $91\degre$ & $1
 \comp{6C04-GEO14}{mesurer un angle au rapporteur}
 
 \begin{definition}
-L'unité de mesure des angles est le degré, noté "$\degre$" \\ Pour mesurer un
-angle on peut utiliser un rapporteur
+L'unité de mesure des angles est le \textbf{degré}, noté « $\degre$ ».
+Pour mesurer un angle, on utilise un \textbf{rapporteur}.
 \end{definition}
 
-\begin{multicols}{2}
-\encart{5cm}
-\columnbreak
-\begin{itemize}[label=\textbullet]
-\item On lit la mesure de l'angle $\widehat{FCE}$ sur les \textbf{graduations extérieures}. \\ $\widehat{FCE}=50$° 
-\item On lit la mesure de l'angle $\widehat{DCE}$ sur les \textbf{graduations intérieures}. \\ $\widehat{DCE}=130$° 
-\end{itemize}
-\end{multicols}
-
-
-\begin{multicols}{2}
-Deux angles de même mesure sont codés de la même façon. $\widehat{IHJ}=\widehat{KML}$
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=2cm,y=2cm]
-\clip(-0.5,-1) rectangle (3.5,1);
-\draw [shift={(0,0)},line width=1pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (0:0.47730452283397756) arc (0:26.56505117707799:0.47730452283397756) -- cycle;
-\draw [shift={(3,-0.5)},line width=1pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (180:0.47730452283397756) arc (180:206.565051177078:0.47730452283397756) -- cycle;
-\draw [shift={(0,0)},line width=1pt] (0:0.47730452283397756) arc (0:26.56505117707799:0.47730452283397756);
-\draw[line width=1pt] (0.4343674562627567,0.1240527944935223) -- (0.48354113055665376,0.13809650707769497);
-\draw[line width=1pt] (0.4439881600241419,0.08329883936890714) -- (0.49425097059291273,0.09272889665595326);
-\draw [line width=1pt] (1.5,0)-- (0,0);
-\draw [line width=1pt] (0,0)-- (1,0.5);
-\draw [line width=1pt] (1.5,-0.5)-- (3,-0.5);
-\draw [line width=1pt] (3,-0.5)-- (2,-1);
-\draw [shift={(3,-0.5)},line width=1pt] (180:0.47730452283397756) arc (180:206.565051177078:0.47730452283397756);
-\draw[line width=1pt] (2.565632543737243,-0.6240527944935229) -- (2.5164588694433463,-0.6380965070776952);
-\draw[line width=1pt] (2.5560118399758576,-0.5832988393689074) -- (2.5057490294070868,-0.5927288966559535);
-\begin{scriptsize}
-\draw [color=black] (0,0)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (-0.1433995465088165,-0.021089601039946962) node {$H$};
-\draw [color=black] (3,-0.5)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (3.0545407564788327,-0.3552027670237303) node {$M$};
-\draw [color=black] (0.7100818465242826,0.3550409232621413)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (0.7634790468757408,0.5039453740774268) node {$I$};
-\draw [color=black] (1.0225872164141856,0)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (1.0771363047380689,0.14937629997218738) node {$J$};
-\draw [color=black] (2.065838530608451,-0.5)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (2.120387618932334,-0.3552027670237303) node {$K$};
-\draw [color=black] (2.3801398052902196,-0.8099300973548902)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (2.434044876794662,-0.6620413888455722) node {$L$};
-\end{scriptsize}
+\begin{center}
+\begin{minipage}[c]{0.55\linewidth}
+\centering
+\begin{tikzpicture}[scale=1]
+  \rapporteur
+  \draw[thick] (-4,0) -- (4,0);
+  \draw[thick] (0,0) -- (50:4);
+  \croix{(3.7,0)} \node[below] at (3.7,0) {$E$};
+  \croix{(-3.7,0)} \node[below] at (-3.7,0) {$D$};
+  \croix{(50:3.7)} \node[right] at (50:3.7) {$F$};
+  \node[below] at (0,0) {$C$};
+  \draw[red, very thick] (0:0.7) arc[start angle=0, end angle=50, radius=0.7];
+  \draw[green!50!black, very thick] (50:1) arc[start angle=50, end angle=180, radius=1];
 \end{tikzpicture}
-\end{multicols}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.43\linewidth}
+\textbf{Méthode :} je place le \textbf{centre} du rapporteur sur le sommet $C$,
+et le \textbf{0} sur un côté.
+\begin{itemize}[label=\textbullet]
+\item Pour $\textcolor{red}{\widehat{FCE}}$, le côté $[CE)$ est sur le 0 de la graduation \textbf{extérieure} :
+je lis $\widehat{FCE} = 50\degre$.
+\item Pour $\textcolor{green!50!black}{\widehat{FCD}}$, le côté $[CD)$ est sur le 0 de la graduation \textbf{intérieure} :
+je lis $\widehat{FCD} = 130\degre$.
+\end{itemize}
+\textit{Je vérifie :} $\widehat{FCE}$ est aigu, donc moins de $90\degre$.
+\end{minipage}
+\end{center}
+
+\begin{notation}
+Deux angles de même mesure sont codés de la même façon : ici $\widehat{IHJ} = \widehat{KML}$.
+\end{notation}
+\vspace{-4mm}
+\begin{center}
+\begin{tikzpicture}
+  \begin{scope}
+    \draw[gray!70!black, fill=gray!25] (0,0) -- (7mm,0) arc[start angle=0, delta angle=35, radius=7mm] -- cycle;
+    \draw[thick] (12:5.5mm) -- (12:8.5mm) (23:5.5mm) -- (23:8.5mm);
+    \draw[thick] (2.8,0) -- (0,0) -- (35:2.8);
+    \croix{(2.3,0)} \croix{(35:2.3)}
+    \node[left] at (0,0) {$H$}; \node[below] at (2.3,0) {$J$}; \node[above] at (35:2.3) {$I$};
+  \end{scope}
+  \begin{scope}[shift={(7,0.6)}, rotate=190]
+    \draw[gray!70!black, fill=gray!25] (0,0) -- (7mm,0) arc[start angle=0, delta angle=35, radius=7mm] -- cycle;
+    \draw[thick] (12:5.5mm) -- (12:8.5mm) (23:5.5mm) -- (23:8.5mm);
+    \draw[thick] (2.8,0) -- (0,0) -- (35:2.8);
+    \croix{(2.3,0)} \croix{(35:2.3)}
+    \node[right] at (0,0) {$M$}; \node[above] at (2.3,0) {$K$}; \node[below] at (35:2.3) {$L$};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
 
 \begin{remarque}
 Rappel (partie 2) : \textbf{l'angle droit} mesure $90\degre$
@@ -213,70 +238,35 @@ et \textbf{l'angle plat} mesure $180\degre$.
 \section{Construire un angle}
 \comp{6C04-GEO15/16}{construire un angle de mesure donnée}
 
-\textbf{Énoncé :} Tracer un angle $\widehat{BAC}$ de mesure $137$°.
+\textbf{Énoncé :} Tracer un angle $\widehat{BAC}$ de mesure $137\degre$.
 
-\begin{multicols}{2}
-\makebox[\linewidth]{} \\ \makebox[\linewidth]{} \\ 
-\noindent \textbf{Étape 1 :} Le sommet de l'angle est A, il faut donc commencer par tracer la demie-droite [AB) (par exemple), et placer le rapporteur afin d'avoir le "0" de la graduation sur la demie-droite [AB). \\
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-3.5,-3.5) rectangle (3.5,3.5);
-\draw [line width=1pt] (-3,-3)-- (-3,3);
-\draw [line width=1pt] (-3,3)-- (3,3);
-\draw [line width=1pt] (3,3)-- (3,-3);
-\draw [line width=1pt] (3,-3)-- (-3,-3);
-\draw [line width=1pt] (-2.5,-1)-- (0,-1);
-\begin{scriptsize}
-\draw [color=black] (0,-1)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (0.4352289909462427,-1.351713241466346) node {$A$};
-\draw [color=black] (-2,-1)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (-1.9016326821732072,-1.6343981212791856) node {$B$};
-\end{scriptsize}
+\newcommand{\etapeConstr}[2]{%
+\par\medskip\noindent
+\begin{minipage}[c]{0.4\linewidth}#1\end{minipage}\hfill
+\begin{minipage}[c]{0.58\linewidth}\centering
+\begin{tikzpicture}[scale=0.92]
+  \useasboundingbox (-4.6,-0.6) rectangle (4.3,3.8);
+  #2
+  \draw[thick] (0,0) -- (4.2,0);
+  \croix{(3.8,0)} \node[below] at (3.8,0) {$B$};
+  \node[below] at (0,0) {$A$};
 \end{tikzpicture}
-\end{multicols}
+\end{minipage}\par}
 
-\begin{multicols}{2}
-\makebox[\linewidth]{} \\ \makebox[\linewidth]{} \\ \makebox[\linewidth]{} \\ 
-\noindent \textbf{Étape 2 :} Comme la graduation "0" est sur l’extérieur, on cherche la mesure $137$° sur la \textbf{ligne extérieure}, puis on fait une marque au crayon.  \\
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-3.5,-3.5) rectangle (3.5,3.5);
-\draw [line width=1pt] (-3,-3)-- (-3,3);
-\draw [line width=1pt] (-3,3)-- (3,3);
-\draw [line width=1pt] (3,3)-- (3,-3);
-\draw [line width=1pt] (3,-3)-- (-3,-3);
-\draw [line width=1pt] (-2.5,-1)-- (0,-1);
-\draw [line width=1pt] (0,-1)-- (1.889297573418096,0.7617984894156513);
-\begin{scriptsize}
-\draw [color=black] (0,-1)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (0.4352289909462427,-1.351713241466346) node {$A$};
-\draw [color=black] (-2,-1)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (-1.9016326821732072,-1.6343981212791856) node {$B$};
-\end{scriptsize}
-\end{tikzpicture}
-\end{multicols}
+\etapeConstr{\textbf{Étape 1 :} je trace la demi-droite $[AB)$. Je place le \textbf{centre} du rapporteur sur $A$
+et le \textbf{0} sur $[AB)$.}{\rapporteur}
 
-\begin{multicols}{2}
-\makebox[\linewidth]{} \\ \makebox[\linewidth]{} \\ \makebox[\linewidth]{} \\ 
-\noindent \textbf{Étape 3 :} Il ne reste plus qu'à tracer la demi-droite d'origine A passant par la marque laissée au crayon. On place un point C sur cette demi-droite. \\
-\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-3.5,-3.5) rectangle (3.5,3.5);
-\draw [shift={(0,-1)},line width=1pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (43:0.9422829327094556) arc (43:180:0.9422829327094556) -- cycle;
-\draw [line width=1pt] (-3,-3)-- (-3,3);
-\draw [line width=1pt] (-3,3)-- (3,3);
-\draw [line width=1pt] (3,3)-- (3,-3);
-\draw [line width=1pt] (3,-3)-- (-3,-3);
-\draw [line width=1pt] (-2.5,-1)-- (0,-1);
-\draw [line width=1pt] (0,-1)-- (1.889297573418096,0.7617984894156513);
-\begin{scriptsize}
-\draw [color=black] (0,-1)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (0.4352289909462427,-1.351713241466346) node {$A$};
-\draw [color=black] (-2,-1)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (-1.9016326821732072,-1.6343981212791856) node {$B$};
-\draw [color=black] (1.462707403238341,0.3639967201249972)-- ++(-2.5pt,-2.5pt) -- ++(5pt,5pt) ++(-5pt,0) -- ++(5pt,-5pt);
-\draw[color=black] (2.1124926111690736,0.3255503787565038) node {$C$};
-\draw[color=black] (-0.6955105283051041,0.2878590614481251) node {$137$°};
-\end{scriptsize}
-\end{tikzpicture}
-\end{multicols}
+\etapeConstr{\textbf{Étape 2 :} le 0 posé sur $[AB)$ est celui de la graduation \textbf{extérieure}.
+Je cherche $137$ sur la graduation extérieure et je fais une \textbf{marque} au crayon.}
+{\rapporteur \draw[red, thick] (137:3.45) ++(-3pt,-3pt) -- ++(6pt,6pt) ++(-6pt,0) -- ++(6pt,-6pt);
+ \node[red, left] at (137:3.55) {marque};}
 
+\etapeConstr{\textbf{Étape 3 :} je retire le rapporteur. Je trace la demi-droite d'origine $A$ qui passe par la marque,
+et je place un point $C$ dessus. Je code l'angle.}
+{\draw[gray!70!black, fill=gray!25] (0,0) -- (6mm,0) arc[start angle=0, delta angle=137, radius=6mm] -- cycle;
+ \draw[thick] (0,0) -- (137:4);
+ \draw[red, thick] (137:3.45) ++(-3pt,-3pt) -- ++(6pt,6pt) ++(-6pt,0) -- ++(6pt,-6pt);
+ \croix{(137:2.6)} \node[below left] at (137:2.6) {$C$};
+ \node at (68.5:1.1) {$137\degre$};}
 
 \end{document}
