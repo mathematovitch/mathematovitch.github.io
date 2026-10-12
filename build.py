@@ -33,6 +33,8 @@ SCHOOL = "Collège Jean Moulin"
 LICENSE_URL = "https://creativecommons.org/publicdomain/zero/1.0/deed.fr"
 
 EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy", "images"}
+# Dossiers locaux (non suivis, cf. .gitignore) : jamais touchés par le build
+PRIVATE_DIRS = {"dev"}
 HIDDEN_EXT = {".tex", ".sty", ".py", ".sh", ".org", ".md", ".odg", ".txt", ".ico"}
 LEVELS = {"Sixieme": "Sixième", "Cinquieme": "Cinquième",
           "Quatrieme": "Quatrième", "Troisieme": "Troisième"}
@@ -165,7 +167,8 @@ def ensure_archives():
 def delete_junk():
     n = 0
     for dirpath, dirnames, filenames in os.walk(ROOT):
-        dirnames[:] = [x for x in dirnames if x != ".git"]
+        dirnames[:] = [x for x in dirnames if x != ".git"
+                       and not (Path(dirpath) == ROOT and x in PRIVATE_DIRS)]
         for f in filenames:
             if f.endswith(JUNK_EXT):
                 (Path(dirpath) / f).unlink()
@@ -186,10 +189,11 @@ def rename_all():
     # De bas en haut : les enfants sont renommés avant leur dossier parent.
     for dirpath, dirnames, filenames in os.walk(ROOT, topdown=False):
         d = Path(dirpath)
-        if ".git" in d.relative_to(ROOT).parts:
+        rel = d.relative_to(ROOT).parts
+        if ".git" in rel or (rel and rel[0] in PRIVATE_DIRS):
             continue
         for name in [*filenames, *dirnames]:
-            if name in (".git", "_Archive"):
+            if name in (".git", "_Archive") or (d == ROOT and name in PRIVATE_DIRS):
                 continue
             cleaned = clean_name(name)
             if not cleaned or cleaned == name:
