@@ -141,7 +141,9 @@ dédupliquer sans consulter l'utilisateur.
   particuliers enseignés en 6e (avec aigu, droit, obtus, plat). Figures à
   mesurer en vraie grandeur (imprimer à 100 %).
 - **Séances (`Prep`)** : pas d'ardoise, tout se fait dans le cahier
-  d'exercices (calcul mental, activités, exercices). La trace écrite est
+  d'exercices (calcul mental, activités, exercices). Les corrections (activités,
+  exercices) ne sont **jamais projetées** : le professeur corrige au tableau et
+  les élèves prennent la correction (pas d'autocorrection avec corrigé distribué). La trace écrite est
   **écrite au tableau et copiée** par les élèves (jamais projetée) : prévoir
   du temps (~15 min). Pas de « ticket de sortie ».
 
