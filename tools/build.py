@@ -50,7 +50,8 @@ SECTION_ORDER = ["Progressions", "Sixieme", "Cinquieme", "Quatrieme", "Troisieme
 ASSETS = ROOT / "assets"          # ressources du site (pas du contenu de cours)
 ICON_DIR = ASSETS / "icons"
 LOGO = ASSETS / "logo.svg"
-FAVICON = ASSETS / "favicon.ico"
+FAVICON = ASSETS / "favicon.ico"        # secours (16/32/48 px)
+FAVICON_SVG = ASSETS / "favicon.svg"    # « Mv » pixel W95, net à toutes les tailles
 CREDITS_DIR = ROOT / "credits"
 
 JUNK_EXT = (".aux", ".log", ".out", ".toc", ".synctex.gz", ".fls", ".fdb_latexmk")
@@ -529,14 +530,15 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
         home = f'<a class="home" href="{rel(d, ROOT)}/index.html">{icon(d, "accueil", 16)} Accueil</a>'
         top = (f'<header class="top"><div class="wrap{" wide" if wide else ""}"><nav class="crumbs">'
                f'{"<span class=sep>/</span>".join(crumbs)}</nav>{home}</div></header>\n')
-    favicon = rel(d, FAVICON)
+    favicon = (f'<link rel="icon" href="{rel(d, FAVICON)}" sizes="any">'
+               f'<link rel="icon" href="{rel(d, FAVICON_SVG)}" type="image/svg+xml">')
     return f"""<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title>
-{f'<base href="{base}">' if base else ""}<link rel="icon" href="{favicon}">
+{f'<base href="{base}">' if base else ""}{favicon}
 <style>{CSS}</style>
 </head>
 <body>

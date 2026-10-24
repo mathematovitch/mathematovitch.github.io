@@ -21,7 +21,9 @@ d'entrée), README/CLAUDE.md, `todo.org`. Ensuite :
   vignettes, index, legacy, `term/fs.json`. Tout autre dossier racine est
   invisible pour le build (`visible()` filtre la racine) : pas besoin de
   l'ajouter à une liste d'exclusion.
-- `assets/` : `favicon.ico`, `logo.svg`, `icons/`, `thumbs/` (généré).
+- `assets/` : `favicon.svg` + `favicon.ico` (16/32/48, secours), logo « Mv »
+  pixel W95 de `dev/mathematovitch-win95-petit-clair.svg` recadré en carré ;
+  `logo.svg`, `icons/`, `thumbs/` (généré). `todo/` garde son icône `todo.png`.
 - `credits/index.html` (généré, URL `/credits/`).
 - `term/`, `todo/`, `legacy/` : URLs publiques inchangées (`/term`, `/todo`,
   `/legacy`).

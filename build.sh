@@ -75,7 +75,7 @@ sed -i \
     "$LEGACY/index.html"
 
 sed -i \
-    '/<head>/a<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />' \
+    '/<head>/a<link rel="icon" href="/assets/favicon.ico" sizes="any"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">' \
     "$LEGACY/index.html"
 
 sed -i '/<p class="VERSION">/,/<\/p>/d' "$LEGACY/index.html"
