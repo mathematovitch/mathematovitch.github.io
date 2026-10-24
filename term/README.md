@@ -1,7 +1,7 @@
 # Terminal web – Cours de Maths
 
 Mini terminal web interactif pour naviguer dans les cours du site
-(`outerovitch-maths.github.io/term/`) et ouvrir les fichiers (PDF surtout)
+(`mathematovitch.github.io/term/`) et ouvrir les fichiers (PDF surtout)
 depuis le navigateur, comme dans un shell Unix (`ls`, `cd`, `open`…).
 
 Reprise du projet GitLab Pages `termjs` (ancien dépôt

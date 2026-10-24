@@ -2,7 +2,7 @@
 
 Site statique regroupant les cours, exercices et documents de mathématiques (collège), généré et publié via GitHub Pages.
 
-**Voir le site en ligne : https://outerovitch-maths.github.io/**
+**Voir le site en ligne : https://mathematovitch.github.io/**
 
 ## Architecture
 
@@ -45,4 +45,4 @@ nettoyage, renommage, vignettes, index, terminal. Le reste du dépôt n'est jama
 
 ## Déploiement
 
-Le site est servi directement depuis la branche `main` du dépôt via GitHub Pages (dépôt `outerovitch-maths/outerovitch-maths.github.io`).
+Le site est servi directement depuis la branche `main` du dépôt via GitHub Pages (dépôt `mathematovitch/mathematovitch.github.io`).

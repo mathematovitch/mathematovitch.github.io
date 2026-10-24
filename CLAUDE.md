@@ -1,7 +1,11 @@
 # CLAUDE.md
 
 Site statique de cours de maths (collège), servi via GitHub Pages depuis `main`
-(dépôt `outerovitch-maths/outerovitch-maths.github.io`). Voir `README.md` pour
+(dépôt `mathematovitch/mathematovitch.github.io`, organisation créée le
+2026-10-24 ; l'ancienne adresse `outerovitch-maths.github.io` est un dépôt
+séparé du compte personnel qui ne fait que rediriger chaque chemin vers la
+nouvelle, via `index.html` + `404.html` : les QR codes déjà imprimés restent
+valables, ne pas supprimer ce dépôt). Voir `README.md` pour
 la vue d'ensemble de l'arborescence (`Progressions/`, `Sixieme/`, `Quatrieme/`,
 `Utils/`).
 
@@ -219,7 +223,7 @@ nouvelle ressource tierce.
 - Point d'entrée : **`./build.sh`** (ex-`update_site.sh`, renommé à la
   demande de l'utilisateur). Il lance `tools/build.py` (nouveau site, à la racine),
   puis régénère **l'ancien site `tree` dans `legacy/`**
-  (`outerovitch-maths.github.io/legacy/`), que l'utilisateur veut garder
+  (`mathematovitch.github.io/legacy/`), que l'utilisateur veut garder
   actif. `legacy/` ne contient que des `index.html` : `tree -H "/SECTION"`
   produit des liens absolus vers les vrais fichiers (pas de duplication), et
   les `sed` corrigent les liens (`/Sixieme./` → `/Sixieme/`, `../X/` →

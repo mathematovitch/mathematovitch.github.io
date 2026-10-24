@@ -2,7 +2,7 @@
 # Construit les deux versions du site :
 # 1. le nouveau site (racine) : tools/build.py — nettoyage LaTeX, noms de fichiers,
 #    vignettes PDF, progressions (PDF + HTML), index.html stylés ;
-# 2. l'ancien site « tree » dans legacy/ (outerovitch-maths.github.io/legacy/).
+# 2. l'ancien site « tree » dans legacy/ (mathematovitch.github.io/legacy/).
 #    Seuls ses index sont dans legacy/ : leurs liens pointent (en absolu, /Sixieme/...)
 #    vers les mêmes fichiers que le nouveau site, rien n'est dupliqué.
 
