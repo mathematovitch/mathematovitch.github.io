@@ -1,3 +1,19 @@
 /.Private
 /.tmp
 /dev
+
+# Fichiers vides que le sandbox de Claude Code crée dans le dossier de travail
+# (l'auto-commit « adding all » les avait ajoutés) : jamais à suivre.
+/.bash_profile
+/.bashrc
+/.gitconfig
+/.gitmodules
+/.idea
+/.mcp.json
+/.profile
+/.ripgreprc
+/.vscode
+/.zprofile
+/.zshrc
+.claude/
+nohup.out

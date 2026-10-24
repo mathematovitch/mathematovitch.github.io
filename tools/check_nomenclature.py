@@ -9,14 +9,14 @@ Deux contrôles, stdlib-only (pas de dépendance externe) :
    Type in {Cours, Ex, Act, DS}. Les dossiers/fichiers cachés (préfixe
    `.`, ex. `.data`, `.figures`) et le contenu tiers reconnu (mathsenligne/,
    Sesa-*, pg_NN.pdf, Chapitre_N_-_Nom.pdf) sont ignorés, comme dans
-   update_site.sh.
+   tools/build.py.
 
 2. Couverture : croise les séquences `S{NN}-...` présentes sur le disque
    avec les `\\seq{NiveauCNN}` déclarés dans Progressions/{6eme,4eme}.tex,
    pour repérer les trous dans un sens ou dans l'autre.
 
 Usage:
-    python3 .scripts/check_nomenclature.py
+    python3 tools/check_nomenclature.py
 Code de sortie : 0 si rien à signaler, 1 sinon.
 """
 import re

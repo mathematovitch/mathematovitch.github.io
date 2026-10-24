@@ -7,7 +7,7 @@ depuis le navigateur, comme dans un shell Unix (`ls`, `cd`, `open`…).
 Reprise du projet GitLab Pages `termjs` (ancien dépôt
 `colinouterovitch/my-page` sur forge.apps.education.fr), adapté au site
 GitHub Pages : l'API GitLab est remplacée par **`fs.json`**, l'arborescence du
-site générée par `build.py` à chaque build. Plus aucune requête d'API, pas de
+site générée par `tools/build.py` à chaque build (sections de cours seulement). Plus aucune requête d'API, pas de
 quota, fonctionne aussi en local.
 
 ---
@@ -55,7 +55,7 @@ Le système de fichiers est en lecture seule : `rm`, `mkdir`, `touch`, `cp`,
 ## Mode sudo
 
 Les fichiers masqués sur le site (`.tex`, `.sty`, `.py`, `.sh`, `.md`… :
-`HIDDEN_EXT` de `build.py`) sont invisibles pour l'élève (`Permission non
+`HIDDEN_EXT` de `tools/build.py`) sont invisibles pour l'élève (`Permission non
 accordée`). `sudo` (mot de passe vérifié par SHA-256 salé, gardé 15 min comme
 le vrai sudo, 3 essais) les rend visibles : `sudo -s` puis `grep -ri "angle
 nul" .` cherche dans les sources LaTeX.
@@ -75,7 +75,7 @@ python3 term/passwd.py
 term/
 ├── index.html        page, touches tactiles (Tab, ↑, ↓, cd .., ls, ^C)
 ├── term.css          thèmes (variables CSS), couleurs façon dircolors, mobile
-├── fs.json           GÉNÉRÉ par build.py (ne pas éditer)
+├── fs.json           GÉNÉRÉ par tools/build.py (ne pas éditer)
 ├── passwd.py         change le mot de passe sudo
 └── js/
     ├── main.js       affichage, prompt, clavier, historique, démarrage

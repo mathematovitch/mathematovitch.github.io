@@ -10,18 +10,22 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 
 ```
 .
-├── index.html          # Page d'accueil (liste des sections)
-├── Progressions        # Progressions annuelles par niveau (6e à Terminale)
+├── index.html, 404.html # Accueil et page d'erreur (générés ; GitHub Pages les veut à la racine)
+├── build.sh             # Point d'entrée unique : tools/build.py puis legacy/
+├── Progressions         # Progressions annuelles par niveau (sources .tex → PDF + HTML)
 ├── Sixieme              # Cours/exercices de 6e, organisés par séquence (S01, S02, ...)
-├── Quatrieme             # Cours/exercices de 4e, organisés par séquence (S01, S02, ...)
+├── Quatrieme            # Cours/exercices de 4e, organisés par séquence (S01, S02, ...)
 ├── Utils                # Documents utilitaires (grilles, tables, suivi corrections, DNL)
-├── thumbs               # Vignettes des PDF (générées par build.py)
-├── build.py             # Construction du site : nettoyage, vignettes, index.html
-├── legacy               # Ancien site « tree » (index seulement), généré par build.sh
+├── assets               # Ressources du site : logo.svg, favicon.ico, icons/ (pixel W95), thumbs/ (vignettes générées)
+├── credits              # Page crédits & liens (générée)
 ├── term                 # Terminal web (/term) : naviguer dans les cours avec ls, cd, open...
-├── build.sh             # Point d'entrée : build.py puis legacy/
-└── favicon.ico
+├── todo                 # Listes de tâches (/todo), page autonome
+├── legacy               # Ancien site « tree » (index seulement), généré par build.sh
+└── tools                # build.py (générateur), check_nomenclature.py, title.txt
 ```
+
+Seuls les dossiers de cours (Progressions, niveaux, Utils) sont traités par le build :
+nettoyage, renommage, vignettes, index, terminal. Le reste du dépôt n'est jamais modifié.
 
 ### Contenu par section
 
@@ -31,10 +35,10 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 
 ### Génération des index
 
-`./build.sh` (ou `python3 build.py` pour le nouveau site seul) :
+`./build.sh` (ou `python3 tools/build.py` pour le nouveau site seul) :
 1. supprime les fichiers indésirables générés par LaTeX (`.aux`, `.log`, `.toc`, ...) ;
 2. nettoie les noms de fichiers/dossiers (accents, espaces, caractères spéciaux) ;
-3. génère les vignettes des PDF dans `thumbs/` (nécessite `pdftoppm`, paquet poppler ; seuls les PDF nouveaux ou modifiés sont rendus) ;
+3. génère les vignettes des PDF dans `assets/thumbs/` (nécessite `pdftoppm`, paquet poppler ; seuls les PDF nouveaux ou modifiés sont rendus) ;
 4. recompile les progressions (`Progressions/NIVEAU.pdf`) si leur `.tex` a changé ;
 5. régénère l'`index.html` de chaque dossier, l'accueil et la page 404, et `term/fs.json` (arborescence lue par le terminal web, voir `term/README.md`) ;
 6. (`build.sh` seulement) régénère l'ancien site `tree` dans `legacy/`, accessible sur `/legacy/`.

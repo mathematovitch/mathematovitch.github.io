@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 """Construit le nouveau site en une passe (build.sh l'appelle, puis génère legacy/).
 
-Usage : python3 build.py [racine]      (ou ./build.sh, qui fait aussi legacy/)
+Usage : python3 tools/build.py [racine]      (ou ./build.sh, qui fait aussi legacy/)
 
-Stdlib uniquement (+ `pdftoppm` de poppler pour les vignettes, optionnel). Étapes :
+Seuls les dossiers de cours (SECTION_ORDER : Progressions, niveaux, Utils) sont nettoyés,
+renommés, indexés et listés ; le reste du dépôt (assets/, term/, todo/, tools/...) n'est
+jamais touché. Stdlib uniquement (+ `pdftoppm` de poppler pour les vignettes). Étapes :
 1. crée les _Archive manquants des niveaux ;
 2. supprime les fichiers temporaires LaTeX (.aux, .log, ...) ;
 3. nettoie les noms de fichiers/dossiers (accents, espaces, caractères spéciaux) ;
-4. génère les vignettes de la 1re page des PDF dans thumbs/ (cache : seuls les PDF
+4. génère les vignettes de la 1re page des PDF dans assets/thumbs/ (cache : seuls les PDF
    nouveaux ou modifiés sont rendus, les vignettes orphelines sont supprimées) ;
 5. réécrit l'index.html de chaque dossier :
    - accueil       : cartes par section (ouvertes dans un nouvel onglet) + récemment ajoutés
    - niveau        : séquences repliables, documents groupés par type, recherche
    - autre dossier : liste façon explorateur (dossiers puis fichiers)
-6. écrit term/fs.json, l'arborescence lue par le terminal web term/ (/term).
+6. écrit la page crédits (credits/), la 404 et term/fs.json (arborescence du terminal /term).
 """
 
 import html
@@ -28,26 +30,31 @@ import unicodedata
 from datetime import date
 from pathlib import Path
 
-ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
+ROOT = (Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent.parent).resolve()
 SITE_TITLE = "Cours de Maths"
 AUTHOR = "M. Outerovitch"
 SCHOOL = "Collège Jean Moulin"
 LICENSE_URL = "https://creativecommons.org/publicdomain/zero/1.0/deed.fr"
 
-EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy", "images", "icons", "term"}
-# Dossiers locaux (non suivis, cf. .gitignore) : jamais touchés par le build
-PRIVATE_DIRS = {"dev"}
+# Sous-dossiers ignorés à l'intérieur des sections (figures sources, caches).
+EXCLUDE_DIRS = {"images", "__pycache__"}
 HIDDEN_EXT = {".tex", ".sty", ".py", ".sh", ".org", ".md", ".odg", ".txt", ".ico"}
 LEVELS = {"Sixieme": "Sixième", "Cinquieme": "Cinquième",
           "Quatrieme": "Quatrième", "Troisieme": "Troisième"}
 NAMES = {**LEVELS, "Utils": "Utilitaires", "Progressions": "Progressions",
-         "_Archive": "Archives"}
+         "_Archive": "Archives", "credits": "Crédits & liens"}
 BLURBS = {"Progressions": "Progressions annuelles par niveau",
           "Utils": "Grilles, tables, fiches à imprimer"}
 SECTION_ORDER = ["Progressions", "Sixieme", "Cinquieme", "Quatrieme", "Troisieme", "Utils"]
 
+ASSETS = ROOT / "assets"          # ressources du site (pas du contenu de cours)
+ICON_DIR = ASSETS / "icons"
+LOGO = ASSETS / "logo.svg"
+FAVICON = ASSETS / "favicon.ico"
+CREDITS_DIR = ROOT / "credits"
+
 JUNK_EXT = (".aux", ".log", ".out", ".toc", ".synctex.gz", ".fls", ".fdb_latexmk")
-THUMBS = ROOT / "thumbs"
+THUMBS = ASSETS / "thumbs"
 THUMB_WIDTH = 240
 PDFTOPPM = shutil.which("pdftoppm")
 
@@ -127,6 +134,8 @@ def e(s):
 def visible(p):
     if p.name.startswith(".") or p.name == "index.html":
         return False
+    if p.parent == ROOT:  # à la racine, seules les sections de cours existent pour le build
+        return p.is_dir() and p.name in SECTION_ORDER
     if p.is_dir():
         return p.name not in EXCLUDE_DIRS
     return p.suffix.lower() not in HIDDEN_EXT
@@ -160,6 +169,11 @@ def label(p):
 # ---------------------------------------------------------------------------
 # Nettoyage
 
+def sections():
+    """Dossiers de cours présents, dans l'ordre d'affichage."""
+    return [ROOT / s for s in SECTION_ORDER if (ROOT / s).is_dir()]
+
+
 def ensure_archives():
     for level in LEVELS:
         if (ROOT / level).is_dir():
@@ -168,9 +182,7 @@ def ensure_archives():
 
 def delete_junk():
     n = 0
-    for dirpath, dirnames, filenames in os.walk(ROOT):
-        dirnames[:] = [x for x in dirnames if x != ".git"
-                       and not (Path(dirpath) == ROOT and x in PRIVATE_DIRS)]
+    for dirpath, dirnames, filenames in (w for s in sections() for w in os.walk(s)):
         for f in filenames:
             if f.endswith(JUNK_EXT):
                 (Path(dirpath) / f).unlink()
@@ -189,13 +201,10 @@ def clean_name(name):
 
 def rename_all():
     # De bas en haut : les enfants sont renommés avant leur dossier parent.
-    for dirpath, dirnames, filenames in os.walk(ROOT, topdown=False):
+    for dirpath, dirnames, filenames in (w for s in sections() for w in os.walk(s, topdown=False)):
         d = Path(dirpath)
-        rel = d.relative_to(ROOT).parts
-        if ".git" in rel or (rel and rel[0] in PRIVATE_DIRS):
-            continue
         for name in [*filenames, *dirnames]:
-            if name in (".git", "_Archive") or (d == ROOT and name in PRIVATE_DIRS):
+            if name == "_Archive":
                 continue
             cleaned = clean_name(name)
             if not cleaned or cleaned == name:
@@ -520,7 +529,7 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
         home = f'<a class="home" href="{rel(d, ROOT)}/index.html">{icon(d, "accueil", 16)} Accueil</a>'
         top = (f'<header class="top"><div class="wrap{" wide" if wide else ""}"><nav class="crumbs">'
                f'{"<span class=sep>/</span>".join(crumbs)}</nav>{home}</div></header>\n')
-    favicon = rel(d, ROOT / "favicon.ico")
+    favicon = rel(d, FAVICON)
     return f"""<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -536,7 +545,7 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 </div></main>
 <footer><div class="wrap{" wide" if wide else ""}">
 <a href="{LICENSE_URL}" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
-· <a href="{rel(d, ROOT / "credits.html")}">crédits &amp; liens</a>
+· <a href="{rel(d, CREDITS_DIR)}/index.html">crédits &amp; liens</a>
 </div></footer>
 <script>{PREVIEW_JS}{JS if script else ""}{extra_js}</script>
 </body>
@@ -544,14 +553,13 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 """
 
 
-ICON_DIR = ROOT / "icons"
 SECTION_ICONS = {"Progressions": "progressions", "Sixieme": "sixieme", "Quatrieme": "quatrieme",
                  "Utils": "utils", "_Archive": "archives"}
 FILE_ICONS = {".pdf": "pdf", ".html": "html", ".png": "image", ".jpg": "image"}
 
 
 def icon(d, name, size=32):
-    """Icône pixel 32×32 de icons/ (pack rétro), affichée en 32 ou réduite en 16."""
+    """Icône pixel 32×32 de assets/icons/ (pack rétro), affichée en 32 ou réduite en 16."""
     f = ICON_DIR / f"{name}.png"
     return (f'<img class="i i{size}" src="{rel(d, f)}" alt="" width="{size}" height="{size}">'
             if f.is_file() else "")
@@ -846,15 +854,18 @@ def build_credits():
         body += [f'<li><a href="{url}" target="_blank" rel="noopener">{e(name)}</a> — {e(desc)}</li>'
                  for name, url, desc in links]
         body.append('</ul>')
-    return page(ROOT, f"Crédits & liens — {SITE_TITLE}", "".join(body), here="Crédits & liens")
+    return page(CREDITS_DIR, f"Crédits & liens — {SITE_TITLE}", "".join(body))
 
 
 def term_tree(d):
     """Arborescence pour le terminal web (term/) : dossier -> dict, fichier -> taille en octets.
-    Les fichiers HIDDEN_EXT sont inclus : le terminal ne les montre qu'en mode sudo."""
+    Racine : sections de cours seulement. Les fichiers HIDDEN_EXT sont inclus : le terminal
+    ne les montre qu'en mode sudo."""
     out = {}
     for p in sorted(d.iterdir(), key=lambda p: p.name):
-        if p.name.startswith(".") or p.name in ("index.html", "404.html") or p.is_symlink():
+        if p.name.startswith(".") or p.name == "index.html" or p.is_symlink():
+            continue
+        if d == ROOT and p.name not in SECTION_ORDER:
             continue
         if p.is_dir():
             if p.name not in EXCLUDE_DIRS:
@@ -894,8 +905,8 @@ def build_home():
         cards.append(f'<a class="card" href="{s.name}/index.html" target="_blank" rel="noopener">'
                      f'<div class="t">{dir_icon(ROOT, s)}{e(label(s))}<span class="ext">↗</span></div>'
                      f'<div class="d">{e(desc)}</div></a>')
-    head = (f'<h1><img class="logo" src="logo.svg" alt="Mathématovitch" width="894" height="120"></h1>'
-            if (ROOT / "logo.svg").is_file() else f"<h1>{e(SITE_TITLE)}</h1>")
+    head = (f'<h1><img class="logo" src="{rel(ROOT, LOGO)}" alt="Mathématovitch" width="894" height="120"></h1>'
+            if LOGO.is_file() else f"<h1>{e(SITE_TITLE)}</h1>")
     recent = recent_files()
     rec = ""
     if recent:
@@ -926,7 +937,8 @@ def main():
     n = 0
     (ROOT / "index.html").write_text(build_home(), "utf-8")
     (ROOT / "404.html").write_text(build_404(), "utf-8")
-    (ROOT / "credits.html").write_text(build_credits(), "utf-8")
+    CREDITS_DIR.mkdir(exist_ok=True)
+    (CREDITS_DIR / "index.html").write_text(build_credits(), "utf-8")
     build_term_fs()
     (ROOT / ".nojekyll").touch()  # sinon GitHub Pages (Jekyll) ne publie pas les dossiers _Archive
     n += 1

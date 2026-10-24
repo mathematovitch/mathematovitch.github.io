@@ -1,6 +1,6 @@
 #!/bin/bash
 # Construit les deux versions du site :
-# 1. le nouveau site (racine) : build.py — nettoyage LaTeX, noms de fichiers,
+# 1. le nouveau site (racine) : tools/build.py — nettoyage LaTeX, noms de fichiers,
 #    vignettes PDF, progressions (PDF + HTML), index.html stylés ;
 # 2. l'ancien site « tree » dans legacy/ (outerovitch-maths.github.io/legacy/).
 #    Seuls ses index sont dans legacy/ : leurs liens pointent (en absolu, /Sixieme/...)
@@ -9,20 +9,21 @@
 unset -f cd
 cd "$(dirname "$0")" || exit 1
 
-python3 build.py "$@" || exit 1
+python3 tools/build.py "$@" || exit 1
 
 LEGACY=legacy
-EXCLUDE="dev|todo|legacy|thumbs|icons|term"
+# Comme build.py : seules les sections de cours, le reste du dépôt n'apparaît pas.
+SECTIONS="Progressions Sixieme Cinquieme Quatrieme Troisieme Utils"
 
 ########################################
 # INDEX DES SECTIONS (legacy/SECTION/index.html)
 ########################################
 
 sections=()
+EXCLUDE="index.html"
 for dir in */; do
     name="${dir%/}"
-    [[ "|$EXCLUDE|" == *"|$name|"* ]] && continue
-    sections+=("$name")
+    if [[ " $SECTIONS " == *" $name "* ]]; then sections+=("$name"); else EXCLUDE+="|$name"; fi
 done
 
 for name in "${sections[@]}"; do
@@ -74,19 +75,19 @@ sed -i \
     "$LEGACY/index.html"
 
 sed -i \
-    '/<head>/a<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />' \
+    '/<head>/a<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />' \
     "$LEGACY/index.html"
 
 sed -i '/<p class="VERSION">/,/<\/p>/d' "$LEGACY/index.html"
 
-# Remplace le <h1> par défaut par le bandeau ASCII de .scripts/title.txt
-if [[ -f .scripts/title.txt ]]; then
+# Remplace le <h1> par défaut par le bandeau ASCII de tools/title.txt
+if [[ -f tools/title.txt ]]; then
     python3 - "$LEGACY/index.html" <<'PYEOF'
 import sys
 path = sys.argv[1]
 with open(path, encoding='utf-8') as f:
     html = f.read()
-with open('.scripts/title.txt', encoding='utf-8') as f:
+with open('tools/title.txt', encoding='utf-8') as f:
     banner = f.read().rstrip('\n')
 html = html.replace('<h1>Cours de Maths</h1>', f'<pre>\n{banner}\n</pre>')
 with open(path, 'w', encoding='utf-8') as f:

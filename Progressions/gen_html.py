@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parseur des sources Progressions/*.tex (progtable.sty), utilisé par ../build.py.
+"""Parseur des sources Progressions/*.tex (progtable.sty), utilisé par ../tools/build.py.
 
 Ne fait pas tourner TeX : parse juste \\progheader{...}{...}, \\vacances{...} et les
 blocs \\seq{ID}{Titre}{Thème}{Objectif}{ \\item ... \\item ... } par un parseur de
@@ -71,4 +71,4 @@ def parse_tex(path):
 
 
 if __name__ == "__main__":
-    sys.exit(subprocess.run([sys.executable, str(HERE.parent / "build.py")]).returncode)
+    sys.exit(subprocess.run([sys.executable, str(HERE.parent / "tools" / "build.py")]).returncode)

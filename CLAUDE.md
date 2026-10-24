@@ -5,6 +5,29 @@ Site statique de cours de maths (collège), servi via GitHub Pages depuis `main`
 la vue d'ensemble de l'arborescence (`Progressions/`, `Sixieme/`, `Quatrieme/`,
 `Utils/`).
 
+## Organisation du dépôt (rangée le 2026-10-24, demande de l'utilisateur)
+
+Racine minimale : `index.html` et `404.html` (générés ; **GitHub Pages impose
+la racine**, ne pas les déplacer), `.nojekyll`, `build.sh` (seul point
+d'entrée), README/CLAUDE.md, `todo.org`. Ensuite :
+
+- **Cours** : `Progressions/`, `Sixieme/`, `Quatrieme/`, `Utils/` — les
+  **seuls** dossiers que le build touche (`SECTION_ORDER` / `sections()` de
+  `tools/build.py`, `SECTIONS` de `build.sh`) : nettoyage, renommage,
+  vignettes, index, legacy, `term/fs.json`. Tout autre dossier racine est
+  invisible pour le build (`visible()` filtre la racine) : pas besoin de
+  l'ajouter à une liste d'exclusion.
+- `assets/` : `favicon.ico`, `logo.svg`, `icons/`, `thumbs/` (généré).
+- `credits/index.html` (généré, URL `/credits/`).
+- `term/`, `todo/`, `legacy/` : URLs publiques inchangées (`/term`, `/todo`,
+  `/legacy`).
+- `tools/` : `build.py`, `check_nomenclature.py`, `title.txt` (bandeau ASCII
+  du legacy). `build.py` calcule `ROOT` depuis son propre emplacement
+  (`tools/..`).
+- Non suivis (`.gitignore`) : `dev/`, et les fichiers vides que le sandbox de
+  Claude Code crée à la racine (`.bashrc`, `.gitconfig`, `.idea`, `.claude/`…)
+  — l'auto-commit « adding all » les avait poussés une fois.
+
 ## Sous-système `Progressions/` : source LaTeX → HTML généré
 
 Les pages `Progressions/{6eme,5eme,4eme,3eme}.html` ne sont plus éditées à la
@@ -25,13 +48,15 @@ main : elles sont **générées** depuis des sources `.tex` du même nom, pour
   stdlib, pas de TeX exécuté) : `\progheader`, `\vacances` et blocs
   `\seq{...}{...}{...}{...}{...}` via un parseur de groupes `{ }` à
   profondeur (pas de regex naïve), 5e argument découpé sur `\item`. Le
-  rendu HTML est fait par `../build.py` : **tableau** (l'utilisateur ne veut
+  rendu HTML est fait par `../tools/build.py` : **tableau** (l'utilisateur ne veut
   pas de dépliement pour les progressions, il veut tout voir d'un coup), aux
   couleurs du site (thème clair), titre de séquence lié à
-  `Sixieme/index.html#S{NN}-…`. Lancé directement, il relance `build.py`.
-- L'accueil affiche le logo `logo.svg` (pixel-art « Mathématovitch », viewBox
-  recadré au plus serré sur les pixels ; remplace l'ancien bandeau ASCII
-  `.scripts/title.txt`), puis l'auteur, le collège (`AUTHOR`,
+  `Sixieme/index.html#S{NN}-…`. Lancé directement, il relance `tools/build.py`.
+- L'accueil affiche le logo `assets/logo.svg` (pixel-art « Mathématovitch »
+  version Windows 95 : bleu marine/rouge, ombre tramée ; source
+  `dev/mathematovitch-win95-clair.svg`, viewBox recadré au plus serré sur les
+  pixels hors `<defs>` → `12 24 894 120` ; remplace l'ancien bandeau ASCII
+  `tools/title.txt`), puis l'auteur, le collège (`AUTHOR`,
   `SCHOOL`) et l'année scolaire (calculée, bascule au 1er août) ; toutes les
   pages portent la licence **CC0 1.0** en pied de page (choix de l'utilisateur : le plus ouvert
   possible), avec exclusion explicite des ressources tierces.
@@ -47,7 +72,7 @@ main : elles sont **générées** depuis des sources `.tex` du même nom, pour
 
 ```
 # éditer Progressions/NIVEAU.tex sous Emacs (AUCTeX), puis :
-./build.sh             # nouveau site + legacy/ (ou python3 build.py : nouveau site seul)
+./build.sh             # nouveau site + legacy/ (ou python3 tools/build.py : nouveau site seul)
 ```
 
 ### Pièges LaTeX rencontrés (`progtable.sty`)
@@ -160,8 +185,8 @@ dont la roadmap du README est entièrement implémentée. Doc complète :
   `build.py` (dossier → objet, fichier → taille ; `HIDDEN_EXT` inclus, que le
   terminal ne montre qu'en `sudo`). Généré, mais à committer (Pages ne lance
   pas le build). Pas d'API GitHub (quota de 60 req/h sans jeton).
-- `term` est dans `EXCLUDE_DIRS` (`build.py`) et `EXCLUDE` (`build.sh`) :
-  ni index généré, ni listé dans le site, ni dans `fs.json`.
+- `term/` n'est pas une section de cours : ni index généré, ni listé dans
+  le site, ni dans `fs.json` (qui ne contient que les sections).
 - `sudo` : SHA-256(sel + mot de passe) dans `term/js/config.js`, changé par
   `python3 term/passwd.py`. Cosmétique (site public), à dire si on en parle.
 - Messages d'erreur au format GNU en locale française (`Aucun fichier ou
@@ -171,7 +196,7 @@ dont la roadmap du README est entièrement implémentée. Doc complète :
   le serveur HTTP lancé **dans la même commande** (réseau non partagé entre
   commandes) et `--reload` (Deno met les imports HTTP en cache).
 
-## Design du site (`CSS` de `build.py`)
+## Design du site (`CSS` de `tools/build.py`)
 
 Choix de l'utilisateur (2026-10-24) : **thème clair uniquement** (plus de mode
 sombre), DA « brute old school » à la `tree -H` / web 1998, pas « vibe coded » :
@@ -179,11 +204,10 @@ Times, liens bleus soulignés (violets visités), traits noirs 1 px, pas
 d'arrondis ni d'ombres douces, types en `[Cours]`, séquences `[+]`/`[−]`,
 boutons gris en relief. Pas de barre du haut **sur l'accueil seulement**
 (marge haute généreuse pour que la page respire) ; les autres pages gardent
-le fil d'Ariane et le bouton « Accueil », que l'utilisateur aime bien. Icônes pixel Windows 95 dans `icons/` (32×32,
-renommées par usage : `cours.png`, `ds.png`, `dossier.png`…, exclues des index
-et du legacy) via `icon(d, nom, taille)` : 32 px net (`pixelated`), 16 px lissé.
-Source : pack itch.io de gdainti (zip dans `dev/`). Page `credits.html`
-(liste `CREDITS` de `build.py`, liée en pied de page) : y ajouter toute
+le fil d'Ariane et le bouton « Accueil », que l'utilisateur aime bien. Icônes pixel Windows 95 dans `assets/icons/` (32×32,
+renommées par usage : `cours.png`, `ds.png`, `dossier.png`…) via `icon(d, nom, taille)` : 32 px net (`pixelated`), 16 px lissé.
+Source : pack itch.io de gdainti (zip dans `dev/`, numéroté ligne par ligne,
+11 colonnes). Page `credits/` (liste `CREDITS` de `tools/build.py`, liée en pied de page) : y ajouter toute
 nouvelle ressource tierce.
 
 ## Conventions générales
@@ -193,19 +217,19 @@ nouvelle ressource tierce.
   des jokers larges (`rm -f *.ext`) dans un dossier contenant des fichiers
   suivis par git.
 - Point d'entrée : **`./build.sh`** (ex-`update_site.sh`, renommé à la
-  demande de l'utilisateur). Il lance `build.py` (nouveau site, à la racine),
+  demande de l'utilisateur). Il lance `tools/build.py` (nouveau site, à la racine),
   puis régénère **l'ancien site `tree` dans `legacy/`**
   (`outerovitch-maths.github.io/legacy/`), que l'utilisateur veut garder
   actif. `legacy/` ne contient que des `index.html` : `tree -H "/SECTION"`
   produit des liens absolus vers les vrais fichiers (pas de duplication), et
   les `sed` corrigent les liens (`/Sixieme./` → `/Sixieme/`, `../X/` →
-  `./X/index.html`, « . » → `↰` vers `/legacy/index.html`). `legacy` et
-  `thumbs` sont exclus des deux générateurs.
-- `build.py` (Python stdlib, + `pdftoppm` pour les vignettes, `pdflatex`
+  `./X/index.html`, « . » → `↰` vers `/legacy/index.html`). Les deux
+  générateurs ne parcourent que les sections de cours.
+- `tools/build.py` (Python stdlib, + `pdftoppm` pour les vignettes, `pdflatex`
   pour les progressions), en une passe : `_Archive` manquants, suppression des
   fichiers temporaires LaTeX, nettoyage des noms (accents/espaces),
-  vignettes de la 1re page des PDF dans `thumbs/` (cache par mtime,
-  orphelines supprimées — `thumbs/` est généré, ne pas l'éditer), puis un
+  vignettes de la 1re page des PDF dans `assets/thumbs/` (cache par mtime,
+  orphelines supprimées — `assets/thumbs/` est généré, ne pas l'éditer), puis un
   `index.html` stylé par dossier (plus de `tree`). L'accueil ouvre chaque
   section dans un nouvel onglet (choix voulu de l'utilisateur). La table
   `ACCENTS` de `build.py` recolle les accents perdus dans les titres

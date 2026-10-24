@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" href="../icons/todo.png">
+<link rel="icon" href="../assets/icons/todo.png">
 <title>Todo</title>
 <style>
   /* DA « brute old school » du site : Times, traits noirs 1 px, boutons gris en relief, icônes pixel.
@@ -100,12 +100,12 @@
 </head>
 <body>
 <div class="wrap">
-<h1><img class="i i32" src="../icons/todo.png" alt="" width="32" height="32">Todo</h1>
+<h1><img class="i i32" src="../assets/icons/todo.png" alt="" width="32" height="32">Todo</h1>
 
 <div class="backdrop" id="modalBackdrop"></div>
 
 <div class="modal" id="settingsModal" role="dialog" aria-labelledby="settingsTitle">
-  <h3 id="settingsTitle"><img class="i i16" src="../icons/connexion.png" alt="" width="16" height="16">Synchronisation GitHub</h3>
+  <h3 id="settingsTitle"><img class="i i16" src="../assets/icons/connexion.png" alt="" width="16" height="16">Synchronisation GitHub</h3>
   <label for="tokenInput">Token GitHub (scope <code>gist</code> uniquement) :</label>
   <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off">
   <p class="hint" id="gistLink"></p>
@@ -118,25 +118,25 @@
 </div>
 
 <div id="toolbar" class="bar" role="toolbar" aria-label="Barre d'outils">
-  <button type="button" id="openBtn" title="Importer un .txt"><img class="i i16" src="../icons/dossier-ouvert.png" alt="" width="16" height="16"><span class="lbl">Ouvrir</span></button>
-  <button type="button" id="exportBtn" title="Exporter en .txt"><img class="i i16" src="../icons/disquette.png" alt="" width="16" height="16"><span class="lbl">Exporter</span></button>
-  <button type="button" id="clearBtn" title="Vider la liste courante"><img class="i i16" src="../icons/vider.png" alt="" width="16" height="16"><span class="lbl">Vider</span></button>
+  <button type="button" id="openBtn" title="Importer un .txt"><img class="i i16" src="../assets/icons/dossier-ouvert.png" alt="" width="16" height="16"><span class="lbl">Ouvrir</span></button>
+  <button type="button" id="exportBtn" title="Exporter en .txt"><img class="i i16" src="../assets/icons/disquette.png" alt="" width="16" height="16"><span class="lbl">Exporter</span></button>
+  <button type="button" id="clearBtn" title="Vider la liste courante"><img class="i i16" src="../assets/icons/vider.png" alt="" width="16" height="16"><span class="lbl">Vider</span></button>
   <span class="vsep"></span>
   <button type="button" id="decreaseFontBtn" title="Réduire la police">A−</button>
   <button type="button" id="increaseFontBtn" title="Agrandir la police">A+</button>
   <button type="button" id="fontSpaceBtn" title="Police proportionnelle / à chasse fixe">P/M</button>
-  <button type="button" id="darkModeToggle" title="Mode sombre"><img class="i i16" src="../icons/theme.png" alt="" width="16" height="16"><span class="lbl">Sombre</span></button>
+  <button type="button" id="darkModeToggle" title="Mode sombre"><img class="i i16" src="../assets/icons/theme.png" alt="" width="16" height="16"><span class="lbl">Sombre</span></button>
   <span class="grow"></span>
-  <button type="button" id="reloadBtn" title="Recharger depuis le gist"><img class="i i16" src="../icons/synchro.png" alt="" width="16" height="16"><span class="lbl">Recharger</span></button>
-  <button type="button" id="settingsBtn" title="Connexion GitHub"><img class="i i16" src="../icons/connexion.png" alt="" width="16" height="16"><span class="lbl">Connexion</span></button>
+  <button type="button" id="reloadBtn" title="Recharger depuis le gist"><img class="i i16" src="../assets/icons/synchro.png" alt="" width="16" height="16"><span class="lbl">Recharger</span></button>
+  <button type="button" id="settingsBtn" title="Connexion GitHub"><img class="i i16" src="../assets/icons/connexion.png" alt="" width="16" height="16"><span class="lbl">Connexion</span></button>
 </div>
 
 <div id="listBar" class="bar" role="toolbar" aria-label="Gestion des listes">
   <label class="lb lbl" for="listSelect">Liste :</label>
   <select id="listSelect"></select>
-  <button type="button" id="addListBtn" title="Nouvelle liste"><img class="i i16" src="../icons/nouvelle-liste.png" alt="" width="16" height="16"><span class="lbl">Nouvelle</span></button>
-  <button type="button" id="renameListBtn" title="Renommer la liste"><img class="i i16" src="../icons/renommer.png" alt="" width="16" height="16"><span class="lbl">Renommer</span></button>
-  <button type="button" id="deleteListBtn" title="Supprimer la liste"><img class="i i16" src="../icons/supprimer.png" alt="" width="16" height="16"><span class="lbl">Supprimer</span></button>
+  <button type="button" id="addListBtn" title="Nouvelle liste"><img class="i i16" src="../assets/icons/nouvelle-liste.png" alt="" width="16" height="16"><span class="lbl">Nouvelle</span></button>
+  <button type="button" id="renameListBtn" title="Renommer la liste"><img class="i i16" src="../assets/icons/renommer.png" alt="" width="16" height="16"><span class="lbl">Renommer</span></button>
+  <button type="button" id="deleteListBtn" title="Supprimer la liste"><img class="i i16" src="../assets/icons/supprimer.png" alt="" width="16" height="16"><span class="lbl">Supprimer</span></button>
 </div>
 
 <form id="newTaskForm" autocomplete="off">
@@ -145,7 +145,7 @@
 </form>
 
 <ul id="taskList" aria-label="Tâches"></ul>
-<p id="emptyState" hidden><img class="i i32" src="../icons/vide.png" alt="" width="32" height="32">Aucune tâche pour l'instant.</p>
+<p id="emptyState" hidden><img class="i i32" src="../assets/icons/vide.png" alt="" width="32" height="32">Aucune tâche pour l'instant.</p>
 
 <div class="status-line">
   <div id="status" class="offline"><span id="statusDot"></span><span id="statusLabel">hors ligne</span></div>
@@ -302,7 +302,7 @@
       delBtn.setAttribute('aria-label', 'Supprimer la tâche');
       delBtn.title = 'Supprimer';
       const delIcon = document.createElement('img');
-      delIcon.className = 'i i16'; delIcon.src = '../icons/erreur.png'; delIcon.alt = '';
+      delIcon.className = 'i i16'; delIcon.src = '../assets/icons/erreur.png'; delIcon.alt = '';
       delIcon.width = delIcon.height = 16;
       delBtn.appendChild(delIcon);
       delBtn.addEventListener('click', () => deleteTask(task.id));
