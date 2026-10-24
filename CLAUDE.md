@@ -27,9 +27,11 @@ main : elles sont **générées** depuis des sources `.tex` du même nom, pour
   profondeur (pas de regex naïve), 5e argument découpé sur `\item`. Le
   rendu HTML est fait par `../build.py` : **tableau** (l'utilisateur ne veut
   pas de dépliement pour les progressions, il veut tout voir d'un coup), aux
-  couleurs du site (sombre/clair), titre de séquence lié à
+  couleurs du site (thème clair), titre de séquence lié à
   `Sixieme/index.html#S{NN}-…`. Lancé directement, il relance `build.py`.
-- L'accueil affiche sous le bandeau ASCII l'auteur, le collège (`AUTHOR`,
+- L'accueil affiche le logo `logo.svg` (pixel-art « Mathématovitch », viewBox
+  recadré au plus serré sur les pixels ; remplace l'ancien bandeau ASCII
+  `.scripts/title.txt`), puis l'auteur, le collège (`AUTHOR`,
   `SCHOOL`) et l'année scolaire (calculée, bascule au 1er août) ; toutes les
   pages portent la licence **CC0 1.0** en pied de page (choix de l'utilisateur : le plus ouvert
   possible), avec exclusion explicite des ressources tierces.
@@ -146,6 +148,21 @@ dédupliquer sans consulter l'utilisateur.
   les élèves prennent la correction (pas d'autocorrection avec corrigé distribué). La trace écrite est
   **écrite au tableau et copiée** par les élèves (jamais projetée) : prévoir
   du temps (~15 min). Pas de « ticket de sortie ».
+
+## Design du site (`CSS` de `build.py`)
+
+Choix de l'utilisateur (2026-10-24) : **thème clair uniquement** (plus de mode
+sombre), DA « brute old school » à la `tree -H` / web 1998, pas « vibe coded » :
+Times, liens bleus soulignés (violets visités), traits noirs 1 px, pas
+d'arrondis ni d'ombres douces, types en `[Cours]`, séquences `[+]`/`[−]`,
+boutons gris en relief. Pas de barre du haut **sur l'accueil seulement**
+(marge haute généreuse pour que la page respire) ; les autres pages gardent
+le fil d'Ariane et le bouton « Accueil », que l'utilisateur aime bien. Icônes pixel Windows 95 dans `icons/` (32×32,
+renommées par usage : `cours.png`, `ds.png`, `dossier.png`…, exclues des index
+et du legacy) via `icon(d, nom, taille)` : 32 px net (`pixelated`), 16 px lissé.
+Source : pack itch.io de gdainti (zip dans `dev/`). Page `credits.html`
+(liste `CREDITS` de `build.py`, liée en pied de page) : y ajouter toute
+nouvelle ressource tierce.
 
 ## Conventions générales
 

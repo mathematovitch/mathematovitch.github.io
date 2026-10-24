@@ -28,11 +28,11 @@ from pathlib import Path
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
 SITE_TITLE = "Cours de Maths"
-AUTHOR = "Colin Outerovitch"
+AUTHOR = "M. Outerovitch"
 SCHOOL = "Collège Jean Moulin"
 LICENSE_URL = "https://creativecommons.org/publicdomain/zero/1.0/deed.fr"
 
-EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy", "images"}
+EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy", "images", "icons"}
 # Dossiers locaux (non suivis, cf. .gitignore) : jamais touchés par le build
 PRIVATE_DIRS = {"dev"}
 HIDDEN_EXT = {".tex", ".sty", ".py", ".sh", ".org", ".md", ".odg", ".txt", ".ico"}
@@ -300,144 +300,136 @@ def thumb_attr(d, f):
 # Gabarit commun
 
 CSS = """
-:root{--bg:#fafaf9;--fg:#1c1c1a;--mut:#6b6b66;--line:#e4e3df;--card:#fff;
---acc:#2547d0;--hover:#f1f0ec;--pill:#efeee9;
---t-seq:#6a3fb5;--t-prep:#00707a;--t-cours:#2547d0;--t-act:#8a5a00;--t-ex:#1f7a4d;--t-ds:#b3261e;--t-res:#6b6b66}
-@media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#e9e8e4;--mut:#9a9993;
---line:#2c2c2a;--card:#1d1d1b;--acc:#8aa4ff;--hover:#252523;--pill:#2a2a28;
---t-seq:#c3a6ff;--t-prep:#5fd0d8;--t-cours:#8aa4ff;--t-act:#e0b45c;--t-ex:#6fcf9b;--t-ds:#ff8a80;--t-res:#9a9993}}
+:root{color-scheme:light;--bg:#fff;--fg:#000;--mut:#555;--line:#000;--soft:#999;--card:#fff;
+--acc:#0000ee;--vis:#551a8b;--hover:#ffffcc;--pill:#fff;--navy:#23255f;--orange:#e8590c;
+--t-seq:#800080;--t-prep:#007070;--t-cours:#0000a0;--t-act:#806000;--t-ex:#006000;--t-ds:#c00000;--t-res:#555}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);
-font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-a{color:inherit;text-decoration:none}
-.mono,code{font-family:ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 "Times New Roman",Times,serif}
+a{color:var(--acc);text-decoration:underline}
+a:visited{color:var(--vis)}
+a:hover{background:var(--hover)}
+.mono,code{font-family:"Courier New",Courier,monospace}
 .wrap{max-width:880px;margin:0 auto;padding:0 16px}
 .wrap.wide{max-width:1200px}
-header.top{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
-header.top .wrap{display:flex;align-items:center;gap:12px;height:52px}
-.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;color:var(--mut);min-width:0}
-.crumbs a:hover{color:var(--fg)}
-.crumbs .sep{opacity:.5}
-.crumbs .cur{color:var(--fg);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.home{margin-left:auto;font-size:13px;color:var(--mut);border:1px solid var(--line);
-border-radius:6px;padding:3px 9px;white-space:nowrap}
-.home:hover{color:var(--fg);background:var(--hover)}
-main{padding:28px 0 64px}
-h1{font-size:26px;letter-spacing:-.01em;margin:0 0 4px}
-.sub{color:var(--mut);margin:0 0 24px}
-h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);
-font-weight:600;margin:36px 0 10px}
-.banner{font-size:9px;line-height:1.15;color:var(--fg);margin:0 0 6px;overflow:hidden;white-space:pre}
-/* cartes accueil */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;
-padding:16px 16px 14px;transition:border-color .15s,transform .15s}
-.card:hover{border-color:var(--acc);transform:translateY(-1px)}
-.card .t{font-weight:600;font-size:17px;display:flex;justify-content:space-between;align-items:center}
-.card .t .ext{color:var(--mut);font-size:13px;font-weight:400}
-.card .d{color:var(--mut);font-size:13px;margin-top:4px}
+header.top{border-bottom:1px solid var(--line);background:var(--bg)}
+header.top .wrap{display:flex;align-items:center;gap:12px;min-height:40px;padding-top:6px;padding-bottom:6px}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:"Courier New",Courier,monospace;font-size:14px;min-width:0}
+.crumbs .sep{color:var(--mut)}
+.crumbs .cur{font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home{margin-left:auto;font-family:"Courier New",Courier,monospace;font-size:14px;white-space:nowrap}
+main{padding:56px 0 64px}
+header.top+main{padding-top:24px}
+h1{font-size:28px;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 20px;font-style:italic}
+h2{font-size:20px;margin:28px 0 8px;padding-bottom:2px;border-bottom:1px solid var(--line)}
+.logo{display:block;width:100%;max-width:640px;height:auto;margin:8px 0 10px;image-rendering:pixelated}
+/* cartes accueil : simple liste */
+.cards{display:block;margin:0;padding:0}
+.card{display:block;padding:2px 0}
+.card .t{display:inline;font-weight:bold;font-size:18px}
+.card .t .ext{color:var(--mut);font-weight:normal;font-size:14px;margin-left:4px;text-decoration:none}
+.card .d{display:inline;color:var(--mut);font-size:15px;margin-left:8px}
+.card .d::before{content:"— "}
+.card:visited .t{color:var(--vis)}
 /* listes */
-.list{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-top:1px solid var(--line)}
+.list{border:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:12px;padding:4px 8px;border-top:1px solid var(--soft)}
 .row:first-child{border-top:0}
+a.row{color:var(--fg);text-decoration:none}
+a.row .name{color:var(--acc);text-decoration:underline}
+a.row:visited .name{color:var(--vis)}
 a.row:hover,.row a.main:hover{background:var(--hover)}
 .row .ico{width:18px;flex:none;text-align:center;color:var(--mut)}
 .row .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.row .meta{color:var(--mut);font-size:12.5px;white-space:nowrap}
-.pill{font-size:11px;font-weight:600;padding:1px 7px;border-radius:99px;background:var(--pill);
-white-space:nowrap;flex:none;min-width:44px;text-align:center}
+.row .meta{color:var(--mut);font-size:13px;white-space:nowrap;font-family:"Courier New",Courier,monospace}
+.pill{font-family:"Courier New",Courier,monospace;font-size:12px;font-weight:bold;white-space:nowrap;flex:none;min-width:52px}
+.pill::before{content:"["}.pill::after{content:"]"}
 /* séquences */
-.tools{display:flex;gap:8px;margin:0 0 14px}
-.tools input{flex:1;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;
-background:var(--card);color:var(--fg);outline:none}
-.tools input:focus{border-color:var(--acc)}
-.tools button{font:inherit;font-size:13px;padding:0 12px;border:1px solid var(--line);
-border-radius:8px;background:var(--card);color:var(--mut);cursor:pointer}
-.tools button:hover,.tools .btn:hover{color:var(--fg);background:var(--hover)}
-.tools .btn{display:flex;align-items:center;font-size:13px;padding:0 12px;border:1px solid var(--line);
-border-radius:8px;background:var(--card);color:var(--mut);white-space:nowrap}
+.tools{display:flex;gap:8px;margin:0 0 12px}
+.tools input{flex:1;font:inherit;font-family:"Courier New",Courier,monospace;font-size:14px;padding:3px 6px;
+border:2px inset #ccc;background:#fff;color:var(--fg)}
+.tools button,.tools .btn{font:13px Arial,Helvetica,sans-serif;padding:3px 10px;border:2px outset #ddd;
+background:#e0e0e0;color:#000;cursor:pointer;white-space:nowrap;text-decoration:none;display:flex;align-items:center}
+.tools button:active,.tools .btn:active{border-style:inset}
+.tools .btn:visited{color:#000}
 .doc.skill code{color:var(--mut);font-size:12px;flex:none;width:8em}
-.godocs{display:block;padding:8px 14px 10px;font-size:13px;color:var(--acc);border-top:1px dashed var(--line)}
-.godocs:hover{background:var(--hover)}
+.godocs{display:block;padding:4px 10px 6px;font-size:14px;border-top:1px dashed var(--soft)}
 .meta.soon{font-style:italic}
 .row a.main{padding:2px 0}
-.row a.dl{border:1px solid var(--line);border-radius:6px;padding:1px 8px}
-.row a.dl:hover{color:var(--fg);background:var(--hover)}
+.row a.dl{font-family:"Courier New",Courier,monospace;font-size:13px}
 /* tableau de progression */
-.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
-table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
-.progtab th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
-color:var(--mut);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--bg)}
-.progtab td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
-.progtab tbody tr:first-child td{border-top:0}
+.tablewrap{overflow-x:auto}
+table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5px;border:1px solid var(--line)}
+.progtab th{text-align:left;font-weight:bold;padding:4px 8px;border:1px solid var(--line);background:#e0e0e0}
+.progtab td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
 .progtab tbody tr:not(.vacrow):hover td{background:var(--hover)}
-.progtab td.id{color:var(--mut);font-size:12.5px;white-space:nowrap}
-.progtab td.tt{font-weight:600;min-width:150px}
-.progtab td.tt a:hover{color:var(--acc)}
-.progtab td.tt .ext{color:var(--mut);font-weight:400;font-size:12px}
-.progtab .cnt{font-weight:400;font-size:12px;color:var(--mut);margin-top:2px}
+.progtab td.id{font-family:"Courier New",Courier,monospace;font-size:13px;white-space:nowrap}
+.progtab td.tt{font-weight:bold;min-width:150px}
+.progtab td.tt .ext{color:var(--mut);font-weight:normal;font-size:12px}
+.progtab .cnt{font-weight:normal;font-size:13px;color:var(--mut);margin-top:2px}
 .progtab .cnt.soon{font-style:italic}
-.progtab ul{list-style:none;margin:0;padding:0}
-.progtab li{padding:1px 0}
-.progtab li code{color:var(--mut);font-size:11.5px;margin-right:4px}
-.progtab td.goal{color:var(--mut);font-style:italic;min-width:160px}
-.progtab tr.vacrow td{text-align:center;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
-color:var(--mut);background:var(--bg);padding:7px}
+.progtab ul{margin:0;padding:0 0 0 16px}
+.progtab li{padding:0}
+.progtab li code{color:var(--mut);font-size:12px;margin-right:4px}
+.progtab td.goal{font-style:italic;min-width:160px}
+.progtab tr.vacrow td{text-align:center;font-weight:bold;background:#e0e0e0;padding:3px}
 .progtab tr:target td{background:var(--hover)}
 /* bouton « copier le lien » d'une séquence */
-.lnk{font:inherit;font-size:13px;color:var(--mut);background:none;border:0;cursor:pointer;
-padding:0 4px;border-radius:4px;opacity:0;transition:opacity .12s}
-summary:hover .lnk,.lnk:focus-visible,.lnk.ok{opacity:1}
-.lnk:hover{color:var(--fg);background:var(--pill)}
-@media (hover:none){.lnk{opacity:1}}
-@media print{.tablewrap{border:0;overflow:visible}table.progtab{min-width:0}header.top,.tools,.chev,.godocs,#pv{display:none!important}
-body{background:#fff;color:#000;font-size:12px}main{padding:0}
-details.seq{break-inside:avoid;border-color:#ccc}}
-details.seq{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;scroll-margin-top:64px}
-details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 14px;user-select:none}
+.lnk{font:13px "Courier New",Courier,monospace;color:var(--mut);background:none;border:0;cursor:pointer;padding:0 4px}
+.lnk:hover{color:var(--acc);text-decoration:underline}
+@media print{.tablewrap{overflow:visible}table.progtab{min-width:0}header.top,.tools,.chev,.godocs,#pv{display:none!important}
+body{font-size:12px}main{padding:0}details.seq{break-inside:avoid}}
+details.seq{border:1px solid var(--line);margin-bottom:-1px;scroll-margin-top:16px}
+details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:5px 8px;user-select:none;background:#f0f0f0}
 details.seq>summary::-webkit-details-marker{display:none}
 details.seq>summary:hover{background:var(--hover)}
-details.seq>summary .num{color:var(--mut);font-size:13px;width:2.2em}
-details.seq>summary .tt{flex:1;font-weight:600}
-details.seq>summary .chev{color:var(--mut);transition:transform .15s}
-details.seq[open]>summary .chev{transform:rotate(90deg)}
+details.seq>summary .num{font-family:"Courier New",Courier,monospace;font-size:14px;width:2.6em}
+details.seq>summary .tt{flex:1;font-weight:bold}
+details.seq>summary .chev{font-family:"Courier New",Courier,monospace;color:var(--fg)}
+details.seq>summary .chev{font-size:0}details.seq>summary .chev::after{content:"[+]";font-size:14px}
+details.seq[open]>summary .chev::after{content:"[−]"}
 details.seq[open]>summary{border-bottom:1px solid var(--line)}
-.grp{padding:6px 0 4px}
-.grp+.grp{border-top:1px dashed var(--line)}
-.grp h3{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;margin:6px 14px 2px;font-weight:600}
-.doc{display:flex;align-items:center;gap:10px;padding:5px 14px 5px 14px}
+.grp{padding:4px 0}
+.grp+.grp{border-top:1px dashed var(--soft)}
+.grp h3{font-size:14px;margin:4px 10px 2px;font-weight:bold;text-decoration:underline}
+.doc{display:flex;align-items:center;gap:10px;padding:2px 10px 2px 22px}
 .doc:hover{background:var(--hover)}
-.doc .id{color:var(--mut);font-size:12.5px;width:2.6em;flex:none}
+.doc .id{font-family:"Courier New",Courier,monospace;font-size:13px;width:2.8em;flex:none;color:var(--mut)}
 .doc .name{flex:1;min-width:0}
-.doc .meta{color:var(--mut);font-size:12px}
+.doc .meta{color:var(--mut);font-size:12.5px;font-family:"Courier New",Courier,monospace}
 .c-seq{color:var(--t-seq)}.c-prep{color:var(--t-prep)}.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
 .c-ds{color:var(--t-ds)}.c-res{color:var(--t-res)}
-.seq.archive{opacity:.7}
-.theme{font-size:10.5px;color:var(--mut);border:1px solid var(--line);border-radius:4px;padding:0 5px}
-.seq.upcoming{display:flex;align-items:center;gap:12px;padding:9px 14px;margin-bottom:8px;
-border:1px dashed var(--line);border-radius:10px;color:var(--mut)}
-.seq.upcoming .num{font-size:13px;width:2.2em}
+.seq.archive{opacity:.75}
+.theme{font-family:"Courier New",Courier,monospace;font-size:12px;color:var(--mut)}
+.theme::before{content:"("}.theme::after{content:")"}
+.seq.upcoming{display:flex;align-items:center;gap:10px;padding:5px 8px;margin-bottom:-1px;
+border:1px dashed var(--soft);color:var(--mut)}
+.seq.upcoming .num{font-family:"Courier New",Courier,monospace;font-size:14px;width:2.6em}
 .seq.upcoming .tt{flex:1}
-.seq.upcoming .meta{font-size:12px;font-style:italic}
-.vac{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:11.5px;
-text-transform:uppercase;letter-spacing:.06em;margin:16px 2px}
-.vac::before,.vac::after{content:"";flex:1;border-top:1px solid var(--line)}
-.prog{padding:10px 14px 4px}
-.prog .goal{margin:0;color:var(--mut);font-size:13.5px;font-style:italic}
-details.skills{margin-top:4px}
-details.skills>summary{cursor:pointer;font-size:12.5px;color:var(--acc);width:max-content}
-details.skills ul{list-style:none;margin:6px 0 2px;padding:0}
-details.skills li{display:flex;gap:10px;font-size:13.5px;padding:2px 0}
-details.skills code{color:var(--mut);font-size:12px;flex:none;width:7.5em}
+.seq.upcoming .meta{font-size:13px;font-style:italic}
+.vac{text-align:center;font-weight:bold;margin:14px 0 13px;font-family:"Courier New",Courier,monospace;font-size:14px}
+.vac::before{content:"~~~~~~ "}.vac::after{content:" ~~~~~~"}
+.prog{padding:6px 10px 2px}
+.prog .goal{margin:0;font-size:15px;font-style:italic}
+details.skills{margin-top:2px}
+details.skills>summary{cursor:pointer;font-size:14px;color:var(--acc);text-decoration:underline;width:max-content}
+details.skills ul{margin:4px 0 2px;padding:0 0 0 18px}
+details.skills li{font-size:14.5px;padding:1px 0}
+details.skills code{color:var(--mut);font-size:12.5px;margin-right:8px}
+.i{image-rendering:pixelated;vertical-align:middle;flex:none;border:0}
+.i32{margin-right:8px;position:relative;top:-2px}
+.i16{image-rendering:auto;margin-right:5px;position:relative;top:-1px}
+h3 .i32{margin-right:6px}
+.home .i16,.btn .i16{margin-right:4px}
+.vac .i16{margin:0 6px 0 0}
+.seq.upcoming .meta .i16{opacity:.8}
 .hide{display:none!important}
-#pv{position:fixed;z-index:20;width:240px;pointer-events:none;background:#fff;
-border:1px solid var(--line);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.25);
-opacity:0;transition:opacity .12s}
+#pv{position:fixed;z-index:20;width:240px;pointer-events:none;background:#fff;border:1px solid #000;
+box-shadow:4px 4px 0 #000;opacity:0}
 #pv.on{opacity:1}
-footer{color:var(--mut);font-size:12px;line-height:1.5;padding:16px 0 24px;border-top:1px solid var(--line);text-align:right}
-footer a{text-decoration:underline;text-underline-offset:2px}footer a:hover{color:var(--fg)}
-@media (max-width:560px){.row .meta.sz,.doc .meta{display:none}h1{font-size:22px}}
+footer{color:var(--mut);font-size:13px;padding:10px 0 24px;border-top:1px solid var(--line);text-align:center;font-style:italic}
+@media (max-width:560px){.row .meta.sz,.doc .meta{display:none}h1{font-size:22px}.card .d{display:block;margin-left:0}.card .d::before{content:""}}
 """
 
 PREVIEW_JS = """
@@ -510,23 +502,22 @@ addEventListener('keydown',ev=>{if(ev.key==='/'&&document.activeElement!==q){ev.
 
 
 def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=None):
-    """`here` : page autre que l'index de `d` (le dossier devient alors un lien)."""
-    crumbs = []
-    chain = [d, *d.relative_to(ROOT).parents][:-1] if d != ROOT else []
-    for p in reversed(chain):
-        if p == d and not here:
-            crumbs.append(f'<span class="cur">{e(label(p))}</span>')
-        else:
-            crumbs.append(f'<a href="{rel(d, p)}/index.html">{e(label(p))}</a>')
-    if here:
-        crumbs.append(f'<span class="cur">{e(here)}</span>')
+    """`here` : page autre que l'index de `d` (le dossier devient alors un lien).
+    Pas de barre du haut sur l'accueil (choix de l'utilisateur) : fil d'Ariane ailleurs."""
+    top = ""
     if d != ROOT or here:
-        crumbs.insert(0, f'<a href="{rel(d, ROOT)}/index.html">{e(SITE_TITLE)}</a>')
-        home = f'<a class="home" href="{rel(d, ROOT)}/index.html">⌂ Accueil</a>'
-    else:
-        crumbs = [f'<span class="cur">{e(SITE_TITLE)}</span>']
-        home = ""
-    sep = '<span class="sep">/</span>'
+        crumbs = [f'<a href="{rel(d, ROOT)}/index.html">{e(SITE_TITLE)}</a>']
+        chain = [d, *d.relative_to(ROOT).parents][:-1] if d != ROOT else []
+        for p in reversed(chain):
+            if p == d and not here:
+                crumbs.append(f'<span class="cur">{e(label(p))}</span>')
+            else:
+                crumbs.append(f'<a href="{rel(d, p)}/index.html">{e(label(p))}</a>')
+        if here:
+            crumbs.append(f'<span class="cur">{e(here)}</span>')
+        home = f'<a class="home" href="{rel(d, ROOT)}/index.html">{icon(d, "accueil", 16)} Accueil</a>'
+        top = (f'<header class="top"><div class="wrap{" wide" if wide else ""}"><nav class="crumbs">'
+               f'{"<span class=sep>/</span>".join(crumbs)}</nav>{home}</div></header>\n')
     favicon = rel(d, ROOT / "favicon.ico")
     return f"""<!DOCTYPE html>
 <html lang="fr">
@@ -538,17 +529,34 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 <style>{CSS}</style>
 </head>
 <body>
-<header class="top"><div class="wrap{" wide" if wide else ""}"><nav class="crumbs">{sep.join(crumbs)}</nav>{home}</div></header>
-<main><div class="wrap{" wide" if wide else ""}">
+{top}<main><div class="wrap{" wide" if wide else ""}">
 {body}
 </div></main>
 <footer><div class="wrap{" wide" if wide else ""}">
 <a href="{LICENSE_URL}" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
+· <a href="{rel(d, ROOT / "credits.html")}">crédits &amp; liens</a>
 </div></footer>
 <script>{PREVIEW_JS}{JS if script else ""}{extra_js}</script>
 </body>
 </html>
 """
+
+
+ICON_DIR = ROOT / "icons"
+SECTION_ICONS = {"Progressions": "progressions", "Sixieme": "sixieme", "Quatrieme": "quatrieme",
+                 "Utils": "utils", "_Archive": "archives"}
+FILE_ICONS = {".pdf": "pdf", ".html": "html", ".png": "image", ".jpg": "image"}
+
+
+def icon(d, name, size=32):
+    """Icône pixel 32×32 de icons/ (pack rétro), affichée en 32 ou réduite en 16."""
+    f = ICON_DIR / f"{name}.png"
+    return (f'<img class="i i{size}" src="{rel(d, f)}" alt="" width="{size}" height="{size}">'
+            if f.is_file() else "")
+
+
+def dir_icon(d, p, size=32):
+    return icon(d, SECTION_ICONS.get(p.name) or ("niveau" if p.name in LEVELS else "dossier"), size)
 
 
 def ext_meta(p):
@@ -579,14 +587,14 @@ def doc_rows(d, files):
                 f'<a class="doc" href="{rel(d, f)}" target="_blank" rel="noopener" title="{e(f.name)}"{thumb_attr(d, f)}>'
                 f'<span class="id mono">{e(item)}</span><span class="name">{e(name)}</span>'
                 f'<span class="meta mono">{e(ext_meta(f))}</span></a>')
-        out.append(f'<div class="grp"><h3 class="{cls}">{title}</h3>{"".join(rows)}</div>')
+        out.append(f'<div class="grp"><h3 class="{cls}">{icon(d, kind.lower())}{title}</h3>{"".join(rows)}</div>')
     return "".join(out)
 
 
 def subdir_rows(d, dirs):
     return "".join(
         f'<a class="doc" href="{rel(d, s)}/index.html">'
-        f'<span class="id">▸</span><span class="name">{e(label(s))}/</span>'
+        f'<span class="id">{icon(d, "dossier", 16)}</span><span class="name">{e(label(s))}/</span>'
         f'<span class="meta">{count_docs(s)} fichiers</span></a>' for s in dirs)
 
 
@@ -615,7 +623,7 @@ def seq_block(level_dir, s, archive=False, prog=None):
         inner = skills_block(prog)
     inner += doc_rows(level_dir, files)
     if dirs:
-        inner += f'<div class="grp"><h3 class="c-res">Dossiers</h3>{subdir_rows(level_dir, dirs)}</div>'
+        inner += f'<div class="grp"><h3 class="c-res">{icon(level_dir, "dossier")}Dossiers</h3>{subdir_rows(level_dir, dirs)}</div>'
     n = count_docs(s)
     return (f'<details class="seq{" archive" if archive else ""}" id="{e(s.name)}">'
             f'<summary><span class="num mono">{e(num)}</span><span class="tt">{e(title)}</span>'
@@ -623,11 +631,11 @@ def seq_block(level_dir, s, archive=False, prog=None):
             f'<span class="meta mono">{n}</span><span class="chev">›</span></summary>{inner}</details>')
 
 
-def upcoming_block(prog):
+def upcoming_block(d, prog):
     """Séquence prévue dans la progression mais sans dossier pour l'instant."""
     return (f'<div class="seq upcoming"><span class="num mono">{e(prog["id"][-2:])}</span>'
             f'<span class="tt">{e(prog["titre"])}</span>'
-            f'<span class="theme mono">{e(prog["theme"])}</span><span class="meta">à venir</span></div>')
+            f'<span class="theme mono">{e(prog["theme"])}</span><span class="meta">{icon(d, "a-venir", 16)}à venir</span></div>')
 
 
 # ---------------------------------------------------------------------------
@@ -643,14 +651,14 @@ def build_level(d):
     blocks, done = [], set()
     for r in rows:
         if "vacances" in r:
-            blocks.append(f'<div class="vac">{e(r["vacances"])}</div>')
+            blocks.append(f'<div class="vac">{icon(d, "vacances", 16)}{e(r["vacances"])}</div>')
             continue
         num = r["id"][-2:]
         if num in by_num:
             blocks.append(seq_block(d, by_num[num], prog=r))
             done.add(by_num[num])
         elif int(num) < 90:  # 6C99 & co : « non traité cette année »
-            blocks.append(upcoming_block(r))
+            blocks.append(upcoming_block(d, r))
     blocks += [seq_block(d, s) for s in seqs if s not in done]
     while blocks and blocks[-1].startswith('<div class="vac">'):
         blocks.pop()
@@ -659,28 +667,25 @@ def build_level(d):
     if archive.is_dir():
         adirs, _ = listdir(archive)
         if adirs:
-            arch = ('<section class="arch"><h2>Archives</h2>'
+            arch = (f'<section class="arch"><h2>{icon(d, "archives")}Archives</h2>'
                     + "".join(seq_block(d, s, archive=True,
                                         prog=progs.get(SEQ_RE.match(s.name)[1]) if SEQ_RE.match(s.name) else None)
                               for s in adirs) + "</section>")
     prog_html = PROG_DIR / PROG_FILES.get(d.name, "-")
     prog_btn = (f'<a class="btn" href="{rel(d, prog_html.with_suffix(".html"))}" target="_blank" '
-                f'rel="noopener">Progression ↗</a>' if rows else "")
+                f'rel="noopener">{icon(d, "progressions", 16)}Progression ↗</a>' if rows else "")
     loose = f'<h2>Autres fichiers</h2><div class="list">{file_rows(d, files)}</div>' if files else ""
-    body = (f'<h1>{e(label(d))}</h1><p class="sub">{len(seqs)} séquences · {count_docs(d)} documents</p>'
+    body = (f'<h1>{dir_icon(d, d)}{e(label(d))}</h1><p class="sub">{len(seqs)} séquences · {count_docs(d)} documents</p>'
             f'<div class="tools"><input id="q" type="search" placeholder="Rechercher un document…  ( / )" autocomplete="off">'
             f'<button id="all" type="button">Tout déplier</button>{prog_btn}</div>'
             + "".join(blocks) + arch + loose)
     return page(d, f"{label(d)} — {SITE_TITLE}", body, script=True)
 
 
-ICONS = {".pdf": "◧", ".html": "◩", ".png": "▣", ".jpg": "▣"}
-
-
 def file_rows(d, files):
     return "".join(
         f'<a class="row" href="{rel(d, f)}" target="_blank" rel="noopener"{thumb_attr(d, f)}>'
-        f'<span class="ico">{ICONS.get(f.suffix.lower(), "□")}</span>'
+        f'<span class="ico">{icon(d, FILE_ICONS.get(f.suffix.lower(), "res"), 16)}</span>'
         f'<span class="name">{e(f.name)}</span>'
         f'<span class="meta sz mono">{e(ext_meta(f))}</span></a>' for f in files)
 
@@ -688,10 +693,10 @@ def file_rows(d, files):
 def build_generic(d):
     dirs, files = listdir(d)
     rows = "".join(
-        f'<a class="row" href="{rel(d, s)}/index.html"><span class="ico">▸</span>'
+        f'<a class="row" href="{rel(d, s)}/index.html"><span class="ico">{icon(d, "dossier", 16)}</span>'
         f'<span class="name">{e(label(s))}/</span><span class="meta mono">{count_docs(s)} fichiers</span></a>'
         for s in dirs) + file_rows(d, files)
-    body = (f'<h1>{e(label(d))}</h1><p class="sub">{len(dirs)} dossiers · {len(files)} fichiers</p>'
+    body = (f'<h1>{dir_icon(d, d) if d.name in SECTION_ICONS else icon(d, "dossier-ouvert")}{e(label(d))}</h1><p class="sub">{len(dirs)} dossiers · {len(files)} fichiers</p>'
             f'<div class="list">{rows or "<div class=row><span class=name>Dossier vide</span></div>"}</div>')
     return page(d, f"{label(d)} — {SITE_TITLE}", body)
 
@@ -739,10 +744,10 @@ def build_prog_page(tex):
     pdf = tex.with_suffix(".pdf")
     extra = ""
     if pdf.is_file():
-        extra += f'<a class="btn" href="{pdf.name}" target="_blank" rel="noopener">PDF ↗</a>'
+        extra += f'<a class="btn" href="{pdf.name}" target="_blank" rel="noopener">{icon(PROG_DIR, "disquette", 16)}PDF ↗</a>'
     if level_dir and level_dir.is_dir():
-        extra += f'<a class="btn" href="{rel(PROG_DIR, level_dir)}/index.html" target="_blank" rel="noopener">Documents ↗</a>'
-    body = (f'<h1>Progression — {e(long_name)}</h1>'
+        extra += f'<a class="btn" href="{rel(PROG_DIR, level_dir)}/index.html" target="_blank" rel="noopener">{dir_icon(PROG_DIR, level_dir, 16)}Documents ↗</a>'
+    body = (f'<h1>{icon(PROG_DIR, "progressions")}Progression — {e(long_name)}</h1>'
             f'<p class="sub">{nseq} séquences · {nvac} périodes de vacances</p>'
             f'<div class="tools"><input id="q" type="search" placeholder="Filtrer…  ( / )" autocomplete="off">{extra}</div>'
             f'<div class="tablewrap"><table class="progtab"><thead><tr><th>Séquence</th><th>Titre</th>'
@@ -764,12 +769,12 @@ def build_prog_index():
         generated |= {html_f, pdf}
         nseq = sum("id" in r for r in prows)
         pdf_link = (f'<a class="meta mono dl" href="{pdf.name}" target="_blank" rel="noopener"'
-                    f'{thumb_attr(PROG_DIR, pdf)}>PDF ↗</a>' if pdf.is_file() else "")
-        rows.append(f'<div class="row"><a class="name main" href="{html_f.name}">'
+                    f'{thumb_attr(PROG_DIR, pdf)}>{icon(PROG_DIR, "disquette", 16)}PDF ↗</a>' if pdf.is_file() else "")
+        rows.append(f'<div class="row"><span class="ico">{icon(PROG_DIR, "progressions", 16)}</span><a class="name main" href="{html_f.name}">'
                     f'<b>{e(long_name)}</b></a><span class="meta">{nseq} séquences</span>{pdf_link}</div>')
     _, files = listdir(PROG_DIR)
     others = [f for f in files if f not in generated and f.stat().st_size > 0]
-    body = (f'<h1>Progressions</h1><p class="sub">Progressions annuelles par niveau</p>'
+    body = (f'<h1>{icon(PROG_DIR, "progressions")}Progressions</h1><p class="sub">Progressions annuelles par niveau</p>'
             f'<div class="list">{"".join(rows)}</div>'
             + (f'<h2>Autres documents</h2><div class="list">{file_rows(PROG_DIR, others)}</div>' if others else ""))
     return page(PROG_DIR, f"Progressions — {SITE_TITLE}", body)
@@ -807,14 +812,38 @@ def build_404():
     """404.html : servie par GitHub Pages à n'importe quelle profondeur, d'où <base href="/">."""
     dirs, _ = listdir(ROOT)
     dirs.sort(key=lambda p: SECTION_ORDER.index(p.name) if p.name in SECTION_ORDER else 99)
-    cards = "".join(f'<a class="card" href="{s.name}/index.html"><div class="t">{e(label(s))}</div></a>'
+    cards = "".join(f'<a class="card" href="{s.name}/index.html"><div class="t">{dir_icon(ROOT, s)}{e(label(s))}</div></a>'
                     for s in dirs)
-    body = ('<h1>Page introuvable</h1>'
+    body = (f'<h1>{icon(ROOT, "erreur")}Page introuvable</h1>'
             '<p class="sub">Le document a peut-être été déplacé ou renommé : '
             '<code id="miss" class="mono"></code></p>'
             f'<div class="cards">{cards}</div>'
             '<script>document.getElementById("miss").textContent=decodeURIComponent(location.pathname)</script>')
     return page(ROOT, f"Page introuvable — {SITE_TITLE}", body, here="Page introuvable", base="/")
+
+
+CREDITS = [
+    ("Ressources tierces utilisées sur ce site", [
+        ("Retro Computer Icons Set (110 icons)", "https://gdainti.itch.io/retro-computer-icons-set-110-icons",
+         "icônes pixel du site, par gdainti"),
+        ("Sésamath", "https://www.sesamath.net", "manuels et figures (fichiers Sesa-…)"),
+        ("Mathsenligne", "https://mathsenligne.net", "fiches d'exercices (dossiers mathsenligne/)"),
+    ]),
+    ("Liens utiles", [
+        ("m@ths et tiques", "https://www.maths-et-tiques.fr", "cours, exercices et vidéos d'Yvan Monka"),
+    ]),
+]
+
+
+def build_credits():
+    body = ['<h1>Crédits &amp; liens</h1><p class="sub">Les ressources tierces restent sous la licence '
+            'de leurs auteurs (elles ne sont pas couvertes par la CC0 du site).</p>']
+    for title, links in CREDITS:
+        body.append(f'<h2>{e(title)}</h2><ul>')
+        body += [f'<li><a href="{url}" target="_blank" rel="noopener">{e(name)}</a> — {e(desc)}</li>'
+                 for name, url, desc in links]
+        body.append('</ul>')
+    return page(ROOT, f"Crédits & liens — {SITE_TITLE}", "".join(body), here="Crédits & liens")
 
 
 def school_year():
@@ -836,11 +865,10 @@ def build_home():
         else:
             desc = BLURBS.get(s.name, f"{count_docs(s)} fichiers")
         cards.append(f'<a class="card" href="{s.name}/index.html" target="_blank" rel="noopener">'
-                     f'<div class="t">{e(label(s))}<span class="ext">↗</span></div>'
+                     f'<div class="t">{dir_icon(ROOT, s)}{e(label(s))}<span class="ext">↗</span></div>'
                      f'<div class="d">{e(desc)}</div></a>')
-    banner_file = ROOT / ".scripts" / "title.txt"
-    head = (f'<pre class="banner mono" aria-label="{e(SITE_TITLE)}">{e(banner_file.read_text("utf-8").rstrip())}</pre>'
-            if banner_file.is_file() else f"<h1>{e(SITE_TITLE)}</h1>")
+    head = (f'<h1><img class="logo" src="logo.svg" alt="Mathématovitch" width="894" height="120"></h1>'
+            if (ROOT / "logo.svg").is_file() else f"<h1>{e(SITE_TITLE)}</h1>")
     recent = recent_files()
     rec = ""
     if recent:
@@ -855,9 +883,9 @@ def build_home():
                         f'<span class="name">{e(name)}</span>'
                         f'<span class="meta">{e(lvl)} · {e(label(p.parent))}</span>'
                         f'<span class="meta sz mono">{e(date)}</span></a>')
-        rec = f'<h2>Récemment ajoutés</h2><div class="list">{"".join(rows)}</div>'
-    body = (f'{head}<p class="sub">Cours de maths de {e(AUTHOR)} · {e(SCHOOL)} · année {school_year()}</p>'
-            f'<h2>Sections</h2><div class="cards">{"".join(cards)}</div>{rec}')
+        rec = f'<h2>{icon(ROOT, "recent")}Récemment ajoutés</h2><div class="list">{"".join(rows)}</div>'
+    body = (f'{head}<p class="sub">Cours de {e(AUTHOR)} · {e(SCHOOL)} · année {school_year()}</p>'
+            f'<h2>{icon(ROOT, "dossier")}Sections</h2><div class="cards">{"".join(cards)}</div>{rec}')
     return page(ROOT, SITE_TITLE, body)
 
 
@@ -871,6 +899,7 @@ def main():
     n = 0
     (ROOT / "index.html").write_text(build_home(), "utf-8")
     (ROOT / "404.html").write_text(build_404(), "utf-8")
+    (ROOT / "credits.html").write_text(build_credits(), "utf-8")
     (ROOT / ".nojekyll").touch()  # sinon GitHub Pages (Jekyll) ne publie pas les dossiers _Archive
     n += 1
     for dirpath, dirnames, _ in os.walk(ROOT):

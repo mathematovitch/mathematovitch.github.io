@@ -12,7 +12,7 @@ cd "$(dirname "$0")" || exit 1
 python3 build.py "$@" || exit 1
 
 LEGACY=legacy
-EXCLUDE="dev|todo|legacy|thumbs"
+EXCLUDE="dev|todo|legacy|thumbs|icons"
 
 ########################################
 # INDEX DES SECTIONS (legacy/SECTION/index.html)
