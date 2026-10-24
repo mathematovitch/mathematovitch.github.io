@@ -149,6 +149,28 @@ dédupliquer sans consulter l'utilisateur.
   **écrite au tableau et copiée** par les élèves (jamais projetée) : prévoir
   du temps (~15 min). Pas de « ticket de sortie ».
 
+## Terminal web `term/` (`/term`, branche `termjs`)
+
+Émulateur de shell en JS pur (modules ES, aucune dépendance) pour naviguer
+dans les cours : reprise du side-project GitLab `dev/termjs/` (ignoré par git),
+dont la roadmap du README est entièrement implémentée. Doc complète :
+`term/README.md`.
+
+- Seule source de données : **`term/fs.json`**, écrit par `build_term_fs()` de
+  `build.py` (dossier → objet, fichier → taille ; `HIDDEN_EXT` inclus, que le
+  terminal ne montre qu'en `sudo`). Généré, mais à committer (Pages ne lance
+  pas le build). Pas d'API GitHub (quota de 60 req/h sans jeton).
+- `term` est dans `EXCLUDE_DIRS` (`build.py`) et `EXCLUDE` (`build.sh`) :
+  ni index généré, ni listé dans le site, ni dans `fs.json`.
+- `sudo` : SHA-256(sel + mot de passe) dans `term/js/config.js`, changé par
+  `python3 term/passwd.py`. Cosmétique (site public), à dire si on en parle.
+- Messages d'erreur au format GNU en locale française (`Aucun fichier ou
+  dossier de ce type`…). Tout texte affiché passe par `textContent`.
+- Tests : Chromium ne tourne pas dans le sandbox (sockets interdits) ; la
+  logique se teste sous Deno (`--location http://127.0.0.1:PORT/term/`), avec
+  le serveur HTTP lancé **dans la même commande** (réseau non partagé entre
+  commandes) et `--reload` (Deno met les imports HTTP en cache).
+
 ## Design du site (`CSS` de `build.py`)
 
 Choix de l'utilisateur (2026-10-24) : **thème clair uniquement** (plus de mode

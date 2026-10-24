@@ -18,6 +18,7 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 ├── thumbs               # Vignettes des PDF (générées par build.py)
 ├── build.py             # Construction du site : nettoyage, vignettes, index.html
 ├── legacy               # Ancien site « tree » (index seulement), généré par build.sh
+├── term                 # Terminal web (/term) : naviguer dans les cours avec ls, cd, open...
 ├── build.sh             # Point d'entrée : build.py puis legacy/
 └── favicon.ico
 ```
@@ -35,7 +36,7 @@ Le site est une simple arborescence de fichiers (PDF, `.tex`, HTML) navigable vi
 2. nettoie les noms de fichiers/dossiers (accents, espaces, caractères spéciaux) ;
 3. génère les vignettes des PDF dans `thumbs/` (nécessite `pdftoppm`, paquet poppler ; seuls les PDF nouveaux ou modifiés sont rendus) ;
 4. recompile les progressions (`Progressions/NIVEAU.pdf`) si leur `.tex` a changé ;
-5. régénère l'`index.html` de chaque dossier, l'accueil et la page 404 ;
+5. régénère l'`index.html` de chaque dossier, l'accueil et la page 404, et `term/fs.json` (arborescence lue par le terminal web, voir `term/README.md`) ;
 6. (`build.sh` seulement) régénère l'ancien site `tree` dans `legacy/`, accessible sur `/legacy/`.
 
 ## Déploiement

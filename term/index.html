@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
+<title>Terminal — Cours de Maths</title>
+<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+<link rel="stylesheet" href="term.css">
+</head>
+<body>
+<div id="term" aria-live="polite">
+  <div id="out"></div>
+  <div id="line" hidden>
+    <span id="ps1"></span><input id="cmd" type="text" autocomplete="off" autocapitalize="off"
+      autocorrect="off" spellcheck="false" enterkeyhint="send" aria-label="Commande">
+  </div>
+</div>
+<nav id="keys" aria-label="Touches">
+  <button data-key="Tab">Tab</button>
+  <button data-key="ArrowUp">↑</button>
+  <button data-key="ArrowDown">↓</button>
+  <button data-type="cd ..">cd ..</button>
+  <button data-type="ls">ls</button>
+  <button data-key="C-c">^C</button>
+</nav>
+<noscript><p>Ce terminal nécessite JavaScript. <a href="../index.html">Retour au site</a>.</p></noscript>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -13,10 +13,12 @@ Stdlib uniquement (+ `pdftoppm` de poppler pour les vignettes, optionnel). Étap
    - accueil       : cartes par section (ouvertes dans un nouvel onglet) + récemment ajoutés
    - niveau        : séquences repliables, documents groupés par type, recherche
    - autre dossier : liste façon explorateur (dossiers puis fichiers)
+6. écrit term/fs.json, l'arborescence lue par le terminal web term/ (/term).
 """
 
 import html
 import importlib.util
+import json
 import os
 import re
 import shutil
@@ -32,7 +34,7 @@ AUTHOR = "M. Outerovitch"
 SCHOOL = "Collège Jean Moulin"
 LICENSE_URL = "https://creativecommons.org/publicdomain/zero/1.0/deed.fr"
 
-EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy", "images", "icons"}
+EXCLUDE_DIRS = {"dev", "todo", ".git", ".scripts", "__pycache__", "thumbs", "legacy", "images", "icons", "term"}
 # Dossiers locaux (non suivis, cf. .gitignore) : jamais touchés par le build
 PRIVATE_DIRS = {"dev"}
 HIDDEN_EXT = {".tex", ".sty", ".py", ".sh", ".org", ".md", ".odg", ".txt", ".ico"}
@@ -846,6 +848,30 @@ def build_credits():
     return page(ROOT, f"Crédits & liens — {SITE_TITLE}", "".join(body), here="Crédits & liens")
 
 
+def term_tree(d):
+    """Arborescence pour le terminal web (term/) : dossier -> dict, fichier -> taille en octets.
+    Les fichiers HIDDEN_EXT sont inclus : le terminal ne les montre qu'en mode sudo."""
+    out = {}
+    for p in sorted(d.iterdir(), key=lambda p: p.name):
+        if p.name.startswith(".") or p.name in ("index.html", "404.html") or p.is_symlink():
+            continue
+        if p.is_dir():
+            if p.name not in EXCLUDE_DIRS:
+                out[p.name] = term_tree(p)
+        else:
+            out[p.name] = p.stat().st_size
+    return out
+
+
+def build_term_fs():
+    """term/fs.json : seule source de données du terminal (pas d'API, site statique)."""
+    if not (ROOT / "term").is_dir():
+        return
+    data = {"title": SITE_TITLE, "author": AUTHOR, "school": SCHOOL, "year": school_year(),
+            "hidden": sorted(HIDDEN_EXT), "tree": term_tree(ROOT)}
+    (ROOT / "term" / "fs.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), "utf-8")
+
+
 def school_year():
     """Année scolaire en cours, basculée au 1er août : « 2026-2027 »."""
     today = date.today()
@@ -900,6 +926,7 @@ def main():
     (ROOT / "index.html").write_text(build_home(), "utf-8")
     (ROOT / "404.html").write_text(build_404(), "utf-8")
     (ROOT / "credits.html").write_text(build_credits(), "utf-8")
+    build_term_fs()
     (ROOT / ".nojekyll").touch()  # sinon GitHub Pages (Jekyll) ne publie pas les dossiers _Archive
     n += 1
     for dirpath, dirnames, _ in os.walk(ROOT):
