@@ -135,7 +135,8 @@ async function exec(cmd) {
 }
 
 function interrupt() {
-  if (busy && !password) return;   // pas d'annulation des commandes en cours (grep -r...)
+  // Commande en cours : seules celles qui écoutent « term-interrupt » (clock) s'arrêtent.
+  if (busy && !password) { dispatchEvent(new Event("term-interrupt")); return; }
   if (password) { const r = password; password = null; ui.print(ps1.textContent + "^C"); line.hidden = true; r(null); return; }
   ui.print([...psParts(), input.value + "^C"]);
   state.status = 130;

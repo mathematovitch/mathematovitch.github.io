@@ -830,6 +830,7 @@ CREDITS = [
          "icônes pixel du site, par gdainti"),
         ("Sésamath", "https://www.sesamath.net", "manuels et figures (fichiers Sesa-…)"),
         ("Mathsenligne", "https://mathsenligne.net", "fiches d'exercices (dossiers mathsenligne/)"),
+        ("Police figlet « Doh »", "http://www.figlet.org/", "chiffres de la commande clock du terminal, par Curtis Wanner"),
     ]),
     ("Liens utiles", [
         ("m@ths et tiques", "https://www.maths-et-tiques.fr", "cours, exercices et vidéos d'Yvan Monka"),

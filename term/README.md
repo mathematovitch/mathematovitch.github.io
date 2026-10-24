@@ -40,6 +40,7 @@ directement dans la séquence (lien à donner aux élèves).
 | `find [chemin] -name/-iname/-type/-maxdepth` | recherche par nom |
 | `grep [-ivnclrw] motif [fichiers]` | recherche dans le contenu (ou filtre d'un pipe) |
 | `history`, `!!`, `!n`, `!préfixe` | historique |
+| `clock [-s]` | l'heure en grand pour un contrôle : plein écran, police figlet « doh » (comme `termdown -z -f doh`), « : » qui clignotent, écran sans veille ; Échap ou Ctrl+C pour quitter |
 | `echo`, `whoami`, `date`, `clear`, `theme` | divers (`theme vert\|ambre\|gris\|clair`) |
 | `sudo cmd`, `sudo -s`, `su`, `exit` | mode professeur (voir ci-dessous) |
 

@@ -65,10 +65,15 @@ a { color: var(--dir); }
 .cols { display: grid; column-gap: 2ch; grid-template-columns: repeat(auto-fill, minmax(var(--w, 20ch), 1fr)); }
 .cols > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+/* clock : plein écran, au-dessus du terminal */
+.clock { position: fixed; inset: 0; z-index: 10; background: var(--bg); color: var(--fg);
+  display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.clock pre { margin: 0; line-height: 1; font-family: inherit; white-space: pre; }
+
 .preview { display: block; max-width: min(100%, 640px); max-height: 60vh; margin: 4px 0; border: 1px solid var(--dim); background: #fff; }
 
 /* Touches pour mobile (pas de Tab ni de flèches sur un clavier tactile) */
-#keys { display: none; gap: 6px; padding: 6px 8px; background: var(--key); border-top: 1px solid var(--dim); overflow-x: auto; }
+#keys { position: relative; z-index: 11; display: none; gap: 6px; padding: 6px 8px; background: var(--key); border-top: 1px solid var(--dim); overflow-x: auto; }
 #keys button {
   flex: 1 0 auto; min-width: 44px; min-height: 40px; font-family: inherit; font-size: 15px; line-height: 1;
   background: var(--bg); color: var(--keyfg); border: 1px solid var(--dim); padding: 0 8px; touch-action: manipulation;
