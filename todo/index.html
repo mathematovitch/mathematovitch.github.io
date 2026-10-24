@@ -1,271 +1,160 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="../icons/todo.png">
 <title>Todo</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
-  * { box-sizing: border-box; }
-  :root { --content-font-size: 18px; }
-  body, html {
-    margin: 0; padding: 0; height: 100%;
-    background: #f2f0ef;
-    font-family: 'Fira Code', monospace;
-    color: #222;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    user-select: text;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  #toolbar {
-    background-color: #ffffffdd;
-    border-bottom: 1px solid #ccc;
-    padding: 6px 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    backdrop-filter: saturate(180%) blur(8px);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .sep { border-left: 1px solid #ccc; height: 20px; margin: 0 6px; }
-  button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px 8px;
-    font-size: 16px;
-    border-radius: 4px;
-    transition: background-color 0.15s ease, color 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    font-family: inherit;
-  }
-  button:hover { background-color: #e0e0e0; }
-  button svg { width: 18px; height: 18px; fill: currentColor; }
-  #decreaseFontBtn, #increaseFontBtn { font-family: Arial, sans-serif; line-height: 1; user-select: none; }
-  #decreaseFontBtn { font-weight: 100; font-size: 18px; }
-  #increaseFontBtn { font-weight: 900; font-size: 24px; }
+  /* DA « brute old school » du site : Times, traits noirs 1 px, boutons gris en relief, icônes pixel.
+     Page autonome : aucun lien obligatoire avec le reste du site. */
+  :root{color-scheme:light;--bg:#fff;--fg:#000;--mut:#555;--line:#000;--soft:#999;--acc:#0000ee;--vis:#551a8b;
+    --hover:#ffffcc;--btn:#e0e0e0;--content-font-size:18px}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 "Times New Roman",Times,serif}
+  a{color:var(--acc);text-decoration:underline}
+  a:visited{color:var(--vis)}
+  code{font-family:"Courier New",Courier,monospace}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 16px 48px}
+  h1{font-size:28px;margin:0 0 16px;display:flex;align-items:center}
+  .i{image-rendering:pixelated;vertical-align:middle;flex:none;border:0}
+  .i32{margin-right:8px}
+  .i16{image-rendering:auto}
 
-  #listBar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 8px 20px;
-    border-bottom: 1px solid #ccc;
-    transition: border-color 0.3s ease;
-  }
-  #listSelect {
-    font-family: inherit;
-    font-size: 15px;
-    padding: 5px 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background: #fff;
-    color: inherit;
-    max-width: 60vw;
-  }
-  #listBar button svg { width: 16px; height: 16px; }
+  /* Barres d'outils */
+  .bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 8px}
+  .bar .grow{flex:1}
+  .vsep{width:0;height:22px;border-left:1px solid var(--soft);margin:0 4px}
+  button{font:13px Arial,Helvetica,sans-serif;padding:3px 8px;min-height:28px;border:2px outset #ddd;background:var(--btn);
+    color:#000;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+  button:active{border-style:inset}
+  button:focus-visible{outline:1px dotted #000;outline-offset:-5px}
+  #decreaseFontBtn,#increaseFontBtn,#fontSpaceBtn{font-family:"Times New Roman",Times,serif;font-weight:bold;min-width:30px;justify-content:center}
+  #decreaseFontBtn{font-size:12px}
+  #increaseFontBtn{font-size:17px}
+  #fontSpaceBtn{font-family:"Courier New",Courier,monospace;font-size:13px}
+  label.lb{font-weight:bold}
+  #listSelect,#newTaskInput,.task-edit-input,.modal input{font:inherit;border:2px inset #ccc;background:#fff;color:var(--fg);
+    border-radius:0;padding:3px 6px}
+  #listSelect{font-size:16px;min-height:28px;max-width:55vw}
+  #newTaskForm{display:flex;gap:6px;margin:0 0 8px}
+  #newTaskInput{flex:1;min-width:0;font-size:var(--content-font-size)}
 
-  #newTaskForm { display: flex; gap: 8px; padding: 10px 20px; }
-  #newTaskInput {
-    flex: 1;
-    min-width: 0;
-    font-family: inherit;
-    font-size: var(--content-font-size);
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fff;
-    color: inherit;
-  }
-  #newTaskForm button[type="submit"] { flex-shrink: 0; }
+  /* Liste : simple encadré, comme les listes du site */
+  #taskList{list-style:none;margin:0;padding:0;border:1px solid var(--line);font-size:var(--content-font-size)}
+  #taskList[hidden]{display:none}
+  .task-item{display:flex;align-items:center;gap:10px;padding:4px 8px;border-top:1px solid var(--soft)}
+  .task-item:first-child{border-top:0}
+  .task-item:hover{background:var(--hover)}
+  .task-checkbox{appearance:none;-webkit-appearance:none;flex:none;width:16px;height:16px;margin:0;border:2px inset #ccc;
+    background:#fff;cursor:pointer;display:grid;place-items:center}
+  .task-checkbox:checked::after{content:"✓";font:bold 13px/1 Arial,sans-serif;color:#000}
+  .task-checkbox:focus-visible{outline:1px dotted #000;outline-offset:1px}
+  .task-text{flex:1;min-width:0;cursor:text;padding:2px 4px;overflow-wrap:anywhere}
+  .task-text:focus{outline:1px dotted #000}
+  .task-item.done .task-text{text-decoration:line-through;color:var(--mut)}
+  .task-edit-input{flex:1;min-width:0;font-size:var(--content-font-size)}
+  .task-delete{flex:none;min-height:0;padding:1px;border:0;background:none;opacity:.35}
+  .task-item:hover .task-delete,.task-delete:focus-visible{opacity:1}
+  #emptyState{margin:0;padding:40px 16px;border:1px solid var(--line);text-align:center;color:var(--mut);font-style:italic}
 
-  #taskList {
-    flex: 1;
-    overflow-y: auto;
-    margin: 0;
-    padding: 6px 20px 40px;
-    list-style: none;
-    font-size: var(--content-font-size);
-  }
-  .task-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 2px;
-    border-bottom: 1px solid #e6e6e6;
-  }
-  .task-item:last-child { border-bottom: none; }
-  .task-checkbox { width: 19px; height: 19px; flex-shrink: 0; cursor: pointer; accent-color: #333; }
-  .task-text {
-    flex: 1;
-    min-width: 0;
-    word-break: break-word;
-    padding: 4px 6px;
-    border-radius: 3px;
-    cursor: text;
-  }
-  .task-text:hover, .task-text:focus { background: rgba(0,0,0,0.05); outline: none; }
-  .task-item.done .task-text { text-decoration: line-through; opacity: 0.5; }
-  .task-edit-input {
-    flex: 1;
-    min-width: 0;
-    font-family: inherit;
-    font-size: var(--content-font-size);
-    padding: 4px 6px;
-    border: 1px solid #999;
-    border-radius: 3px;
-    background: #fff;
-    color: inherit;
-  }
-  .task-delete { flex-shrink: 0; font-size: 20px; line-height: 1; color: #999; }
-  .task-delete:hover { color: #c00; background: #f0e0e0; }
+  /* Ligne d'état */
+  .status-line{display:flex;align-items:center;gap:8px;margin-top:8px;color:var(--mut);font:13px "Courier New",Courier,monospace}
+  #status{display:flex;align-items:center;gap:6px}
+  #statusDot{width:9px;height:9px;flex:none;background:#808080;border:1px solid #000}
+  #status.synced #statusDot{background:#00a000}
+  #status.pending #statusDot,#status.saving #statusDot,#status.loading #statusDot{background:#e0a000}
+  #status.error #statusDot{background:#d00000}
+  .status-line .grow{flex:1}
 
-  #emptyState { flex: 1; padding: 40px 20px; text-align: center; opacity: 0.5; font-size: 15px; }
+  .monospace-mode #taskList,.monospace-mode #newTaskInput,.monospace-mode .task-edit-input{
+    font-family:"Courier New",Courier,monospace}
 
-  .monospace-mode #taskList, .monospace-mode #newTaskInput,
-  .monospace-mode .task-edit-input, .monospace-mode #listSelect {
-    font-family: 'monospace', Consolas, Courier New, Monaco, sans-serif;
-    font-weight: 800;
-  }
+  /* Boîte de connexion : encadré noir, ombre dure (comme l'aperçu des PDF du site) */
+  .backdrop{position:fixed;inset:0;z-index:1000;background:rgba(255,255,255,.7);display:none}
+  .modal{position:fixed;z-index:1001;display:none;top:50%;left:50%;transform:translate(-50%,-50%);width:min(440px,92vw);
+    background:var(--bg);border:1px solid var(--line);padding:14px 16px;box-shadow:4px 4px 0 var(--line)}
+  .modal h3{margin:0 0 10px;font-size:20px;padding-bottom:2px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px}
+  .modal input{width:100%;margin:6px 0 8px;font-family:"Courier New",Courier,monospace;font-size:14px}
+  .modal .row{display:flex;justify-content:flex-end;gap:6px;margin-top:10px}
+  .modal p.hint{margin:4px 0 0;color:var(--mut);font-size:14px}
+  .modal p.error{margin:4px 0 0;color:#c00000;font-size:14px}
 
-  body.dark-mode { background-color: #000000; color: #ffff8c; }
-  body.dark-mode #toolbar { background-color: #000000; border-bottom-color: #ffff8c; backdrop-filter: none; }
-  body.dark-mode .sep { border-left-color: #444; }
-  body.dark-mode button { color: #ffff8c; }
-  body.dark-mode button:hover { background-color: rgba(255,255,140,0.12); }
-  body.dark-mode #listBar { border-bottom-color: #444; }
-  body.dark-mode #listSelect, body.dark-mode #newTaskInput, body.dark-mode .task-edit-input {
-    background: #000; color: #ffff8c; border-color: #444;
-  }
-  body.dark-mode .task-item { border-bottom-color: #1a1a1a; }
-  body.dark-mode .task-checkbox { accent-color: #ffff8c; }
-  body.dark-mode .task-text:hover, body.dark-mode .task-text:focus { background: rgba(255,255,140,0.1); }
-  body.dark-mode .task-delete { color: #887; }
-  body.dark-mode .task-delete:hover { color: #ff8080; background: rgba(255,128,128,0.15); }
+  /* Mode sombre : noir et jaune, contraste élevé */
+  body.dark-mode{--bg:#000;--fg:#ffff8c;--mut:#bdbd6a;--line:#ffff8c;--soft:#555;--acc:#7fb2ff;--vis:#c69cff;--hover:#202000}
+  body.dark-mode button{background:#000;color:#ffff8c;border:1px solid #ffff8c}
+  body.dark-mode #listSelect,body.dark-mode #newTaskInput,body.dark-mode .task-edit-input,body.dark-mode .modal input,
+  body.dark-mode .task-checkbox{background:#000;border:1px solid #ffff8c;color:#ffff8c}
+  body.dark-mode .task-checkbox:checked::after{color:#ffff8c}
+  body.dark-mode .backdrop{background:rgba(0,0,0,.7)}
 
-  #status { font-size: 13px; display: flex; align-items: center; gap: 6px; padding: 0 4px; }
-  #statusDot { width: 9px; height: 9px; border-radius: 50%; background: #999; flex-shrink: 0; }
-  #status.synced #statusDot { background: #2ea640; }
-  #status.pending #statusDot, #status.saving #statusDot { background: #e0a020; }
-  #status.error #statusDot { background: #d02020; }
-  #status.offline #statusDot { background: #999; }
-
-  .modal, .backdrop {
-    position: fixed; z-index: 1000;
-  }
-  .backdrop { top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; }
-  .modal {
-    display: none;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: #f9f9f9; border: 1px solid #ccc; padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15); z-index: 1001;
-    min-width: 280px; max-width: 90vw;
-  }
-  .modal h3 { margin-top: 0; }
-  .modal input[type="password"], .modal input[type="text"] {
-    width: 100%; padding: 6px; margin: 6px 0 10px; font-family: inherit;
-  }
-  .modal .row { display: flex; justify-content: flex-end; gap: 10px; }
-  .modal p.hint { font-size: 12px; color: #666; margin: 4px 0 0; }
-  .modal p.error { font-size: 12px; color: #b00; margin: 4px 0 0; }
-  body.dark-mode .modal { background: #111; border-color: #ffff8c; color: #ffff8c; }
-  body.dark-mode .modal p.hint { color: #ccc; }
-
-  @media (max-width: 720px) {
-    #toolbar { padding: 4px 8px; gap: 5px; font-size: 14px; }
-    button { padding: 5px 6px; font-size: 14px; }
-    #listBar, #newTaskForm, #taskList { padding-left: 10px; padding-right: 10px; }
-    #listSelect { max-width: 50vw; font-size: 13px; }
-    #status span.label { display: none; }
+  @media (max-width:640px){
+    .wrap{padding:16px 8px 32px}
+    h1{font-size:22px}
+    .lbl{display:none}            /* boutons : icône seule */
+    .vsep,.status-line .hint{display:none}
+    #listSelect{max-width:none;flex:1}
   }
 </style>
 </head>
 <body>
+<div class="wrap">
+<h1><img class="i i32" src="../icons/todo.png" alt="" width="32" height="32">Todo</h1>
 
-  <div class="backdrop" id="modalBackdrop"></div>
+<div class="backdrop" id="modalBackdrop"></div>
 
-  <div class="modal" id="settingsModal">
-    <h3>Synchronisation GitHub</h3>
-    <label for="tokenInput">Token GitHub (scope <code>gist</code> uniquement)</label>
-    <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off" />
-    <p class="hint" id="gistLink"></p>
-    <p class="error" id="settingsError" style="display:none"></p>
-    <div class="row">
-      <button type="button" id="tokenClearBtn">Déconnecter</button>
-      <button type="button" id="tokenSaveBtn">Connecter</button>
-      <button type="button" id="settingsCloseBtn">Fermer</button>
-    </div>
+<div class="modal" id="settingsModal" role="dialog" aria-labelledby="settingsTitle">
+  <h3 id="settingsTitle"><img class="i i16" src="../icons/connexion.png" alt="" width="16" height="16">Synchronisation GitHub</h3>
+  <label for="tokenInput">Token GitHub (scope <code>gist</code> uniquement) :</label>
+  <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off">
+  <p class="hint" id="gistLink"></p>
+  <p class="error" id="settingsError" style="display:none"></p>
+  <div class="row">
+    <button type="button" id="tokenSaveBtn">Connecter</button>
+    <button type="button" id="tokenClearBtn">Déconnecter</button>
+    <button type="button" id="settingsCloseBtn">Fermer</button>
   </div>
+</div>
 
-  <div id="toolbar" role="toolbar" aria-label="Barre d'outils">
-    <div class="group">
-      <button type="button" id="clearBtn" title="Vider la liste courante" aria-label="Vider la liste courante">
-        <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 16h18v2H3v-2zm5-9h8v2H8v-2z"/></svg>
-      </button>
-      <button type="button" id="openBtn" title="Importer un .txt" aria-label="Importer">
-        <svg viewBox="0 0 24 24"><path d="M20 6v12H4V6h16m0-2H4c-1.1 0-2 .9-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6c0-1.1-.9-2-2-2zM8 12l4-4 4 4H8z"/></svg>
-      </button>
-      <button type="button" id="exportBtn" title="Exporter en .txt" aria-label="Exporter">
-        <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v14a2 2 0 002 2h10c1.1 0 2-.9 2-2V7l-4-4zM7 19V5h8v4h-3v6H7z"/></svg>
-      </button>
-      <div class="sep"></div>
-      <button type="button" id="decreaseFontBtn" title="Réduire la police">A</button>
-      <button type="button" id="increaseFontBtn" title="Agrandir la police">A</button>
-      <div class="sep"></div>
-      <button type="button" id="fontSpaceBtn" title="Police proportionnelle / à chasse fixe" style="font-weight:bold;font-size:20px;">P/M</button>
-      <div class="sep"></div>
-      <button type="button" id="darkModeToggle" title="Mode sombre">
-        <svg viewBox="0 0 24 24"><path d="M 12,0 A 8 8 0 1 0 12, 24 A 14 14 0 0 1 12, 0"/></svg>
-      </button>
-    </div>
-    <div class="group">
-      <div id="status" class="offline"><span id="statusDot"></span><span class="label" id="statusLabel">hors ligne</span></div>
-      <button type="button" id="reloadBtn" title="Recharger depuis le gist" aria-label="Recharger">
-        <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08a6 6 0 11-1.38-6.36L13 11h7V4l-2.35 2.35z"/></svg>
-      </button>
-      <button type="button" id="settingsBtn" title="Connexion GitHub" aria-label="Réglages de synchronisation">
-        <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7zm7.43-2.5c0-.32-.03-.63-.07-.94l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.6-.22l-2.39.96a7.3 7.3 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 00-.6.22L2.9 9.84a.5.5 0 00.12.64l2.03 1.58c-.04.31-.07.62-.07.94s.03.63.07.94l-2.03 1.58a.5.5 0 00-.12.64l1.92 3.32c.14.24.42.32.6.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.05.24.26.42.5.42h3.84c.24 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.23.1.51.02.6-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58c.04-.31.07-.62.07-.94z"/></svg>
-      </button>
-    </div>
-  </div>
+<div id="toolbar" class="bar" role="toolbar" aria-label="Barre d'outils">
+  <button type="button" id="openBtn" title="Importer un .txt"><img class="i i16" src="../icons/dossier-ouvert.png" alt="" width="16" height="16"><span class="lbl">Ouvrir</span></button>
+  <button type="button" id="exportBtn" title="Exporter en .txt"><img class="i i16" src="../icons/disquette.png" alt="" width="16" height="16"><span class="lbl">Exporter</span></button>
+  <button type="button" id="clearBtn" title="Vider la liste courante"><img class="i i16" src="../icons/vider.png" alt="" width="16" height="16"><span class="lbl">Vider</span></button>
+  <span class="vsep"></span>
+  <button type="button" id="decreaseFontBtn" title="Réduire la police">A−</button>
+  <button type="button" id="increaseFontBtn" title="Agrandir la police">A+</button>
+  <button type="button" id="fontSpaceBtn" title="Police proportionnelle / à chasse fixe">P/M</button>
+  <button type="button" id="darkModeToggle" title="Mode sombre"><img class="i i16" src="../icons/theme.png" alt="" width="16" height="16"><span class="lbl">Sombre</span></button>
+  <span class="grow"></span>
+  <button type="button" id="reloadBtn" title="Recharger depuis le gist"><img class="i i16" src="../icons/synchro.png" alt="" width="16" height="16"><span class="lbl">Recharger</span></button>
+  <button type="button" id="settingsBtn" title="Connexion GitHub"><img class="i i16" src="../icons/connexion.png" alt="" width="16" height="16"><span class="lbl">Connexion</span></button>
+</div>
 
-  <div id="listBar" role="toolbar" aria-label="Gestion des listes">
-    <select id="listSelect" aria-label="Liste courante"></select>
-    <button type="button" id="addListBtn" title="Nouvelle liste" aria-label="Nouvelle liste">
-      <svg viewBox="0 0 24 24"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
-    </button>
-    <button type="button" id="renameListBtn" title="Renommer la liste" aria-label="Renommer la liste">
-      <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>
-    </button>
-    <button type="button" id="deleteListBtn" title="Supprimer la liste" aria-label="Supprimer la liste">
-      <svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-    </button>
-  </div>
+<div id="listBar" class="bar" role="toolbar" aria-label="Gestion des listes">
+  <label class="lb lbl" for="listSelect">Liste :</label>
+  <select id="listSelect"></select>
+  <button type="button" id="addListBtn" title="Nouvelle liste"><img class="i i16" src="../icons/nouvelle-liste.png" alt="" width="16" height="16"><span class="lbl">Nouvelle</span></button>
+  <button type="button" id="renameListBtn" title="Renommer la liste"><img class="i i16" src="../icons/renommer.png" alt="" width="16" height="16"><span class="lbl">Renommer</span></button>
+  <button type="button" id="deleteListBtn" title="Supprimer la liste"><img class="i i16" src="../icons/supprimer.png" alt="" width="16" height="16"><span class="lbl">Supprimer</span></button>
+</div>
 
-  <form id="newTaskForm" autocomplete="off">
-    <input type="text" id="newTaskInput" placeholder="Nouvelle tâche…" aria-label="Nouvelle tâche" />
-    <button type="submit" title="Ajouter" aria-label="Ajouter la tâche">
-      <svg viewBox="0 0 24 24"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
-    </button>
-  </form>
+<form id="newTaskForm" autocomplete="off">
+  <input type="text" id="newTaskInput" placeholder="Nouvelle tâche…" aria-label="Nouvelle tâche">
+  <button type="submit" title="Ajouter la tâche">Ajouter</button>
+</form>
 
-  <ul id="taskList" aria-label="Tâches"></ul>
-  <p id="emptyState" hidden>Aucune tâche pour l'instant.</p>
+<ul id="taskList" aria-label="Tâches"></ul>
+<p id="emptyState" hidden><img class="i i32" src="../icons/vide.png" alt="" width="32" height="32">Aucune tâche pour l'instant.</p>
 
-  <input type="file" id="fileInput" accept=".txt" style="display:none" />
+<div class="status-line">
+  <div id="status" class="offline"><span id="statusDot"></span><span id="statusLabel">hors ligne</span></div>
+  <span class="grow"></span>
+  <span class="hint">clic sur une tâche : modifier · Entrée : valider · Échap : annuler</span>
+</div>
+
+<input type="file" id="fileInput" accept=".txt" style="display:none">
+</div>
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -412,7 +301,10 @@
       delBtn.className = 'task-delete';
       delBtn.setAttribute('aria-label', 'Supprimer la tâche');
       delBtn.title = 'Supprimer';
-      delBtn.textContent = '×';
+      const delIcon = document.createElement('img');
+      delIcon.className = 'i i16'; delIcon.src = '../icons/erreur.png'; delIcon.alt = '';
+      delIcon.width = delIcon.height = 16;
+      delBtn.appendChild(delIcon);
       delBtn.addEventListener('click', () => deleteTask(task.id));
 
       li.appendChild(checkbox);
