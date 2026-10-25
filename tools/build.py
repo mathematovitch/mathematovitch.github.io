@@ -50,8 +50,9 @@ SECTION_ORDER = ["Progressions", "Sixieme", "Cinquieme", "Quatrieme", "Troisieme
 ASSETS = ROOT / "assets"          # ressources du site (pas du contenu de cours)
 ICON_DIR = ASSETS / "icons"
 LOGO = ASSETS / "logo.svg"
-FAVICON = ASSETS / "favicon.ico"        # secours (16/32/48 px)
-FAVICON_SVG = ASSETS / "favicon.svg"    # « Mv » pixel W95, net à toutes les tailles
+LOGO_ICON = ASSETS / "calculatrice.svg"  # logotype à gauche du titre (pixel W95, 22×28)
+FAVICON = ASSETS / "favicon.ico"        # secours (16/32/64 px)
+FAVICON_SVG = ASSETS / "favicon.svg"    # π pixel W95, net à toutes les tailles
 CREDITS_DIR = ROOT / "credits"
 
 JUNK_EXT = (".aux", ".log", ".out", ".toc", ".synctex.gz", ".fls", ".fdb_latexmk")
@@ -336,6 +337,10 @@ h1{font-size:28px;margin:0 0 4px}
 .sub{color:var(--mut);margin:0 0 20px;font-style:italic}
 h2{font-size:20px;margin:28px 0 8px;padding-bottom:2px;border-bottom:1px solid var(--line)}
 .logo{display:block;width:100%;max-width:640px;height:auto;margin:8px 0 10px;image-rendering:pixelated}
+.brand{display:flex;align-items:center;gap:2%;max-width:720px;margin:8px 0 10px}
+.brand img{display:block;height:auto;image-rendering:pixelated}
+.brand .calc{flex:0 0 9.3%}
+.brand .logo{flex:1;min-width:0;max-width:none;margin:0}
 /* cartes accueil : simple liste */
 .cards{display:block;margin:0;padding:0}
 .card{display:block;padding:2px 0}
@@ -909,6 +914,10 @@ def build_home():
                      f'<div class="d">{e(desc)}</div></a>')
     head = (f'<h1><img class="logo" src="{rel(ROOT, LOGO)}" alt="Mathématovitch" width="894" height="120"></h1>'
             if LOGO.is_file() else f"<h1>{e(SITE_TITLE)}</h1>")
+    if LOGO.is_file() and LOGO_ICON.is_file():
+        # largeurs en % de la ligne pour que calculatrice et titre gardent la même hauteur
+        head = (f'<h1 class="brand"><img class="calc" src="{rel(ROOT, LOGO_ICON)}" alt="" width="66" height="84">'
+                f'<img class="logo" src="{rel(ROOT, LOGO)}" alt="Mathématovitch" width="894" height="120"></h1>')
     recent = recent_files()
     rec = ""
     if recent:
