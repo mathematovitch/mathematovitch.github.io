@@ -504,9 +504,9 @@ addEventListener('afterprint',()=>{shut.forEach(d=>d.open=false);shut=[]});
 LINK_JS = """
 // « # » d'une séquence : le lien ouvre sa page (nouvel onglet) et copie son adresse au passage ;
 // sur la page de la séquence elle-même, il copie seulement.
-const here=location.href.replace(/[#?].*$/,'').replace(/index\.html$/,'');
+const here=location.href.replace(/[#?].*$/,'').replace(/index\\.html$/,'');
 document.querySelectorAll('a.lnk').forEach(a=>a.addEventListener('click',ev=>{
- const url=a.href.replace(/index\.html$/,'');if(url===here)ev.preventDefault();
+ const url=a.href.replace(/index\\.html$/,'');if(url===here)ev.preventDefault();
  const done=()=>{a.textContent='copié';setTimeout(()=>{a.textContent='#'},1400)};
  navigator.clipboard?navigator.clipboard.writeText(url).then(done,()=>{}):0}));
 """
@@ -802,8 +802,8 @@ def build_prog_page(tex):
         folder = folders.get(num) or archived.get(num)
         if folder:
             note = " · archivé" if num not in folders else ""
-            title = (f'<a href="{rel(PROG_DIR, level_dir)}/index.html#{e(folder.name)}" target="_blank" '
-                     f'rel="noopener" title="Documents de la séquence">{e(r["titre"])} <span class="ext">↗</span></a>'
+            title = (f'<a href="{rel(PROG_DIR, folder)}/index.html" target="_blank" '
+                     f'rel="noopener" title="Page de la séquence">{e(r["titre"])} <span class="ext">↗</span></a>'
                      f'<div class="cnt mono">{count_docs(folder)} docs{note}</div>')
         else:
             soon = "non traité" if int(num) >= 90 else "à venir"

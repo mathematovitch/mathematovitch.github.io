@@ -28,7 +28,7 @@ d'entrée), README/CLAUDE.md. Ensuite :
 - `credits/index.html` (généré, URL `/credits/`).
 - `term/`, `todo/`, `legacy/` : URLs publiques inchangées (`/term`, `/todo`,
   `/legacy`).
-- `tools/` : `build.py`, `check_nomenclature.py`, `title.txt` (bandeau ASCII
+- `tools/` : `build.py`, `check_nomenclature.py` et `check_links.py` (lancés en fin de `build.sh`, avertissement seulement), `title.txt` (bandeau ASCII
   du legacy). `build.py` calcule `ROOT` depuis son propre emplacement
   (`tools/..`).
 - Non suivis (`.gitignore`) : `dev/`, et les fichiers vides que le sandbox de

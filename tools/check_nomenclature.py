@@ -6,18 +6,21 @@ Deux contrôles, stdlib-only (pas de dépendance externe) :
 1. Nomenclature : chaque fichier/dossier posé directement dans un dossier
    de séquence `S{NN}-Nom/` doit suivre le format
    `{Type}-{Niveau}C{NN}[-Item]-Nom-Descriptif[.ext]` avec
-   Type in {Cours, Ex, Act, DS}. Les dossiers/fichiers cachés (préfixe
-   `.`, ex. `.data`, `.figures`) et le contenu tiers reconnu (mathsenligne/,
-   Sesa-*, pg_NN.pdf, Chapitre_N_-_Nom.pdf) sont ignorés, comme dans
-   tools/build.py.
+   Type in {Seq, Prep, Cours, Ex, Act, DS}. Seuls les fichiers sont vérifiés
+   (les sous-dossiers `_Archive/`, `images/`, `data/`… sont libres, build.py
+   les liste à part). Les fichiers cachés (préfixe `.`) et le contenu tiers
+   reconnu (Sesa-*, pg_NN.pdf, Chapitre_N_-_Nom.pdf…) sont ignorés.
 
 2. Couverture : croise les séquences `S{NN}-...` présentes sur le disque
    avec les `\\seq{NiveauCNN}` déclarés dans Progressions/{6eme,4eme}.tex,
-   pour repérer les trous dans un sens ou dans l'autre.
+   pour repérer les trous dans un sens ou dans l'autre. Les séquences
+   `_Archive/S{NN}-…` comptent comme présentes ; les séquences déclarées sans
+   dossier (« à venir » sur le site) sont rappelées sur une ligne, sans
+   compter comme un problème.
 
 Usage:
     python3 tools/check_nomenclature.py
-Code de sortie : 0 si rien à signaler, 1 sinon.
+Code de sortie : 0 si rien à signaler, 1 sinon (build.sh l'ignore : simple avertissement).
 """
 import re
 import sys
@@ -28,7 +31,7 @@ ROOT = Path(__file__).resolve().parent.parent
 NIVEAUX = {"Sixieme": "6", "Quatrieme": "4"}
 
 SEQ_RE = re.compile(r"^S(\d{2})-")
-ITEM_RE = re.compile(r"^(Cours|Ex|Act|DS)-([1-6T])C(\d{2})-\S+$")
+ITEM_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS)-([1-6T])C(\d{2})-\S+$")
 
 THIRD_PARTY_FILES = (
     re.compile(r"^Sesa-\d+", re.IGNORECASE),
@@ -63,7 +66,7 @@ def check_nomenclature():
         if not base.is_dir():
             continue
         for seq_dir in sorted(base.iterdir()):
-            if not seq_dir.is_dir() or seq_dir.name.startswith("."):
+            if not seq_dir.is_dir() or seq_dir.name.startswith(".") or seq_dir.name == "_Archive":
                 continue
             m = SEQ_RE.match(seq_dir.name)
             if not m:
@@ -71,7 +74,7 @@ def check_nomenclature():
                 continue
             nn = m.group(1)
             for item in sorted(seq_dir.iterdir()):
-                if item.name.startswith(".") or item.name == "index.html":
+                if item.is_dir() or item.name.startswith(".") or item.name == "index.html":
                     continue
                 if is_third_party(item.name, item.is_dir()):
                     continue
@@ -100,7 +103,7 @@ def parse_seq_ids(tex_path):
 
 
 def check_coverage():
-    problems = []
+    problems, upcoming = [], []
     tex_by_niveau = {"6": ROOT / "Progressions" / "6eme.tex", "4": ROOT / "Progressions" / "4eme.tex"}
     for folder, niveau in NIVEAUX.items():
         base = ROOT / folder
@@ -108,12 +111,11 @@ def check_coverage():
         if not base.is_dir() or not tex_path.is_file():
             continue
 
-        disk_nn = set()
-        for seq_dir in base.iterdir():
-            if seq_dir.is_dir():
-                m = SEQ_RE.match(seq_dir.name)
-                if m:
-                    disk_nn.add(m.group(1))
+        def seq_nums(d):
+            return {m.group(1) for x in d.iterdir() if x.is_dir() and (m := SEQ_RE.match(x.name))} if d.is_dir() else set()
+
+        disk_nn = seq_nums(base)
+        archived_nn = seq_nums(base / "_Archive")
 
         declared_ids = parse_seq_ids(tex_path)
         declared_nn = set()
@@ -126,16 +128,18 @@ def check_coverage():
 
         for nn in sorted(disk_nn - declared_nn):
             problems.append(f"{folder}/S{nn}-... : présent sur le disque mais absent de {tex_path.name}")
-        for nn in sorted(declared_nn - disk_nn):
-            problems.append(f"{tex_path.name}: {niveau}C{nn} déclaré mais aucun dossier {folder}/S{nn}-...")
+        upcoming += [f"{niveau}C{nn}" for nn in sorted(declared_nn - disk_nn - archived_nn)]
 
-    return problems
+    return problems, upcoming
 
 
 def main():
-    problems = check_nomenclature() + check_coverage()
+    coverage, upcoming = check_coverage()
+    problems = check_nomenclature() + coverage
+    if upcoming:
+        print(f"Séquences à venir (sans dossier) : {', '.join(upcoming)}")
     if not problems:
-        print("OK : rien à signaler.")
+        print("Nomenclature OK : rien à signaler.")
         return 0
     print(f"{len(problems)} point(s) à vérifier :")
     for p in problems:

@@ -55,7 +55,7 @@ d'ombres douces, boutons gris en relief, icônes pixel Windows 95
 ├── term/                # Terminal web (/term)
 ├── todo/                # Listes de tâches (/todo), page autonome
 ├── legacy/              # Ancien site « tree » (index seulement), généré par build.sh
-└── tools/               # build.py (générateur), check_nomenclature.py, title.txt
+└── tools/               # build.py (générateur), check_nomenclature.py, check_links.py, title.txt
 ```
 
 Seules les **sections de cours** (`Progressions`, niveaux, `Utils`) sont
@@ -83,6 +83,7 @@ reste du dépôt n'est jamais modifié.
 ./build.sh               # nouveau site + legacy/
 python3 tools/build.py   # nouveau site seul
 python3 tools/check_nomenclature.py   # noms de fichiers ↔ progressions
+python3 tools/check_links.py          # liens cassés des pages générées
 ```
 
 Prérequis : Python 3 (stdlib seulement), `pdftoppm` (poppler) pour les
@@ -103,9 +104,16 @@ vignettes, `pdflatex` pour les progressions, `tree` pour `legacy/`.
 `index.html` produits par `tree -H`, dont les liens pointent vers les vrais
 fichiers (rien n'est dupliqué).
 
-`check_nomenclature.py` vérifie que chaque fichier de séquence suit la
-nomenclature, et croise les dossiers `S{NN}-…` avec les `\seq` des
-progressions pour repérer les trous.
+Enfin, `build.sh` lance deux vérifications, en avertissement seulement (le
+build ne s'arrête pas) :
+
+- `check_nomenclature.py` vérifie que chaque fichier de séquence suit la
+  nomenclature, et croise les dossiers `S{NN}-…` (archives comprises) avec les
+  `\seq` des progressions ; les séquences « à venir » sont rappelées sur une
+  ligne, sans compter comme un problème ;
+- `check_links.py` suit chaque lien interne (`href`, `src`) des pages
+  générées (nouveau site, progressions et `legacy/`) et signale les fichiers
+  ou dossiers disparus et les ancres `#…` absentes.
 
 ---
 
@@ -258,10 +266,12 @@ séquence, etc.
 
 ### 4. Build (`build.sh`, `tools/`)
 
-- [ ] **4.1 `check_nomenclature.py` lancé par `build.sh`**, en avertissement
-  seulement (n'arrête pas le build).
-- [ ] **4.2 Vérification des liens cassés** : liens des pages générées et des
-  progressions (`Sixieme/index.html#S…`) vers des fichiers ou séquences disparus.
+- [x] **4.1 `check_nomenclature.py` lancé par `build.sh`**, en avertissement
+  seulement (n'arrête pas le build) ; il connaît `Seq`/`Prep`, ignore les
+  sous-dossiers et les archives, et rappelle les séquences « à venir » à part.
+- [x] **4.2 Vérification des liens cassés** (`tools/check_links.py`, lancé par
+  `build.sh`) : liens des pages générées, des progressions (vers les pages
+  de séquence) et de `legacy/` vers des fichiers, dossiers ou ancres disparus.
 
 ### 5. Contenu de cours (`Progressions/`, niveaux)
 

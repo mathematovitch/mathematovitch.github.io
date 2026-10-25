@@ -4,7 +4,10 @@
 #    vignettes PDF, progressions (PDF + HTML), index.html stylés ;
 # 2. l'ancien site « tree » dans legacy/ (mathematovitch.github.io/legacy/).
 #    Seuls ses index sont dans legacy/ : leurs liens pointent (en absolu, /Sixieme/...)
-#    vers les mêmes fichiers que le nouveau site, rien n'est dupliqué.
+#    vers les mêmes fichiers que le nouveau site, rien n'est dupliqué ;
+# 3. deux vérifications, en avertissement seulement (n'arrêtent pas le build) :
+#    nomenclature des fichiers (tools/check_nomenclature.py) et liens cassés
+#    des pages générées (tools/check_links.py).
 
 unset -f cd
 cd "$(dirname "$0")" || exit 1
@@ -35,7 +38,7 @@ for name in "${sections[@]}"; do
          --dirsfirst \
          -T "Cours de Maths/$name" \
          --charset utf-8 \
-         -I "index.html|*.tex|*.sty" \
+         -I "index.html|*.tex|*.sty|images" \
          -o "../$out")
 
     # tree colle le « . » du dossier courant au préfixe : /Sixieme./x -> /Sixieme/x
@@ -99,3 +102,13 @@ PYEOF
 fi
 
 echo "Site legacy généré dans $LEGACY/"
+
+########################################
+# VÉRIFICATIONS (avertissements seulement)
+########################################
+
+echo
+python3 tools/check_nomenclature.py || echo "(avertissement seulement : le build continue)"
+echo
+python3 tools/check_links.py || echo "(avertissement seulement : le build continue)"
+exit 0
