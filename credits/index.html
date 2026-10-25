@@ -86,9 +86,9 @@ table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5
 .progtab td.goal{font-style:italic;min-width:160px}
 .progtab tr.vacrow td{text-align:center;font-weight:bold;background:#e0e0e0;padding:3px}
 .progtab tr:target td{background:var(--hover)}
-/* bouton « copier le lien » d'une séquence */
-.lnk{font:13px "Courier New",Courier,monospace;color:var(--mut);background:none;border:0;cursor:pointer;padding:0 4px}
-.lnk:hover{color:var(--acc);text-decoration:underline}
+/* lien « # » d'une séquence : ouvre sa page et copie son adresse */
+a.lnk,a.lnk:visited{font:13px "Courier New",Courier,monospace;color:var(--mut);text-decoration:none;padding:0 4px}
+a.lnk:hover{color:var(--acc);text-decoration:underline}
 details.seq{border:1px solid var(--line);margin-bottom:-1px;scroll-margin-top:16px}
 details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:5px 8px;user-select:none;background:#f0f0f0}
 details.seq>summary::-webkit-details-marker{display:none}

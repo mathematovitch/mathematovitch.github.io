@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>S12 · Division Décimale — Cours de Maths</title>
+<title>Division décimale — Sixième — Cours de Maths</title>
 <link rel="icon" href="../../assets/favicon.ico?v=fe00b249" sizes="any"><link rel="icon" href="../../assets/favicon.svg?v=a91ffb96" type="image/svg+xml">
 <style>
 :root{color-scheme:light;--bg:#fff;--fg:#000;--mut:#555;--line:#000;--soft:#999;--card:#fff;
@@ -86,9 +86,9 @@ table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5
 .progtab td.goal{font-style:italic;min-width:160px}
 .progtab tr.vacrow td{text-align:center;font-weight:bold;background:#e0e0e0;padding:3px}
 .progtab tr:target td{background:var(--hover)}
-/* bouton « copier le lien » d'une séquence */
-.lnk{font:13px "Courier New",Courier,monospace;color:var(--mut);background:none;border:0;cursor:pointer;padding:0 4px}
-.lnk:hover{color:var(--acc);text-decoration:underline}
+/* lien « # » d'une séquence : ouvre sa page et copie son adresse */
+a.lnk,a.lnk:visited{font:13px "Courier New",Courier,monospace;color:var(--mut);text-decoration:none;padding:0 4px}
+a.lnk:hover{color:var(--acc);text-decoration:underline}
 details.seq{border:1px solid var(--line);margin-bottom:-1px;scroll-margin-top:16px}
 details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:5px 8px;user-select:none;background:#f0f0f0}
 details.seq>summary::-webkit-details-marker{display:none}
@@ -155,7 +155,7 @@ details.seq>summary{border-bottom:1px solid #000}details.seq>summary .meta{displ
 <body>
 <header class="top"><div class="wrap"><nav class="crumbs"><a href="../../index.html">Cours de Maths</a><span class=sep>/</span><a href="../index.html">Sixième</a><span class=sep>/</span><span class="cur">S12 · Division Décimale</span></nav><a class="home" href="../../index.html"><img class="i i16" src="../../assets/icons/accueil.png" alt="" width="16" height="16"> Accueil</a></div></header>
 <main><div class="wrap">
-<h1><img class="i i32" src="../../assets/icons/dossier-ouvert.png" alt="" width="32" height="32">S12 · Division Décimale</h1><p class="sub">0 dossiers · 1 fichiers</p><div class="list"><a class="row" href="Ex-6C12-01-Division-Decimales.pdf" target="_blank" rel="noopener" data-thumb="../../assets/thumbs/Sixieme/S12-Division-Decimale/Ex-6C12-01-Division-Decimales.jpg"><span class="ico"><img class="i i16" src="../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-6C12-01-Division-Decimales.pdf</span><span class="meta sz mono">PDF · 40 Ko</span></a></div>
+<h1><img class="i i32" src="../../assets/icons/dossier-ouvert.png" alt="" width="32" height="32">Division décimale</h1><p class="sub">Sixième · séquence 12 · 1 documents</p><details class="seq" id="S12-Division-Decimale" open><summary><span class="num mono">12</span><span class="tt">Division décimale</span><span class="theme mono">CALC</span><a class="lnk mono" href="./index.html" title="Copier l'adresse de cette page">#</a><span class="meta mono">1</span><span class="chev">›</span></summary><div class="prog"><p class="goal">Maîtriser la division décimale et la résolution de problèmes</p><details class="skills" open><summary>Compétences · 3</summary><ul><li><code>6C12-CALC10</code><span>Poser et effectuer une division décimale</span></li><li><code>6C12-CALC11</code><span>Diviser par 10, 100, 1000</span></li><li><code>6C12-CALC12</code><span>Résoudre un problème en choisissant les bonnes opérations</span></li></ul></details></div><div class="grp"><h3 class="c-ex"><img class="i i32" src="../../assets/icons/ex.png" alt="" width="32" height="32">Exercices</h3><a class="doc" href="Ex-6C12-01-Division-Decimales.pdf" target="_blank" rel="noopener" title="Ex-6C12-01-Division-Decimales.pdf" data-thumb="../../assets/thumbs/Sixieme/S12-Division-Decimale/Ex-6C12-01-Division-Decimales.jpg"><span class="id mono">01</span><span class="name">Division Décimales</span><span class="meta mono">PDF · 40 Ko</span></a></div></details>
 </div></main>
 <footer><div class="wrap">
 <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
@@ -186,6 +186,14 @@ if(m)m.dataset.url=location.href.replace(/#.*$/,'').replace(/index\.html$/,'');
 addEventListener('beforeprint',()=>{shut=[...document.querySelectorAll('details:not([open])')];shut.forEach(d=>d.open=true)});
 addEventListener('afterprint',()=>{shut.forEach(d=>d.open=false);shut=[]});
 })();
+
+// « # » d'une séquence : le lien ouvre sa page (nouvel onglet) et copie son adresse au passage ;
+// sur la page de la séquence elle-même, il copie seulement.
+const here=location.href.replace(/[#?].*$/,'').replace(/index\.html$/,'');
+document.querySelectorAll('a.lnk').forEach(a=>a.addEventListener('click',ev=>{
+ const url=a.href.replace(/index\.html$/,'');if(url===here)ev.preventDefault();
+ const done=()=>{a.textContent='copié';setTimeout(()=>{a.textContent='#'},1400)};
+ navigator.clipboard?navigator.clipboard.writeText(url).then(done,()=>{}):0}));
 </script>
 </body>
 </html>

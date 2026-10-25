@@ -12,7 +12,8 @@ Site statique regroupant les cours, exercices et documents de mathématiques
 | Page | Adresse | Rôle |
 |---|---|---|
 | Accueil | `/` | logo pixel W95, auteur, collège, année scolaire ; une carte par section (ouverte dans un nouvel onglet) ; « Récemment ajoutés » |
-| Pages de niveau | `/Sixieme/`, `/Quatrieme/` | séquences repliables `[+]`/`[−]` dans l'ordre de la progression, avec thème, objectif et compétences ; documents groupés par type (`[Cours]`, `[Ex]`, `[DS]`…) ; recherche ; séparateurs de vacances ; séquences sans dossier affichées « à venir » |
+| Pages de niveau | `/Sixieme/`, `/Quatrieme/` | séquences repliables `[+]`/`[−]` dans l'ordre de la progression, avec thème, objectif et compétences ; documents groupés par type (`[Cours]`, `[Ex]`, `[DS]`…) ; recherche ; séparateurs de vacances ; séquences sans dossier affichées « à venir » ; `#` de chaque séquence : ouvre sa page et copie son adresse |
+| Pages de séquence | `/Sixieme/S04-Angles/`… | la séquence seule, dépliée, compétences comprises, même style que la page de niveau (archives comprises) |
 | Progressions | `/Progressions/` | progressions annuelles 6e, 5e, 4e, 3e en tableau HTML + PDF, générées depuis LaTeX |
 | Autres dossiers | `…/index.html` | liste façon explorateur (dossiers puis fichiers), fil d'Ariane, bouton « Accueil » |
 | Vignettes | (survol) | aperçu de la 1re page de chaque PDF |
@@ -231,15 +232,17 @@ séquence, etc.
   valable sur toutes les pages) : noir et blanc, sans boutons, fil d'Ariane,
   icônes ni vignettes ; séquences et compétences dépliées le temps de
   l'impression ; adresse de la page en tête et nom de fichier de chaque document.
-- [ ] **1.2 Lien vers chaque page de séquence** (2.1) depuis son bloc dépliable.
+- [x] **1.2 Lien vers chaque page de séquence** (2.1) depuis son bloc dépliable :
+  le `#` ouvre la page dans un nouvel onglet et copie son adresse (sans
+  `index.html`) ; sur la page de la séquence, il copie seulement.
 
 ### 2. Pages de séquence (`/Sixieme/S04-Angles/`…)
 
-- [ ] **2.1 Une vraie page par séquence**, à une adresse propre et stable
-  (`/Sixieme/S04-Angles/`), qui n'affiche **que** les fichiers de la séquence :
-  titre accentué, thème, objectif et compétences tirés de la progression,
-  documents groupés par type comme sur la page de niveau (aujourd'hui :
-  simple liste façon explorateur, `_Archive` compris).
+- [x] **2.1 Une vraie page par séquence**, à une adresse propre et stable
+  (`/Sixieme/S04-Angles/`), qui n'affiche **que** la séquence (`build_seq`) :
+  son bloc déplié, titre accentué, thème, objectif et compétences tirés de la
+  progression, documents groupés par type comme sur la page de niveau ;
+  sous-dossiers (`_Archive`, `data/`…) listés en fin de bloc.
 - [ ] **2.2 QR code par séquence**, généré au build (page 2.1), affiché sur la
   page et imprimable (à coller dans le cahier).
 - [ ] **2.3 Corrigés en ligne** — *à réfléchir* : publier les corrigés

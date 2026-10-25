@@ -394,9 +394,9 @@ table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5
 .progtab td.goal{font-style:italic;min-width:160px}
 .progtab tr.vacrow td{text-align:center;font-weight:bold;background:#e0e0e0;padding:3px}
 .progtab tr:target td{background:var(--hover)}
-/* bouton « copier le lien » d'une séquence */
-.lnk{font:13px "Courier New",Courier,monospace;color:var(--mut);background:none;border:0;cursor:pointer;padding:0 4px}
-.lnk:hover{color:var(--acc);text-decoration:underline}
+/* lien « # » d'une séquence : ouvre sa page et copie son adresse */
+a.lnk,a.lnk:visited{font:13px "Courier New",Courier,monospace;color:var(--mut);text-decoration:none;padding:0 4px}
+a.lnk:hover{color:var(--acc);text-decoration:underline}
 details.seq{border:1px solid var(--line);margin-bottom:-1px;scroll-margin-top:16px}
 details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:5px 8px;user-select:none;background:#f0f0f0}
 details.seq>summary::-webkit-details-marker{display:none}
@@ -501,6 +501,16 @@ addEventListener('afterprint',()=>{shut.forEach(d=>d.open=false);shut=[]});
 })();
 """
 
+LINK_JS = """
+// « # » d'une séquence : le lien ouvre sa page (nouvel onglet) et copie son adresse au passage ;
+// sur la page de la séquence elle-même, il copie seulement.
+const here=location.href.replace(/[#?].*$/,'').replace(/index\.html$/,'');
+document.querySelectorAll('a.lnk').forEach(a=>a.addEventListener('click',ev=>{
+ const url=a.href.replace(/index\.html$/,'');if(url===here)ev.preventDefault();
+ const done=()=>{a.textContent='copié';setTimeout(()=>{a.textContent='#'},1400)};
+ navigator.clipboard?navigator.clipboard.writeText(url).then(done,()=>{}):0}));
+"""
+
 JS = """
 (()=>{
 const q=document.getElementById('q');if(!q)return;
@@ -513,12 +523,6 @@ seqs.forEach(d=>{if(saved.includes(d.id))d.open=true;
 // Lien direct vers une séquence : page.html#S03-Fractions-Egales
 const target=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));
 if(target&&target.matches('details.seq')){target.open=true;target.scrollIntoView({block:'start'})}
-document.querySelectorAll('.lnk').forEach(b=>b.addEventListener('click',ev=>{
- ev.preventDefault();ev.stopPropagation();const id=b.closest('details').id;
- history.replaceState(null,'','#'+id);const url=location.href;
- const done=()=>{b.textContent='copié';b.classList.add('ok');
-  setTimeout(()=>{b.textContent='#';b.classList.remove('ok')},1400)};
- navigator.clipboard?navigator.clipboard.writeText(url).then(done,done):done()}));
 const norm=s=>s.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 q.addEventListener('input',()=>{const v=norm(q.value.trim());
  seqs.forEach(d=>{let any=false;const title=norm(d.querySelector('summary').textContent);
@@ -639,7 +643,7 @@ def subdir_rows(d, dirs):
         f'<span class="meta">{count_docs(s)} fichiers</span></a>' for s in dirs)
 
 
-def skills_block(prog):
+def skills_block(prog, open_=False):
     """Objectif + compétences de la séquence, repris de la progression."""
     items = []
     for it in prog["items"]:
@@ -648,11 +652,13 @@ def skills_block(prog):
             code, text = "", it
         items.append(f'<li><code>{e(code)}</code><span>{e(text)}</span></li>')
     return (f'<div class="prog"><p class="goal">{e(prog["obj"])}</p>'
-            f'<details class="skills"><summary>Compétences · {len(items)}</summary>'
+            f'<details class="skills"{" open" if open_ else ""}><summary>Compétences · {len(items)}</summary>'
             f'<ul>{"".join(items)}</ul></details></div>')
 
 
-def seq_block(level_dir, s, archive=False, prog=None):
+def seq_block(level_dir, s, archive=False, prog=None, open_=False):
+    """Bloc dépliable d'une séquence ; `level_dir` est le dossier de la page qui l'affiche
+    (page de niveau, ou la séquence elle-même pour sa propre page, alors dépliée)."""
     dirs, files = listdir(s)
     m = SEQ_RE.match(s.name)
     num, title = (m[1], pretty(m[2])) if m else ("", label(s))
@@ -661,15 +667,18 @@ def seq_block(level_dir, s, archive=False, prog=None):
     if prog:
         title = prog["titre"]
         theme = f'<span class="theme mono">{e(prog["theme"])}</span>'
-        inner = skills_block(prog)
+        inner = skills_block(prog, open_)
     inner += doc_rows(level_dir, files)
     if dirs:
         inner += f'<div class="grp"><h3 class="c-res">{icon(level_dir, "dossier")}Dossiers</h3>{subdir_rows(level_dir, dirs)}</div>'
     n = count_docs(s)
-    return (f'<details class="seq{" archive" if archive else ""}" id="{e(s.name)}">'
+    link = ('<a class="lnk mono" href="./index.html" title="Copier l\'adresse de cette page">#</a>'
+            if level_dir == s else
+            f'<a class="lnk mono" href="{rel(level_dir, s)}/index.html" target="_blank" rel="noopener" '
+            f'title="Ouvrir la page de la séquence (l\'adresse est copiée)">#</a>')
+    return (f'<details class="seq{" archive" if archive else ""}" id="{e(s.name)}"{" open" if open_ else ""}>'
             f'<summary><span class="num mono">{e(num)}</span><span class="tt">{e(title)}</span>'
-            f'{theme}<button class="lnk mono" type="button" title="Copier le lien vers cette séquence">#</button>'
-            f'<span class="meta mono">{n}</span><span class="chev">›</span></summary>{inner}</details>')
+            f'{theme}{link}<span class="meta mono">{n}</span><span class="chev">›</span></summary>{inner}</details>')
 
 
 def upcoming_block(d, prog):
@@ -720,7 +729,27 @@ def build_level(d):
             f'<div class="tools"><input id="q" type="search" placeholder="Rechercher un document…  ( / )" autocomplete="off">'
             f'<button id="all" type="button">Tout déplier</button>{prog_btn}</div>'
             + "".join(blocks) + arch + loose)
-    return page(d, f"{label(d)} — {SITE_TITLE}", body, script=True)
+    return page(d, f"{label(d)} — {SITE_TITLE}", body, script=True, extra_js=LINK_JS)
+
+
+def seq_level(d):
+    """Niveau d'un dossier de séquence (Sixieme/S04-…, Sixieme/_Archive/S98-…), sinon None."""
+    if not SEQ_RE.match(d.name):
+        return None
+    up = d.parent.parent if d.parent.name == "_Archive" else d.parent
+    return up.name if up.parent == ROOT and up.name in LEVELS else None
+
+
+def build_seq(d, level):
+    """Page propre d'une séquence : son seul bloc, déplié, compétences comprises."""
+    num = SEQ_RE.match(d.name)[1]
+    prog = next((r for r in load_progression(level) if r.get("id", "")[-2:] == num), None)
+    archive = d.parent.name == "_Archive"
+    title = prog["titre"] if prog else pretty(SEQ_RE.match(d.name)[2])
+    sub = f"{LEVELS[level]} · séquence {num}{' (archive)' if archive else ''} · {count_docs(d)} documents"
+    body = (f'<h1>{icon(d, "dossier-ouvert")}{e(title)}</h1><p class="sub">{e(sub)}</p>'
+            + seq_block(d, d, archive=archive, prog=prog, open_=True))
+    return page(d, f"{title} — {LEVELS[level]} — {SITE_TITLE}", body, extra_js=LINK_JS)
 
 
 def file_rows(d, files):
@@ -1025,7 +1054,9 @@ def main():
         if d in (ROOT, PROG_DIR):  # PROG_DIR : fait par build_progressions()
             continue
         is_level = d.parent == ROOT and d.name in LEVELS
-        (d / "index.html").write_text(build_level(d) if is_level else build_generic(d), "utf-8")
+        level = seq_level(d)
+        (d / "index.html").write_text(build_level(d) if is_level else build_seq(d, level) if level
+                                      else build_generic(d), "utf-8")
         n += 1
     print(f"{n} index.html générés")
 
