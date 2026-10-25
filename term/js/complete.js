@@ -1,6 +1,7 @@
 // Complétion (Tab) des commandes et des chemins.
 import { entries, isDir, lookup } from "./fs.js";
 import { COMMANDS, ALIASES } from "./commands/index.js";
+import { USER_ALIASES, FUNCS } from "./aliases.js";
 
 export function commonPrefix(list) {
   if (!list.length) return "";
@@ -28,7 +29,8 @@ export function complete(value, caret) {
   let stem;    // partie du mot à compléter
   if (isCmd) {
     base = ""; stem = word;
-    cands = [...Object.keys(COMMANDS).filter(c => !COMMANDS[c].hidden), ...Object.keys(ALIASES)]
+    cands = [...new Set([...Object.keys(COMMANDS).filter(c => !COMMANDS[c].hidden), ...Object.keys(ALIASES),
+      ...Object.keys(USER_ALIASES), ...Object.keys(FUNCS)])]
       .filter(c => c.startsWith(word)).sort().map(c => [c + " ", c]);
   } else {
     if (word.startsWith("-")) return null;

@@ -1,9 +1,10 @@
-// Shell : help, history, clear, echo, whoami, date, theme, sudo, exit, et commandes d'écriture refusées.
+// Shell : help, history, clear, source, builtin, alias, echo, whoami, date, theme, sudo, exit, et commandes d'écriture refusées.
 import { USER, SUDO_SALT, SUDO_HASH, SUDO_TIMEOUT } from "../config.js";
 import { state, save, isRoot } from "../state.js";
 import { ERR } from "../fs.js";
 import { argv, execArgs } from "../shell.js";
 import { COMMANDS, ALIASES } from "./index.js";
+import { USER_ALIASES, FUNCS, loadAliases } from "../aliases.js";
 import { getopt } from "./util.js";
 
 export const help = {
@@ -52,6 +53,35 @@ export const clear = {
   help: "efface l'écran (aussi : Ctrl+L)",
   usage: "clear",
   run(args, io) { if (io.tty) io.ui.clear(); },
+};
+
+export const source = {
+  help: "relit les alias (term/aliases.sh) et réaffiche l'accueil, sans changer de dossier",
+  usage: "source ~/.bashrc   (alias : s)",
+  async run(args, io) {
+    await loadAliases();
+    if (io.tty) { io.ui.clear(); io.ui.banner(); }
+  },
+};
+
+export const builtin = {
+  hidden: true,
+  help: "lance la commande du shell, sans passer par les alias et fonctions",
+  usage: "builtin commande [arguments...]",
+  async run(args, io) {
+    const res = await execArgs(args, io.ui, io.stdin, io.tty, null, true);
+    if (res.out) io.out(res.out.replace(/\n$/, ""));
+    return res.status;
+  },
+};
+
+export const alias = {
+  help: "liste les alias et fonctions (définis dans term/aliases.sh)",
+  usage: "alias",
+  run(args, io) {
+    for (const [k, v] of Object.entries(USER_ALIASES)) io.out(`alias ${k}='${v}'`);
+    for (const [k, v] of Object.entries(FUNCS)) io.out(`${k}() { ${v}; }`);
+  },
 };
 
 export const echo = {

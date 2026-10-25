@@ -4,6 +4,7 @@ import { state, load, save, isRoot } from "./state.js";
 import { loadFS, META, lookup, absPath, isDir } from "./fs.js";
 import { run } from "./shell.js";
 import { complete } from "./complete.js";
+import { loadAliases } from "./aliases.js";
 
 const BANNER = [
   " ▗▄▄▖ ▗▄▖ ▗▖ ▗▖▗▄▄▖  ▗▄▄▖    ▗▄▄▄  ▗▄▄▄▖    ▗▖  ▗▖ ▗▄▖▗▄▄▄▖▗▖ ▗▖ ▗▄▄▖",
@@ -63,6 +64,7 @@ const ui = {
   },
   node(el) { out.append(el); el.addEventListener?.("load", scroll); scroll(); },
   clear() { out.replaceChildren(); },
+  banner() { banner(); },
   /** Saisie masquée (sudo). Renvoie le texte, ou null si Ctrl+C. */
   readPassword(prompt) {
     return new Promise(resolve => {
@@ -258,7 +260,7 @@ async function main() {
   load();
   document.documentElement.dataset.theme = state.theme;
   try {
-    await loadFS();
+    await Promise.all([loadFS(), loadAliases()]);
   } catch (e) {
     ui.print(`Impossible de charger l'arborescence du site (${e.message}).`, "err");
     ui.print(["Le site reste accessible ici : ", { t: "../index.html", href: "../index.html" }]);

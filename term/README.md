@@ -42,6 +42,7 @@ directement dans la séquence (lien à donner aux élèves).
 | `history`, `!!`, `!n`, `!préfixe` | historique |
 | `clock [-s]` | l'heure en grand pour un contrôle : plein écran, police figlet « doh » (comme `termdown -z -f doh`), « : » qui clignotent, écran sans veille ; Échap ou Ctrl+C pour quitter |
 | `echo`, `whoami`, `date`, `clear`, `theme` | divers (`theme vert\|ambre\|gris\|clair`) |
+| `alias`, `source`/`.`, `builtin` | alias de `aliases.sh` (ci-dessous) |
 | `sudo cmd`, `sudo -s`, `su`, `exit` | mode professeur (voir ci-dessous) |
 
 Shell : guillemets `'…'` `"…"`, `\`, variables (`$PWD`, `$?`, `$HOME`, `$USER`,
@@ -51,6 +52,18 @@ Clavier : Tab, ↑/↓, Ctrl+C, Ctrl+L, Ctrl+U, Ctrl+K, Ctrl+A, Ctrl+E, Ctrl+W.
 Le système de fichiers est en lecture seule : `rm`, `mkdir`, `touch`, `cp`,
 `mv`, `nano`, `vim`, `>`… existent mais échouent avec l'erreur POSIX
 `Système de fichiers accessible en lecture seule`.
+
+## Alias (`aliases.sh`)
+
+`term/aliases.sh` joue le rôle du `~/.bash_aliases` (copie de ceux de l'auteur),
+lu au démarrage. Syntaxe bash restreinte : `alias nom="commande"` et fonctions
+`nom() { … "$@" … }`. Le corps est une vraie ligne du shell (`&&`, `|`…),
+sans récursion : `builtin cd` court-circuite la fonction `cd`.
+
+- `cd` ⇒ `builtin cd "$@" && ll` (liste le dossier après chaque `cd`) ;
+- `s` ⇒ `source ~/.bashrc` : relit `aliases.sh`, efface l'écran et
+  réaffiche l'accueil, sans changer de dossier ;
+- `c` ⇒ `clear`.
 
 ## Mode sudo
 
@@ -77,10 +90,12 @@ term/
 ├── term.css          thèmes (variables CSS), couleurs façon dircolors, mobile
 ├── fs.json           GÉNÉRÉ par tools/build.py (ne pas éditer)
 ├── passwd.py         change le mot de passe sudo
+├── aliases.sh        alias et fonctions du shell (cd → cd && ll, s, c)
 └── js/
     ├── main.js       affichage, prompt, clavier, historique, démarrage
     ├── shell.js      parseur : guillemets, variables, jokers, | ; && ||
     ├── fs.js         système de fichiers virtuel, chemins, erreurs POSIX
+    ├── aliases.js    lecture de aliases.sh
     ├── complete.js   complétion Tab
     ├── state.js      état + sauvegarde localStorage
     ├── config.js     hôte, utilisateur, hash sudo

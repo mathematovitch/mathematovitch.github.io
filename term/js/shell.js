@@ -3,6 +3,7 @@ import { USER } from "./config.js";
 import { state, save } from "./state.js";
 import { absPath, expandGlob, escapeGlob, hasGlob, ERR } from "./fs.js";
 import { COMMANDS, ALIASES } from "./commands/index.js";
+import { USER_ALIASES, FUNCS } from "./aliases.js";
 
 /**
  * Découpe la ligne en mots et opérateurs. Un mot est une liste de morceaux :
@@ -99,14 +100,25 @@ function suggest(name) {
   return best && best[0] <= 2 ? best[1] : null;
 }
 
+/** Arguments déjà développés → texte réinjectable dans une ligne de commande. */
+const quote = args => args.map(a => `'${a.replaceAll("'", "'\\''")}'`).join(" ");
+const expanding = new Set();   // alias/fonctions en cours : pas de récursion (comme bash)
+
 export const runStage = (words, ui, stdin, tty) => execArgs(argv(words), ui, stdin, tty, words);
 
 /**
  * Exécute une commande déjà découpée en arguments (utilisé aussi par sudo).
  * `words` : mots bruts, pour que sudo redéveloppe les jokers avec les droits root.
  */
-export async function execArgs(args, ui, stdin, tty, words = null) {
+export async function execArgs(args, ui, stdin, tty, words = null, builtin = false) {
   if (!args.length) return { status: 0, out: "" };
+  const user = !builtin && !expanding.has(args[0]) &&
+    (Object.hasOwn(FUNCS, args[0]) ? FUNCS[args[0]].replace(/"\$@"|\$@/g, quote(args.slice(1)))
+      : Object.hasOwn(USER_ALIASES, args[0]) ? `${USER_ALIASES[args[0]]} ${quote(args.slice(1))}` : null);
+  if (user) {
+    expanding.add(args[0]);
+    try { return await evalLine(user, ui, stdin, tty); } finally { expanding.delete(args[0]); }
+  }
   if (Object.hasOwn(ALIASES, args[0])) args = [...ALIASES[args[0]], ...args.slice(1)];
   const [name, ...rest] = args;
   const cmd = Object.hasOwn(COMMANDS, name) ? COMMANDS[name] : null;
@@ -128,16 +140,22 @@ export async function execArgs(args, ui, stdin, tty, words = null) {
   return { status, out: io.captured() };
 }
 
-/** Exécute une ligne complète. */
+/** Exécute une ligne complète tapée au clavier. */
 export async function run(line, ui) {
+  await evalLine(line, ui);
+  save();
+}
+
+/** Évalue une ligne (aussi le corps d'un alias ou d'une fonction) ; sortie capturée hors terminal. */
+async function evalLine(line, ui, stdin = null, tty = true) {
   let toks;
   try { toks = tokenize(line); } catch (e) {
     ui.print(`bash: erreur de syntaxe : ${e.message}`, "err");
     state.status = 2;
-    return;
+    return { status: 2, out: "" };
   }
   // Découpage en listes séparées par ; && || puis en étages séparés par |.
-  const syntax = msg => { ui.print(`bash: erreur de syntaxe ${msg}`, "err"); state.status = 2; };
+  const syntax = msg => { ui.print(`bash: erreur de syntaxe ${msg}`, "err"); state.status = 2; return { status: 2, out: "" }; };
   const lists = [{ sep: ";", stages: [[]] }];
   let empty = true, lastOp = null;   // étage courant vide ? dernier opérateur rencontré
   for (const t of toks) {
@@ -151,19 +169,21 @@ export async function run(line, ui) {
       ui.print(t.op === "&" ? "bash: & : pas de tâches de fond ici"
         : `bash: redirection « ${t.op} » : ${ERR.EROFS}`, "err");
       state.status = 1;
-      return;
+      return { status: 1, out: "" };
     } else { l.stages[l.stages.length - 1].push(t); empty = false; }
   }
   if (empty && lastOp && lastOp !== ";") return syntax(`: fin de ligne inattendue après « ${lastOp} »`);
+  let out = "";
   for (const l of lists) {
     if (!l.stages[0].length) continue;   // ligne vide, ou « ; » final
     if ((l.sep === "&&" && state.status !== 0) || (l.sep === "||" && state.status === 0)) continue;
-    let stdin = null, res = { status: 0 };
+    let input = stdin, res = { status: 0 };
     for (let i = 0; i < l.stages.length; i++) {
-      res = await runStage(l.stages[i], ui, stdin, i === l.stages.length - 1);
-      stdin = res.out;
+      res = await runStage(l.stages[i], ui, input, tty && i === l.stages.length - 1);
+      input = res.out;
     }
+    if (!tty) out += res.out;
     state.status = res.status;
   }
-  save();
+  return { status: state.status, out };
 }
