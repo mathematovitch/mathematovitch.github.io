@@ -3,6 +3,7 @@
 
 alias c="clear"
 alias s="source ~/.bashrc"
+alias pdf="open"
 
 cd() {
     builtin cd "$@" && ll

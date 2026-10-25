@@ -89,8 +89,6 @@ table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5
 /* bouton « copier le lien » d'une séquence */
 .lnk{font:13px "Courier New",Courier,monospace;color:var(--mut);background:none;border:0;cursor:pointer;padding:0 4px}
 .lnk:hover{color:var(--acc);text-decoration:underline}
-@media print{.tablewrap{overflow:visible}table.progtab{min-width:0}header.top,.tools,.chev,.godocs,#pv{display:none!important}
-body{font-size:12px}main{padding:0}details.seq{break-inside:avoid}}
 details.seq{border:1px solid var(--line);margin-bottom:-1px;scroll-margin-top:16px}
 details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:5px 8px;user-select:none;background:#f0f0f0}
 details.seq>summary::-webkit-details-marker{display:none}
@@ -140,6 +138,17 @@ h3 .i32{margin-right:6px}
 box-shadow:4px 4px 0 #000;opacity:0}
 #pv.on{opacity:1}
 footer{color:var(--mut);font-size:13px;padding:10px 0 24px;border-top:1px solid var(--line);text-align:center;font-style:italic}
+/* impression : noir et blanc, sans boutons ni icônes, tout déplié (PRINT_JS), adresse de la page en tête */
+@media print{@page{margin:12mm}
+*{color:#000!important;background:none!important;box-shadow:none!important}
+body{font-size:11pt}main{padding:0}.wrap,.wrap.wide{max-width:none;padding:0}a{text-decoration:none}
+header.top,.tools,.chev,.lnk,.godocs,#pv,.i,footer a,.card .ext{display:none!important}
+main::before{content:attr(data-url);display:block;font:9pt "Courier New",Courier,monospace;margin-bottom:6pt}
+.tablewrap{overflow:visible}table.progtab{min-width:0}
+details.seq>summary{border-bottom:1px solid #000}details.seq>summary .meta{display:none}
+.grp,.prog,.row,.doc{break-inside:avoid}h2,h3,details.seq>summary{break-after:avoid}
+.doc{padding-left:10px}.doc .name::after{content:"  " attr(title);font:8.5pt "Courier New",Courier,monospace}
+.row .name{white-space:normal}.seq.archive{opacity:1}footer{padding:6pt 0 0;font-size:9pt}}
 @media (max-width:560px){.row .meta.sz,.doc .meta{display:none}h1{font-size:22px}.card .d{display:block;margin-left:0}.card .d::before{content:""}}
 </style>
 </head>
@@ -150,7 +159,7 @@ footer{color:var(--mut);font-size:13px;padding:10px 0 24px;border-top:1px solid 
 </div></main>
 <footer><div class="wrap">
 <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
-· <a href="../../credits/index.html">crédits &amp; liens</a>
+· <a href="../../credits/index.html">crédits &amp; liens</a> · mis à jour le 17 septembre 2026
 </div></footer>
 <script>
 (()=>{
@@ -169,6 +178,13 @@ document.addEventListener('mouseover',ev=>{const a=ev.target.closest('[data-thum
  if(!a){pv.classList.remove('on');return}
  pv.src=a.dataset.thumb;pv.classList.add('on');place()});
 addEventListener('scroll',()=>{cur=null;pv.classList.remove('on')},{passive:true});
+})();
+
+// Impression : adresse de la page en tête, tout déplier (séquences, compétences) puis remettre comme avant.
+(()=>{let shut=[];const m=document.querySelector('main');
+if(m)m.dataset.url=location.href.replace(/#.*$/,'').replace(/index\.html$/,'');
+addEventListener('beforeprint',()=>{shut=[...document.querySelectorAll('details:not([open])')];shut.forEach(d=>d.open=true)});
+addEventListener('afterprint',()=>{shut.forEach(d=>d.open=false);shut=[]});
 })();
 </script>
 </body>

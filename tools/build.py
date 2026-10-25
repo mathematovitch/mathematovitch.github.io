@@ -397,8 +397,6 @@ table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5
 /* bouton « copier le lien » d'une séquence */
 .lnk{font:13px "Courier New",Courier,monospace;color:var(--mut);background:none;border:0;cursor:pointer;padding:0 4px}
 .lnk:hover{color:var(--acc);text-decoration:underline}
-@media print{.tablewrap{overflow:visible}table.progtab{min-width:0}header.top,.tools,.chev,.godocs,#pv{display:none!important}
-body{font-size:12px}main{padding:0}details.seq{break-inside:avoid}}
 details.seq{border:1px solid var(--line);margin-bottom:-1px;scroll-margin-top:16px}
 details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:5px 8px;user-select:none;background:#f0f0f0}
 details.seq>summary::-webkit-details-marker{display:none}
@@ -448,6 +446,17 @@ h3 .i32{margin-right:6px}
 box-shadow:4px 4px 0 #000;opacity:0}
 #pv.on{opacity:1}
 footer{color:var(--mut);font-size:13px;padding:10px 0 24px;border-top:1px solid var(--line);text-align:center;font-style:italic}
+/* impression : noir et blanc, sans boutons ni icônes, tout déplié (PRINT_JS), adresse de la page en tête */
+@media print{@page{margin:12mm}
+*{color:#000!important;background:none!important;box-shadow:none!important}
+body{font-size:11pt}main{padding:0}.wrap,.wrap.wide{max-width:none;padding:0}a{text-decoration:none}
+header.top,.tools,.chev,.lnk,.godocs,#pv,.i,footer a,.card .ext{display:none!important}
+main::before{content:attr(data-url);display:block;font:9pt "Courier New",Courier,monospace;margin-bottom:6pt}
+.tablewrap{overflow:visible}table.progtab{min-width:0}
+details.seq>summary{border-bottom:1px solid #000}details.seq>summary .meta{display:none}
+.grp,.prog,.row,.doc{break-inside:avoid}h2,h3,details.seq>summary{break-after:avoid}
+.doc{padding-left:10px}.doc .name::after{content:"  " attr(title);font:8.5pt "Courier New",Courier,monospace}
+.row .name{white-space:normal}.seq.archive{opacity:1}footer{padding:6pt 0 0;font-size:9pt}}
 @media (max-width:560px){.row .meta.sz,.doc .meta{display:none}h1{font-size:22px}.card .d{display:block;margin-left:0}.card .d::before{content:""}}
 """
 
@@ -483,6 +492,15 @@ addEventListener('keydown',ev=>{if(ev.key==='/'&&document.activeElement!==q){ev.
 })();
 """
 
+PRINT_JS = """
+// Impression : adresse de la page en tête, tout déplier (séquences, compétences) puis remettre comme avant.
+(()=>{let shut=[];const m=document.querySelector('main');
+if(m)m.dataset.url=location.href.replace(/#.*$/,'').replace(/index\\.html$/,'');
+addEventListener('beforeprint',()=>{shut=[...document.querySelectorAll('details:not([open])')];shut.forEach(d=>d.open=true)});
+addEventListener('afterprint',()=>{shut.forEach(d=>d.open=false);shut=[]});
+})();
+"""
+
 JS = """
 (()=>{
 const q=document.getElementById('q');if(!q)return;
@@ -495,7 +513,6 @@ seqs.forEach(d=>{if(saved.includes(d.id))d.open=true;
 // Lien direct vers une séquence : page.html#S03-Fractions-Egales
 const target=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));
 if(target&&target.matches('details.seq')){target.open=true;target.scrollIntoView({block:'start'})}
-addEventListener('beforeprint',()=>seqs.forEach(d=>d.open=true));
 document.querySelectorAll('.lnk').forEach(b=>b.addEventListener('click',ev=>{
  ev.preventDefault();ev.stopPropagation();const id=b.closest('details').id;
  history.replaceState(null,'','#'+id);const url=location.href;
@@ -559,9 +576,9 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 </div></main>
 <footer><div class="wrap{" wide" if wide else ""}">
 <a href="{LICENSE_URL}" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
-· <a href="{rel(d, CREDITS_DIR)}/index.html">crédits &amp; liens</a>
+· <a href="{rel(d, CREDITS_DIR)}/index.html">crédits &amp; liens</a>{f" · mis à jour le {up}" if (up := updated(d)) else ""}
 </div></footer>
-<script>{PREVIEW_JS}{JS if script else ""}{extra_js}</script>
+<script>{PREVIEW_JS}{PRINT_JS}{JS if script else ""}{extra_js}</script>
 </body>
 </html>
 """
@@ -810,6 +827,48 @@ def build_progressions():
         if parse_progression(tex):
             tex.with_suffix(".html").write_text(build_prog_page(tex), "utf-8")
     (PROG_DIR / "index.html").write_text(build_prog_index(), "utf-8")
+
+
+MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+        "septembre", "octobre", "novembre", "décembre"]
+_dates = None
+
+
+def updated(d):
+    """« 25 octobre 2026 » : dernière modification du contenu de `d` (dernier commit, ou aujourd'hui
+    si des fichiers ne sont pas committés). Les pages générées sont ignorées : relancer le build
+    ne change pas la date, donc pas de faux diff."""
+    global _dates
+    if _dates is None:
+        _dates = {}
+        secs = [str(p.relative_to(ROOT)) for p in sections()]
+        try:
+            git = lambda *a: subprocess.run(["git", "-C", str(ROOT), *a, "--", *secs],
+                                            capture_output=True, text=True, check=True).stdout
+            log, status = git("log", "--format=@%cs", "--name-only"), git("status", "--porcelain", "-uall")
+        except (OSError, subprocess.CalledProcessError):
+            return None
+
+        def add(path, day):
+            p = ROOT / path
+            if p.name == "index.html" or (p.parent == PROG_DIR and p.suffix == ".html"):
+                return
+            for a in p.parents:
+                if _dates.get(a, "") < day:
+                    _dates[a] = day
+        day = ""
+        for line in log.splitlines():
+            if line.startswith("@"):
+                day = line[1:]
+            elif line:
+                add(line, day)
+        for line in status.splitlines():
+            add(line[3:].split(" -> ")[-1].strip('"'), date.today().isoformat())
+    day = _dates.get(d)
+    if not day:
+        return None
+    y, m, j = map(int, day.split("-"))
+    return f"{j} {MOIS[m - 1]} {y}"
 
 
 def recent_files(n=8):

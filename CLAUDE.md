@@ -13,7 +13,7 @@ la vue d'ensemble de l'arborescence (`Progressions/`, `Sixieme/`, `Quatrieme/`,
 
 Racine minimale : `index.html` et `404.html` (générés ; **GitHub Pages impose
 la racine**, ne pas les déplacer), `.nojekyll`, `build.sh` (seul point
-d'entrée), README/CLAUDE.md, `todo.org`. Ensuite :
+d'entrée), README/CLAUDE.md. Ensuite :
 
 - **Cours** : `Progressions/`, `Sixieme/`, `Quatrieme/`, `Utils/` — les
   **seuls** dossiers que le build touche (`SECTION_ORDER` / `sections()` de
@@ -185,8 +185,10 @@ dédupliquer sans consulter l'utilisateur.
 
 Émulateur de shell en JS pur (modules ES, aucune dépendance) pour naviguer
 dans les cours : reprise du side-project GitLab `dev/termjs/` (ignoré par git),
-dont la roadmap du README est entièrement implémentée. Doc complète :
-`term/README.md`.
+dont la roadmap est entièrement implémentée. Doc complète : section
+« Terminal web » du `README.md` racine (l'ancien `term/README.md` y a été
+fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
+(syntaxe bash restreinte, lue par `js/aliases.js`).
 
 - Seule source de données : **`term/fs.json`**, écrit par `build_term_fs()` de
   `build.py` (dossier → objet, fichier → taille ; `HIDDEN_EXT` inclus, que le
@@ -215,7 +217,10 @@ le fil d'Ariane et le bouton « Accueil », que l'utilisateur aime bien. Icônes
 renommées par usage : `cours.png`, `ds.png`, `dossier.png`…) via `icon(d, nom, taille)` : 32 px net (`pixelated`), 16 px lissé.
 Source : pack itch.io de gdainti (zip dans `dev/`, numéroté ligne par ligne,
 11 colonnes). Page `credits/` (liste `CREDITS` de `tools/build.py`, liée en pied de page) : y ajouter toute
-nouvelle ressource tierce.
+nouvelle ressource tierce. Pied de page « mis à jour le … » : `updated(d)`, date git du
+dernier commit touchant le contenu du dossier (pages générées exclues, sinon chaque build
+changerait toutes les pages). Impression : bloc `@media print` du `CSS` + `PRINT_JS`
+(déplie tous les `<details>` sur `beforeprint`, referme sur `afterprint`).
 
 ## Conventions générales
 
