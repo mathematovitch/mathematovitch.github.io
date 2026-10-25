@@ -74,8 +74,11 @@ sed -i \
     -e 's|<a href="\.\./\([^"]*\)/">|<a href="./\1/index.html">|g' \
     "$LEGACY/index.html"
 
+# ?v=<empreinte> : force les navigateurs à recharger le favicon quand il change
+v_ico=$(md5sum assets/favicon.ico | cut -c1-8)
+v_svg=$(md5sum assets/favicon.svg | cut -c1-8)
 sed -i \
-    '/<head>/a<link rel="icon" href="/assets/favicon.ico" sizes="any"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">' \
+    "/<head>/a<link rel=\"icon\" href=\"/assets/favicon.ico?v=$v_ico\" sizes=\"any\"><link rel=\"icon\" href=\"/assets/favicon.svg?v=$v_svg\" type=\"image/svg+xml\">" \
     "$LEGACY/index.html"
 
 sed -i '/<p class="VERSION">/,/<\/p>/d' "$LEGACY/index.html"

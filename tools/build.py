@@ -18,6 +18,7 @@ jamais touché. Stdlib uniquement (+ `pdftoppm` de poppler pour les vignettes). 
 6. écrit la page crédits (credits/), la 404 et term/fs.json (arborescence du terminal /term).
 """
 
+import hashlib
 import html
 import importlib.util
 import json
@@ -518,6 +519,11 @@ addEventListener('keydown',ev=>{if(ev.key==='/'&&document.activeElement!==q){ev.
 """
 
 
+def bust(p):
+    """Suffixe ?v=<empreinte> : les navigateurs gardent le favicon en cache tant que l'URL ne change pas."""
+    return f"?v={hashlib.md5(p.read_bytes()).hexdigest()[:8]}" if p.is_file() else ""
+
+
 def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=None):
     """`here` : page autre que l'index de `d` (le dossier devient alors un lien).
     Pas de barre du haut sur l'accueil (choix de l'utilisateur) : fil d'Ariane ailleurs."""
@@ -535,8 +541,8 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
         home = f'<a class="home" href="{rel(d, ROOT)}/index.html">{icon(d, "accueil", 16)} Accueil</a>'
         top = (f'<header class="top"><div class="wrap{" wide" if wide else ""}"><nav class="crumbs">'
                f'{"<span class=sep>/</span>".join(crumbs)}</nav>{home}</div></header>\n')
-    favicon = (f'<link rel="icon" href="{rel(d, FAVICON)}" sizes="any">'
-               f'<link rel="icon" href="{rel(d, FAVICON_SVG)}" type="image/svg+xml">')
+    favicon = (f'<link rel="icon" href="{rel(d, FAVICON)}{bust(FAVICON)}" sizes="any">'
+               f'<link rel="icon" href="{rel(d, FAVICON_SVG)}{bust(FAVICON_SVG)}" type="image/svg+xml">')
     return f"""<!DOCTYPE html>
 <html lang="fr">
 <head>
