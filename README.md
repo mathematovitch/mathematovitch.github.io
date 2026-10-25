@@ -231,61 +231,31 @@ PDF des progressions, `legacy/`) sont committés.
 
 ## 🛣️ Roadmap
 
-Numérotée par endroit du site à modifier : `2.1` = 1er chantier des pages de
+Numérotée par endroit du site à modifier : `1.1` = 1er chantier des pages de
 séquence, etc.
 
-### 1. Pages de niveau (`/Sixieme/`, `/Quatrieme/`)
+### 1. Pages de séquence (`/Sixieme/S04-Angles/`…)
 
-- [x] **1.1 Mode impression** (`@media print` + `PRINT_JS` de `tools/build.py`,
-  valable sur toutes les pages) : noir et blanc, sans boutons, fil d'Ariane,
-  icônes ni vignettes ; séquences et compétences dépliées le temps de
-  l'impression ; adresse de la page en tête et nom de fichier de chaque document.
-- [x] **1.2 Lien vers chaque page de séquence** (2.1) depuis son bloc dépliable :
-  le `#` ouvre la page dans un nouvel onglet et copie son adresse (sans
-  `index.html`) ; sur la page de la séquence, il copie seulement.
-
-### 2. Pages de séquence (`/Sixieme/S04-Angles/`…)
-
-- [x] **2.1 Une vraie page par séquence**, à une adresse propre et stable
-  (`/Sixieme/S04-Angles/`), qui n'affiche **que** la séquence (`build_seq`) :
-  son bloc déplié, titre accentué, thème, objectif et compétences tirés de la
-  progression, documents groupés par type comme sur la page de niveau ;
-  sous-dossiers (`_Archive`, `data/`…) listés en fin de bloc.
-- [ ] **2.2 QR code par séquence**, généré au build (page 2.1), affiché sur la
-  page et imprimable (à coller dans le cahier).
-- [ ] **2.3 Corrigés en ligne** — *à réfléchir* : publier les corrigés
+- [ ] **1.1 QR code par séquence**, généré au build, affiché sur la page de la
+  séquence et imprimable (à coller dans le cahier).
+- [ ] **1.2 Corrigés en ligne** — *à réfléchir* : publier les corrigés
   (`\corrigetrue`) sans les donner à tout le monde. Piste : PDF chiffrés
   en **PGP** (clé distribuée aux élèves/collègues concernés) plutôt qu'un
   simple mot de passe PDF, trop facile à casser.
 
-### 3. Pied de page (toutes les pages)
+### 2. Contenu de cours (`Progressions/`, niveaux)
 
-- [x] **3.1 « Mis à jour le … »** : date du dernier commit touchant le contenu
-  du dossier (aujourd'hui s'il reste des fichiers non committés) ; pages
-  générées ignorées, donc relancer le build ne change pas la date.
-
-### 4. Build (`build.sh`, `tools/`)
-
-- [x] **4.1 `check_nomenclature.py` lancé par `build.sh`**, en avertissement
-  seulement (n'arrête pas le build) ; il connaît `Seq`/`Prep`, ignore les
-  sous-dossiers et les archives, et rappelle les séquences « à venir » à part.
-- [x] **4.2 Vérification des liens cassés** (`tools/check_links.py`, lancé par
-  `build.sh`) : liens des pages générées, des progressions (vers les pages
-  de séquence) et de `legacy/` vers des fichiers, dossiers ou ancres disparus.
-
-### 5. Contenu de cours (`Progressions/`, niveaux)
-
-- [ ] **5.1 Vacances** à placer dans les progressions de 5e et 3e ; placement
+- [ ] **2.1 Séquences « à venir »** de 6e à créer : 6C09, 6C15 à 6C18 (la 4e
+  est complète).
+- [ ] **2.2 Vacances** à placer dans les progressions de 5e et 3e ; placement
   proposé en 4e à valider.
-- [ ] **5.2 Séquences « à venir »** de 6e et 4e à compléter.
-- [ ] **5.3 Cinquième et Troisième** (si repris) : progressions prêtes, créer
+- [ ] **2.3 Cinquième et Troisième** (si repris) : progressions prêtes, créer
   `Cinquieme/` et `Troisieme/` (déjà prévus par `build.sh`).
-- [ ] **5.4 Lycée** (Seconde, Première, Terminale) : pages vides, hors périmètre.
+- [ ] **2.4 Lycée** (Seconde, Première, Terminale) : pages vides, hors périmètre.
 
-### 6. Terminal (`/term`)
+### 3. Terminal (`/term`)
 
-- [x] **6.1 Alias `pdf fichier.pdf`** à la place de `open` (dans `term/aliases.sh`).
-- [ ] **6.2 Plus tard : tutoriel intégré** (`tuto`), quelques défis du type
+- [ ] **3.1 Tutoriel intégré** (`tuto`), plus tard : quelques défis du type
   « trouve le DS sur les angles » pour apprendre les bases du terminal.
 
 <details>
@@ -300,6 +270,10 @@ séquence, etc.
 - [x] Page crédits, page 404, licence CC0
 - [x] Organisation GitHub `mathematovitch` + redirection de l'ancienne adresse (QR codes)
 - [x] Page `/todo` synchronisée par Gist
+- [x] Une page par séquence (`/Sixieme/S04-Angles/`) : son bloc seul, déplié, compétences comprises ; le `#` de chaque séquence ouvre sa page et copie son adresse ; les progressions y renvoient
+- [x] Mode impression (toutes les pages) : noir et blanc, tout déplié, adresse de la page et noms de fichiers
+- [x] Pied de page « mis à jour le … » (date git du dernier commit touchant le contenu)
+- [x] `build.sh` vérifie la nomenclature (`check_nomenclature.py`) et les liens cassés (`check_links.py`), en avertissement seulement
 
 **Terminal**
 - [x] `ls`, `cd`, `open`, historique clavier, complétion Tab
