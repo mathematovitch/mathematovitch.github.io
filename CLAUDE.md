@@ -217,6 +217,19 @@ fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
   le serveur HTTP lancé **dans la même commande** (réseau non partagé entre
   commandes) et `--reload` (Deno met les imports HTTP en cache).
 
+## Page CV `cv/` (`/cv/`, 2026-10-27)
+
+`cv/index.html` écrit **à la main** (hors build, comme `term/`), thème
+[Minimal](https://github.com/mathematovitch/minimal) (fork d'orderedlist/minimal) : `cv/stylesheets/styles.css`
+copié tel quel (**CC BY-SA 3.0**, pas CC0 ; crédité dans `CREDITS` et en pied de page)
++ ajouts en fin de fichier (sommaire `nav` à gauche, sections `<details>` dépliables).
+Sources : `~/work/08.Autre/Inspection-2026/CV-Colin-Outerovitch.tex` (dates de
+référence) et le rapport DNL (`~/work/08.Autre/DNL/`). **Données perso : mail
+seulement** (ni téléphone, ni adresse, ni date de naissance) ; pas de mention de la
+certification DNL (choix de l'utilisateur). Lien depuis l'auteur de l'accueil
+(`CV_DIR` de `build.py`). Avatar `cv/avatar.svg` : grille pixel 5×5 symétrique aux
+couleurs du logo, fond transparent (variantes dans `dev/avatars/`).
+
 ## Mode élève / mode prof, documents prof chiffrés (2026-10-27)
 
 Par défaut mode élève. **Documents prof** (`profkey.is_secret()` de

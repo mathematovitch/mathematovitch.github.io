@@ -58,6 +58,7 @@ LOGO_ICON = ASSETS / "calculatrice.svg"  # logotype à gauche du titre (pixel W9
 FAVICON = ASSETS / "favicon.ico"        # secours (16/32/64 px)
 FAVICON_SVG = ASSETS / "favicon.svg"    # π pixel W95, net à toutes les tailles
 CREDITS_DIR = ROOT / "credits"
+CV_DIR = ROOT / "cv"  # page CV écrite à la main (thème Minimal), hors build
 
 JUNK_EXT = (".aux", ".log", ".out", ".toc", ".synctex.gz", ".fls", ".fdb_latexmk")
 THUMBS = ASSETS / "thumbs"
@@ -1173,6 +1174,8 @@ CREDITS = [
          "icônes pixel du site, par gdainti"),
         ("Sésamath", "https://www.sesamath.net", "manuels et figures (fichiers Sesa-…)"),
         ("Mathsenligne", "https://mathsenligne.net", "fiches d'exercices (dossiers mathsenligne/)"),
+        ("Thème Minimal", "https://github.com/mathematovitch/minimal",
+         "mise en page de la page CV (cv/), par Steve Smith (orderedlist), CC BY-SA 3.0 ; fork de github.com/orderedlist/minimal"),
         ("Police figlet « Doh »", "http://www.figlet.org/", "chiffres de la commande clock du terminal, par Curtis Wanner"),
     ]),
     ("Liens utiles", [
@@ -1267,7 +1270,7 @@ def build_home():
                         f'<span class="meta">{e(lvl)} · {e(label(p.parent))}</span>'
                         f'<span class="meta sz mono">{e(date)}</span></a>')
         rec = f'<h2>{icon(ROOT, "recent")}Récemment ajoutés</h2><div class="list">{"".join(rows)}</div>'
-    body = (f'{head}<p class="sub">Cours de {e(AUTHOR)} · {e(SCHOOL)} · année {school_year()}</p>'
+    body = (f'{head}<p class="sub">Cours de <a href="{rel(ROOT, CV_DIR / "index.html")}">{e(AUTHOR)}</a> · {e(SCHOOL)} · année {school_year()}</p>'
             f'<h2>{icon(ROOT, "dossier")}Sections</h2><div class="cards">{"".join(cards)}</div>{rec}')
     return page(ROOT, SITE_TITLE, body + LOGIN_HTML)
 
