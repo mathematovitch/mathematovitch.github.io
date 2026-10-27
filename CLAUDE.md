@@ -266,7 +266,9 @@ l'utilisateur (le masquage seul ne lui suffisait pas) :
   `_Archive/…` « Réservé au professeur » (`reserved()`).
 - Exclus aussi du legacy (`tree -I`), `Disallow` dans `robots.txt` ; dans le
   terminal, préfixes `prof` de `fs.json` (dont `_Archive`) traités comme
-  `HIDDEN_EXT`. `sudo` réussi ⇒ mode prof du site, et inversement.
+  `HIDDEN_EXT`. Shell root ⇔ mode prof du site (`isRoot()` = `active()`, plus de cache sudo
+  séparé, demande de l'utilisateur 2026-10-27) : `su`/`sudo` réussi ⇒ invite
+  `root@` rouge pour 2 h sans mot de passe, `exit` quitte les deux.
 - **Ne jamais committer un document prof en clair.** L'historique a été purgé
   des versions en clair (2026-10-27, `git filter-branch`, sauvegarde
   `dev/backup-2026-10-27.git`).

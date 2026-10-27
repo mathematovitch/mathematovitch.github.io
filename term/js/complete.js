@@ -1,5 +1,6 @@
 // Complétion (Tab) des commandes et des chemins.
 import { entries, isDir, lookup } from "./fs.js";
+import { state } from "./state.js";
 import { COMMANDS, ALIASES } from "./commands/index.js";
 import { USER_ALIASES, FUNCS } from "./aliases.js";
 
@@ -36,10 +37,18 @@ export function complete(value, caret) {
     if (word.startsWith("-")) return null;
     const slash = word.lastIndexOf("/");
     base = word.slice(0, slash + 1); stem = word.slice(slash + 1);
-    const r = lookup(base || ".");
-    if (r.err || !isDir(r.node)) return null;
+    // Après « sudo », complète aussi les fichiers root, avant même le mot de passe
+    // (les noms sont publics dans fs.json ; le contenu prof reste chiffré).
+    const prev = state.elevated;
+    state.elevated = prev || seg.includes("sudo");
+    let r, list;
+    try {
+      r = lookup(base || ".");
+      if (!r.err && isDir(r.node)) list = entries(r.node);
+    } finally { state.elevated = prev; }
+    if (!list) return null;
     const dirsOnly = cmdName === "cd" || cmdName === "tree";
-    cands = entries(r.node)
+    cands = list
       .filter(([n, c]) => n.startsWith(stem) && (!dirsOnly || isDir(c)))
       .map(([n, c]) => (isDir(c) ? [n + "/", n + "/"] : [n + " ", n]));
     if (!stem && !base && cands.length === 0) return null;

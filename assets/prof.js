@@ -87,14 +87,9 @@ export function openEnc(url, name) {
   });
 }
 
-/** Quitte le mode prof partout : site (classe html.prof) et terminal (cache sudo). */
+/** Quitte le mode prof partout : site (classe html.prof) et terminal (shell root). */
 export function quit() {
   lock();
-  try {
-    const t = JSON.parse(localStorage.getItem("termjs") || "{}");
-    t.sudoUntil = 0; t.root = false;
-    localStorage.setItem("termjs", JSON.stringify(t));
-  } catch { /* idem */ }
   document.documentElement.classList.remove("prof");
 }
 

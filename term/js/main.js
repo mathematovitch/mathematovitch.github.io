@@ -269,9 +269,6 @@ async function main() {
   // Dossier sauvegardé disparu depuis (renommage...) : retour à la racine.
   const saved = lookup(absPath(state.cwd), []);
   if (saved.err || !isDir(saved.node)) state.cwd = [];
-  if (state.root || state.sudoUntil) {
-    if (state.sudoUntil < Date.now()) { state.root = false; state.sudoUntil = 0; }
-  }
   cwdFromHash();
   window.addEventListener("hashchange", () => { if (!busy) { cwdFromHash(); showPrompt(); } });
   banner();

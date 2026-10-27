@@ -34,7 +34,7 @@ sur toutes les pages : fond rosé, bandeau rouge « MODE PROF » avec un bouton
 plus les évaluations (`DS`), les plans de séquence (`Seq`), les préparations
 (`Prep`), les **corrigés** (`…-Corr.pdf`), chacun juste sous son exercice, son
 activité ou son DS, et les **archives**. Le terminal suit le même mode : un
-`sudo` réussi l'active, `sudo -k` ou « Quitter » le coupent.
+`sudo`/`su` réussi l'active (shell root), `exit`, `sudo -k` ou « Quitter » le coupent.
 
 **Documents prof chiffrés** : le dépôt public ne contient ces documents (et
 les sources `.tex` à corrigé) que chiffrés, `X.enc` (AES-256-GCM). Le
@@ -257,10 +257,15 @@ sans récursion : `builtin cd` court-circuite la fonction `cd`.
 Les fichiers masqués sur le site (`.tex`, `.sty`, `.py`, `.sh`, `.md`… :
 `HIDDEN_EXT` de `tools/build.py`), les documents du mode prof (`DS-`,
 `Seq-`, `Prep-`, `…-Corr`) et les archives sont invisibles pour l'élève
-(`Permission non accordée`). `sudo` (mot de passe du mode prof, gardé 15 min
-comme le vrai sudo, 3 essais) les rend visibles et déchiffre les documents
-prof à la volée (`open`, `cat`, `grep`) : `sudo -s` puis
-`grep -ri "angle nul" .` cherche dans les sources LaTeX. Mot de passe :
+(`Permission non accordée`). `su` (ou `sudo -s`, ou n'importe quel
+`sudo commande` ; mot de passe du mode prof, 3 essais) fait du shell un
+shell **root** : invite `root@mathematovitch#` en rouge, tout est visible
+et complété par Tab, les documents prof sont déchiffrés à la volée (`open`,
+`cat`, `grep`), sans plus jamais redemander le mot de passe ni préfixer par
+`sudo`. Le shell root **est** le mode prof du site : 2 h, actif d'emblée si
+le mode prof l'est déjà ; `exit` (ou `sudo -k`, ou « Quitter » sur le site)
+quitte les deux. Ex. : `su` puis `grep -ri "angle nul" .` cherche dans les
+sources LaTeX. Mot de passe :
 `python3 tools/profkey.py passwd` (voir le mode prof, plus haut).
 
 ### Fichiers
@@ -359,7 +364,7 @@ séquence, etc.
 - [x] Mode sudo (même mot de passe que le mode prof, vérifié par déchiffrement de la clé)
 - [x] Tri des dossiers (dossiers d'abord, `_Archive` en dernier, tri naturel)
 - [x] Recherche (`find`, `grep`), pipes et filtres de texte
-- [x] Sauvegarde de l'état (localStorage : dossier, historique, thème, sudo)
+- [x] Sauvegarde de l'état (localStorage : dossier, historique, thème)
 - [x] Support mobile (touches tactiles, clavier virtuel, noms cliquables)
 - [x] `clock` plein écran pour les contrôles
 - [x] Alias façon `~/.bash_aliases` (`cd && ll`, `s`, `c`, `pdf`)

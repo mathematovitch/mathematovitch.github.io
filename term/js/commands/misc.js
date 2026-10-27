@@ -1,7 +1,7 @@
 // Shell : help, history, clear, source, builtin, alias, echo, whoami, date, theme, sudo, exit, et commandes d'écriture refusées.
-import { USER, SUDO_TIMEOUT } from "../config.js";
+import { USER } from "../config.js";
 import { state, save, isRoot } from "../state.js";
-import { active, until, unlock, quit } from "../../../assets/prof.js";
+import { active, unlock, quit } from "../../../assets/prof.js";
 import { ERR } from "../fs.js";
 import { argv, execArgs } from "../shell.js";
 import { COMMANDS, ALIASES } from "./index.js";
@@ -121,22 +121,19 @@ export const theme = {
 
 // --- sudo -----------------------------------------------------------------
 
-/** Demande le mot de passe (3 essais, comme sudo) sauf s'il a été donné il y a moins de 15 min,
- *  ou si le mode prof du site est actif. C'est celui du mode prof : le bon mot de passe déchiffre
- *  la clé des documents prof (assets/prof.js) et active aussi le mode prof du site. */
+/** Demande le mot de passe (3 essais, comme sudo) sauf si le mode prof du site est actif.
+ *  C'est celui du mode prof : le bon mot de passe déchiffre la clé des documents prof
+ *  (assets/prof.js) et active le mode prof, donc le shell root, pour 2 h. */
 async function authenticate(io) {
-  if (active()) {
-    if (state.sudoUntil <= Date.now()) { state.sudoUntil = Math.min(until(), Date.now() + SUDO_TIMEOUT); save(); }
-    return true;
-  }
+  if (active()) return true;
   for (let k = 0; k < 3; k++) {
     const pw = await io.ui.readPassword(`[sudo] Mot de passe de ${USER} : `);
     if (pw === null) return false;   // Ctrl+C
     let ok;
     try { ok = await unlock(pw); } catch (e) { io.err(`sudo: ${e.message}`); return false; }
     if (ok) {
-      state.sudoUntil = Date.now() + SUDO_TIMEOUT;
-      save();
+      io.out("Shell root : corrigés, évaluations et sources visibles, sans mot de passe pendant 2 h. "
+        + "« exit » pour redevenir élève.", "dim");
       return true;
     }
     if (k < 2) io.err("Désolé, essayez de nouveau.");
@@ -146,21 +143,19 @@ async function authenticate(io) {
 }
 
 export const sudo = {
-  help: "mode professeur : montre aussi les corrigés, évaluations et sources",
-  usage: "sudo commande | sudo -s | sudo -k",
-  more: ["sudo ls      une commande en root", "sudo -s      reste root jusqu'à « exit »",
-    "sudo -k      oublie le mot de passe (sinon gardé 15 min) et quitte le mode prof du site",
-    "Le mot de passe est celui du mode prof du site (clic sur la calculatrice de l'accueil).",
-    "Le site est statique : sudo ne fait qu'afficher les fichiers masqués, rien n'est modifiable."],
+  help: "mode professeur : devient root (corrigés, évaluations et sources visibles)",
+  usage: "sudo -s | su | sudo commande | sudo -k",
+  more: ["su, sudo -s  devient root@mathematovitch jusqu'à « exit » (2 h au plus)",
+    "sudo ls      pareil, puis lance la commande",
+    "sudo -k      quitte le mode root et le mode prof du site",
+    "Le mot de passe est celui du mode prof du site (clic sur la calculatrice de l'accueil) ;",
+    "si le mode prof est déjà actif sur le site, le terminal est root d'emblée.",
+    "Le site est statique : root ne fait qu'afficher les fichiers masqués, rien n'est modifiable."],
   async run(args, io) {
     if (!args.length) { io.err(`usage: ${sudo.usage}`); return 1; }
-    if (args[0] === "-k") { quit(); state.sudoUntil = 0; state.root = false; save(); return 0; }
+    if (args[0] === "-k") { quit(); return 0; }
     if (!(await authenticate(io))) return 1;
-    if (["-s", "-i", "su", "bash", "sh"].includes(args[0])) {
-      state.root = true; save();
-      io.out("Shell root : corrigés, évaluations et sources visibles. « exit » pour redevenir élève.", "dim");
-      return 0;
-    }
+    if (["-s", "-i", "su", "bash", "sh"].includes(args[0])) return 0;
     const prev = state.elevated;
     state.elevated = true;
     try {
@@ -174,10 +169,10 @@ export const sudo = {
 };
 
 export const exit = {
-  help: "quitte le mode root, ou revient au site",
+  help: "quitte le mode root (et le mode prof du site), ou revient au site",
   usage: "exit",
   run(args, io) {
-    if (state.root) { state.root = false; save(); io.out("exit"); return 0; }
+    if (isRoot()) { quit(); io.out("exit"); return 0; }
     io.out("déconnexion");
     setTimeout(() => { location.href = "../index.html"; }, 400);
   },

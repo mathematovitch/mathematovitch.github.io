@@ -3,5 +3,4 @@
 export const HOST = "mathematovitch";
 export const USER = "eleve";
 export const SITE = "..";            // racine du site, relative à /term/
-export const SUDO_TIMEOUT = 15 * 60 * 1000;  // comme sudo : mot de passe redemandé après 15 min
 export const HISTORY_MAX = 500;

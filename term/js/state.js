@@ -1,5 +1,6 @@
-// État du shell, sauvegardé dans localStorage (dossier courant, historique, thème, sudo).
+// État du shell, sauvegardé dans localStorage (dossier courant, historique, thème).
 import { HISTORY_MAX } from "./config.js";
+import { active } from "../../assets/prof.js";
 
 const KEY = "termjs";
 
@@ -9,8 +10,6 @@ export const state = {
   history: [],
   hIndex: 0,
   status: 0,        // code de retour de la dernière commande ($?)
-  root: false,      // shell root (sudo -s) jusqu'à « exit »
-  sudoUntil: 0,     // horodatage de fin du cache du mot de passe sudo
   theme: "vert",
 };
 
@@ -20,7 +19,6 @@ export function load() {
     if (Array.isArray(s.cwd)) state.cwd = s.cwd;
     if (Array.isArray(s.history)) state.history = s.history.slice(-HISTORY_MAX);
     if (typeof s.theme === "string") state.theme = s.theme;
-    if (s.sudoUntil > Date.now()) { state.sudoUntil = s.sudoUntil; state.root = !!s.root; }
   } catch { /* stockage indisponible (navigation privée...) : on repart de zéro */ }
   state.hIndex = state.history.length;
 }
@@ -29,10 +27,9 @@ export function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify({
       cwd: state.cwd, history: state.history.slice(-HISTORY_MAX), theme: state.theme,
-      root: state.root, sudoUntil: state.sudoUntil,
     }));
   } catch { /* idem */ }
 }
 
-/** Droits root effectifs : shell root, ou commande lancée via sudo. */
-export const isRoot = () => state.root || state.elevated === true;
+/** Droits root : shell root = mode prof du site actif (2 h, jusqu'à « exit » ou « Quitter »). */
+export const isRoot = () => state.elevated === true || active();
