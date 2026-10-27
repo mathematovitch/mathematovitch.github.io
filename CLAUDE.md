@@ -30,7 +30,12 @@ d'entrée), README/CLAUDE.md. Ensuite :
   `/legacy`).
 - `tools/` : `build.py`, `profkey.py` (clé du mode prof), `hooks/pre-commit`, `check_nomenclature.py` et `check_links.py` (lancés en fin de `build.sh`, avertissement seulement), `title.txt` (bandeau ASCII
   du legacy). `build.py` calcule `ROOT` depuis son propre emplacement
-  (`tools/..`).
+  (`tools/..`). `seq_status.py N NN` : état d'une séquence par compétence
+  (document rattaché si son `.tex` cite le code, ligne `%% Compétence : …`).
+  `skills/sequence/SKILL.md` : skill Claude Code `/sequence 6 S06` (mise à
+  niveau d'une séquence sur le modèle de S04-Angles), versionné ici car
+  `.claude/` est ignoré ; lien symbolique `.claude/skills/sequence` à créer
+  par l'utilisateur (le sandbox interdit d'écrire dans `.claude/skills`).
 - Non suivis (`.gitignore`) : `dev/`, et les fichiers vides que le sandbox de
   Claude Code crée à la racine (`.bashrc`, `.gitconfig`, `.idea`, `.claude/`…)
   — l'auto-commit « adding all » les avait poussés une fois.
