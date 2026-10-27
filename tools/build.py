@@ -736,6 +736,13 @@ LOGIN_HTML = ('<dialog id="login"><div class="tb">Mode professeur</div><form>'
               '<button type="button" class="no">Annuler</button></div></form></dialog>')
 
 
+def module_path(d, p):
+    """Chemin d'import d'un module ES : « assets/x.js » tout court serait un nom de paquet
+    (refusé par le navigateur), il faut « ./assets/x.js »."""
+    r = rel(d, p)
+    return r if r.startswith(".") else "./" + r
+
+
 def bust(p):
     """Suffixe ?v=<empreinte> : les navigateurs gardent le favicon en cache tant que l'URL ne change pas."""
     return f"?v={hashlib.md5(p.read_bytes()).hexdigest()[:8]}" if p.is_file() else ""
@@ -780,7 +787,7 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 · <a href="{rel(d, CREDITS_DIR)}/index.html">crédits &amp; liens</a>{f" · mis à jour le {up}" if (up := updated(d)) else ""}
 </div></footer>
 <script>{PREVIEW_JS}{PRINT_JS}{JS if script else ""}{extra_js}</script>
-<script type="module">import {{wire}} from "{rel(d, PROF_JS)}{bust(PROF_JS)}";wire();</script>
+<script type="module">import {{wire}} from "{module_path(d, PROF_JS)}{bust(PROF_JS)}";wire();</script>
 </body>
 </html>
 """
