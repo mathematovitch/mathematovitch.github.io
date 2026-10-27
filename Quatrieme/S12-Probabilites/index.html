@@ -108,7 +108,7 @@ details.seq[open]>summary{border-bottom:1px solid var(--line)}
 .doc .name{flex:1;min-width:0}
 .doc .meta{color:var(--mut);font-size:12.5px;font-family:"Courier New",Courier,monospace}
 .c-seq{color:var(--t-seq)}.c-prep{color:var(--t-prep)}.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
-.c-ds{color:var(--t-ds)}.c-res{color:var(--t-res)}
+.c-ds,.c-corr{color:var(--t-ds)}.c-res{color:var(--t-res)}
 .seq.archive{opacity:.75}
 .theme{font-family:"Courier New",Courier,monospace;font-size:12px;color:var(--mut)}
 .theme::before{content:"("}.theme::after{content:")"}
@@ -134,7 +134,7 @@ h3 .i32{margin-right:6px}
 .vac .i16{margin:0 6px 0 0}
 .seq.upcoming .meta .i16{opacity:.8}
 .hide{display:none!important}
-/* mode prof : documents prof (Seq, Prep, DS, Corr) masqués sinon ; fond rosé + bandeau pour savoir où on en est */
+/* mode prof : documents prof (Seq, Prep, DS, corrigés, archives) masqués sinon ; fond rosé + bandeau pour savoir où on en est */
 html:not(.prof) .prof,html.prof .eleve{display:none!important}
 html.prof body{background:#ffe4e4}
 html.prof details.seq>summary,html.prof .seq.upcoming,html.prof .progtab th,html.prof .progtab tr.vacrow td{background:#f4d0d0}

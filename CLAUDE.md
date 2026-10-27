@@ -123,9 +123,11 @@ Tous les fichiers de cours suivent le format
   surveillé/évaluation). Côté enseignant : `Seq` (plan de séquence : séances,
   documents, toutes les évaluations y compris hors papier, ex. Capytale) et
   `Prep` (préparation de séance) ; `build.py` les affiche en tête de séquence.
-  `Corr` : corrigé d'un `Ex`/`Act`/`DS` **de même nom** (`Corr-6C04-01-Nom` ↔
-  `Ex-6C04-01-Nom`), affiché juste sous son sujet ; `check_nomenclature.py`
-  signale un `Corr` sans sujet. Sujet et corrigé sont **toujours deux PDF
+  Corrigé d'un `Ex`/`Act`/`DS` : **nom du sujet + `-Corr`**
+  (`Ex-6C04-01-Nom.pdf` ↔ `Ex-6C04-01-Nom-Corr.pdf` ; choix de l'utilisateur,
+  qui a remplacé l'ancien préfixe `Corr-`), affiché juste sous son sujet
+  (`profkey.CORR`, `is_corr()`) ; `check_nomenclature.py` signale un corrigé
+  sans sujet. Sujet et corrigé sont **toujours deux PDF
   séparés** (demande de l'utilisateur, 2026-10-27, pour imprimer). Anciens codes obsolètes rencontrés et convertis :
   `FA-` (fiche d'activité) → `Ex`, `FM-` (fiche méthode) → `Cours`.
 - **Niveau** : un seul caractère — `6`/`5`/`4`/`3` pour le collège,
@@ -168,14 +170,14 @@ dédupliquer sans consulter l'utilisateur.
   écrite une fois, corps du document
   `\ifdefined\aveccorrige\corrigetrue\else\corrigefalse\fi \feuille` ;
   `compile_corriges()` de `build.py` compile `Ex-….pdf` (sujet) et
-  `Corr-….pdf` (avec `\def\aveccorrige{}`) quand le `.tex` est plus récent.
+  `Ex-…-Corr.pdf` (avec `\def\aveccorrige{}`) quand le `.tex` est plus récent.
   Exception : le diaporama de calcul mental `Act-6C04-03` (sujet et corrigé
   alternés, projeté) n'est pas découpé.
 - **Contrôles (`DS`)** : recto-verso, deux compétences par contrôle (une par
   face), 35 min, noté sur 40. En haut : en-tête avec la note, **grille de
   compétences juste dessous**, puis la consigne ; bandeau « Compétence … » en
   tête de chaque face. Même convention que les fiches : `DS-….pdf` (sujet) et
-  `Corr-….pdf` compilés par le build. Modèle : `Sixieme/S04-Angles/DS-6C04-0[1-3]-*.tex`.
+  `DS-…-Corr.pdf` compilés par le build. Modèle : `Sixieme/S04-Angles/DS-6C04-0[1-3]-*.tex`.
 - **Grille de compétences** : Insuffisant / Fragile / Satisfaisant / Très
   satisfaisant (vocabulaire BO, jamais « Expert ») — macro `\competences` de
   `~/texmf/tex/latex/Mathdoc/mathdoc.sty`.
@@ -218,8 +220,8 @@ fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
 ## Mode élève / mode prof, documents prof chiffrés (2026-10-27)
 
 Par défaut mode élève. **Documents prof** (`profkey.is_secret()` de
-`tools/profkey.py`) : types `Seq`, `Prep`, `DS`, `Corr` (`PROF_TYPES`, toute
-extension), tout ce qui est sous un `_Archive/`, et les `.tex` contenant
+`tools/profkey.py`) : types `Seq`, `Prep`, `DS` (`PROF_TYPES`, toute
+extension), les corrigés `…-Corr.*`, tout ce qui est sous un `_Archive/`, et les `.tex` contenant
 `\ifcorrige`. Ils ne sont publiés que **chiffrés** (`X.enc`), à la demande de
 l'utilisateur (le masquage seul ne lui suffisait pas) :
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Clé du mode prof : les documents prof (DS, Corr, Seq, Prep, archives, .tex à corrigé) ne
+"""Clé du mode prof : les documents prof (DS, corrigés …-Corr, Seq, Prep, archives, .tex à corrigé) ne
 sont dans le dépôt que chiffrés (X.enc) ; le site et le terminal les déchiffrent une fois le
 mot de passe saisi (assets/prof.js).
 
@@ -38,8 +38,13 @@ ENC = ".enc"
 
 # Ce qui n'est publié que chiffré (le mode prof du site les montre, déchiffrés).
 LEVEL_DIRS = {"Sixieme", "Cinquieme", "Quatrieme", "Troisieme"}
-PROF_TYPES = ("Seq", "Prep", "DS", "Corr")
+PROF_TYPES = ("Seq", "Prep", "DS")
 PROF_RE = re.compile(rf"^({'|'.join(PROF_TYPES)})-")
+CORR = "-Corr"  # corrigé = nom du sujet + -Corr : Ex-6C04-01-Nom.pdf -> Ex-6C04-01-Nom-Corr.pdf
+
+
+def is_corr(name):
+    return PurePosixPath(name).stem.endswith(CORR)
 
 
 def is_secret(rel, read_text):
@@ -49,7 +54,7 @@ def is_secret(rel, read_text):
     if not p.parts or p.parts[0] not in LEVEL_DIRS or p.name == "index.html" \
             or p.suffix == ENC or p.name.startswith("."):
         return False
-    if "_Archive" in p.parts or PROF_RE.match(p.name):
+    if "_Archive" in p.parts or PROF_RE.match(p.name) or is_corr(p.name):
         return True
     return p.suffix == ".tex" and "\\ifcorrige" in read_text()
 

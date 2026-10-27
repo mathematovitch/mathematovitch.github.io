@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refuse un commit qui contient un document prof en clair (DS, Corr, Seq, Prep, archives, .tex à
+"""Refuse un commit qui contient un document prof en clair (DS, corrigés …-Corr, Seq, Prep, archives, .tex à
 corrigé : profkey.is_secret) : seul X.enc doit être commité. Garde-fou pour `git add -A` (alias
 `ag`) si ./build.sh n'a pas encore tourné (c'est lui qui chiffre et remplit .gitignore).
 Activé par : git config core.hooksPath tools/hooks"""

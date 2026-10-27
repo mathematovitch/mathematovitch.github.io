@@ -2,6 +2,6 @@ User-agent: *
 Disallow: /*/Seq-
 Disallow: /*/Prep-
 Disallow: /*/DS-
-Disallow: /*/Corr-
+Disallow: /*-Corr.
 Disallow: /*/_Archive/
 Disallow: /*.enc$

@@ -26,9 +26,11 @@ export const ERR = {
 export const isDir = n => n !== null && typeof n === "object";
 export const ext = name => { const i = name.lastIndexOf("."); return i > 0 ? name.slice(i).toLowerCase() : ""; };
 
-/** Fichier masqué du site (sources .tex, scripts..., et documents du mode prof : Corr-, DS-...) :
- *  visible seulement en root. */
-export const isHidden = name => META.hidden.includes(ext(name)) || (META.prof || []).some(p => name.startsWith(p));
+/** Fichier masqué du site (sources .tex, scripts..., et documents du mode prof : DS-..., corrigés
+ *  …-Corr.pdf, _Archive) : visible seulement en root. */
+const stem = name => { const i = name.lastIndexOf("."); return i > 0 ? name.slice(0, i) : name; };
+export const isHidden = name => META.hidden.includes(ext(name)) || (META.prof || []).some(p => name.startsWith(p))
+  || (META.prof_suffix || []).some(s => stem(name).endsWith(s));
 export const canSee = name => isRoot() || !isHidden(name);
 
 export const TEXT_EXT = [".tex", ".sty", ".cls", ".bib", ".txt", ".md", ".org", ".html", ".htm", ".css",

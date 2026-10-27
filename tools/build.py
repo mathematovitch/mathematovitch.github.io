@@ -66,8 +66,8 @@ PDFTOPPM = shutil.which("pdftoppm")
 
 TYPES = [("Seq", "Séquence"), ("Prep", "Préparations"), ("Cours", "Cours"),
          ("Act", "Activités"), ("Ex", "Exercices"), ("DS", "Évaluations")]
-# Corr : corrigé d'un Ex/Act/DS de même nom (Corr-6C04-01-Nom ↔ Ex-6C04-01-Nom), affiché sous lui.
-DOC_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS|Corr)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
+# Corrigé d'un Ex/Act/DS : son nom + -Corr (Ex-6C04-01-Nom-Corr.pdf, profkey.CORR), affiché sous lui.
+DOC_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
 SEQ_RE = re.compile(r"^S(\d{2})-(.+)$")
 # Mode prof (clic sur la calculatrice de l'accueil, ou sudo du terminal) : ces types et les
 # archives ne sont visibles qu'en mode prof, et publiés seulement chiffrés (X.enc, tools/profkey.py),
@@ -183,7 +183,8 @@ def listdir(d):
 
 def is_prof(p):
     m = DOC_RE.match(base(p).stem)
-    return "_Archive" in p.relative_to(ROOT).parts or (bool(m) and m[1] in PROF_TYPES)
+    return ("_Archive" in p.relative_to(ROOT).parts or profkey.is_corr(base(p).name)
+            or (bool(m) and m[1] in PROF_TYPES))
 
 
 def enc_attr(f):
@@ -315,12 +316,12 @@ def compile_progressions():
 
 
 def corr_of(p):
-    """Corrigé associé à un sujet : Ex-6C04-01-Nom.pdf -> Corr-6C04-01-Nom.pdf."""
-    return p.with_name("Corr-" + p.name.split("-", 1)[1])
+    """Corrigé associé à un sujet : Ex-6C04-01-Nom.pdf -> Ex-6C04-01-Nom-Corr.pdf."""
+    return p.with_name(p.stem + profkey.CORR + p.suffix)
 
 
 def compile_corriges():
-    """Sources à corrigé (\\ifcorrige) : le sujet, puis le corrigé Corr-….pdf compilé avec
+    """Sources à corrigé (\\ifcorrige) : le sujet, puis le corrigé …-Corr.pdf compilé avec
     \\aveccorrige défini. Seulement si le .tex est plus récent que l'un des deux PDF."""
     for lvl in LEVELS:
         if not (ROOT / lvl).is_dir():
@@ -400,7 +401,7 @@ def write_gitignore(plain):
     lines = []
     for lvl in LEVELS:
         lines += [f"/{lvl}/**/_Archive/**", f"!/{lvl}/**/_Archive/**/"]
-        lines += [f"/{lvl}/**/{t}-*" for t in PROF_TYPES]
+        lines += [f"/{lvl}/**/{t}-*" for t in PROF_TYPES] + [f"/{lvl}/**/*{profkey.CORR}.*"]
     lines += [f"!*{profkey.ENC}", "!index.html"]
     # en clair présents, ou connus par leur .enc : même bloc sur un clone qui n'a que les .enc
     names = {p.relative_to(ROOT).as_posix() for p in plain}
@@ -577,7 +578,7 @@ details.seq[open]>summary{border-bottom:1px solid var(--line)}
 .doc .name{flex:1;min-width:0}
 .doc .meta{color:var(--mut);font-size:12.5px;font-family:"Courier New",Courier,monospace}
 .c-seq{color:var(--t-seq)}.c-prep{color:var(--t-prep)}.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
-.c-ds{color:var(--t-ds)}.c-res{color:var(--t-res)}
+.c-ds,.c-corr{color:var(--t-ds)}.c-res{color:var(--t-res)}
 .seq.archive{opacity:.75}
 .theme{font-family:"Courier New",Courier,monospace;font-size:12px;color:var(--mut)}
 .theme::before{content:"("}.theme::after{content:")"}
@@ -603,7 +604,7 @@ h3 .i32{margin-right:6px}
 .vac .i16{margin:0 6px 0 0}
 .seq.upcoming .meta .i16{opacity:.8}
 .hide{display:none!important}
-/* mode prof : documents prof (Seq, Prep, DS, Corr) masqués sinon ; fond rosé + bandeau pour savoir où on en est */
+/* mode prof : documents prof (Seq, Prep, DS, corrigés, archives) masqués sinon ; fond rosé + bandeau pour savoir où on en est */
 html:not(.prof) .prof,html.prof .eleve{display:none!important}
 html.prof body{background:#ffe4e4}
 html.prof details.seq>summary,html.prof .seq.upcoming,html.prof .progtab th,html.prof .progtab tr.vacrow td{background:#f4d0d0}
@@ -831,8 +832,8 @@ def doc_rows(d, files):
     for f in files:
         b = base(f)
         m = DOC_RE.match(b.stem)
-        if m and m[1] == "Corr":
-            corrs[b.name.split("-", 1)[1]] = f
+        if profkey.is_corr(b.name):
+            corrs[b.stem.removesuffix(profkey.CORR)] = f
         elif m:
             kind, _lvl, _chap, item, name = m.groups()
             groups[kind].append((item or "", pretty(name) or kind, f))
@@ -846,13 +847,13 @@ def doc_rows(d, files):
         rows = []
         for item, name, f in sorted(groups[kind], key=lambda x: (x[0].zfill(4), x[1])):
             rows.append(doc_row(d, f, item, name, " prof" if kind in PROF_TYPES else ""))
-            if kind in ("Ex", "Act", "DS") and (c := corrs.pop(base(f).name.split("-", 1)[1], None)):
+            if kind in ("Ex", "Act", "DS") and (c := corrs.pop(base(f).stem, None)):
                 rows.append(doc_row(d, c, "↳", "Corrigé", " corr prof"))
         prof = " prof" if kind in PROF_TYPES else ""
         out.append(f'<div class="grp{prof}"><h3 class="{cls}">{icon(d, kind.lower())}{title}</h3>{"".join(rows)}</div>')
     if corrs:  # corrigé sans sujet (sujet pas encore déposé)
-        rows = [doc_row(d, c, (m := DOC_RE.match(base(c).stem))[4] or "", pretty(m[5]) or "Corrigé", " prof")
-                for c in sorted(corrs.values())]
+        rows = [doc_row(d, c, (m[4] or "") if m else "", pretty(m[5] if m else s) + " (corrigé)", " prof")
+                for s, c in sorted(corrs.items()) for m in [DOC_RE.match(s)]]
         out.append(f'<div class="grp prof"><h3 class="c-ds">{icon(d, "ds")}Corrigés</h3>{"".join(rows)}</div>')
     return "".join(out)
 
@@ -1217,7 +1218,7 @@ def build_term_fs():
     if not (ROOT / "term").is_dir():
         return
     data = {"title": SITE_TITLE, "author": AUTHOR, "school": SCHOOL, "year": school_year(),
-            "hidden": sorted(HIDDEN_EXT), "prof": [f"{t}-" for t in PROF_TYPES] + ["_Archive"],
+            "hidden": sorted(HIDDEN_EXT), "prof": [f"{t}-" for t in PROF_TYPES] + ["_Archive"], "prof_suffix": [profkey.CORR],
             "enc": sorted(base(x).relative_to(ROOT).as_posix() for lvl in LEVELS if (ROOT / lvl).is_dir()
                           for x in (ROOT / lvl).rglob("*" + profkey.ENC)),
             "tree": term_tree(ROOT)}
@@ -1257,7 +1258,7 @@ def build_home():
         rows = []
         for date, p in recent:
             m = DOC_RE.match(base(p).stem)
-            kind = m[1] if m else "res"
+            kind = "Corr" if profkey.is_corr(base(p).name) else m[1] if m else "res"
             name = pretty(m[5]) if m else pretty(base(p).stem)
             lvl = NAMES.get(p.relative_to(ROOT).parts[0], "")
             rows.append(f'<a class="row{" prof" if is_prof(p) else ""}" href="{rel(ROOT, p)}" target="_blank" rel="noopener"{thumb_attr(ROOT, p)}{enc_attr(p)}>'
@@ -1288,7 +1289,7 @@ def main():
     build_term_fs()
     # Pages a beau masquer les documents prof, les moteurs suivraient quand même les liens.
     (ROOT / "robots.txt").write_text("User-agent: *\n" + "".join(f"Disallow: /*/{t}-\n" for t in PROF_TYPES)
-                                     + "Disallow: /*/_Archive/\nDisallow: /*.enc$\n", "utf-8")
+                                     + f"Disallow: /*{profkey.CORR}.\nDisallow: /*/_Archive/\nDisallow: /*.enc$\n", "utf-8")
     (ROOT / ".nojekyll").touch()  # sinon GitHub Pages (Jekyll) ne publie pas les dossiers _Archive
     n += 1
     for dirpath, dirnames, _ in os.walk(ROOT):

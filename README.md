@@ -31,7 +31,7 @@ passe (le même que le `sudo` du terminal) et passe en **mode prof** pour 2 h,
 sur toutes les pages : fond rosé, bandeau rouge « MODE PROF » avec un bouton
 « Quitter » (recliquer la calculatrice quitte aussi). S'affichent alors en
 plus les évaluations (`DS`), les plans de séquence (`Seq`), les préparations
-(`Prep`), les **corrigés** (`Corr`), chacun juste sous son exercice, son
+(`Prep`), les **corrigés** (`…-Corr.pdf`), chacun juste sous son exercice, son
 activité ou son DS, et les **archives**. Le terminal suit le même mode : un
 `sudo` réussi l'active, `sudo -k` ou « Quitter » le coupent.
 
@@ -101,8 +101,8 @@ reste du dépôt n'est jamais modifié.
   fiches au format `{Type}-{Niveau}C{NN}[-Item]-{Nom}.pdf`, sources `.tex`
   à côté. Types : `Cours`, `Ex`, `Act`, `DS` ; côté enseignant `Seq` (plan de
   séquence) et `Prep` (préparation de séance), affichés en tête de séquence ;
-  `Corr` : corrigé d'un `Ex`/`Act`/`DS` de même nom (`Ex-6C04-01-Nom.pdf` ↔
-  `Corr-6C04-01-Nom.pdf`). Sujet et corrigé sont toujours deux PDF séparés.
+  corrigé : nom du sujet suivi de `-Corr` (`Ex-6C04-01-Nom.pdf` ↔
+  `Ex-6C04-01-Nom-Corr.pdf`). Sujet et corrigé sont toujours deux PDF séparés.
   Une source `.tex` à `\ifcorrige` donne le sujet ; `build.py` compile en plus
   le corrigé (`\aveccorrige` défini) dès que le `.tex` change.
   Figures sources dans `images/`, anciens documents dans `_Archive/`.
@@ -217,8 +217,8 @@ sans récursion : `builtin cd` court-circuite la fonction `cd`.
 ### Mode sudo
 
 Les fichiers masqués sur le site (`.tex`, `.sty`, `.py`, `.sh`, `.md`… :
-`HIDDEN_EXT` de `tools/build.py`), les documents du mode prof (`Corr-`,
-`DS-`, `Seq-`, `Prep-`) et les archives sont invisibles pour l'élève
+`HIDDEN_EXT` de `tools/build.py`), les documents du mode prof (`DS-`,
+`Seq-`, `Prep-`, `…-Corr`) et les archives sont invisibles pour l'élève
 (`Permission non accordée`). `sudo` (mot de passe du mode prof, gardé 15 min
 comme le vrai sudo, 3 essais) les rend visibles et déchiffre les documents
 prof à la volée (`open`, `cat`, `grep`) : `sudo -s` puis
