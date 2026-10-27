@@ -7,6 +7,7 @@
 export const KEY = "mathematovitch-prof";
 const HOURS = 2;
 const MAGIC = "MVCH1";
+const BLOB_TTL = 60 * 1000;
 const ASSETS = new URL("./", import.meta.url);
 
 const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
@@ -74,6 +75,9 @@ export function openEnc(url, name) {
   if (w) { w.document.title = name; w.document.body.textContent = `Déchiffrement de ${name}…`; }
   return decrypt(url).then(data => {
     const blob = URL.createObjectURL(new Blob([data], { type: type || "application/octet-stream" }));
+    // Adresse blob: valable 1 min seulement (le document déjà affiché reste lisible) :
+    // retrouvée plus tard dans l'historique d'un PC partagé, elle ne mène plus à rien.
+    setTimeout(() => URL.revokeObjectURL(blob), BLOB_TTL);
     if (w) { w.location.href = blob; return; }
     const a = Object.assign(document.createElement("a"), { href: blob, download: name });
     document.body.append(a); a.click(); a.remove();

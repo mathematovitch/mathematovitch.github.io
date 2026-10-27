@@ -243,7 +243,8 @@ l'utilisateur (le masquage seul ne lui suffisait pas) :
 - Navigateur : `assets/prof.js` (module ES, importé par chaque page via
   `wire()` et par le terminal) : `unlock()` (session
   `localStorage["mathematovitch-prof"]` = `{until, k}`, 2 h), `openEnc()`
-  (onglet ouvert pendant le clic, puis URL `blob:`), `decryptText()`, `quit()`
+  (onglet ouvert pendant le clic, puis URL `blob:` révoquée au bout d'1 min,
+  demande de l'utilisateur : PC partagés), `decryptText()`, `quit()`
   (coupe aussi le sudo du terminal). `PROF_HEAD_JS` (dans `<head>`) pose
   `html.prof` ; `.prof` masqué sinon, `.eleve` masqué en mode prof (compteurs
   `ndocs()`). Fond rosé + bandeau `#profbar`. Archives : section `prof`, pages
