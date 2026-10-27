@@ -18,16 +18,15 @@ d'entrée), README/CLAUDE.md. Ensuite :
 - **Cours** : `Progressions/`, `Sixieme/`, `Quatrieme/`, `Utils/` — les
   **seuls** dossiers que le build touche (`SECTION_ORDER` / `sections()` de
   `tools/build.py`, `SECTIONS` de `build.sh`) : nettoyage, renommage,
-  vignettes, index, legacy, `term/fs.json`. Tout autre dossier racine est
+  vignettes, index, legacy, `assets/fs.json`. Tout autre dossier racine est
   invisible pour le build (`visible()` filtre la racine) : pas besoin de
   l'ajouter à une liste d'exclusion.
 - `assets/` : `favicon.svg` + `favicon.ico` (16/32/64, secours), π pixel W95
   de `dev/pi.svg` ; `calculatrice.svg` (de `dev/calculatrice.svg`, viewBox
   recadré `5 2 22 28`) affichée à gauche du titre de l'accueil (`.brand`) ;
-  `logo.svg`, `icons/`, `thumbs/` (généré). `todo/` garde son icône `todo.png`.
+  `logo.svg`, `icons/`, `thumbs/` (généré), `fs.json` (généré, lu par le terminal). `todo/` garde son icône `todo.png`.
 - `credits/index.html` (généré, URL `/credits/`).
-- `term/`, `todo/`, `legacy/` : URLs publiques inchangées (`/term`, `/todo`,
-  `/legacy`).
+- `todo/`, `legacy/` : URLs publiques inchangées (`/todo`, `/legacy`).
 - `tools/` : `build.py`, `profkey.py` (clé du mode prof), `hooks/pre-commit`, `check_nomenclature.py` et `check_links.py` (lancés en fin de `build.sh`, avertissement seulement), `title.txt` (bandeau ASCII
   du legacy). `build.py` calcule `ROOT` depuis son propre emplacement
   (`tools/..`). `seq_status.py N NN` : état d'une séquence par compétence
@@ -197,45 +196,24 @@ dédupliquer sans consulter l'utilisateur.
   **écrite au tableau et copiée** par les élèves (jamais projetée) : prévoir
   du temps (~15 min). Pas de « ticket de sortie ».
 
-## Terminal web `term/` (`/term`, branche `termjs`)
+## Terminal `/term` et CV `/cv` : dépôts à part (2026-10-28)
 
-Émulateur de shell en JS pur (modules ES, aucune dépendance) pour naviguer
-dans les cours : reprise du side-project GitLab `dev/termjs/` (ignoré par git),
-dont la roadmap est entièrement implémentée. Doc complète : section
-« Terminal web » du `README.md` racine (l'ancien `term/README.md` y a été
-fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
-(syntaxe bash restreinte, lue par `js/aliases.js`).
+Sortis de ce dépôt (demande de l'utilisateur : dossier du site trop gros) :
+`~/code/04-web/term` → `mathematovitch/term`, `~/code/04-web/cv` →
+`mathematovitch/cv`, sites de projet GitHub Pages servis aux mêmes URL
+(`/term/`, `/cv/`), avec historique (`git subtree split`). Chacun a son
+`README.md` et son `CLAUDE.md`. Ce qui reste ici :
 
-- Seule source de données : **`term/fs.json`**, écrit par `build_term_fs()` de
-  `build.py` (dossier → objet, fichier → taille ; `HIDDEN_EXT` inclus, que le
-  terminal ne montre qu'en `sudo`). Généré, mais à committer (Pages ne lance
-  pas le build). Pas d'API GitHub (quota de 60 req/h sans jeton).
-- `term/` n'est pas une section de cours : ni index généré, ni listé dans
-  le site, ni dans `fs.json` (qui ne contient que les sections).
-- `sudo` : mot de passe du mode prof, vérifié par `unlock()` de
-  `assets/prof.js` (voir « Mode élève / mode prof ») ; `open`/`cat` déchiffrent
-  les chemins de la liste `enc` de `fs.json`.
-- Messages d'erreur au format GNU en locale française (`Aucun fichier ou
-  dossier de ce type`…). Tout texte affiché passe par `textContent`.
-- Tests : Chromium ne tourne pas dans le sandbox (sockets interdits) ; la
-  logique se teste sous Deno (`--location http://127.0.0.1:PORT/term/`), avec
-  le serveur HTTP lancé **dans la même commande** (réseau non partagé entre
-  commandes) et `--reload` (Deno met les imports HTTP en cache).
-
-## Page CV `cv/` (`/cv/`, 2026-10-27)
-
-`cv/index.html` écrit **à la main** (hors build, comme `term/`), thème
-[Minimal](https://github.com/mathematovitch/minimal) (fork d'orderedlist/minimal) : `cv/stylesheets/styles.css`
-copié tel quel (**CC BY-SA 3.0**, pas CC0 ; crédité dans `CREDITS` et en pied de page)
-+ ajouts en fin de fichier (sections `<details>` dépliables) ; colonne de gauche
-volontairement sobre (avatar, nom, poste, un lien vers les cours, sommaire en liste `ul.sommaire`). Mail seulement en pied de
-page, non cliquable (`[at]`/`[dot]`) ; `<meta name="robots" content="noindex">`.
-Sources : `~/work/08.Autre/Inspection-2026/CV-Colin-Outerovitch.tex` (dates de
-référence) et le rapport DNL (`~/work/08.Autre/DNL/`). **Données perso : mail
-seulement** (ni téléphone, ni adresse, ni date de naissance) ; pas de mention de la
-certification DNL (choix de l'utilisateur). Lien depuis l'auteur de l'accueil
-(`CV_DIR` de `build.py`). Avatar `cv/avatar.svg` : grille pixel 5×5 symétrique aux
-couleurs du logo, fond transparent (variantes dans `dev/avatars/`).
+- `build_term_fs()` de `build.py` écrit **`assets/fs.json`** (seule source de
+  données du terminal, à committer) ; le terminal le lit via `SITE = ".."`.
+- `assets/prof.js`, `prof.json`, favicons : importés par le terminal et le CV
+  en chemins relatifs `../` (même origine, même session prof).
+- `CV_DIR` : lien de l'auteur sur l'accueil ; crédits Minimal et Doh gardés
+  dans `CREDITS`. `check_links.py` ignore `/cv/` et `/term/` (`PROJECTS`).
+- Aperçu local : liens symboliques `term`, `cv` → `~/code/04-web/…` à la
+  racine (ignorés par `.gitignore`), puis `python3 -m http.server`.
+- Ne pas recréer de dossier `term/` ou `cv/` suivi ici : il disputerait l'URL
+  au site de projet.
 
 ## Mode élève / mode prof, documents prof chiffrés (2026-10-27)
 
@@ -250,7 +228,7 @@ l'utilisateur (le masquage seul ne lui suffisait pas) :
   `X.enc` = `MVCH1` + IV + AES-GCM(K, X), IV = HMAC(K, chemin, sha256) ⇒
   déterministe (pas de faux diff). `python3 tools/profkey.py init|passwd|restore`
   (interactif : à faire lancer par l'utilisateur avec `!`). Plus de
-  `SUDO_SALT`/`SUDO_HASH` ni de `term/passwd.py` (un hachage rapide public
+  `SUDO_SALT`/`SUDO_HASH` ni de `passwd.py` (un hachage rapide public
   aurait permis la force brute).
 - `build.py` : `encrypt_secrets()` (après `rename_all()`) chiffre ce qui a
   changé, supprime les `.enc` orphelins seulement dans un dossier qui a des

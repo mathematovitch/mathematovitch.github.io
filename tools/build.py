@@ -4,7 +4,7 @@
 Usage : python3 tools/build.py [racine]      (ou ./build.sh, qui fait aussi legacy/)
 
 Seuls les dossiers de cours (SECTION_ORDER : Progressions, niveaux, Utils) sont nettoyés,
-renommés, indexés et listés ; le reste du dépôt (assets/, term/, todo/, tools/...) n'est
+renommés, indexés et listés ; le reste du dépôt (assets/, todo/, tools/...) n'est
 jamais touché. Stdlib uniquement (+ `pdftoppm` de poppler pour les vignettes). Étapes :
 1. crée les _Archive manquants des niveaux ;
 2. supprime les fichiers temporaires LaTeX (.aux, .log, ...) ;
@@ -15,7 +15,8 @@ jamais touché. Stdlib uniquement (+ `pdftoppm` de poppler pour les vignettes). 
    - accueil       : cartes par section (ouvertes dans un nouvel onglet) + récemment ajoutés
    - niveau        : séquences repliables, documents groupés par type, recherche
    - autre dossier : liste façon explorateur (dossiers puis fichiers)
-6. écrit la page crédits (credits/), la 404 et term/fs.json (arborescence du terminal /term).
+6. écrit la page crédits (credits/), la 404 et assets/fs.json (arborescence du terminal /term,
+   dépôt à part mathematovitch/term).
 """
 
 import hashlib
@@ -58,7 +59,7 @@ LOGO_ICON = ASSETS / "calculatrice.svg"  # logotype à gauche du titre (pixel W9
 FAVICON = ASSETS / "favicon.ico"        # secours (16/32/64 px)
 FAVICON_SVG = ASSETS / "favicon.svg"    # π pixel W95, net à toutes les tailles
 CREDITS_DIR = ROOT / "credits"
-CV_DIR = ROOT / "cv"  # page CV écrite à la main (thème Minimal), hors build
+CV_DIR = ROOT / "cv"  # page CV : dépôt à part mathematovitch/cv, servi à /cv/ (absent du dépôt)
 
 JUNK_EXT = (".aux", ".log", ".out", ".toc", ".synctex.gz", ".fls", ".fdb_latexmk")
 THUMBS = ASSETS / "thumbs"
@@ -1218,15 +1219,14 @@ def term_tree(d):
 
 
 def build_term_fs():
-    """term/fs.json : seule source de données du terminal (pas d'API, site statique)."""
-    if not (ROOT / "term").is_dir():
-        return
+    """assets/fs.json : seule source de données du terminal (pas d'API, site statique). Le
+    terminal est un dépôt à part (mathematovitch/term, servi à /term/) qui lit ce fichier."""
     data = {"title": SITE_TITLE, "author": AUTHOR, "school": SCHOOL, "year": school_year(),
             "hidden": sorted(HIDDEN_EXT), "prof": [f"{t}-" for t in PROF_TYPES] + ["_Archive"], "prof_suffix": [profkey.CORR],
             "enc": sorted(base(x).relative_to(ROOT).as_posix() for lvl in LEVELS if (ROOT / lvl).is_dir()
                           for x in (ROOT / lvl).rglob("*" + profkey.ENC)),
             "tree": term_tree(ROOT)}
-    (ROOT / "term" / "fs.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), "utf-8")
+    (ASSETS / "fs.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), "utf-8")
 
 
 def school_year():

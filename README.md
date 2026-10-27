@@ -19,8 +19,8 @@ Site statique regroupant les cours, exercices et documents de mathématiques
 | Vignettes | (survol) | aperçu de la 1re page de chaque PDF |
 | Crédits | `/credits/` | ressources tierces utilisées (icônes, police figlet…) |
 | 404 | (toute adresse inconnue) | page d'erreur aux couleurs du site |
-| Terminal | `/term/` | naviguer dans les cours avec `ls`, `cd`, `open`… (voir plus bas) |
-| CV | `/cv/` | CV de l'auteur (thème [Minimal](https://github.com/mathematovitch/minimal), CC BY-SA 3.0), page écrite à la main ; lien depuis le nom de l'auteur sur l'accueil ; non indexé par les moteurs (`noindex`), mail en clair non cliquable |
+| Terminal | `/term/` | naviguer dans les cours avec `ls`, `cd`, `open`… ; dépôt à part [`mathematovitch/term`](https://github.com/mathematovitch/term), qui lit `assets/fs.json` |
+| CV | `/cv/` | CV de l'auteur ; dépôt à part [`mathematovitch/cv`](https://github.com/mathematovitch/cv), lien depuis le nom de l'auteur sur l'accueil |
 | Todo | `/todo/` | listes de tâches façon org-mode, synchronisées par un Gist GitHub (jeton stocké dans le navigateur) |
 | Ancien site | `/legacy/` | la version d'origine, pages `tree -H`, gardée active (sans les documents du mode prof) |
 
@@ -118,10 +118,8 @@ d'ombres douces, boutons gris en relief, icônes pixel Windows 95
 ├── Sixieme/             # Cours de 6e, une séquence par dossier (S01-…, S02-…)
 ├── Quatrieme/           # Cours de 4e, idem
 ├── Utils/               # Documents transverses (grilles, tables, suivi des corrections, DNL)
-├── assets/              # logo.svg, calculatrice.svg, favicon, icons/ (pixel W95), thumbs/ (vignettes générées)
+├── assets/              # logo.svg, calculatrice.svg, favicon, icons/ (pixel W95), thumbs/ (vignettes générées), fs.json (terminal)
 ├── credits/             # Page crédits (générée)
-├── cv/                  # CV (/cv/), écrit à la main, hors build
-├── term/                # Terminal web (/term)
 ├── todo/                # Listes de tâches (/todo), page autonome
 ├── legacy/              # Ancien site « tree » (index seulement), généré par build.sh
 └── tools/               # build.py (générateur), check_nomenclature.py, check_links.py, title.txt
@@ -171,7 +169,7 @@ vignettes, `pdflatex` pour les progressions, `tree` pour `legacy/`.
 5. recompile `Progressions/NIVEAU.pdf` si le `.tex` a changé (PDF
    reproductible à l'octet : pas de faux diff git) ;
 6. régénère l'`index.html` de chaque dossier, l'accueil, la 404, `credits/`
-   et `term/fs.json`.
+   et `assets/fs.json` (arborescence lue par le terminal `/term`).
 
 `build.sh` régénère ensuite l'ancien site dans `legacy/` : uniquement des
 `index.html` produits par `tree -H`, dont les liens pointent vers les vrais
@@ -190,109 +188,17 @@ build ne s'arrête pas) :
 
 ---
 
-## Terminal web (`/term`)
+## Sites liés (`/term`, `/cv`)
 
-Mini terminal interactif pour naviguer dans les cours et ouvrir les fichiers
-(PDF surtout) depuis le navigateur, comme dans un shell Unix. JavaScript pur
-(modules ES, aucune dépendance). Reprise du projet GitLab Pages `termjs`
-(ancien dépôt `colinouterovitch/my-page` sur forge.apps.education.fr) :
-l'API GitLab est remplacée par **`term/fs.json`**, l'arborescence des
-sections générée à chaque build. Aucune requête d'API, pas de quota,
-fonctionne aussi en local.
-
-```
-cd /Sixieme/S04-Angles      # Tab complète les noms
-ls -l                       # cliquer sur un nom l'ouvre (dossier : cd, fichier : open)
-open Cours-6C04-Les-Angles.pdf
-find / -iname '*angle*'
-ls | grep DS
-help ls                     # aide détaillée de chaque commande
-```
-
-L'URL suit le dossier courant : `/term/#/Sixieme/S04-Angles` ouvre le
-terminal directement dans la séquence (lien à donner aux élèves).
-
-### Commandes
-
-| Commande | Rôle |
-|---|---|
-| `help [cmd]`, `man` | liste des commandes, aide détaillée |
-| `ls [-l] [-1] [-R] [-d]`, `ll` | contenu d'un dossier, en colonnes, couleurs par type |
-| `cd [chemin]` | `..`, `/`, `~`, `-`, chemins relatifs/absolus ; liste le dossier ensuite (alias) |
-| `pwd` | dossier courant |
-| `tree [-d] [-L n]` | arborescence |
-| `open fichier\|dossier`, `pdf` | PDF/HTML : nouvel onglet ; image : aperçu ; texte : affiché ; dossier : sa page du site |
-| `cat [-n]`, `head`, `tail`, `wc`, `sort` | lecture et filtres de texte |
-| `find [chemin] -name/-iname/-type/-maxdepth` | recherche par nom |
-| `grep [-ivnclrw] motif [fichiers]` | recherche dans le contenu (ou filtre d'un pipe) |
-| `history`, `!!`, `!n`, `!préfixe` | historique |
-| `clock [-s]` | l'heure en grand pour un contrôle : plein écran, police figlet « doh » (comme `termdown -z -f doh`), « : » qui clignotent, écran sans veille ; Échap ou Ctrl+C pour quitter |
-| `echo`, `whoami`, `date`, `clear` (`c`), `theme` | divers (`theme vert\|ambre\|gris\|clair`) |
-| `alias`, `source` (`s`, `.`), `builtin` | alias de `term/aliases.sh` (ci-dessous) |
-| `chroot`, `sudo cmd`, `sudo -s`, `su`, `exit` | mode professeur (ci-dessous) |
-
-Shell : guillemets `'…'` `"…"`, `\`, variables (`$PWD`, `$?`, `$HOME`,
-`$USER`, `$OLDPWD`), jokers `* ? […]`, enchaînements `|`, `;`, `&&`, `||`.
-Clavier : Tab, ↑/↓, Ctrl+C, Ctrl+L, Ctrl+U, Ctrl+K, Ctrl+A, Ctrl+E, Ctrl+W.
-Messages d'erreur au format GNU en français, codes de retour dans `$?`.
-
-Le système de fichiers est en lecture seule : `rm`, `mkdir`, `touch`, `cp`,
-`mv`, `nano`, `vim`, `>`… existent mais échouent avec l'erreur POSIX
-`Système de fichiers accessible en lecture seule`.
-
-### Alias (`term/aliases.sh`)
-
-Joue le rôle du `~/.bash_aliases` (copie de ceux de l'auteur), lu au
-démarrage. Syntaxe bash restreinte : `alias nom="commande"` et fonctions
-`nom() { … "$@" … }`. Le corps est une vraie ligne du shell (`&&`, `|`…),
-sans récursion : `builtin cd` court-circuite la fonction `cd`.
-
-- `cd` ⇒ `builtin cd "$@" && ll` (liste le dossier après chaque `cd`) ;
-- `s` ⇒ `source ~/.bashrc` : relit `aliases.sh`, efface l'écran et
-  réaffiche l'accueil, sans changer de dossier ;
-- `c` ⇒ `clear` ;
-- `pdf` ⇒ `open` (`pdf Cours-6C04-Les-Angles.pdf`).
-
-### Mode sudo
-
-Les fichiers masqués sur le site (`.tex`, `.sty`, `.py`, `.sh`, `.md`… :
-`HIDDEN_EXT` de `tools/build.py`), les documents du mode prof (`DS-`,
-`Seq-`, `Prep-`, `…-Corr`) et les archives sont invisibles pour l'élève
-(`Permission non accordée`). Comme dans un vrai shell :
-`sudo commande` lance **une** commande en root (`sudo open DS-…`), et
-`chroot` (ou `su`, `sudo -s`) ouvre un **shell root** : invite
-`root@mathematovitch#` en rouge, tout visible et complété par Tab, documents
-prof déchiffrés à la volée (`open`, `cat`, `grep`), jusqu'à `exit`. Mot de
-passe : celui du mode prof (3 essais), pas redemandé tant que le mode prof
-du site est actif (2 h, il sert de cache) ; `sudo -k` ou « Quitter » le
-coupent. Tab complète aussi après `sudo`, avant le mot de passe. Ex. :
-`chroot` puis `grep -ri "angle nul" .` cherche dans les sources LaTeX. Mot de passe :
-`python3 tools/profkey.py passwd` (voir le mode prof, plus haut).
-
-### Fichiers
-
-```
-term/
-├── index.html        page, touches tactiles (Tab, ↑, ↓, cd .., ls, ^C)
-├── term.css          thèmes (variables CSS), couleurs façon dircolors, mobile
-├── fs.json           GÉNÉRÉ par tools/build.py (ne pas éditer, mais committer)
-├── aliases.sh        alias et fonctions du shell (cd → cd && ll, s, c, pdf)
-└── js/
-    ├── main.js       affichage, prompt, clavier, historique, démarrage
-    ├── shell.js      parseur : guillemets, variables, jokers, | ; && ||, alias
-    ├── fs.js         système de fichiers virtuel, chemins, erreurs POSIX
-    ├── aliases.js    lecture de aliases.sh
-    ├── complete.js   complétion Tab
-    ├── state.js      état + sauvegarde localStorage
-    ├── config.js     hôte, utilisateur
-    └── commands/     une commande = { help, usage, more, run(args, io) }
-```
-
-Tester en local (les modules ES et `fetch` ne marchent pas en `file://`) :
-
-```
-python3 -m http.server   # à la racine du site, puis http://localhost:8000/term/
-```
+Le terminal web et le CV sont des **dépôts à part** de l'organisation,
+servis par GitHub Pages sous le même domaine (sites de projet) :
+[`mathematovitch/term`](https://github.com/mathematovitch/term) → `/term/`,
+[`mathematovitch/cv`](https://github.com/mathematovitch/cv) → `/cv/`. Même
+origine : ils utilisent `assets/` (favicon, `prof.js`, `prof.json`) et la
+session du mode prof. Le terminal lit `assets/fs.json`, généré par
+`build_term_fs()` de `tools/build.py` : à committer ici. Aperçu local : liens
+symboliques `term` et `cv` vers `~/code/04-web/…` à la racine (ignorés par
+git), puis `python3 -m http.server`.
 
 ---
 
@@ -300,7 +206,7 @@ python3 -m http.server   # à la racine du site, puis http://localhost:8000/term
 
 Servi directement depuis la branche `main` du dépôt
 `mathematovitch/mathematovitch.github.io` via GitHub Pages. Pages ne lance
-pas le build : les fichiers générés (`index.html`, vignettes, `fs.json`,
+pas le build : les fichiers générés (`index.html`, vignettes, `assets/fs.json`,
 PDF des progressions, `legacy/`) sont committés.
 
 ---
@@ -325,17 +231,7 @@ séquence, etc.
   `Cinquieme/` et `Troisieme/` (déjà prévus par `build.sh`).
 - [ ] **2.4 Lycée** (Seconde, Première, Terminale) : pages vides, hors périmètre.
 
-### 3. Terminal (`/term`)
-
-- [ ] **3.1 Tutoriel intégré** (`tuto`), plus tard : quelques défis du type
-  « trouve le DS sur les angles » pour apprendre les bases du terminal.
-
-### 4. CV (`/cv`)
-
-- [ ] **4.1 Actualiser le CV** d'après le dossier I-Prof (postes, dates,
-  formations continues suivies, missions) ; vérifier le niveau d'anglais
-  (B2 BULATS, attestation non retrouvée). Source actuelle : CV de
-  l'inspection 2026 et rapport DNL.
+Roadmaps du terminal et du CV : dans leurs dépôts.
 
 <details>
 <summary>Déjà fait</summary>
@@ -356,19 +252,7 @@ séquence, etc.
 - [x] Documents prof chiffrés dans le dépôt (AES-256-GCM, clé protégée par le mot de passe), déchiffrés dans le navigateur ; historique git purgé des versions en clair
 - [x] Page CV `/cv/` (thème Minimal forké sous `mathematovitch/minimal`, avatar pixel, sections dépliables, `noindex`)
 - [x] `build.sh` vérifie la nomenclature (`check_nomenclature.py`) et les liens cassés (`check_links.py`), en avertissement seulement
-
-**Terminal**
-- [x] `ls`, `cd`, `open`, historique clavier, complétion Tab
-- [x] `cd ..`, `/`, `~`, `-`, `../../x` ; messages d'erreur POSIX et codes de retour
-- [x] `open` intelligent (PDF, images, HTML, texte, dossiers), `tree`, `cat`
-- [x] CSS : scroll, sélection, focus, thèmes
-- [x] Mode sudo (même mot de passe que le mode prof, vérifié par déchiffrement de la clé)
-- [x] Tri des dossiers (dossiers d'abord, `_Archive` en dernier, tri naturel)
-- [x] Recherche (`find`, `grep`), pipes et filtres de texte
-- [x] Sauvegarde de l'état (localStorage : dossier, historique, thème)
-- [x] Support mobile (touches tactiles, clavier virtuel, noms cliquables)
-- [x] `clock` plein écran pour les contrôles
-- [x] Alias façon `~/.bash_aliases` (`cd && ll`, `s`, `c`, `pdf`)
+- [x] Terminal (`/term`) et CV (`/cv`) sortis dans leurs propres dépôts
 
 </details>
 

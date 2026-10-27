@@ -5,7 +5,8 @@ Parcourt tous les `index.html` des sections, l'accueil, la 404, credits/,
 legacy/ et les pages Progressions/*.html, et signale chaque `href`/`src`
 interne qui mène à un fichier ou dossier disparu, ou à une ancre `#id`
 absente de la page visée (ex. une séquence renommée). Liens externes
-(http:, mailto:…) ignorés ; `<base href>` respecté (404).
+(http:, mailto:…) ignorés ; `<base href>` respecté (404). Les sites de projet
+servis sous le même domaine (PROJECTS : /cv/, /term/) ne sont pas vérifiés.
 
 Usage:
     python3 tools/check_links.py
@@ -17,6 +18,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
+PROJECTS = {"cv", "term"}  # dépôts à part (mathematovitch/cv, /term), absents d'ici
 SECTIONS = ["Progressions", "Sixieme", "Cinquieme", "Quatrieme", "Troisieme", "Utils", "credits", "legacy"]
 
 
@@ -73,6 +75,8 @@ def check(f):
                 base = f.parent if not p.base else (ROOT / p.base.lstrip("/") if p.base.startswith("/") else f.parent / p.base)
                 target = base / path
             target = target.resolve()
+            if target.is_relative_to(ROOT) and set(target.relative_to(ROOT).parts[:1]) & PROJECTS:
+                continue
             if target.is_dir():
                 target = target / "index.html"
             if not target.exists():
