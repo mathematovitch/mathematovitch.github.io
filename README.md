@@ -220,6 +220,13 @@ séquence, etc.
 
 - [ ] **1.1 QR code par séquence**, généré au build, affiché sur la page de la
   séquence et imprimable (à coller dans le cahier).
+- [ ] **1.2 Fiche récap imprimable** : une page A4 par séquence pour l'élève
+  (compétences, liste des fiches, cases « fait / revu »).
+- [ ] **1.3 « Pour réviser le DS »** : sur la page de séquence, un bloc qui
+  regroupe le cours et les fiches de la compétence évaluée (déduit des codes
+  `6C04-…`).
+- [ ] **1.4 Une adresse par compétence** : chaque code (ex. `6C04-GEO02`) a sa
+  propre adresse et mène aux fiches qui la travaillent.
 
 ### 2. Contenu de cours (`Progressions/`, niveaux)
 
@@ -230,6 +237,33 @@ séquence, etc.
 - [ ] **2.3 Cinquième et Troisième** (si repris) : progressions prêtes, créer
   `Cinquieme/` et `Troisieme/` (déjà prévus par `build.sh`).
 - [ ] **2.4 Lycée** (Seconde, Première, Terminale) : pages vides, hors périmètre.
+- [ ] **2.5 Séquences à compléter** (avec `/sequence`) : seule S04-Angles suit
+  tout le modèle. 6e : S11 et S12 n'ont qu'une fiche chacune, sans cours ;
+  S10 sans cours ; S08 et S13 sans DS. 4e : S06 et S10 sans cours ; S09 sans
+  DS ; S04 et S05 n'ont que 3 ou 4 fiches.
+- [ ] **2.6 Plans de séquence (`Seq`) et préparations (`Prep`)** sur le modèle
+  de S04 (avec `/sequence`), en 6e puis en 4e (aucun pour l'instant).
+- [ ] **2.7 Calcul mental** : une série de diaporamas `Act` par séquence, comme
+  `Act-6C04-03`.
+- [ ] **2.8 Faute de frappe** : `Quatrieme/S06-Satistiques` → `Statistiques`.
+  Un `git mv` casserait les QR codes et liens déjà imprimés : ajouter une
+  redirection, ou garder le nom.
+- [ ] **2.9 Doublons** : fichiers de probabilités identiques entre
+  `Quatrieme/S12-Probabilites` et `Sixieme/S14-Probabilites` ; décider
+  (garder les deux, ou un lien).
+
+### 3. Outillage (`tools/`)
+
+- [ ] **3.1 Changer la clé prof** (`profkey.py rotate`) : nouvelle clé maître,
+  tous les `.enc` rechiffrés ; procédure documentée si le mot de passe fuite.
+
+### 4. Navigation et accessibilité (toutes les pages)
+
+- [ ] **4.1 Raccourcis clavier** façon Emacs, sur toute page, à côté de
+  `C-x C-x` (mode prof) : `C-x t` ouvre le terminal, `C-x m` la musique,
+  etc. ; liste affichée par `C-x ?` ou sur la page crédits.
+- [ ] **4.2 Vérifier l'accessibilité** : textes alternatifs des icônes,
+  contrastes, navigation au clavier.
 
 Roadmaps du terminal et du CV : dans leurs dépôts.
 
