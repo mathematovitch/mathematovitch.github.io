@@ -63,8 +63,15 @@ PDFTOPPM = shutil.which("pdftoppm")
 
 TYPES = [("Seq", "Séquence"), ("Prep", "Préparations"), ("Cours", "Cours"),
          ("Act", "Activités"), ("Ex", "Exercices"), ("DS", "Évaluations")]
-DOC_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
+# Corr : corrigé d'un Ex/Act/DS de même nom (Corr-6C04-01-Nom ↔ Ex-6C04-01-Nom), affiché sous lui.
+DOC_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS|Corr)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
 SEQ_RE = re.compile(r"^S(\d{2})-(.+)$")
+# Mode prof (clic sur la calculatrice de l'accueil, ou sudo du terminal) : ces types ne sont
+# visibles qu'en mode prof. Simple masquage (site statique, dépôt public) : suffisant pour des élèves.
+PROF_TYPES = ("Seq", "Prep", "DS", "Corr")
+PROF_KEY = "mathematovitch-prof"   # localStorage : fin du mode prof (ms), partagée avec term/
+PROF_HOURS = 2
+TERM_CONFIG = ROOT / "term" / "js" / "config.js"  # SUDO_SALT / SUDO_HASH (term/passwd.py)
 
 # Accents perdus par le nettoyage des noms de fichiers (rename_all)
 ACCENTS = {
@@ -151,9 +158,21 @@ def listdir(d):
     return dirs, files
 
 
-def count_docs(d):
-    return sum(1 for p in d.rglob("*") if p.is_file() and visible(p)
+def is_prof(p):
+    m = DOC_RE.match(p.stem)
+    return bool(m) and m[1] in PROF_TYPES
+
+
+def count_docs(d, prof=True):
+    return sum(1 for p in d.rglob("*") if p.is_file() and visible(p) and (prof or not is_prof(p))
                and not any(part.startswith(".") for part in p.relative_to(d).parts))
+
+
+def ndocs(d):
+    """Nombre de documents de `d` en HTML : compte élève, et compte prof s'il diffère
+    (le CSS n'affiche que celui du mode courant)."""
+    a, b = count_docs(d, prof=False), count_docs(d)
+    return str(a) if a == b else f'<span class="eleve">{a}</span><span class="prof">{b}</span>'
 
 
 def rel(from_dir, to):
@@ -223,8 +242,33 @@ def rename_all():
 # ---------------------------------------------------------------------------
 # Progressions : recompilation PDF si le .tex (ou progtable.sty) a changé
 
+PDFLATEX = shutil.which("pdflatex")
+# Date figée : même .tex => PDF identique à l'octet près, donc pas de faux changement git
+# si une recompilation se déclenche pour rien (mtime après un pull).
+TEX_ENV = {**os.environ, "SOURCE_DATE_EPOCH": "1767225600", "FORCE_SOURCE_DATE": "1"}
+
+
+def pdflatex(tex, job=None, pre="", passes=2):
+    """Compile `tex` dans son dossier (`job` : nom du PDF produit, `pre` : code TeX lu avant
+    le fichier), puis supprime nommément les .aux/.log/.out. Renvoie True si tout va bien."""
+    job = job or tex.stem
+    cmd = [PDFLATEX, "-interaction=nonstopmode", "-halt-on-error", f"-jobname={job}",
+           f"{pre}\\input{{{tex.name}}}" if pre else tex.name]
+    for _ in range(passes):
+        r = subprocess.run(cmd, cwd=tex.parent, capture_output=True, text=True, errors="replace",
+                           env=TEX_ENV)
+        if r.returncode:
+            break
+    if r.returncode:
+        errors = [l for l in r.stdout.splitlines() if l.startswith("!")]
+        print(f"Échec de compilation de {tex.relative_to(ROOT)} ({job}) : "
+              f"{' / '.join(errors[:3]) or 'voir pdflatex'}")
+    for ext in (".aux", ".log", ".out"):  # nommément, pas de joker
+        (tex.parent / f"{job}{ext}").unlink(missing_ok=True)
+    return r.returncode == 0
+
+
 def compile_progressions():
-    pdflatex = shutil.which("pdflatex")
     sty = PROG_DIR / "progtable.sty"
     for tex_name in PROG_FILES.values():
         tex = PROG_DIR / tex_name
@@ -234,26 +278,39 @@ def compile_progressions():
         newest = max(tex.stat().st_mtime, sty.stat().st_mtime if sty.is_file() else 0)
         if pdf.exists() and pdf.stat().st_mtime >= newest:
             continue
-        if not pdflatex:
+        if not PDFLATEX:
             print(f"pdflatex introuvable : {tex_name} non compilé")
             return
-        # Date figée : même .tex => PDF identique à l'octet près, donc pas de faux
-        # changement git si une recompilation se déclenche pour rien (mtime après un pull).
-        env = {**os.environ, "SOURCE_DATE_EPOCH": "1767225600", "FORCE_SOURCE_DATE": "1"}
         # 2 passes : longtable a besoin de la 1re pour caler ses largeurs de colonnes.
-        for _ in range(2):
-            r = subprocess.run([pdflatex, "-interaction=nonstopmode", "-halt-on-error", tex_name],
-                               cwd=PROG_DIR, capture_output=True, text=True, errors="replace",
-                               env=env)
-            if r.returncode:
-                break
-        if r.returncode:
-            errors = [l for l in r.stdout.splitlines() if l.startswith("!")]
-            print(f"Échec de compilation de {tex_name} : {' / '.join(errors[:3]) or 'voir pdflatex'}")
-        else:
+        if pdflatex(tex):
             print(f"Compilé : Progressions/{pdf.name}")
-        for ext in (".aux", ".log", ".out"):  # nommément, pas de joker
-            tex.with_suffix(ext).unlink(missing_ok=True)
+
+
+def corr_of(p):
+    """Corrigé associé à un sujet : Ex-6C04-01-Nom.pdf -> Corr-6C04-01-Nom.pdf."""
+    return p.with_name("Corr-" + p.name.split("-", 1)[1])
+
+
+def compile_corriges():
+    """Sources à corrigé (\\ifcorrige) : le sujet, puis le corrigé Corr-….pdf compilé avec
+    \\aveccorrige défini. Seulement si le .tex est plus récent que l'un des deux PDF."""
+    for lvl in LEVELS:
+        if not (ROOT / lvl).is_dir():
+            continue
+        for tex in sorted((ROOT / lvl).rglob("*.tex")):
+            m = DOC_RE.match(tex.stem)
+            if not m or m[1] not in ("Ex", "Act", "DS") or "\\ifcorrige" not in tex.read_text("utf-8", "replace"):
+                continue
+            corr = corr_of(tex.with_suffix(".pdf"))
+            todo = [(job, pre) for job, pre in ((tex.stem, ""), (corr.stem, "\\def\\aveccorrige{}"))
+                    if not (tex.parent / f"{job}.pdf").exists()
+                    or (tex.parent / f"{job}.pdf").stat().st_mtime < tex.stat().st_mtime]
+            if todo and not PDFLATEX:
+                print(f"pdflatex introuvable : {tex.name} non compilé")
+                return
+            for job, pre in todo:
+                if pdflatex(tex, job, pre):
+                    print(f"Compilé : {(tex.parent / job).relative_to(ROOT)}.pdf")
 
 
 # ---------------------------------------------------------------------------
@@ -442,6 +499,22 @@ h3 .i32{margin-right:6px}
 .vac .i16{margin:0 6px 0 0}
 .seq.upcoming .meta .i16{opacity:.8}
 .hide{display:none!important}
+/* mode prof : documents prof (Seq, Prep, DS, Corr) masqués sinon ; fond rosé + bandeau pour savoir où on en est */
+html:not(.prof) .prof,html.prof .eleve{display:none!important}
+html.prof body{background:#ffe4e4}
+html.prof details.seq>summary,html.prof .seq.upcoming,html.prof .progtab th,html.prof .progtab tr.vacrow td{background:#f4d0d0}
+.doc.corr{padding-left:38px}.doc.corr .id{width:1.6em}.doc.corr .name{color:var(--t-ds)}
+#profbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:center;gap:12px;
+padding:3px 8px;background:#c00000;color:#fff;font:bold 13px "Courier New",Courier,monospace}
+#profbar button,#login button{font:13px Arial,Helvetica,sans-serif;padding:2px 10px;border:2px outset #ddd;background:#e0e0e0;color:#000;cursor:pointer}
+#profbar button:active,#login button:active{border-style:inset}
+#login{padding:0;border:2px outset #ddd;background:#e0e0e0;color:#000;font:13px Arial,Helvetica,sans-serif;width:300px}
+#login::backdrop{background:rgba(0,0,0,.25)}
+#login .tb{background:#000080;color:#fff;font-weight:bold;padding:3px 6px}
+#login form{padding:10px;display:grid;gap:8px}
+#login input{font:14px "Courier New",Courier,monospace;padding:3px 6px;border:2px inset #ccc;background:#fff}
+#login .err{color:#c00000;min-height:1em;margin:0}
+#login .bt{display:flex;justify-content:flex-end;gap:8px}
 #pv{position:fixed;z-index:20;width:240px;pointer-events:none;background:#fff;border:1px solid #000;
 box-shadow:4px 4px 0 #000;opacity:0}
 #pv.on{opacity:1}
@@ -450,7 +523,7 @@ footer{color:var(--mut);font-size:13px;padding:10px 0 24px;border-top:1px solid 
 @media print{@page{margin:12mm}
 *{color:#000!important;background:none!important;box-shadow:none!important}
 body{font-size:11pt}main{padding:0}.wrap,.wrap.wide{max-width:none;padding:0}a{text-decoration:none}
-header.top,.tools,.chev,.lnk,.godocs,#pv,.i,footer a,.card .ext{display:none!important}
+header.top,.tools,.chev,.lnk,.godocs,#pv,.i,footer a,.card .ext,#profbar{display:none!important}
 main::before{content:attr(data-url);display:block;font:9pt "Courier New",Courier,monospace;margin-bottom:6pt}
 .tablewrap{overflow:visible}table.progtab{min-width:0}
 details.seq>summary{border-bottom:1px solid #000}details.seq>summary .meta{display:none}
@@ -526,9 +599,9 @@ if(target&&target.matches('details.seq')){target.open=true;target.scrollIntoView
 const norm=s=>s.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 q.addEventListener('input',()=>{const v=norm(q.value.trim());
  seqs.forEach(d=>{let any=false;const title=norm(d.querySelector('summary').textContent);
-  d.querySelectorAll('.doc').forEach(r=>{const hit=!v||title.includes(v)||norm(r.textContent).includes(v);
+  d.querySelectorAll(document.documentElement.classList.contains('prof')?'.doc':'.doc:not(.prof)').forEach(r=>{const hit=!v||title.includes(v)||norm(r.textContent).includes(v);
    r.classList.toggle('hide',!hit);any=any||hit});
-  d.querySelectorAll('.grp').forEach(g=>g.classList.toggle('hide',!g.querySelector('.doc:not(.hide)')));
+  d.querySelectorAll('.grp').forEach(g=>g.classList.toggle('hide',!g.querySelector('.doc:not(.hide)')&&!g.matches('.prof')));
   d.classList.toggle('hide',!any);if(v)d.open=any;});
  document.querySelectorAll('.vac,.seq.upcoming').forEach(x=>x.classList.toggle('hide',!!v));
  document.querySelectorAll('section.arch').forEach(a=>a.classList.toggle('hide',!a.querySelector('details.seq:not(.hide)')));
@@ -539,6 +612,58 @@ addEventListener('keydown',ev=>{if(ev.key==='/'&&document.activeElement!==q){ev.
  if(ev.key==='Escape'){q.value='';q.dispatchEvent(new Event('input'));q.blur()}});
 })();
 """
+
+
+# Dans <head>, avant tout affichage (pas de clignotement) : html.prof si le mode prof n'a pas expiré.
+PROF_HEAD_JS = f"""
+(()=>{{const k='{PROF_KEY}',h=document.documentElement;
+const on=()=>{{try{{const u=+localStorage.getItem(k);if(u>Date.now())return true;if(u)localStorage.removeItem(k)}}catch(_){{}}return false}};
+h.classList.toggle('prof',on());
+addEventListener('storage',ev=>{{if(ev.key===k||ev.key===null)h.classList.toggle('prof',on())}});
+setInterval(()=>h.classList.toggle('prof',on()),60000);
+}})();
+"""
+
+# « Quitter » : coupe aussi le sudo du terminal (même mot de passe, même mode).
+PROF_BAR_JS = f"""
+document.getElementById('profquit').addEventListener('click',()=>{{try{{localStorage.removeItem('{PROF_KEY}');
+ const t=JSON.parse(localStorage.getItem('termjs')||'{{}}');t.sudoUntil=0;t.root=false;localStorage.setItem('termjs',JSON.stringify(t))}}catch(_){{}}
+ document.documentElement.classList.remove('prof')}});
+"""
+
+
+def sudo_secret():
+    """Sel et empreinte du mot de passe sudo du terminal (term/js/config.js, écrit par term/passwd.py)."""
+    txt = TERM_CONFIG.read_text("utf-8") if TERM_CONFIG.is_file() else ""
+    get = lambda k: (m[1] if (m := re.search(rf'{k}\s*=\s*"([0-9a-f]*)"', txt)) else "")
+    return get("SUDO_SALT"), get("SUDO_HASH")
+
+
+def login_js():
+    """Clic sur la calculatrice de l'accueil : mot de passe -> mode prof pour PROF_HOURS heures ;
+    en mode prof, le clic le coupe. Vérification : SHA-256(sel + mot de passe), comme sudo."""
+    salt, digest = sudo_secret()
+    return f"""
+(()=>{{const c=document.querySelector('.brand .calc'),dlg=document.getElementById('login');if(!c||!dlg)return;
+const pw=dlg.querySelector('input'),err=dlg.querySelector('.err'),h=document.documentElement;
+const hex=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))]
+ .map(b=>b.toString(16).padStart(2,'0')).join('');
+c.addEventListener('click',()=>{{if(h.classList.contains('prof')){{document.getElementById('profquit').click();return}}
+ pw.value='';err.textContent='';dlg.showModal()}});
+dlg.querySelector('.no').addEventListener('click',()=>dlg.close());
+dlg.querySelector('form').addEventListener('submit',async ev=>{{ev.preventDefault();
+ if(!crypto.subtle){{err.textContent='Navigateur trop ancien (ou page non HTTPS).';return}}
+ if(await hex('{salt}'+pw.value)!=='{digest}'){{err.textContent='Mot de passe incorrect.';pw.select();return}}
+ try{{localStorage.setItem('{PROF_KEY}',String(Date.now()+{PROF_HOURS}*3600e3))}}catch(_){{}}
+ h.classList.add('prof');dlg.close()}});
+}})();
+"""
+
+
+LOGIN_HTML = ('<dialog id="login"><div class="tb">Mode professeur</div><form>'
+              '<label for="pw">Mot de passe :</label><input id="pw" type="password" autocomplete="current-password">'
+              '<p class="err"></p><div class="bt"><button type="submit">OK</button>'
+              '<button type="button" class="no">Annuler</button></div></form></dialog>')
 
 
 def bust(p):
@@ -573,8 +698,10 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 <title>{e(title)}</title>
 {f'<base href="{base}">' if base else ""}{favicon}
 <style>{CSS}</style>
+<script>{PROF_HEAD_JS}</script>
 </head>
 <body>
+<div id="profbar" class="prof">MODE PROF · évaluations et corrigés visibles <button id="profquit" type="button">Quitter</button></div>
 {top}<main><div class="wrap{" wide" if wide else ""}">
 {body}
 </div></main>
@@ -582,7 +709,7 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 <a href="{LICENSE_URL}" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
 · <a href="{rel(d, CREDITS_DIR)}/index.html">crédits &amp; liens</a>{f" · mis à jour le {up}" if (up := updated(d)) else ""}
 </div></footer>
-<script>{PREVIEW_JS}{PRINT_JS}{JS if script else ""}{extra_js}</script>
+<script>{PROF_BAR_JS}{PREVIEW_JS}{PRINT_JS}{JS if script else ""}{extra_js}</script>
 </body>
 </html>
 """
@@ -611,12 +738,22 @@ def ext_meta(p):
 # ---------------------------------------------------------------------------
 # Rendu des documents d'une séquence
 
+def doc_row(d, f, item, name, cls=""):
+    return (f'<a class="doc{cls}" href="{rel(d, f)}" target="_blank" rel="noopener" title="{e(f.name)}"{thumb_attr(d, f)}>'
+            f'<span class="id mono">{e(item)}</span><span class="name">{e(name)}</span>'
+            f'<span class="meta mono">{e(ext_meta(f))}</span></a>')
+
+
 def doc_rows(d, files):
+    """Documents groupés par type ; chaque corrigé (mode prof) juste sous son sujet."""
     groups = {k: [] for k, _ in TYPES}
     groups["res"] = []
+    corrs = {}
     for f in files:
         m = DOC_RE.match(f.stem)
-        if m:
+        if m and m[1] == "Corr":
+            corrs[f.name.split("-", 1)[1]] = f
+        elif m:
             kind, _lvl, _chap, item, name = m.groups()
             groups[kind].append((item or "", pretty(name) or kind, f))
         else:
@@ -628,11 +765,15 @@ def doc_rows(d, files):
         cls = "c-" + kind.lower()
         rows = []
         for item, name, f in sorted(groups[kind], key=lambda x: (x[0].zfill(4), x[1])):
-            rows.append(
-                f'<a class="doc" href="{rel(d, f)}" target="_blank" rel="noopener" title="{e(f.name)}"{thumb_attr(d, f)}>'
-                f'<span class="id mono">{e(item)}</span><span class="name">{e(name)}</span>'
-                f'<span class="meta mono">{e(ext_meta(f))}</span></a>')
-        out.append(f'<div class="grp"><h3 class="{cls}">{icon(d, kind.lower())}{title}</h3>{"".join(rows)}</div>')
+            rows.append(doc_row(d, f, item, name, " prof" if kind in PROF_TYPES else ""))
+            if kind in ("Ex", "Act", "DS") and (c := corrs.pop(f.name.split("-", 1)[1], None)):
+                rows.append(doc_row(d, c, "↳", "Corrigé", " corr prof"))
+        prof = " prof" if kind in PROF_TYPES else ""
+        out.append(f'<div class="grp{prof}"><h3 class="{cls}">{icon(d, kind.lower())}{title}</h3>{"".join(rows)}</div>')
+    if corrs:  # corrigé sans sujet (sujet pas encore déposé)
+        rows = [doc_row(d, c, (m := DOC_RE.match(c.stem))[4] or "", pretty(m[5]) or "Corrigé", " prof")
+                for c in sorted(corrs.values())]
+        out.append(f'<div class="grp prof"><h3 class="c-ds">{icon(d, "ds")}Corrigés</h3>{"".join(rows)}</div>')
     return "".join(out)
 
 
@@ -640,7 +781,7 @@ def subdir_rows(d, dirs):
     return "".join(
         f'<a class="doc" href="{rel(d, s)}/index.html">'
         f'<span class="id">{icon(d, "dossier", 16)}</span><span class="name">{e(label(s))}/</span>'
-        f'<span class="meta">{count_docs(s)} fichiers</span></a>' for s in dirs)
+        f'<span class="meta">{ndocs(s)} fichiers</span></a>' for s in dirs)
 
 
 def skills_block(prog, open_=False):
@@ -671,7 +812,7 @@ def seq_block(level_dir, s, archive=False, prog=None, open_=False):
     inner += doc_rows(level_dir, files)
     if dirs:
         inner += f'<div class="grp"><h3 class="c-res">{icon(level_dir, "dossier")}Dossiers</h3>{subdir_rows(level_dir, dirs)}</div>'
-    n = count_docs(s)
+    n = ndocs(s)
     link = ('<a class="lnk mono" href="./index.html" title="Copier l\'adresse de cette page">#</a>'
             if level_dir == s else
             f'<a class="lnk mono" href="{rel(level_dir, s)}/index.html" target="_blank" rel="noopener" '
@@ -725,7 +866,7 @@ def build_level(d):
     prog_btn = (f'<a class="btn" href="{rel(d, prog_html.with_suffix(".html"))}" target="_blank" '
                 f'rel="noopener">{icon(d, "progressions", 16)}Progression ↗</a>' if rows else "")
     loose = f'<h2>Autres fichiers</h2><div class="list">{file_rows(d, files)}</div>' if files else ""
-    body = (f'<h1>{dir_icon(d, d)}{e(label(d))}</h1><p class="sub">{len(seqs)} séquences · {count_docs(d)} documents</p>'
+    body = (f'<h1>{dir_icon(d, d)}{e(label(d))}</h1><p class="sub">{len(seqs)} séquences · {ndocs(d)} documents</p>'
             f'<div class="tools"><input id="q" type="search" placeholder="Rechercher un document…  ( / )" autocomplete="off">'
             f'<button id="all" type="button">Tout déplier</button>{prog_btn}</div>'
             + "".join(blocks) + arch + loose)
@@ -746,15 +887,15 @@ def build_seq(d, level):
     prog = next((r for r in load_progression(level) if r.get("id", "")[-2:] == num), None)
     archive = d.parent.name == "_Archive"
     title = prog["titre"] if prog else pretty(SEQ_RE.match(d.name)[2])
-    sub = f"{LEVELS[level]} · séquence {num}{' (archive)' if archive else ''} · {count_docs(d)} documents"
-    body = (f'<h1>{icon(d, "dossier-ouvert")}{e(title)}</h1><p class="sub">{e(sub)}</p>'
+    sub = f"{LEVELS[level]} · séquence {num}{' (archive)' if archive else ''}"
+    body = (f'<h1>{icon(d, "dossier-ouvert")}{e(title)}</h1><p class="sub">{e(sub)} · {ndocs(d)} documents</p>'
             + seq_block(d, d, archive=archive, prog=prog, open_=True))
     return page(d, f"{title} — {LEVELS[level]} — {SITE_TITLE}", body, extra_js=LINK_JS)
 
 
 def file_rows(d, files):
     return "".join(
-        f'<a class="row" href="{rel(d, f)}" target="_blank" rel="noopener"{thumb_attr(d, f)}>'
+        f'<a class="row{" prof" if is_prof(f) else ""}" href="{rel(d, f)}" target="_blank" rel="noopener"{thumb_attr(d, f)}>'
         f'<span class="ico">{icon(d, FILE_ICONS.get(f.suffix.lower(), "res"), 16)}</span>'
         f'<span class="name">{e(f.name)}</span>'
         f'<span class="meta sz mono">{e(ext_meta(f))}</span></a>' for f in files)
@@ -764,7 +905,7 @@ def build_generic(d):
     dirs, files = listdir(d)
     rows = "".join(
         f'<a class="row" href="{rel(d, s)}/index.html"><span class="ico">{icon(d, "dossier", 16)}</span>'
-        f'<span class="name">{e(label(s))}/</span><span class="meta mono">{count_docs(s)} fichiers</span></a>'
+        f'<span class="name">{e(label(s))}/</span><span class="meta mono">{ndocs(s)} fichiers</span></a>'
         for s in dirs) + file_rows(d, files)
     body = (f'<h1>{dir_icon(d, d) if d.name in SECTION_ICONS else icon(d, "dossier-ouvert")}{e(label(d))}</h1><p class="sub">{len(dirs)} dossiers · {len(files)} fichiers</p>'
             f'<div class="list">{rows or "<div class=row><span class=name>Dossier vide</span></div>"}</div>')
@@ -804,7 +945,7 @@ def build_prog_page(tex):
             note = " · archivé" if num not in folders else ""
             title = (f'<a href="{rel(PROG_DIR, folder)}/index.html" target="_blank" '
                      f'rel="noopener" title="Page de la séquence">{e(r["titre"])} <span class="ext">↗</span></a>'
-                     f'<div class="cnt mono">{count_docs(folder)} docs{note}</div>')
+                     f'<div class="cnt mono">{ndocs(folder)} docs{note}</div>')
         else:
             soon = "non traité" if int(num) >= 90 else "à venir"
             title = f'{e(r["titre"])}<div class="cnt soon">{soon}</div>'
@@ -909,6 +1050,8 @@ def recent_files(n=8):
         return []
     seen, res, date = set(), [], ""
     for line in out.splitlines():
+        if sum(not is_prof(p) for _, p in res) >= n:
+            break
         if line.startswith("@"):
             date = line[1:]
         elif line:
@@ -917,7 +1060,7 @@ def recent_files(n=8):
                     and p.relative_to(ROOT).parts[0] in LEVELS:
                 seen.add(p)
                 res.append((date, p))
-    return res[:n]
+    return res
 
 
 def build_404():
@@ -982,7 +1125,7 @@ def build_term_fs():
     if not (ROOT / "term").is_dir():
         return
     data = {"title": SITE_TITLE, "author": AUTHOR, "school": SCHOOL, "year": school_year(),
-            "hidden": sorted(HIDDEN_EXT), "tree": term_tree(ROOT)}
+            "hidden": sorted(HIDDEN_EXT), "prof": [f"{t}-" for t in PROF_TYPES], "tree": term_tree(ROOT)}
     (ROOT / "term" / "fs.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), "utf-8")
 
 
@@ -1001,12 +1144,12 @@ def build_home():
         sub_dirs, _ = listdir(s)
         if s.name in LEVELS:
             nseq = len([x for x in sub_dirs if SEQ_RE.match(x.name)])
-            desc = f"{nseq} séquences · {count_docs(s)} documents"
+            desc = f"{nseq} séquences · {ndocs(s)} documents"
         else:
-            desc = BLURBS.get(s.name, f"{count_docs(s)} fichiers")
+            desc = e(BLURBS.get(s.name, "")) or f"{ndocs(s)} fichiers"
         cards.append(f'<a class="card" href="{s.name}/index.html" target="_blank" rel="noopener">'
                      f'<div class="t">{dir_icon(ROOT, s)}{e(label(s))}<span class="ext">↗</span></div>'
-                     f'<div class="d">{e(desc)}</div></a>')
+                     f'<div class="d">{desc}</div></a>')
     head = (f'<h1><img class="logo" src="{rel(ROOT, LOGO)}" alt="Mathématovitch" width="894" height="120"></h1>'
             if LOGO.is_file() else f"<h1>{e(SITE_TITLE)}</h1>")
     if LOGO.is_file() and LOGO_ICON.is_file():
@@ -1022,7 +1165,7 @@ def build_home():
             kind = m[1] if m else "res"
             name = pretty(m[5]) if m else pretty(p.stem)
             lvl = NAMES.get(p.relative_to(ROOT).parts[0], "")
-            rows.append(f'<a class="row" href="{rel(ROOT, p)}" target="_blank" rel="noopener"{thumb_attr(ROOT, p)}>'
+            rows.append(f'<a class="row{" prof" if is_prof(p) else ""}" href="{rel(ROOT, p)}" target="_blank" rel="noopener"{thumb_attr(ROOT, p)}>'
                         f'<span class="pill c-{kind.lower()}">{e(kind)}</span>'
                         f'<span class="name">{e(name)}</span>'
                         f'<span class="meta">{e(lvl)} · {e(label(p.parent))}</span>'
@@ -1030,12 +1173,13 @@ def build_home():
         rec = f'<h2>{icon(ROOT, "recent")}Récemment ajoutés</h2><div class="list">{"".join(rows)}</div>'
     body = (f'{head}<p class="sub">Cours de {e(AUTHOR)} · {e(SCHOOL)} · année {school_year()}</p>'
             f'<h2>{icon(ROOT, "dossier")}Sections</h2><div class="cards">{"".join(cards)}</div>{rec}')
-    return page(ROOT, SITE_TITLE, body)
+    return page(ROOT, SITE_TITLE, body + LOGIN_HTML, extra_js=login_js())
 
 
 def main():
     ensure_archives()
     compile_progressions()
+    compile_corriges()
     print(f"{delete_junk()} fichiers temporaires LaTeX supprimés")
     rename_all()
     build_thumbs()
@@ -1046,6 +1190,8 @@ def main():
     CREDITS_DIR.mkdir(exist_ok=True)
     (CREDITS_DIR / "index.html").write_text(build_credits(), "utf-8")
     build_term_fs()
+    # Pages a beau masquer les documents prof, les moteurs suivraient quand même les liens.
+    (ROOT / "robots.txt").write_text("User-agent: *\n" + "".join(f"Disallow: /*/{t}-\n" for t in PROF_TYPES), "utf-8")
     (ROOT / ".nojekyll").touch()  # sinon GitHub Pages (Jekyll) ne publie pas les dossiers _Archive
     n += 1
     for dirpath, dirnames, _ in os.walk(ROOT):

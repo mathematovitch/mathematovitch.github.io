@@ -1,5 +1,5 @@
 // État du shell, sauvegardé dans localStorage (dossier courant, historique, thème, sudo).
-import { HISTORY_MAX } from "./config.js";
+import { HISTORY_MAX, PROF_KEY, PROF_TIMEOUT } from "./config.js";
 
 const KEY = "termjs";
 
@@ -32,6 +32,15 @@ export function save() {
       root: state.root, sudoUntil: state.sudoUntil,
     }));
   } catch { /* idem */ }
+}
+
+/** Mode prof du site, partagé avec les pages (fin en ms, 0 si inactif). */
+export function profUntil() {
+  try { return +localStorage.getItem(PROF_KEY) || 0; } catch { return 0; }
+}
+export function setProf(on) {
+  try { on ? localStorage.setItem(PROF_KEY, String(Date.now() + PROF_TIMEOUT)) : localStorage.removeItem(PROF_KEY); }
+  catch { /* stockage indisponible */ }
 }
 
 /** Droits root effectifs : shell root, ou commande lancée via sudo. */

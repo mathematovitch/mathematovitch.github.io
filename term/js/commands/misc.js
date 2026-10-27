@@ -1,6 +1,6 @@
 // Shell : help, history, clear, source, builtin, alias, echo, whoami, date, theme, sudo, exit, et commandes d'écriture refusées.
 import { USER, SUDO_SALT, SUDO_HASH, SUDO_TIMEOUT } from "../config.js";
-import { state, save, isRoot } from "../state.js";
+import { state, save, isRoot, profUntil, setProf } from "../state.js";
 import { ERR } from "../fs.js";
 import { argv, execArgs } from "../shell.js";
 import { COMMANDS, ALIASES } from "./index.js";
@@ -125,9 +125,11 @@ async function sha256hex(s) {
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-/** Demande le mot de passe (3 essais, comme sudo) sauf s'il a été donné il y a moins de 15 min. */
+/** Demande le mot de passe (3 essais, comme sudo) sauf s'il a été donné il y a moins de 15 min,
+ *  ou si le mode prof du site est actif. Un mot de passe juste active aussi le mode prof du site. */
 async function authenticate(io) {
   if (state.sudoUntil > Date.now()) return true;
+  if (profUntil() > Date.now()) { state.sudoUntil = Math.min(profUntil(), Date.now() + SUDO_TIMEOUT); save(); return true; }
   if (!crypto?.subtle) { io.err("sudo: le navigateur refuse le chiffrement ici (page non HTTPS)"); return false; }
   for (let k = 0; k < 3; k++) {
     const pw = await io.ui.readPassword(`[sudo] Mot de passe de ${USER} : `);
@@ -135,6 +137,7 @@ async function authenticate(io) {
     if (await sha256hex(SUDO_SALT + pw) === SUDO_HASH) {
       state.sudoUntil = Date.now() + SUDO_TIMEOUT;
       save();
+      setProf(true);
       return true;
     }
     if (k < 2) io.err("Désolé, essayez de nouveau.");
@@ -144,18 +147,19 @@ async function authenticate(io) {
 }
 
 export const sudo = {
-  help: "mode professeur : montre aussi les sources (.tex...)",
+  help: "mode professeur : montre aussi les corrigés, évaluations et sources",
   usage: "sudo commande | sudo -s | sudo -k",
   more: ["sudo ls      une commande en root", "sudo -s      reste root jusqu'à « exit »",
-    "sudo -k      oublie le mot de passe (sinon gardé 15 min)",
+    "sudo -k      oublie le mot de passe (sinon gardé 15 min) et quitte le mode prof du site",
+    "Le mot de passe est celui du mode prof du site (clic sur la calculatrice de l'accueil).",
     "Le site est statique : sudo ne fait qu'afficher les fichiers masqués, rien n'est modifiable."],
   async run(args, io) {
     if (!args.length) { io.err(`usage: ${sudo.usage}`); return 1; }
-    if (args[0] === "-k") { state.sudoUntil = 0; state.root = false; save(); return 0; }
+    if (args[0] === "-k") { state.sudoUntil = 0; state.root = false; save(); setProf(false); return 0; }
     if (!(await authenticate(io))) return 1;
     if (["-s", "-i", "su", "bash", "sh"].includes(args[0])) {
       state.root = true; save();
-      io.out("Shell root : sources visibles. « exit » pour redevenir élève.", "dim");
+      io.out("Shell root : corrigés, évaluations et sources visibles. « exit » pour redevenir élève.", "dim");
       return 0;
     }
     const prev = state.elevated;

@@ -33,12 +33,13 @@ for name in "${sections[@]}"; do
     out="$LEGACY/$name/index.html"
     mkdir -p "$LEGACY/$name"
 
+    # Documents du mode prof (Corr, DS, Seq, Prep : PROF_TYPES de build.py) exclus.
     (cd "$name" && tree -H "/$name" \
          --noreport \
          --dirsfirst \
          -T "Cours de Maths/$name" \
          --charset utf-8 \
-         -I "index.html|*.tex|*.sty|images" \
+         -I "index.html|*.tex|*.sty|images|Corr-*|DS-*|Seq-*|Prep-*" \
          -o "../$out")
 
     # tree colle le « . » du dossier courant au préfixe : /Sixieme./x -> /Sixieme/x

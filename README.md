@@ -21,7 +21,24 @@ Site statique regroupant les cours, exercices et documents de mathématiques
 | 404 | (toute adresse inconnue) | page d'erreur aux couleurs du site |
 | Terminal | `/term/` | naviguer dans les cours avec `ls`, `cd`, `open`… (voir plus bas) |
 | Todo | `/todo/` | listes de tâches façon org-mode, synchronisées par un Gist GitHub (jeton stocké dans le navigateur) |
-| Ancien site | `/legacy/` | la version d'origine, pages `tree -H`, gardée active |
+| Ancien site | `/legacy/` | la version d'origine, pages `tree -H`, gardée active (sans les documents du mode prof) |
+
+### Mode élève / mode prof
+
+Par défaut, le site est en **mode élève** : cours, activités, exercices,
+ressources. Un clic sur la **calculatrice** de l'accueil demande le mot de
+passe (le même que le `sudo` du terminal) et passe en **mode prof** pour 2 h,
+sur toutes les pages : fond rosé, bandeau rouge « MODE PROF » avec un bouton
+« Quitter » (recliquer la calculatrice quitte aussi). S'affichent alors en
+plus les évaluations (`DS`), les plans de séquence (`Seq`), les préparations
+(`Prep`) et les **corrigés** (`Corr`), chacun juste sous son exercice, son
+activité ou son DS. Le terminal suit le même mode : un `sudo` réussi l'active,
+`sudo -k` ou « Quitter » le coupent (clé `mathematovitch-prof` du
+localStorage).
+
+**Ce n'est qu'un masquage** : le dépôt est public, un PDF reste accessible à
+qui connaît son adresse. Ça suffit pour des collégiens ; `robots.txt`
+(généré) évite que les moteurs de recherche indexent ces documents.
 
 Toutes les pages portent la licence **CC0 1.0** en pied de page (ressources
 tierces exclues, voir `/credits/`).
@@ -70,7 +87,11 @@ reste du dépôt n'est jamais modifié.
 - **Sixieme / Quatrieme** : un dossier par séquence (`S04-Angles/`…) avec les
   fiches au format `{Type}-{Niveau}C{NN}[-Item]-{Nom}.pdf`, sources `.tex`
   à côté. Types : `Cours`, `Ex`, `Act`, `DS` ; côté enseignant `Seq` (plan de
-  séquence) et `Prep` (préparation de séance), affichés en tête de séquence.
+  séquence) et `Prep` (préparation de séance), affichés en tête de séquence ;
+  `Corr` : corrigé d'un `Ex`/`Act`/`DS` de même nom (`Ex-6C04-01-Nom.pdf` ↔
+  `Corr-6C04-01-Nom.pdf`). Sujet et corrigé sont toujours deux PDF séparés.
+  Une source `.tex` à `\ifcorrige` donne le sujet ; `build.py` compile en plus
+  le corrigé (`\aveccorrige` défini) dès que le `.tex` change.
   Figures sources dans `images/`, anciens documents dans `_Archive/`.
 - **Utils** : grilles de multiplication à imprimer, suivi des corrections,
   dossier DNL en anglais.
@@ -183,7 +204,8 @@ sans récursion : `builtin cd` court-circuite la fonction `cd`.
 ### Mode sudo
 
 Les fichiers masqués sur le site (`.tex`, `.sty`, `.py`, `.sh`, `.md`… :
-`HIDDEN_EXT` de `tools/build.py`) sont invisibles pour l'élève (`Permission
+`HIDDEN_EXT` de `tools/build.py`) et les documents du mode prof (`Corr-`,
+`DS-`, `Seq-`, `Prep-`) sont invisibles pour l'élève (`Permission
 non accordée`). `sudo` (mot de passe vérifié par SHA-256 salé, gardé 15 min
 comme le vrai sudo, 3 essais) les rend visibles : `sudo -s` puis
 `grep -ri "angle nul" .` cherche dans les sources LaTeX.
@@ -238,10 +260,6 @@ séquence, etc.
 
 - [ ] **1.1 QR code par séquence**, généré au build, affiché sur la page de la
   séquence et imprimable (à coller dans le cahier).
-- [ ] **1.2 Corrigés en ligne** — *à réfléchir* : publier les corrigés
-  (`\corrigetrue`) sans les donner à tout le monde. Piste : PDF chiffrés
-  en **PGP** (clé distribuée aux élèves/collègues concernés) plutôt qu'un
-  simple mot de passe PDF, trop facile à casser.
 
 ### 2. Contenu de cours (`Progressions/`, niveaux)
 
@@ -273,6 +291,7 @@ séquence, etc.
 - [x] Une page par séquence (`/Sixieme/S04-Angles/`) : son bloc seul, déplié, compétences comprises ; le `#` de chaque séquence ouvre sa page et copie son adresse ; les progressions y renvoient
 - [x] Mode impression (toutes les pages) : noir et blanc, tout déplié, adresse de la page et noms de fichiers
 - [x] Pied de page « mis à jour le … » (date git du dernier commit touchant le contenu)
+- [x] Mode élève / mode prof (calculatrice de l'accueil, mot de passe du sudo) : DS, Seq, Prep et corrigés réservés au prof, corrigés séparés des sujets et affichés sous eux
 - [x] `build.sh` vérifie la nomenclature (`check_nomenclature.py`) et les liens cassés (`check_links.py`), en avertissement seulement
 
 **Terminal**

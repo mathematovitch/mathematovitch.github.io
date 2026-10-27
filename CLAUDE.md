@@ -122,7 +122,11 @@ Tous les fichiers de cours suivent le format
 - **Type** : `Cours` (leçon), `Ex` (exercice), `Act` (activité), `DS` (devoir
   surveillé/évaluation). Côté enseignant : `Seq` (plan de séquence : séances,
   documents, toutes les évaluations y compris hors papier, ex. Capytale) et
-  `Prep` (préparation de séance) ; `build.py` les affiche en tête de séquence. Anciens codes obsolètes rencontrés et convertis :
+  `Prep` (préparation de séance) ; `build.py` les affiche en tête de séquence.
+  `Corr` : corrigé d'un `Ex`/`Act`/`DS` **de même nom** (`Corr-6C04-01-Nom` ↔
+  `Ex-6C04-01-Nom`), affiché juste sous son sujet ; `check_nomenclature.py`
+  signale un `Corr` sans sujet. Sujet et corrigé sont **toujours deux PDF
+  séparés** (demande de l'utilisateur, 2026-10-27, pour imprimer). Anciens codes obsolètes rencontrés et convertis :
   `FA-` (fiche d'activité) → `Ex`, `FM-` (fiche méthode) → `Cours`.
 - **Niveau** : un seul caractère — `6`/`5`/`4`/`3` pour le collège,
   `2`/`1`/`T` pour le lycée (Seconde/Première/Terminale).
@@ -158,15 +162,20 @@ dédupliquer sans consulter l'utilisateur.
   manipulation (pliage, etc.) sont expliquées à l'oral, jamais rédigées sur la
   fiche élève. Préférer des pointillés à compléter (ex. `<`, `>`, `=`) et plus
   d'items plutôt que du texte.
-- **Fiches d'exercices** : une fiche = une compétence. Page 1 : sujet avec
-  rappel de leçon + exercice traité (exemple grisé) ; page 2 : la même feuille
-  avec les réponses en rouge (`\feuille` imprimée deux fois, `\ifcorrige`).
-  Même principe pour un diaporama de calcul mental.
+- **Fiches d'exercices** : une fiche = une compétence. Sujet avec rappel de
+  leçon + exercice traité (exemple grisé) ; corrigé = la même feuille avec les
+  réponses en rouge, dans un PDF à part. Convention des sources : `\feuille`
+  écrite une fois, corps du document
+  `\ifdefined\aveccorrige\corrigetrue\else\corrigefalse\fi \feuille` ;
+  `compile_corriges()` de `build.py` compile `Ex-….pdf` (sujet) et
+  `Corr-….pdf` (avec `\def\aveccorrige{}`) quand le `.tex` est plus récent.
+  Exception : le diaporama de calcul mental `Act-6C04-03` (sujet et corrigé
+  alternés, projeté) n'est pas découpé.
 - **Contrôles (`DS`)** : recto-verso, deux compétences par contrôle (une par
   face), 35 min, noté sur 40. En haut : en-tête avec la note, **grille de
   compétences juste dessous**, puis la consigne ; bandeau « Compétence … » en
-  tête de chaque face. Le PDF publié est le sujet seul (corrigé : passer
-  `\corrigefalse` à `\corrigetrue`). Modèle : `Sixieme/S04-Angles/DS-6C04-0[1-3]-*.tex`.
+  tête de chaque face. Même convention que les fiches : `DS-….pdf` (sujet) et
+  `Corr-….pdf` compilés par le build. Modèle : `Sixieme/S04-Angles/DS-6C04-0[1-3]-*.tex`.
 - **Grille de compétences** : Insuffisant / Fragile / Satisfaisant / Très
   satisfaisant (vocabulaire BO, jamais « Expert ») — macro `\competences` de
   `~/texmf/tex/latex/Mathdoc/mathdoc.sty`.
@@ -204,6 +213,25 @@ fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
   logique se teste sous Deno (`--location http://127.0.0.1:PORT/term/`), avec
   le serveur HTTP lancé **dans la même commande** (réseau non partagé entre
   commandes) et `--reload` (Deno met les imports HTTP en cache).
+
+## Mode élève / mode prof (2026-10-27)
+
+Par défaut mode élève. Clic sur la calculatrice de l'accueil (`.brand .calc`)
+→ boîte `<dialog>` façon W95 → SHA-256(`SUDO_SALT` + mot de passe) comparé à
+`SUDO_HASH`, lus par `sudo_secret()` dans `term/js/config.js` (une seule
+source, `term/passwd.py`). Mode prof = `localStorage["mathematovitch-prof"]`
+(fin en ms, 2 h : `PROF_KEY`/`PROF_HOURS` de `build.py`, `PROF_KEY`/
+`PROF_TIMEOUT` de `config.js`, à garder alignés). `PROF_HEAD_JS` (dans
+`<head>`) pose `html.prof` ; tout élément `.prof` est masqué sinon, `.eleve`
+masqué en mode prof (compteurs `ndocs()`). Signalé par un fond rosé et le
+bandeau `#profbar` (« Quitter », qui coupe aussi le sudo du terminal).
+`PROF_TYPES` = `Seq`, `Prep`, `DS`, `Corr` : masqués sur le site, exclus du
+legacy (`tree -I`), `Disallow` dans `robots.txt` (généré), et dans le terminal
+listés par préfixe dans `fs.json` (`prof`) et traités comme `HIDDEN_EXT`
+(visibles en sudo). `sudo` réussi ⇒ mode prof du site ; mode prof actif ⇒ sudo
+sans mot de passe ; `sudo -k` ⇒ sortie. Simple masquage (dépôt public), choix
+assumé de l'utilisateur. `passwd.py` changé ⇒ relancer `./build.sh` (le hash
+est recopié dans l'accueil).
 
 ## Design du site (`CSS` de `tools/build.py`)
 

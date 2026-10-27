@@ -6,7 +6,8 @@ Deux contrôles, stdlib-only (pas de dépendance externe) :
 1. Nomenclature : chaque fichier/dossier posé directement dans un dossier
    de séquence `S{NN}-Nom/` doit suivre le format
    `{Type}-{Niveau}C{NN}[-Item]-Nom-Descriptif[.ext]` avec
-   Type in {Seq, Prep, Cours, Ex, Act, DS}. Seuls les fichiers sont vérifiés
+   Type in {Seq, Prep, Cours, Ex, Act, DS, Corr}. Un corrigé `Corr-X` doit avoir
+   son sujet (`Ex-X`, `Act-X` ou `DS-X`) dans le même dossier. Seuls les fichiers sont vérifiés
    (les sous-dossiers `_Archive/`, `images/`, `data/`… sont libres, build.py
    les liste à part). Les fichiers cachés (préfixe `.`) et le contenu tiers
    reconnu (Sesa-*, pg_NN.pdf, Chapitre_N_-_Nom.pdf…) sont ignorés.
@@ -31,7 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 NIVEAUX = {"Sixieme": "6", "Quatrieme": "4"}
 
 SEQ_RE = re.compile(r"^S(\d{2})-")
-ITEM_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS)-([1-6T])C(\d{2})-\S+$")
+ITEM_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS|Corr)-([1-6T])C(\d{2})-\S+$")
 
 THIRD_PARTY_FILES = (
     re.compile(r"^Sesa-\d+", re.IGNORECASE),
@@ -82,7 +83,10 @@ def check_nomenclature():
                 if not im:
                     problems.append(f"{item.relative_to(ROOT)}: ne suit pas {{Type}}-{{Niveau}}C{{NN}}-Nom")
                     continue
-                _, item_niveau, item_nn = im.groups()
+                kind, item_niveau, item_nn = im.groups()
+                rest = item.name.split("-", 1)[1]
+                if kind == "Corr" and not any((seq_dir / f"{t}-{rest}").exists() for t in ("Ex", "Act", "DS")):
+                    problems.append(f"{item.relative_to(ROOT)}: corrigé sans sujet (Ex-, Act- ou DS-{rest})")
                 if item_niveau != niveau:
                     problems.append(
                         f"{item.relative_to(ROOT)}: niveau {item_niveau} attendu {niveau} (dossier {folder})"

@@ -3,7 +3,7 @@
 import { SITE } from "./config.js";
 import { state, isRoot } from "./state.js";
 
-export let META = { hidden: [], tree: {} };
+export let META = { hidden: [], prof: [], tree: {} };
 
 export async function loadFS() {
   const r = await fetch("fs.json", { cache: "no-cache" });
@@ -23,8 +23,9 @@ export const ERR = {
 export const isDir = n => n !== null && typeof n === "object";
 export const ext = name => { const i = name.lastIndexOf("."); return i > 0 ? name.slice(i).toLowerCase() : ""; };
 
-/** Fichier masqué du site (sources .tex, scripts...) : visible seulement en root. */
-export const isHidden = name => META.hidden.includes(ext(name));
+/** Fichier masqué du site (sources .tex, scripts..., et documents du mode prof : Corr-, DS-...) :
+ *  visible seulement en root. */
+export const isHidden = name => META.hidden.includes(ext(name)) || (META.prof || []).some(p => name.startsWith(p));
 export const canSee = name => isRoot() || !isHidden(name);
 
 export const TEXT_EXT = [".tex", ".sty", ".cls", ".bib", ".txt", ".md", ".org", ".html", ".htm", ".css",
