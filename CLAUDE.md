@@ -212,8 +212,9 @@ Sortis de ce dépôt (demande de l'utilisateur : dossier du site trop gros) :
   dans `CREDITS`. `check_links.py` ignore `/cv/` et `/term/` (`PROJECTS`).
 - Aperçu local : liens symboliques `term`, `cv` → `~/code/04-web/…` à la
   racine (ignorés par `.gitignore`), puis `python3 -m http.server`.
-- Ne pas recréer de dossier `term/` ou `cv/` suivi ici : il disputerait l'URL
-  au site de projet.
+- Ne pas recréer de dossier `term/`, `cv/` ou `xioran/` (site musique,
+  `mathematovitch/xioran`, sans lien avec les cours) suivi ici : il
+  disputerait l'URL au site de projet.
 
 ## Mode élève / mode prof, documents prof chiffrés (2026-10-27)
 
