@@ -222,7 +222,9 @@ fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
 `cv/index.html` écrit **à la main** (hors build, comme `term/`), thème
 [Minimal](https://github.com/mathematovitch/minimal) (fork d'orderedlist/minimal) : `cv/stylesheets/styles.css`
 copié tel quel (**CC BY-SA 3.0**, pas CC0 ; crédité dans `CREDITS` et en pied de page)
-+ ajouts en fin de fichier (sommaire `nav` à gauche, sections `<details>` dépliables).
++ ajouts en fin de fichier (sections `<details>` dépliables) ; colonne de gauche
+volontairement sobre (avatar, nom, poste, sommaire en liste `ul.sommaire`). Mail seulement en pied de
+page, non cliquable (`[at]`/`[dot]`) ; `<meta name="robots" content="noindex">`.
 Sources : `~/work/08.Autre/Inspection-2026/CV-Colin-Outerovitch.tex` (dates de
 référence) et le rapport DNL (`~/work/08.Autre/DNL/`). **Données perso : mail
 seulement** (ni téléphone, ni adresse, ni date de naissance) ; pas de mention de la

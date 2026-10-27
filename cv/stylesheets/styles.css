@@ -279,16 +279,47 @@ section h3 small {
   margin-left:6px;
 }
 
-/* Sommaire (colonne gauche) et sections dépliables (colonne droite) */
-header nav ol {
-  list-style:none;
-  padding:0;
+/* Sommaire : simple liste verticale (pas les boutons de « header ul ») */
+header ul.sommaire {
+  list-style:disc;
+  width:auto;
+  height:auto;
+  padding:0 0 0 18px;
   margin:0 0 20px;
-  font-size:13px;
+  border:0;
+  background:none;
+  border-radius:0;
 }
-header nav li {
+header ul.sommaire li {
+  float:none;
+  width:auto;
+  height:auto;
+  border:0;
   padding:2px 0;
 }
+header ul.sommaire a {
+  display:inline;
+  height:auto;
+  padding:0;
+  border:0;
+  background:none;
+  color:#267CB9;
+  font-size:14px;
+  text-align:left;
+  line-height:1.5;
+  border-radius:0;
+}
+
+@media screen and (max-width: 960px) {
+  header {
+    padding-right:0;
+  }
+  header ul.sommaire {
+    position:static;
+  }
+}
+
+/* Sections dépliables */
 section details {
   border-bottom:1px solid #e5e5e5;
   margin:0 0 20px;
