@@ -27,10 +27,11 @@ Site statique regroupant les cours, exercices et documents de mathématiques
 ### Mode élève / mode prof
 
 Par défaut, le site est en **mode élève** : cours, activités, exercices,
-ressources. Un clic sur la **calculatrice** de l'accueil demande le mot de
+ressources. Un clic sur la **calculatrice** de l'accueil, ou **`C-x C-x`**
+(Ctrl+X deux fois, comme sous Emacs) depuis n'importe quelle page, demande le mot de
 passe (le même que le `sudo` du terminal) et passe en **mode prof** pour 2 h,
 sur toutes les pages : fond rosé, bandeau rouge « MODE PROF » avec un bouton
-« Quitter » (recliquer la calculatrice quitte aussi). S'affichent alors en
+« Quitter » (recliquer la calculatrice ou refaire `C-x C-x` quitte aussi). S'affichent alors en
 plus les évaluations (`DS`), les plans de séquence (`Seq`), les préparations
 (`Prep`), les **corrigés** (`…-Corr.pdf`), chacun juste sous son exercice, son
 activité ou son DS, et les **archives**. Le terminal suit le même mode : un

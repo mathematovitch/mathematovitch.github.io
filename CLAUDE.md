@@ -265,7 +265,9 @@ l'utilisateur (le masquage seul ne lui suffisait pas) :
   `localStorage["mathematovitch-prof"]` = `{until, k}`, 2 h), `openEnc()`
   (onglet ouvert pendant le clic, puis URL `blob:` révoquée au bout d'1 min,
   demande de l'utilisateur : PC partagés), `decryptText()`, `quit()`
-  (coupe aussi le sudo du terminal). `PROF_HEAD_JS` (dans `<head>`) pose
+  (coupe aussi le sudo du terminal). Connexion : calculatrice de l'accueil ou
+  `C-x C-x` sur toute page (demande de l'utilisateur, 2026-10-27 ; bascule,
+  `LOGIN_HTML` dans chaque `page()`, second C-x seul bloqué pour garder le couper). `PROF_HEAD_JS` (dans `<head>`) pose
   `html.prof` ; `.prof` masqué sinon, `.eleve` masqué en mode prof (compteurs
   `ndocs()`). Fond rosé + bandeau `#profbar`. Archives : section `prof`, pages
   `_Archive/…` « Réservé au professeur » (`reserved()`).

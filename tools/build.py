@@ -70,7 +70,7 @@ TYPES = [("Seq", "Séquence"), ("Prep", "Préparations"), ("Cours", "Cours"),
 # Corrigé d'un Ex/Act/DS : son nom + -Corr (Ex-6C04-01-Nom-Corr.pdf, profkey.CORR), affiché sous lui.
 DOC_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
 SEQ_RE = re.compile(r"^S(\d{2})-(.+)$")
-# Mode prof (clic sur la calculatrice de l'accueil, ou sudo du terminal) : ces types et les
+# Mode prof (clic sur la calculatrice de l'accueil, C-x C-x sur toute page, ou sudo du terminal) : ces types et les
 # archives ne sont visibles qu'en mode prof, et publiés seulement chiffrés (X.enc, tools/profkey.py),
 # déchiffrés dans le navigateur par assets/prof.js.
 PROF_TYPES = profkey.PROF_TYPES
@@ -788,6 +788,7 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 <a href="{LICENSE_URL}" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
 · <a href="{rel(d, CREDITS_DIR)}/index.html">crédits &amp; liens</a>{f" · mis à jour le {up}" if (up := updated(d)) else ""}
 </div></footer>
+{LOGIN_HTML}
 <script>{PREVIEW_JS}{PRINT_JS}{JS if script else ""}{extra_js}</script>
 <script type="module">import {{wire}} from "{module_path(d, PROF_JS)}{bust(PROF_JS)}";wire();</script>
 </body>
@@ -1272,7 +1273,7 @@ def build_home():
         rec = f'<h2>{icon(ROOT, "recent")}Récemment ajoutés</h2><div class="list">{"".join(rows)}</div>'
     body = (f'{head}<p class="sub">Cours de <a href="{rel(ROOT, CV_DIR / "index.html")}">{e(AUTHOR)}</a> · {e(SCHOOL)} · année {school_year()}</p>'
             f'<h2>{icon(ROOT, "dossier")}Sections</h2><div class="cards">{"".join(cards)}</div>{rec}')
-    return page(ROOT, SITE_TITLE, body + LOGIN_HTML)
+    return page(ROOT, SITE_TITLE, body)
 
 
 def main():

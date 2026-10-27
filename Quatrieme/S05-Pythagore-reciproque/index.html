@@ -186,6 +186,7 @@ setInterval(()=>h.classList.toggle('prof',on()),60000);
 <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
 · <a href="../../credits/index.html">crédits &amp; liens</a> · mis à jour le 27 octobre 2026
 </div></footer>
+<dialog id="login"><div class="tb">Mode professeur</div><form><label for="pw">Mot de passe :</label><input id="pw" type="password" autocomplete="current-password"><p class="err"></p><div class="bt"><button type="submit">OK</button><button type="button" class="no">Annuler</button></div></form></dialog>
 <script>
 (()=>{
 if(!matchMedia('(hover:hover)').matches)return;
@@ -220,6 +221,6 @@ document.querySelectorAll('a.lnk').forEach(a=>a.addEventListener('click',ev=>{
  const done=()=>{a.textContent='copié';setTimeout(()=>{a.textContent='#'},1400)};
  navigator.clipboard?navigator.clipboard.writeText(url).then(done,()=>{}):0}));
 </script>
-<script type="module">import {wire} from "../../assets/prof.js?v=c8da3dac";wire();</script>
+<script type="module">import {wire} from "../../assets/prof.js?v=8731a6c0";wire();</script>
 </body>
 </html>

@@ -93,7 +93,7 @@ export function quit() {
   document.documentElement.classList.remove("prof");
 }
 
-/** Pages du site : liens chiffrés, bouton « Quitter », et sur l'accueil la calculatrice. */
+/** Pages du site : liens chiffrés, bouton « Quitter », connexion (calculatrice de l'accueil, C-x C-x). */
 export function wire() {
   const h = document.documentElement;
   document.addEventListener("click", ev => {
@@ -105,12 +105,21 @@ export function wire() {
   });
   document.getElementById("profquit")?.addEventListener("click", quit);
 
-  const calc = document.querySelector(".brand .calc"), dlg = document.getElementById("login");
-  if (!calc || !dlg) return;
+  const dlg = document.getElementById("login");
+  if (!dlg) return;
   const pw = dlg.querySelector("input"), err = dlg.querySelector(".err"), ok = dlg.querySelector("[type=submit]");
-  calc.addEventListener("click", () => {
+  const toggle = () => {
     if (h.classList.contains("prof")) { quit(); return; }
     pw.value = ""; err.textContent = ""; dlg.showModal();
+  };
+  document.querySelector(".brand .calc")?.addEventListener("click", toggle);
+  // C-x C-x comme sous Emacs, depuis n'importe quelle page. Le premier C-x n'est pas bloqué
+  // (couper dans un champ de saisie reste possible), seul le second, dans la seconde qui suit.
+  let cx = 0;
+  addEventListener("keydown", ev => {
+    if (!ev.ctrlKey || ev.altKey || ev.metaKey || ev.key.toLowerCase() !== "x" || dlg.open) { cx = 0; return; }
+    if (Date.now() - cx > 1000) { cx = Date.now(); return; }
+    ev.preventDefault(); cx = 0; toggle();
   });
   dlg.querySelector(".no").addEventListener("click", () => dlg.close());
   dlg.querySelector("form").addEventListener("submit", async ev => {
