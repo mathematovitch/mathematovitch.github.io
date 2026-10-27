@@ -11,6 +11,7 @@ export const state = {
   hIndex: 0,
   status: 0,        // code de retour de la dernière commande ($?)
   theme: "vert",
+  root: false,      // shell root (chroot, su) jusqu'à « exit » ou la fin du mode prof
 };
 
 export function load() {
@@ -19,6 +20,7 @@ export function load() {
     if (Array.isArray(s.cwd)) state.cwd = s.cwd;
     if (Array.isArray(s.history)) state.history = s.history.slice(-HISTORY_MAX);
     if (typeof s.theme === "string") state.theme = s.theme;
+    state.root = s.root === true;
   } catch { /* stockage indisponible (navigation privée...) : on repart de zéro */ }
   state.hIndex = state.history.length;
 }
@@ -26,10 +28,10 @@ export function load() {
 export function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify({
-      cwd: state.cwd, history: state.history.slice(-HISTORY_MAX), theme: state.theme,
+      cwd: state.cwd, history: state.history.slice(-HISTORY_MAX), theme: state.theme, root: state.root,
     }));
   } catch { /* idem */ }
 }
 
-/** Droits root : shell root = mode prof du site actif (2 h, jusqu'à « exit » ou « Quitter »). */
-export const isRoot = () => state.elevated === true || active();
+/** Droits root : commande lancée via sudo, ou shell root (chroot) tant que le mode prof est actif. */
+export const isRoot = () => state.elevated === true || (state.root && active());

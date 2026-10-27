@@ -34,7 +34,7 @@ sur toutes les pages : fond rosé, bandeau rouge « MODE PROF » avec un bouton
 plus les évaluations (`DS`), les plans de séquence (`Seq`), les préparations
 (`Prep`), les **corrigés** (`…-Corr.pdf`), chacun juste sous son exercice, son
 activité ou son DS, et les **archives**. Le terminal suit le même mode : un
-`sudo`/`su` réussi l'active (shell root), `exit`, `sudo -k` ou « Quitter » le coupent.
+`sudo`/`chroot` réussi l'active, `sudo -k` ou « Quitter » le coupent.
 
 **Documents prof chiffrés** : le dépôt public ne contient ces documents (et
 les sources `.tex` à corrigé) que chiffrés, `X.enc` (AES-256-GCM). Le
@@ -228,7 +228,7 @@ terminal directement dans la séquence (lien à donner aux élèves).
 | `clock [-s]` | l'heure en grand pour un contrôle : plein écran, police figlet « doh » (comme `termdown -z -f doh`), « : » qui clignotent, écran sans veille ; Échap ou Ctrl+C pour quitter |
 | `echo`, `whoami`, `date`, `clear` (`c`), `theme` | divers (`theme vert\|ambre\|gris\|clair`) |
 | `alias`, `source` (`s`, `.`), `builtin` | alias de `term/aliases.sh` (ci-dessous) |
-| `sudo cmd`, `sudo -s`, `su`, `exit` | mode professeur (ci-dessous) |
+| `chroot`, `sudo cmd`, `sudo -s`, `su`, `exit` | mode professeur (ci-dessous) |
 
 Shell : guillemets `'…'` `"…"`, `\`, variables (`$PWD`, `$?`, `$HOME`,
 `$USER`, `$OLDPWD`), jokers `* ? […]`, enchaînements `|`, `;`, `&&`, `||`.
@@ -257,15 +257,15 @@ sans récursion : `builtin cd` court-circuite la fonction `cd`.
 Les fichiers masqués sur le site (`.tex`, `.sty`, `.py`, `.sh`, `.md`… :
 `HIDDEN_EXT` de `tools/build.py`), les documents du mode prof (`DS-`,
 `Seq-`, `Prep-`, `…-Corr`) et les archives sont invisibles pour l'élève
-(`Permission non accordée`). `su` (ou `sudo -s`, ou n'importe quel
-`sudo commande` ; mot de passe du mode prof, 3 essais) fait du shell un
-shell **root** : invite `root@mathematovitch#` en rouge, tout est visible
-et complété par Tab, les documents prof sont déchiffrés à la volée (`open`,
-`cat`, `grep`), sans plus jamais redemander le mot de passe ni préfixer par
-`sudo`. Le shell root **est** le mode prof du site : 2 h, actif d'emblée si
-le mode prof l'est déjà ; `exit` (ou `sudo -k`, ou « Quitter » sur le site)
-quitte les deux. Ex. : `su` puis `grep -ri "angle nul" .` cherche dans les
-sources LaTeX. Mot de passe :
+(`Permission non accordée`). Comme dans un vrai shell :
+`sudo commande` lance **une** commande en root (`sudo open DS-…`), et
+`chroot` (ou `su`, `sudo -s`) ouvre un **shell root** : invite
+`root@mathematovitch#` en rouge, tout visible et complété par Tab, documents
+prof déchiffrés à la volée (`open`, `cat`, `grep`), jusqu'à `exit`. Mot de
+passe : celui du mode prof (3 essais), pas redemandé tant que le mode prof
+du site est actif (2 h, il sert de cache) ; `sudo -k` ou « Quitter » le
+coupent. Tab complète aussi après `sudo`, avant le mot de passe. Ex. :
+`chroot` puis `grep -ri "angle nul" .` cherche dans les sources LaTeX. Mot de passe :
 `python3 tools/profkey.py passwd` (voir le mode prof, plus haut).
 
 ### Fichiers
