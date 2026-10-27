@@ -31,14 +31,27 @@ passe (le même que le `sudo` du terminal) et passe en **mode prof** pour 2 h,
 sur toutes les pages : fond rosé, bandeau rouge « MODE PROF » avec un bouton
 « Quitter » (recliquer la calculatrice quitte aussi). S'affichent alors en
 plus les évaluations (`DS`), les plans de séquence (`Seq`), les préparations
-(`Prep`) et les **corrigés** (`Corr`), chacun juste sous son exercice, son
-activité ou son DS. Le terminal suit le même mode : un `sudo` réussi l'active,
-`sudo -k` ou « Quitter » le coupent (clé `mathematovitch-prof` du
-localStorage).
+(`Prep`), les **corrigés** (`Corr`), chacun juste sous son exercice, son
+activité ou son DS, et les **archives**. Le terminal suit le même mode : un
+`sudo` réussi l'active, `sudo -k` ou « Quitter » le coupent.
 
-**Ce n'est qu'un masquage** : le dépôt est public, un PDF reste accessible à
-qui connaît son adresse. Ça suffit pour des collégiens ; `robots.txt`
-(généré) évite que les moteurs de recherche indexent ces documents.
+**Documents prof chiffrés** : le dépôt public ne contient ces documents (et
+les sources `.tex` à corrigé) que chiffrés, `X.enc` (AES-256-GCM). Le
+navigateur les déchiffre lui-même au clic, une fois le mot de passe saisi
+(`assets/prof.js`, WebCrypto) : pas de serveur, et aucune clé dans le code.
+La clé des documents est dans `assets/prof.json`, chiffrée par le mot de
+passe (PBKDF2, 600 000 itérations) : **tout repose sur le mot de passe**, à
+choisir solide. Chez soi, les fichiers restent en clair (on les édite et
+compile comme avant) : `build.sh` les chiffre et les liste dans `.gitignore`,
+et un hook `pre-commit` (`tools/hooks/`) refuse tout commit qui en contiendrait
+un en clair.
+
+```
+python3 tools/profkey.py init      # une fois : crée la clé (dev/prof.key, jamais commitée)
+python3 tools/profkey.py passwd    # changer le mot de passe (les fichiers ne changent pas)
+python3 tools/profkey.py restore   # autre ordinateur : clone + mot de passe = clé retrouvée
+git config core.hooksPath tools/hooks   # active le garde-fou, dans chaque clone
+```
 
 Toutes les pages portent la licence **CC0 1.0** en pied de page (ressources
 tierces exclues, voir `/credits/`).
@@ -204,15 +217,13 @@ sans récursion : `builtin cd` court-circuite la fonction `cd`.
 ### Mode sudo
 
 Les fichiers masqués sur le site (`.tex`, `.sty`, `.py`, `.sh`, `.md`… :
-`HIDDEN_EXT` de `tools/build.py`) et les documents du mode prof (`Corr-`,
-`DS-`, `Seq-`, `Prep-`) sont invisibles pour l'élève (`Permission
-non accordée`). `sudo` (mot de passe vérifié par SHA-256 salé, gardé 15 min
-comme le vrai sudo, 3 essais) les rend visibles : `sudo -s` puis
-`grep -ri "angle nul" .` cherche dans les sources LaTeX.
-
-**Ce n'est pas une protection** : le site est statique et public, les
-sources sont de toute façon dans le dépôt GitHub. C'est un mode d'affichage.
-Changer le mot de passe : `python3 term/passwd.py`.
+`HIDDEN_EXT` de `tools/build.py`), les documents du mode prof (`Corr-`,
+`DS-`, `Seq-`, `Prep-`) et les archives sont invisibles pour l'élève
+(`Permission non accordée`). `sudo` (mot de passe du mode prof, gardé 15 min
+comme le vrai sudo, 3 essais) les rend visibles et déchiffre les documents
+prof à la volée (`open`, `cat`, `grep`) : `sudo -s` puis
+`grep -ri "angle nul" .` cherche dans les sources LaTeX. Mot de passe :
+`python3 tools/profkey.py passwd` (voir le mode prof, plus haut).
 
 ### Fichiers
 
@@ -222,7 +233,6 @@ term/
 ├── term.css          thèmes (variables CSS), couleurs façon dircolors, mobile
 ├── fs.json           GÉNÉRÉ par tools/build.py (ne pas éditer, mais committer)
 ├── aliases.sh        alias et fonctions du shell (cd → cd && ll, s, c, pdf)
-├── passwd.py         change le mot de passe sudo
 └── js/
     ├── main.js       affichage, prompt, clavier, historique, démarrage
     ├── shell.js      parseur : guillemets, variables, jokers, | ; && ||, alias
@@ -230,7 +240,7 @@ term/
     ├── aliases.js    lecture de aliases.sh
     ├── complete.js   complétion Tab
     ├── state.js      état + sauvegarde localStorage
-    ├── config.js     hôte, utilisateur, hash sudo
+    ├── config.js     hôte, utilisateur
     └── commands/     une commande = { help, usage, more, run(args, io) }
 ```
 
@@ -291,7 +301,8 @@ séquence, etc.
 - [x] Une page par séquence (`/Sixieme/S04-Angles/`) : son bloc seul, déplié, compétences comprises ; le `#` de chaque séquence ouvre sa page et copie son adresse ; les progressions y renvoient
 - [x] Mode impression (toutes les pages) : noir et blanc, tout déplié, adresse de la page et noms de fichiers
 - [x] Pied de page « mis à jour le … » (date git du dernier commit touchant le contenu)
-- [x] Mode élève / mode prof (calculatrice de l'accueil, mot de passe du sudo) : DS, Seq, Prep et corrigés réservés au prof, corrigés séparés des sujets et affichés sous eux
+- [x] Mode élève / mode prof (calculatrice de l'accueil, mot de passe du sudo) : DS, Seq, Prep, corrigés et archives réservés au prof, corrigés séparés des sujets et affichés sous eux
+- [x] Documents prof chiffrés dans le dépôt (AES-256-GCM, clé protégée par le mot de passe), déchiffrés dans le navigateur ; historique git purgé des versions en clair
 - [x] `build.sh` vérifie la nomenclature (`check_nomenclature.py`) et les liens cassés (`check_links.py`), en avertissement seulement
 
 **Terminal**

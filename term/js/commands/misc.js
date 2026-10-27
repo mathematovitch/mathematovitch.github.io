@@ -1,6 +1,7 @@
 // Shell : help, history, clear, source, builtin, alias, echo, whoami, date, theme, sudo, exit, et commandes d'écriture refusées.
-import { USER, SUDO_SALT, SUDO_HASH, SUDO_TIMEOUT } from "../config.js";
-import { state, save, isRoot, profUntil, setProf } from "../state.js";
+import { USER, SUDO_TIMEOUT } from "../config.js";
+import { state, save, isRoot } from "../state.js";
+import { active, until, unlock, quit } from "../../../assets/prof.js";
 import { ERR } from "../fs.js";
 import { argv, execArgs } from "../shell.js";
 import { COMMANDS, ALIASES } from "./index.js";
@@ -120,24 +121,22 @@ export const theme = {
 
 // --- sudo -----------------------------------------------------------------
 
-async function sha256hex(s) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-}
-
 /** Demande le mot de passe (3 essais, comme sudo) sauf s'il a été donné il y a moins de 15 min,
- *  ou si le mode prof du site est actif. Un mot de passe juste active aussi le mode prof du site. */
+ *  ou si le mode prof du site est actif. C'est celui du mode prof : le bon mot de passe déchiffre
+ *  la clé des documents prof (assets/prof.js) et active aussi le mode prof du site. */
 async function authenticate(io) {
-  if (state.sudoUntil > Date.now()) return true;
-  if (profUntil() > Date.now()) { state.sudoUntil = Math.min(profUntil(), Date.now() + SUDO_TIMEOUT); save(); return true; }
-  if (!crypto?.subtle) { io.err("sudo: le navigateur refuse le chiffrement ici (page non HTTPS)"); return false; }
+  if (active()) {
+    if (state.sudoUntil <= Date.now()) { state.sudoUntil = Math.min(until(), Date.now() + SUDO_TIMEOUT); save(); }
+    return true;
+  }
   for (let k = 0; k < 3; k++) {
     const pw = await io.ui.readPassword(`[sudo] Mot de passe de ${USER} : `);
     if (pw === null) return false;   // Ctrl+C
-    if (await sha256hex(SUDO_SALT + pw) === SUDO_HASH) {
+    let ok;
+    try { ok = await unlock(pw); } catch (e) { io.err(`sudo: ${e.message}`); return false; }
+    if (ok) {
       state.sudoUntil = Date.now() + SUDO_TIMEOUT;
       save();
-      setProf(true);
       return true;
     }
     if (k < 2) io.err("Désolé, essayez de nouveau.");
@@ -155,7 +154,7 @@ export const sudo = {
     "Le site est statique : sudo ne fait qu'afficher les fichiers masqués, rien n'est modifiable."],
   async run(args, io) {
     if (!args.length) { io.err(`usage: ${sudo.usage}`); return 1; }
-    if (args[0] === "-k") { state.sudoUntil = 0; state.root = false; save(); setProf(false); return 0; }
+    if (args[0] === "-k") { quit(); state.sudoUntil = 0; state.root = false; save(); return 0; }
     if (!(await authenticate(io))) return 1;
     if (["-s", "-i", "su", "bash", "sh"].includes(args[0])) {
       state.root = true; save();

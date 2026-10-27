@@ -31,6 +31,9 @@ import unicodedata
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import profkey  # documents prof : règles (is_secret) et chiffrement (X.enc)
+
 ROOT = (Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent.parent).resolve()
 SITE_TITLE = "Cours de Maths"
 AUTHOR = "M. Outerovitch"
@@ -66,12 +69,12 @@ TYPES = [("Seq", "Séquence"), ("Prep", "Préparations"), ("Cours", "Cours"),
 # Corr : corrigé d'un Ex/Act/DS de même nom (Corr-6C04-01-Nom ↔ Ex-6C04-01-Nom), affiché sous lui.
 DOC_RE = re.compile(r"^(Seq|Prep|Cours|Ex|Act|DS|Corr)-([2-6T])C(\d{2})(?:-([0-9]+[a-z]?))?-?(.*)$")
 SEQ_RE = re.compile(r"^S(\d{2})-(.+)$")
-# Mode prof (clic sur la calculatrice de l'accueil, ou sudo du terminal) : ces types ne sont
-# visibles qu'en mode prof. Simple masquage (site statique, dépôt public) : suffisant pour des élèves.
-PROF_TYPES = ("Seq", "Prep", "DS", "Corr")
-PROF_KEY = "mathematovitch-prof"   # localStorage : fin du mode prof (ms), partagée avec term/
-PROF_HOURS = 2
-TERM_CONFIG = ROOT / "term" / "js" / "config.js"  # SUDO_SALT / SUDO_HASH (term/passwd.py)
+# Mode prof (clic sur la calculatrice de l'accueil, ou sudo du terminal) : ces types et les
+# archives ne sont visibles qu'en mode prof, et publiés seulement chiffrés (X.enc, tools/profkey.py),
+# déchiffrés dans le navigateur par assets/prof.js.
+PROF_TYPES = profkey.PROF_TYPES
+PROF_KEY = "mathematovitch-prof"   # localStorage : session prof, partagée avec term/ (assets/prof.js)
+PROF_JS = ASSETS / "prof.js"
 
 # Accents perdus par le nettoyage des noms de fichiers (rename_all)
 ACCENTS = {
@@ -141,6 +144,24 @@ def e(s):
     return html.escape(str(s), quote=True)
 
 
+_tex = {}
+
+
+def secret(p):
+    """Document prof en clair (profkey.is_secret) : jamais listé ni commité, seul X.enc l'est."""
+    def text():
+        k = (p, p.stat().st_mtime)
+        if k not in _tex:
+            _tex[k] = p.read_text("utf-8", "replace")
+        return _tex[k]
+    return profkey.is_secret(p.relative_to(ROOT).as_posix(), text)
+
+
+def base(p):
+    """Fichier d'origine d'un chiffré : DS-….pdf.enc -> DS-….pdf (sinon p lui-même)."""
+    return p.with_suffix("") if p.suffix == profkey.ENC else p
+
+
 def visible(p):
     if p.name.startswith(".") or p.name == "index.html":
         return False
@@ -148,7 +169,9 @@ def visible(p):
         return p.is_dir() and p.name in SECTION_ORDER
     if p.is_dir():
         return p.name not in EXCLUDE_DIRS
-    return p.suffix.lower() not in HIDDEN_EXT
+    if p.suffix != profkey.ENC and secret(p):
+        return False
+    return base(p).suffix.lower() not in HIDDEN_EXT
 
 
 def listdir(d):
@@ -159,8 +182,13 @@ def listdir(d):
 
 
 def is_prof(p):
-    m = DOC_RE.match(p.stem)
-    return bool(m) and m[1] in PROF_TYPES
+    m = DOC_RE.match(base(p).stem)
+    return "_Archive" in p.relative_to(ROOT).parts or (bool(m) and m[1] in PROF_TYPES)
+
+
+def enc_attr(f):
+    """Lien vers un chiffré : assets/prof.js intercepte le clic et ouvre le document déchiffré."""
+    return f' data-enc="{e(base(f).name)}"' if f.suffix == profkey.ENC else ""
 
 
 def count_docs(d, prof=True):
@@ -314,6 +342,82 @@ def compile_corriges():
 
 
 # ---------------------------------------------------------------------------
+# Documents prof : chiffrés (X.enc), jamais commités en clair
+
+GITIGNORE = ROOT / ".gitignore"
+GI_BEGIN = "# >>> documents prof en clair : seul X.enc est commité (généré par tools/build.py) >>>"
+GI_END = "# <<< documents prof en clair <<<"
+
+
+def encrypt_secrets():
+    """Pour chaque document prof en clair (profkey.is_secret), X.enc à jour, puis la liste des X
+    dans .gitignore. Sans clé (dev/prof.key), rien n'est chiffré : avertissement seulement.
+    Un .enc orphelin n'est supprimé que si son dossier contient des documents prof en clair
+    (sur un clone neuf, qui n'a que des .enc, on ne touche à rien)."""
+    key = profkey.load_key()
+    plain, made, todo = [], 0, 0
+    for lvl in LEVELS:
+        for p in sorted((ROOT / lvl).rglob("*")) if (ROOT / lvl).is_dir() else []:
+            if not p.is_file() or p.suffix == profkey.ENC or not secret(p):
+                continue
+            plain.append(p)
+            enc = p.with_name(p.name + profkey.ENC)
+            if enc.exists() and enc.stat().st_mtime >= p.stat().st_mtime:
+                continue
+            if not key:
+                todo += 1
+                continue
+            data = profkey.encrypt(key, p.relative_to(ROOT).as_posix(), p.read_bytes())
+            if enc.exists() and enc.read_bytes() == data:
+                os.utime(enc)  # même contenu (mtime seul changé) : pas de faux diff
+            else:
+                enc.write_bytes(data)
+                made += 1
+    dirs = {p.parent for p in plain}
+    removed, kept = 0, []
+    for lvl in LEVELS:
+        for x in sorted((ROOT / lvl).rglob("*" + profkey.ENC)) if (ROOT / lvl).is_dir() else []:
+            if base(x).exists():
+                continue
+            if x.parent in dirs:
+                x.unlink()
+                removed += 1
+            else:
+                kept.append(x)
+    write_gitignore(plain)
+    print(f"Documents prof : {len(plain)} en clair (ignorés par git), {made} chiffrés, {removed} .enc orphelins supprimés")
+    if todo:
+        print(f"  {todo} non chiffrés : pas de clé sur cette machine "
+              "(python3 tools/profkey.py init, ou restore avec le mot de passe)")
+    for x in kept:
+        print(f"  .enc sans fichier en clair, gardé : {x.relative_to(ROOT)}")
+
+
+def write_gitignore(plain):
+    """Bloc généré de .gitignore : motifs fixes (types prof, archives) et chemin exact de chaque
+    document prof en clair (les .tex à corrigé ne se reconnaissent qu'à leur contenu)."""
+    esc = lambda r: re.sub(r"([*?\[\\])", r"\\\1", r)
+    lines = []
+    for lvl in LEVELS:
+        lines += [f"/{lvl}/**/_Archive/**", f"!/{lvl}/**/_Archive/**/"]
+        lines += [f"/{lvl}/**/{t}-*" for t in PROF_TYPES]
+    lines += [f"!*{profkey.ENC}", "!index.html"]
+    # en clair présents, ou connus par leur .enc : même bloc sur un clone qui n'a que les .enc
+    names = {p.relative_to(ROOT).as_posix() for p in plain}
+    names |= {base(x).relative_to(ROOT).as_posix() for lvl in LEVELS if (ROOT / lvl).is_dir()
+              for x in (ROOT / lvl).rglob("*" + profkey.ENC)}
+    lines += sorted("/" + esc(n) for n in names)
+    block = "\n".join([GI_BEGIN, *lines, GI_END]) + "\n"
+    old = GITIGNORE.read_text("utf-8") if GITIGNORE.exists() else ""
+    if GI_BEGIN in old and GI_END in old:
+        new = old[:old.index(GI_BEGIN)] + block + old[old.index(GI_END) + len(GI_END) + 1:]
+    else:
+        new = old.rstrip("\n") + "\n\n" + block
+    if new != old:
+        GITIGNORE.write_text(new, "utf-8")
+
+
+# ---------------------------------------------------------------------------
 # Vignettes (1re page des PDF)
 
 def thumb_path(pdf):
@@ -325,7 +429,7 @@ def site_pdfs():
         d = Path(dirpath)
         dirnames[:] = [x for x in dirnames if visible(d / x)]
         for f in filenames:
-            if f.lower().endswith(".pdf") and not f.startswith("."):
+            if f.lower().endswith(".pdf") and not f.startswith(".") and not secret(d / f):
                 yield d / f
 
 
@@ -614,48 +718,14 @@ addEventListener('keydown',ev=>{if(ev.key==='/'&&document.activeElement!==q){ev.
 """
 
 
-# Dans <head>, avant tout affichage (pas de clignotement) : html.prof si le mode prof n'a pas expiré.
+# Dans <head>, avant tout affichage (pas de clignotement) : html.prof si la session prof
+# (assets/prof.js) n'a pas expiré. Le reste (liens chiffrés, « Quitter », connexion) : prof.js.
 PROF_HEAD_JS = f"""
 (()=>{{const k='{PROF_KEY}',h=document.documentElement;
-const on=()=>{{try{{const u=+localStorage.getItem(k);if(u>Date.now())return true;if(u)localStorage.removeItem(k)}}catch(_){{}}return false}};
+const on=()=>{{try{{const s=JSON.parse(localStorage.getItem(k)||'null');if(s&&s.k&&s.until>Date.now())return true}}catch(_){{}}return false}};
 h.classList.toggle('prof',on());
 addEventListener('storage',ev=>{{if(ev.key===k||ev.key===null)h.classList.toggle('prof',on())}});
 setInterval(()=>h.classList.toggle('prof',on()),60000);
-}})();
-"""
-
-# « Quitter » : coupe aussi le sudo du terminal (même mot de passe, même mode).
-PROF_BAR_JS = f"""
-document.getElementById('profquit').addEventListener('click',()=>{{try{{localStorage.removeItem('{PROF_KEY}');
- const t=JSON.parse(localStorage.getItem('termjs')||'{{}}');t.sudoUntil=0;t.root=false;localStorage.setItem('termjs',JSON.stringify(t))}}catch(_){{}}
- document.documentElement.classList.remove('prof')}});
-"""
-
-
-def sudo_secret():
-    """Sel et empreinte du mot de passe sudo du terminal (term/js/config.js, écrit par term/passwd.py)."""
-    txt = TERM_CONFIG.read_text("utf-8") if TERM_CONFIG.is_file() else ""
-    get = lambda k: (m[1] if (m := re.search(rf'{k}\s*=\s*"([0-9a-f]*)"', txt)) else "")
-    return get("SUDO_SALT"), get("SUDO_HASH")
-
-
-def login_js():
-    """Clic sur la calculatrice de l'accueil : mot de passe -> mode prof pour PROF_HOURS heures ;
-    en mode prof, le clic le coupe. Vérification : SHA-256(sel + mot de passe), comme sudo."""
-    salt, digest = sudo_secret()
-    return f"""
-(()=>{{const c=document.querySelector('.brand .calc'),dlg=document.getElementById('login');if(!c||!dlg)return;
-const pw=dlg.querySelector('input'),err=dlg.querySelector('.err'),h=document.documentElement;
-const hex=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))]
- .map(b=>b.toString(16).padStart(2,'0')).join('');
-c.addEventListener('click',()=>{{if(h.classList.contains('prof')){{document.getElementById('profquit').click();return}}
- pw.value='';err.textContent='';dlg.showModal()}});
-dlg.querySelector('.no').addEventListener('click',()=>dlg.close());
-dlg.querySelector('form').addEventListener('submit',async ev=>{{ev.preventDefault();
- if(!crypto.subtle){{err.textContent='Navigateur trop ancien (ou page non HTTPS).';return}}
- if(await hex('{salt}'+pw.value)!=='{digest}'){{err.textContent='Mot de passe incorrect.';pw.select();return}}
- try{{localStorage.setItem('{PROF_KEY}',String(Date.now()+{PROF_HOURS}*3600e3))}}catch(_){{}}
- h.classList.add('prof');dlg.close()}});
 }})();
 """
 
@@ -709,7 +779,8 @@ def page(d, title, body, script=False, here=None, extra_js="", wide=False, base=
 <a href="{LICENSE_URL}" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
 · <a href="{rel(d, CREDITS_DIR)}/index.html">crédits &amp; liens</a>{f" · mis à jour le {up}" if (up := updated(d)) else ""}
 </div></footer>
-<script>{PROF_BAR_JS}{PREVIEW_JS}{PRINT_JS}{JS if script else ""}{extra_js}</script>
+<script>{PREVIEW_JS}{PRINT_JS}{JS if script else ""}{extra_js}</script>
+<script type="module">import {{wire}} from "{rel(d, PROF_JS)}{bust(PROF_JS)}";wire();</script>
 </body>
 </html>
 """
@@ -732,14 +803,15 @@ def dir_icon(d, p, size=32):
 
 
 def ext_meta(p):
-    return f'{p.suffix[1:].upper() or "—"} · {human_size(p.stat().st_size)}'
+    return f'{base(p).suffix[1:].upper() or "—"} · {human_size(p.stat().st_size)}'
 
 
 # ---------------------------------------------------------------------------
 # Rendu des documents d'une séquence
 
 def doc_row(d, f, item, name, cls=""):
-    return (f'<a class="doc{cls}" href="{rel(d, f)}" target="_blank" rel="noopener" title="{e(f.name)}"{thumb_attr(d, f)}>'
+    return (f'<a class="doc{cls}" href="{rel(d, f)}" target="_blank" rel="noopener" title="{e(base(f).name)}"'
+            f'{thumb_attr(d, f)}{enc_attr(f)}>'
             f'<span class="id mono">{e(item)}</span><span class="name">{e(name)}</span>'
             f'<span class="meta mono">{e(ext_meta(f))}</span></a>')
 
@@ -750,14 +822,15 @@ def doc_rows(d, files):
     groups["res"] = []
     corrs = {}
     for f in files:
-        m = DOC_RE.match(f.stem)
+        b = base(f)
+        m = DOC_RE.match(b.stem)
         if m and m[1] == "Corr":
-            corrs[f.name.split("-", 1)[1]] = f
+            corrs[b.name.split("-", 1)[1]] = f
         elif m:
             kind, _lvl, _chap, item, name = m.groups()
             groups[kind].append((item or "", pretty(name) or kind, f))
         else:
-            groups["res"].append(("", pretty(f.stem), f))
+            groups["res"].append(("", pretty(b.stem), f))
     out = []
     for kind, title in [*TYPES, ("res", "Ressources")]:
         if not groups[kind]:
@@ -766,12 +839,12 @@ def doc_rows(d, files):
         rows = []
         for item, name, f in sorted(groups[kind], key=lambda x: (x[0].zfill(4), x[1])):
             rows.append(doc_row(d, f, item, name, " prof" if kind in PROF_TYPES else ""))
-            if kind in ("Ex", "Act", "DS") and (c := corrs.pop(f.name.split("-", 1)[1], None)):
+            if kind in ("Ex", "Act", "DS") and (c := corrs.pop(base(f).name.split("-", 1)[1], None)):
                 rows.append(doc_row(d, c, "↳", "Corrigé", " corr prof"))
         prof = " prof" if kind in PROF_TYPES else ""
         out.append(f'<div class="grp{prof}"><h3 class="{cls}">{icon(d, kind.lower())}{title}</h3>{"".join(rows)}</div>')
     if corrs:  # corrigé sans sujet (sujet pas encore déposé)
-        rows = [doc_row(d, c, (m := DOC_RE.match(c.stem))[4] or "", pretty(m[5]) or "Corrigé", " prof")
+        rows = [doc_row(d, c, (m := DOC_RE.match(base(c).stem))[4] or "", pretty(m[5]) or "Corrigé", " prof")
                 for c in sorted(corrs.values())]
         out.append(f'<div class="grp prof"><h3 class="c-ds">{icon(d, "ds")}Corrigés</h3>{"".join(rows)}</div>')
     return "".join(out)
@@ -858,7 +931,7 @@ def build_level(d):
     if archive.is_dir():
         adirs, _ = listdir(archive)
         if adirs:
-            arch = (f'<section class="arch"><h2>{icon(d, "archives")}Archives</h2>'
+            arch = (f'<section class="arch prof"><h2>{icon(d, "archives")}Archives</h2>'
                     + "".join(seq_block(d, s, archive=True,
                                         prog=progs.get(SEQ_RE.match(s.name)[1]) if SEQ_RE.match(s.name) else None)
                               for s in adirs) + "</section>")
@@ -890,14 +963,21 @@ def build_seq(d, level):
     sub = f"{LEVELS[level]} · séquence {num}{' (archive)' if archive else ''}"
     body = (f'<h1>{icon(d, "dossier-ouvert")}{e(title)}</h1><p class="sub">{e(sub)} · {ndocs(d)} documents</p>'
             + seq_block(d, d, archive=archive, prog=prog, open_=True))
-    return page(d, f"{title} — {LEVELS[level]} — {SITE_TITLE}", body, extra_js=LINK_JS)
+    return page(d, f"{title} — {LEVELS[level]} — {SITE_TITLE}", reserved(d, body), extra_js=LINK_JS)
+
+
+def reserved(d, body):
+    """Pages d'archives : contenu visible en mode prof seulement."""
+    if "_Archive" not in d.relative_to(ROOT).parts:
+        return body
+    return f'<p class="eleve sub">Réservé au professeur.</p><div class="prof">{body}</div>'
 
 
 def file_rows(d, files):
     return "".join(
-        f'<a class="row{" prof" if is_prof(f) else ""}" href="{rel(d, f)}" target="_blank" rel="noopener"{thumb_attr(d, f)}>'
-        f'<span class="ico">{icon(d, FILE_ICONS.get(f.suffix.lower(), "res"), 16)}</span>'
-        f'<span class="name">{e(f.name)}</span>'
+        f'<a class="row{" prof" if is_prof(f) else ""}" href="{rel(d, f)}" target="_blank" rel="noopener"'
+        f'{thumb_attr(d, f)}{enc_attr(f)}><span class="ico">{icon(d, FILE_ICONS.get(base(f).suffix.lower(), "res"), 16)}</span>'
+        f'<span class="name">{e(base(f).name)}</span>'
         f'<span class="meta sz mono">{e(ext_meta(f))}</span></a>' for f in files)
 
 
@@ -909,7 +989,7 @@ def build_generic(d):
         for s in dirs) + file_rows(d, files)
     body = (f'<h1>{dir_icon(d, d) if d.name in SECTION_ICONS else icon(d, "dossier-ouvert")}{e(label(d))}</h1><p class="sub">{len(dirs)} dossiers · {len(files)} fichiers</p>'
             f'<div class="list">{rows or "<div class=row><span class=name>Dossier vide</span></div>"}</div>')
-    return page(d, f"{label(d)} — {SITE_TITLE}", body)
+    return page(d, f"{label(d)} — {SITE_TITLE}", reserved(d, body))
 
 
 def level_of_prog(tex_name):
@@ -1048,17 +1128,19 @@ def recent_files(n=8):
                              check=True).stdout
     except (OSError, subprocess.CalledProcessError):
         return []
-    seen, res, date = set(), [], ""
+    # n documents élève, et au plus n documents prof (masqués aux élèves) intercalés
+    seen, res, date, count = set(), [], "", {False: 0, True: 0}
     for line in out.splitlines():
-        if sum(not is_prof(p) for _, p in res) >= n:
+        if count[False] >= n:
             break
         if line.startswith("@"):
             date = line[1:]
         elif line:
             p = ROOT / line
-            if p.is_file() and visible(p) and p.suffix == ".pdf" and p not in seen \
-                    and p.relative_to(ROOT).parts[0] in LEVELS:
+            if p.is_file() and visible(p) and base(p).suffix == ".pdf" and p not in seen \
+                    and p.relative_to(ROOT).parts[0] in LEVELS and count[is_prof(p)] < n:
                 seen.add(p)
+                count[is_prof(p)] += 1
                 res.append((date, p))
     return res
 
@@ -1105,7 +1187,8 @@ def build_credits():
 def term_tree(d):
     """Arborescence pour le terminal web (term/) : dossier -> dict, fichier -> taille en octets.
     Racine : sections de cours seulement. Les fichiers HIDDEN_EXT sont inclus : le terminal
-    ne les montre qu'en mode sudo."""
+    ne les montre qu'en mode sudo. Les documents prof y sont sous leur nom d'origine (X), le
+    terminal va chercher X.enc (liste « enc » de fs.json)."""
     out = {}
     for p in sorted(d.iterdir(), key=lambda p: p.name):
         if p.name.startswith(".") or p.name == "index.html" or p.is_symlink():
@@ -1115,7 +1198,9 @@ def term_tree(d):
         if p.is_dir():
             if p.name not in EXCLUDE_DIRS:
                 out[p.name] = term_tree(p)
-        else:
+        elif p.suffix == profkey.ENC:
+            out[p.name[:-len(profkey.ENC)]] = p.stat().st_size  # sous son nom d'origine
+        elif not secret(p):
             out[p.name] = p.stat().st_size
     return out
 
@@ -1125,7 +1210,10 @@ def build_term_fs():
     if not (ROOT / "term").is_dir():
         return
     data = {"title": SITE_TITLE, "author": AUTHOR, "school": SCHOOL, "year": school_year(),
-            "hidden": sorted(HIDDEN_EXT), "prof": [f"{t}-" for t in PROF_TYPES], "tree": term_tree(ROOT)}
+            "hidden": sorted(HIDDEN_EXT), "prof": [f"{t}-" for t in PROF_TYPES] + ["_Archive"],
+            "enc": sorted(base(x).relative_to(ROOT).as_posix() for lvl in LEVELS if (ROOT / lvl).is_dir()
+                          for x in (ROOT / lvl).rglob("*" + profkey.ENC)),
+            "tree": term_tree(ROOT)}
     (ROOT / "term" / "fs.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), "utf-8")
 
 
@@ -1161,11 +1249,11 @@ def build_home():
     if recent:
         rows = []
         for date, p in recent:
-            m = DOC_RE.match(p.stem)
+            m = DOC_RE.match(base(p).stem)
             kind = m[1] if m else "res"
-            name = pretty(m[5]) if m else pretty(p.stem)
+            name = pretty(m[5]) if m else pretty(base(p).stem)
             lvl = NAMES.get(p.relative_to(ROOT).parts[0], "")
-            rows.append(f'<a class="row{" prof" if is_prof(p) else ""}" href="{rel(ROOT, p)}" target="_blank" rel="noopener"{thumb_attr(ROOT, p)}>'
+            rows.append(f'<a class="row{" prof" if is_prof(p) else ""}" href="{rel(ROOT, p)}" target="_blank" rel="noopener"{thumb_attr(ROOT, p)}{enc_attr(p)}>'
                         f'<span class="pill c-{kind.lower()}">{e(kind)}</span>'
                         f'<span class="name">{e(name)}</span>'
                         f'<span class="meta">{e(lvl)} · {e(label(p.parent))}</span>'
@@ -1173,7 +1261,7 @@ def build_home():
         rec = f'<h2>{icon(ROOT, "recent")}Récemment ajoutés</h2><div class="list">{"".join(rows)}</div>'
     body = (f'{head}<p class="sub">Cours de {e(AUTHOR)} · {e(SCHOOL)} · année {school_year()}</p>'
             f'<h2>{icon(ROOT, "dossier")}Sections</h2><div class="cards">{"".join(cards)}</div>{rec}')
-    return page(ROOT, SITE_TITLE, body + LOGIN_HTML, extra_js=login_js())
+    return page(ROOT, SITE_TITLE, body + LOGIN_HTML)
 
 
 def main():
@@ -1182,6 +1270,7 @@ def main():
     compile_corriges()
     print(f"{delete_junk()} fichiers temporaires LaTeX supprimés")
     rename_all()
+    encrypt_secrets()
     build_thumbs()
     build_progressions()
     n = 0
@@ -1191,7 +1280,8 @@ def main():
     (CREDITS_DIR / "index.html").write_text(build_credits(), "utf-8")
     build_term_fs()
     # Pages a beau masquer les documents prof, les moteurs suivraient quand même les liens.
-    (ROOT / "robots.txt").write_text("User-agent: *\n" + "".join(f"Disallow: /*/{t}-\n" for t in PROF_TYPES), "utf-8")
+    (ROOT / "robots.txt").write_text("User-agent: *\n" + "".join(f"Disallow: /*/{t}-\n" for t in PROF_TYPES)
+                                     + "Disallow: /*/_Archive/\nDisallow: /*.enc$\n", "utf-8")
     (ROOT / ".nojekyll").touch()  # sinon GitHub Pages (Jekyll) ne publie pas les dossiers _Archive
     n += 1
     for dirpath, dirnames, _ in os.walk(ROOT):

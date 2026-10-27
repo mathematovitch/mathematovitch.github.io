@@ -3,3 +3,5 @@ Disallow: /*/Seq-
 Disallow: /*/Prep-
 Disallow: /*/DS-
 Disallow: /*/Corr-
+Disallow: /*/_Archive/
+Disallow: /*.enc$

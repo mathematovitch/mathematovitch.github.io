@@ -2,13 +2,16 @@
 // Un dossier est un objet { nom: enfant }, un fichier est sa taille en octets.
 import { SITE } from "./config.js";
 import { state, isRoot } from "./state.js";
+import { decryptText } from "../../assets/prof.js";
 
-export let META = { hidden: [], prof: [], tree: {} };
+export let META = { hidden: [], prof: [], enc: [], tree: {} };
+let ENC = new Set();
 
 export async function loadFS() {
   const r = await fetch("fs.json", { cache: "no-cache" });
   if (!r.ok) throw new Error(`fs.json : erreur HTTP ${r.status}`);
   META = await r.json();
+  ENC = new Set(META.enc || []);
 }
 
 // Messages d'erreur POSIX, tels que les affiche un système en français.
@@ -87,17 +90,20 @@ export function shortPath(segs) {
 }
 
 /** URL publique d'un fichier (ou de l'index d'un dossier) sur le site. */
+/** Document prof : publié seulement chiffré (X.enc), déchiffré avec la session prof (assets/prof.js). */
+export const isEnc = segs => ENC.has(segs.join("/"));
+
 export function urlOf(segs, node) {
   const path = segs.map(encodeURIComponent).join("/");
   if (isDir(node)) return `${SITE}/${path ? path + "/" : ""}index.html`;
-  return `${SITE}/${path}`;
+  return `${SITE}/${path}${isEnc(segs) ? ".enc" : ""}`;
 }
 
 const textCache = new Map();
 export async function readText(segs) {
   const url = urlOf(segs, 0);
   if (!textCache.has(url)) {
-    textCache.set(url, fetch(url).then(r => {
+    textCache.set(url, isEnc(segs) ? decryptText(url) : fetch(url).then(r => {
       if (!r.ok) throw new Error(`erreur HTTP ${r.status}`);
       return r.text();
     }).catch(e => { textCache.delete(url); throw e; }));

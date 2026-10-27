@@ -169,7 +169,7 @@ details.seq>summary{border-bottom:1px solid #000}details.seq>summary .meta{displ
 </style>
 <script>
 (()=>{const k='mathematovitch-prof',h=document.documentElement;
-const on=()=>{try{const u=+localStorage.getItem(k);if(u>Date.now())return true;if(u)localStorage.removeItem(k)}catch(_){}return false};
+const on=()=>{try{const s=JSON.parse(localStorage.getItem(k)||'null');if(s&&s.k&&s.until>Date.now())return true}catch(_){}return false};
 h.classList.toggle('prof',on());
 addEventListener('storage',ev=>{if(ev.key===k||ev.key===null)h.classList.toggle('prof',on())});
 setInterval(()=>h.classList.toggle('prof',on()),60000);
@@ -180,17 +180,13 @@ setInterval(()=>h.classList.toggle('prof',on()),60000);
 <div id="profbar" class="prof">MODE PROF · évaluations et corrigés visibles <button id="profquit" type="button">Quitter</button></div>
 <header class="top"><div class="wrap"><nav class="crumbs"><a href="../../index.html">Cours de Maths</a><span class=sep>/</span><a href="../index.html">Quatrième</a><span class=sep>/</span><span class="cur">Archives</span></nav><a class="home" href="../../index.html"><img class="i i16" src="../../assets/icons/accueil.png" alt="" width="16" height="16"> Accueil</a></div></header>
 <main><div class="wrap">
-<h1><img class="i i32" src="../../assets/icons/archives.png" alt="" width="32" height="32">Archives</h1><p class="sub">0 dossiers · 0 fichiers</p><div class="list"><div class=row><span class=name>Dossier vide</span></div></div>
+<p class="eleve sub">Réservé au professeur.</p><div class="prof"><h1><img class="i i32" src="../../assets/icons/archives.png" alt="" width="32" height="32">Archives</h1><p class="sub">0 dossiers · 0 fichiers</p><div class="list"><div class=row><span class=name>Dossier vide</span></div></div></div>
 </div></main>
 <footer><div class="wrap">
 <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
 · <a href="../../credits/index.html">crédits &amp; liens</a>
 </div></footer>
 <script>
-document.getElementById('profquit').addEventListener('click',()=>{try{localStorage.removeItem('mathematovitch-prof');
- const t=JSON.parse(localStorage.getItem('termjs')||'{}');t.sudoUntil=0;t.root=false;localStorage.setItem('termjs',JSON.stringify(t))}catch(_){}
- document.documentElement.classList.remove('prof')});
-
 (()=>{
 if(!matchMedia('(hover:hover)').matches)return;
 const pv=document.createElement('img');pv.id='pv';pv.alt='';document.body.append(pv);
@@ -216,5 +212,6 @@ addEventListener('beforeprint',()=>{shut=[...document.querySelectorAll('details:
 addEventListener('afterprint',()=>{shut.forEach(d=>d.open=false);shut=[]});
 })();
 </script>
+<script type="module">import {wire} from "../../assets/prof.js?v=a282c7d6";wire();</script>
 </body>
 </html>

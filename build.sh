@@ -39,7 +39,7 @@ for name in "${sections[@]}"; do
          --dirsfirst \
          -T "Cours de Maths/$name" \
          --charset utf-8 \
-         -I "index.html|*.tex|*.sty|images|Corr-*|DS-*|Seq-*|Prep-*" \
+         -I "index.html|*.tex|*.sty|*.enc|images|Corr-*|DS-*|Seq-*|Prep-*" \
          -o "../$out")
 
     # tree colle le « . » du dossier courant au préfixe : /Sixieme./x -> /Sixieme/x

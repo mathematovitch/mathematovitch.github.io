@@ -169,7 +169,7 @@ details.seq>summary{border-bottom:1px solid #000}details.seq>summary .meta{displ
 </style>
 <script>
 (()=>{const k='mathematovitch-prof',h=document.documentElement;
-const on=()=>{try{const u=+localStorage.getItem(k);if(u>Date.now())return true;if(u)localStorage.removeItem(k)}catch(_){}return false};
+const on=()=>{try{const s=JSON.parse(localStorage.getItem(k)||'null');if(s&&s.k&&s.until>Date.now())return true}catch(_){}return false};
 h.classList.toggle('prof',on());
 addEventListener('storage',ev=>{if(ev.key===k||ev.key===null)h.classList.toggle('prof',on())});
 setInterval(()=>h.classList.toggle('prof',on()),60000);
@@ -187,10 +187,6 @@ setInterval(()=>h.classList.toggle('prof',on()),60000);
 · <a href="../credits/index.html">crédits &amp; liens</a> · mis à jour le 24 octobre 2026
 </div></footer>
 <script>
-document.getElementById('profquit').addEventListener('click',()=>{try{localStorage.removeItem('mathematovitch-prof');
- const t=JSON.parse(localStorage.getItem('termjs')||'{}');t.sudoUntil=0;t.root=false;localStorage.setItem('termjs',JSON.stringify(t))}catch(_){}
- document.documentElement.classList.remove('prof')});
-
 (()=>{
 if(!matchMedia('(hover:hover)').matches)return;
 const pv=document.createElement('img');pv.id='pv';pv.alt='';document.body.append(pv);
@@ -226,5 +222,6 @@ addEventListener('keydown',ev=>{if(ev.key==='/'&&document.activeElement!==q){ev.
  if(ev.key==='Escape'){q.value='';q.dispatchEvent(new Event('input'));q.blur()}});
 })();
 </script>
+<script type="module">import {wire} from "../assets/prof.js?v=a282c7d6";wire();</script>
 </body>
 </html>

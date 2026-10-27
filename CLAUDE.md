@@ -28,7 +28,7 @@ d'entrée), README/CLAUDE.md. Ensuite :
 - `credits/index.html` (généré, URL `/credits/`).
 - `term/`, `todo/`, `legacy/` : URLs publiques inchangées (`/term`, `/todo`,
   `/legacy`).
-- `tools/` : `build.py`, `check_nomenclature.py` et `check_links.py` (lancés en fin de `build.sh`, avertissement seulement), `title.txt` (bandeau ASCII
+- `tools/` : `build.py`, `profkey.py` (clé du mode prof), `hooks/pre-commit`, `check_nomenclature.py` et `check_links.py` (lancés en fin de `build.sh`, avertissement seulement), `title.txt` (bandeau ASCII
   du legacy). `build.py` calcule `ROOT` depuis son propre emplacement
   (`tools/..`).
 - Non suivis (`.gitignore`) : `dev/`, et les fichiers vides que le sandbox de
@@ -205,8 +205,9 @@ fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
   pas le build). Pas d'API GitHub (quota de 60 req/h sans jeton).
 - `term/` n'est pas une section de cours : ni index généré, ni listé dans
   le site, ni dans `fs.json` (qui ne contient que les sections).
-- `sudo` : SHA-256(sel + mot de passe) dans `term/js/config.js`, changé par
-  `python3 term/passwd.py`. Cosmétique (site public), à dire si on en parle.
+- `sudo` : mot de passe du mode prof, vérifié par `unlock()` de
+  `assets/prof.js` (voir « Mode élève / mode prof ») ; `open`/`cat` déchiffrent
+  les chemins de la liste `enc` de `fs.json`.
 - Messages d'erreur au format GNU en locale française (`Aucun fichier ou
   dossier de ce type`…). Tout texte affiché passe par `textContent`.
 - Tests : Chromium ne tourne pas dans le sandbox (sockets interdits) ; la
@@ -214,24 +215,43 @@ fusionné le 2026-10-25, avec la roadmap du site). Alias dans `term/aliases.sh`
   le serveur HTTP lancé **dans la même commande** (réseau non partagé entre
   commandes) et `--reload` (Deno met les imports HTTP en cache).
 
-## Mode élève / mode prof (2026-10-27)
+## Mode élève / mode prof, documents prof chiffrés (2026-10-27)
 
-Par défaut mode élève. Clic sur la calculatrice de l'accueil (`.brand .calc`)
-→ boîte `<dialog>` façon W95 → SHA-256(`SUDO_SALT` + mot de passe) comparé à
-`SUDO_HASH`, lus par `sudo_secret()` dans `term/js/config.js` (une seule
-source, `term/passwd.py`). Mode prof = `localStorage["mathematovitch-prof"]`
-(fin en ms, 2 h : `PROF_KEY`/`PROF_HOURS` de `build.py`, `PROF_KEY`/
-`PROF_TIMEOUT` de `config.js`, à garder alignés). `PROF_HEAD_JS` (dans
-`<head>`) pose `html.prof` ; tout élément `.prof` est masqué sinon, `.eleve`
-masqué en mode prof (compteurs `ndocs()`). Signalé par un fond rosé et le
-bandeau `#profbar` (« Quitter », qui coupe aussi le sudo du terminal).
-`PROF_TYPES` = `Seq`, `Prep`, `DS`, `Corr` : masqués sur le site, exclus du
-legacy (`tree -I`), `Disallow` dans `robots.txt` (généré), et dans le terminal
-listés par préfixe dans `fs.json` (`prof`) et traités comme `HIDDEN_EXT`
-(visibles en sudo). `sudo` réussi ⇒ mode prof du site ; mode prof actif ⇒ sudo
-sans mot de passe ; `sudo -k` ⇒ sortie. Simple masquage (dépôt public), choix
-assumé de l'utilisateur. `passwd.py` changé ⇒ relancer `./build.sh` (le hash
-est recopié dans l'accueil).
+Par défaut mode élève. **Documents prof** (`profkey.is_secret()` de
+`tools/profkey.py`) : types `Seq`, `Prep`, `DS`, `Corr` (`PROF_TYPES`, toute
+extension), tout ce qui est sous un `_Archive/`, et les `.tex` contenant
+`\ifcorrige`. Ils ne sont publiés que **chiffrés** (`X.enc`), à la demande de
+l'utilisateur (le masquage seul ne lui suffisait pas) :
+
+- Clé maître K dans `dev/prof.key` (local, jamais commitée) ; `assets/prof.json`
+  (public) = K chiffrée en AES-GCM par PBKDF2-SHA256(mot de passe, 600 000).
+  `X.enc` = `MVCH1` + IV + AES-GCM(K, X), IV = HMAC(K, chemin, sha256) ⇒
+  déterministe (pas de faux diff). `python3 tools/profkey.py init|passwd|restore`
+  (interactif : à faire lancer par l'utilisateur avec `!`). Plus de
+  `SUDO_SALT`/`SUDO_HASH` ni de `term/passwd.py` (un hachage rapide public
+  aurait permis la force brute).
+- `build.py` : `encrypt_secrets()` (après `rename_all()`) chiffre ce qui a
+  changé, supprime les `.enc` orphelins seulement dans un dossier qui a des
+  documents prof en clair (clone neuf : rien), et réécrit le bloc généré de
+  `.gitignore` (motifs fixes + chemin exact de chaque document prof). Le site
+  liste `X.enc` sous le nom `X` (`base()`, `enc_attr()` → `data-enc`) ; un
+  clone sans clé se construit à l'identique. Pas de vignette pour un document
+  prof. Hook `tools/hooks/pre-commit` (`git config core.hooksPath tools/hooks`)
+  : refuse un document prof en clair dans l'index — garde-fou pour `ag`.
+- Navigateur : `assets/prof.js` (module ES, importé par chaque page via
+  `wire()` et par le terminal) : `unlock()` (session
+  `localStorage["mathematovitch-prof"]` = `{until, k}`, 2 h), `openEnc()`
+  (onglet ouvert pendant le clic, puis URL `blob:`), `decryptText()`, `quit()`
+  (coupe aussi le sudo du terminal). `PROF_HEAD_JS` (dans `<head>`) pose
+  `html.prof` ; `.prof` masqué sinon, `.eleve` masqué en mode prof (compteurs
+  `ndocs()`). Fond rosé + bandeau `#profbar`. Archives : section `prof`, pages
+  `_Archive/…` « Réservé au professeur » (`reserved()`).
+- Exclus aussi du legacy (`tree -I`), `Disallow` dans `robots.txt` ; dans le
+  terminal, préfixes `prof` de `fs.json` (dont `_Archive`) traités comme
+  `HIDDEN_EXT`. `sudo` réussi ⇒ mode prof du site, et inversement.
+- **Ne jamais committer un document prof en clair.** L'historique a été purgé
+  des versions en clair (2026-10-27, `git filter-branch`, sauvegarde
+  `dev/backup-2026-10-27.git`).
 
 ## Design du site (`CSS` de `tools/build.py`)
 

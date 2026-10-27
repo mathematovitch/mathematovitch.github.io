@@ -77,15 +77,17 @@ def check_nomenclature():
             for item in sorted(seq_dir.iterdir()):
                 if item.is_dir() or item.name.startswith(".") or item.name == "index.html":
                     continue
-                if is_third_party(item.name, item.is_dir()):
+                if is_third_party(item.name.removesuffix(".enc"), item.is_dir()):
                     continue
-                im = ITEM_RE.match(item.name)
+                name = item.name.removesuffix(".enc")  # document prof chiffré : nom d'origine
+                im = ITEM_RE.match(name)
                 if not im:
                     problems.append(f"{item.relative_to(ROOT)}: ne suit pas {{Type}}-{{Niveau}}C{{NN}}-Nom")
                     continue
                 kind, item_niveau, item_nn = im.groups()
-                rest = item.name.split("-", 1)[1]
-                if kind == "Corr" and not any((seq_dir / f"{t}-{rest}").exists() for t in ("Ex", "Act", "DS")):
+                rest = name.split("-", 1)[1]
+                if kind == "Corr" and not any((seq_dir / f"{t}-{rest}{x}").exists()
+                                              for t in ("Ex", "Act", "DS") for x in ("", ".enc")):
                     problems.append(f"{item.relative_to(ROOT)}: corrigé sans sujet (Ex-, Act- ou DS-{rest})")
                 if item_niveau != niveau:
                     problems.append(

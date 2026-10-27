@@ -1,5 +1,6 @@
 // Fichiers : cat, open, et filtres de texte (head, tail, wc, sort).
-import { ext, isDir, isText, IMG_EXT, readText, urlOf, lookup, ERR } from "../fs.js";
+import { ext, isDir, isText, isEnc, IMG_EXT, readText, urlOf, lookup, ERR } from "../fs.js";
+import { openEnc } from "../../../assets/prof.js";
 import { getopt, lines, quote } from "./util.js";
 
 /**
@@ -49,7 +50,14 @@ export const open = {
       if (r.err) { io.err(`open: ${f}: ${ERR[r.err]}`); status = 1; continue; }
       const url = urlOf(r.segs, r.node);
       const e = ext(f);
-      if (!isDir(r.node) && IMG_EXT.includes(e) && io.tty) {
+      if (!isDir(r.node) && isEnc(r.segs) && !isText(f)) {
+        // Document prof chiffré (lisible seulement en sudo, sinon lookup a refusé) : déchiffré ici.
+        const name = r.segs[r.segs.length - 1];
+        if (io.tty) {
+          try { await openEnc(url, name); } catch (err) { io.err(`open: ${f}: ${err.message}`); status = 1; continue; }
+        }
+        io.out(`Ouverture dans un nouvel onglet : ${name} (déchiffré)`);
+      } else if (!isDir(r.node) && IMG_EXT.includes(e) && io.tty) {
         const img = document.createElement("img");
         img.className = "preview"; img.src = url; img.alt = f; img.loading = "lazy";
         io.node(img);
