@@ -20,6 +20,7 @@ Site statique regroupant les cours, exercices et documents de mathématiques
 | Crédits | `/credits/` | ressources tierces utilisées (icônes, police figlet…) |
 | 404 | (toute adresse inconnue) | page d'erreur aux couleurs du site |
 | Terminal | `/term/` | naviguer dans les cours avec `ls`, `cd`, `open`… (voir plus bas) |
+| CV | `/cv/` | CV de l'auteur (thème [Minimal](https://github.com/mathematovitch/minimal), CC BY-SA 3.0), page écrite à la main ; lien depuis le nom de l'auteur sur l'accueil ; non indexé par les moteurs (`noindex`), mail en clair non cliquable |
 | Todo | `/todo/` | listes de tâches façon org-mode, synchronisées par un Gist GitHub (jeton stocké dans le navigateur) |
 | Ancien site | `/legacy/` | la version d'origine, pages `tree -H`, gardée active (sans les documents du mode prof) |
 
@@ -46,12 +47,48 @@ compile comme avant) : `build.sh` les chiffre et les liste dans `.gitignore`,
 et un hook `pre-commit` (`tools/hooks/`) refuse tout commit qui en contiendrait
 un en clair.
 
+#### Mot de passe prof : un seul pour tout
+
+Il n'y a **qu'un mot de passe** : celui du mode prof du site, du `sudo` du
+terminal et du chiffrement des PDF prof, c'est le même. Derrière, deux
+éléments :
+
+- la **clé** K (32 octets aléatoires) qui chiffre réellement les documents :
+  `dev/prof.key`, sur l'ordinateur seulement (`dev/` n'est pas dans git) ;
+- `assets/prof.json` (public, commité) : cette clé chiffrée par le mot de
+  passe. Changer le mot de passe ne réécrit que ce fichier : les `.enc` ne
+  changent pas.
+
+Commandes (interactives : à lancer soi-même dans un terminal, ou avec `!`
+dans Claude Code) ; il faut le module Python `cryptography`
+(paquet `python-cryptography`) :
+
 ```
-python3 tools/profkey.py init      # une fois : crée la clé (dev/prof.key, jamais commitée)
-python3 tools/profkey.py passwd    # changer le mot de passe (les fichiers ne changent pas)
+python3 tools/profkey.py init      # une seule fois : crée la clé et choisit le mot de passe
+python3 tools/profkey.py passwd    # changer le mot de passe
 python3 tools/profkey.py restore   # autre ordinateur : clone + mot de passe = clé retrouvée
 git config core.hooksPath tools/hooks   # active le garde-fou, dans chaque clone
 ```
+
+Procédures :
+
+1. **Changer le mot de passe** : `passwd` (ne demande pas l'ancien si
+   `dev/prof.key` est présent), puis commit de `assets/prof.json` et push. L'ancien mot de passe ne
+   marche plus dès que Pages a publié ; une session prof déjà ouverte dans un
+   navigateur reste valable jusqu'à son expiration (2 h) ou « Quitter ».
+2. **Nouvel ordinateur** : cloner, `restore` (demande le mot de passe et
+   recrée `dev/prof.key`), `git config core.hooksPath tools/hooks`. Les
+   documents prof en clair n'étant pas dans git, les recopier depuis l'ancien
+   ordinateur pour les éditer (ou les ouvrir déchiffrés depuis le site).
+3. **Mot de passe oublié** : tant que `dev/prof.key` existe sur l'ordinateur,
+   `passwd` en pose un nouveau sans l'ancien. Sans ce fichier **et** sans le
+   mot de passe, les `.enc` du dépôt sont perdus (seuls les originaux en
+   clair de l'ordinateur restent) : **sauvegarder `dev/prof.key`** hors du
+   dépôt (clé USB, gestionnaire de mots de passe).
+4. **Ajouter un document prof** : le nommer selon la nomenclature (`DS-`,
+   `Seq-`, `Prep-`, `…-Corr`) ou le ranger dans `_Archive/`, puis
+   `./build.sh` : il est chiffré en `X.enc` et ajouté au `.gitignore` ; on
+   commite le `.enc`, jamais l'original (le hook le refuse).
 
 Toutes les pages portent la licence **CC0 1.0** en pied de page (ressources
 tierces exclues, voir `/credits/`).
@@ -82,6 +119,7 @@ d'ombres douces, boutons gris en relief, icônes pixel Windows 95
 ├── Utils/               # Documents transverses (grilles, tables, suivi des corrections, DNL)
 ├── assets/              # logo.svg, calculatrice.svg, favicon, icons/ (pixel W95), thumbs/ (vignettes générées)
 ├── credits/             # Page crédits (générée)
+├── cv/                  # CV (/cv/), écrit à la main, hors build
 ├── term/                # Terminal web (/term)
 ├── todo/                # Listes de tâches (/todo), page autonome
 ├── legacy/              # Ancien site « tree » (index seulement), généré par build.sh
@@ -286,6 +324,13 @@ séquence, etc.
 - [ ] **3.1 Tutoriel intégré** (`tuto`), plus tard : quelques défis du type
   « trouve le DS sur les angles » pour apprendre les bases du terminal.
 
+### 4. CV (`/cv`)
+
+- [ ] **4.1 Actualiser le CV** d'après le dossier I-Prof (postes, dates,
+  formations continues suivies, missions) ; vérifier le niveau d'anglais
+  (B2 BULATS, attestation non retrouvée). Source actuelle : CV de
+  l'inspection 2026 et rapport DNL.
+
 <details>
 <summary>Déjà fait</summary>
 
@@ -303,6 +348,7 @@ séquence, etc.
 - [x] Pied de page « mis à jour le … » (date git du dernier commit touchant le contenu)
 - [x] Mode élève / mode prof (calculatrice de l'accueil, mot de passe du sudo) : DS, Seq, Prep, corrigés et archives réservés au prof, corrigés séparés des sujets et affichés sous eux
 - [x] Documents prof chiffrés dans le dépôt (AES-256-GCM, clé protégée par le mot de passe), déchiffrés dans le navigateur ; historique git purgé des versions en clair
+- [x] Page CV `/cv/` (thème Minimal forké sous `mathematovitch/minimal`, avatar pixel, sections dépliables, `noindex`)
 - [x] `build.sh` vérifie la nomenclature (`check_nomenclature.py`) et les liens cassés (`check_links.py`), en avertissement seulement
 
 **Terminal**
@@ -310,7 +356,7 @@ séquence, etc.
 - [x] `cd ..`, `/`, `~`, `-`, `../../x` ; messages d'erreur POSIX et codes de retour
 - [x] `open` intelligent (PDF, images, HTML, texte, dossiers), `tree`, `cat`
 - [x] CSS : scroll, sélection, focus, thèmes
-- [x] Mode sudo (mot de passe SHA-256 salé)
+- [x] Mode sudo (même mot de passe que le mode prof, vérifié par déchiffrement de la clé)
 - [x] Tri des dossiers (dossiers d'abord, `_Archive` en dernier, tri naturel)
 - [x] Recherche (`find`, `grep`), pipes et filtres de texte
 - [x] Sauvegarde de l'état (localStorage : dossier, historique, thème, sudo)
@@ -331,7 +377,7 @@ séquence, etc.
 
 ## 🧑‍🏫 Auteur
 
-Projet développé par **M. Outerovitch**, professeur de mathématiques.
+Projet développé par **M. Outerovitch**, professeur de mathématiques ([CV](https://mathematovitch.github.io/cv/)).
 
 ## 📜 Licence
 
