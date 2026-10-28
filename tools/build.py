@@ -4,7 +4,7 @@
 Usage : python3 tools/build.py [racine]      (ou ./build.sh, qui fait aussi legacy/)
 
 Seuls les dossiers de cours (SECTION_ORDER : Progressions, niveaux, Utils) sont nettoyés,
-renommés, indexés et listés ; le reste du dépôt (assets/, todo/, tools/...) n'est
+renommés, indexés et listés ; le reste du dépôt (assets/, tools/...) n'est
 jamais touché. Stdlib uniquement (+ `pdftoppm` de poppler pour les vignettes). Étapes :
 1. crée les _Archive manquants des niveaux ;
 2. supprime les fichiers temporaires LaTeX (.aux, .log, ...) ;

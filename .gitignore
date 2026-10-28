@@ -241,6 +241,7 @@ __pycache__/
 /Sixieme/_Archive/S99-Numeration-entiere/Les-nombres-entiers-TABLEAU-AIDE-MILLIONS-ALIASLILI.pdf
 # <<< documents prof en clair <<<
 
-# Aperçu local : liens symboliques vers les dépôts à part ~/code/04-web/{term,cv}
+# Aperçu local : liens symboliques vers les dépôts à part ~/code/04-web/{term,cv,todo}
 /term
 /cv
+/todo

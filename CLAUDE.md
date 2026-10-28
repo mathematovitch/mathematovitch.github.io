@@ -24,9 +24,10 @@ d'entrée), README/CLAUDE.md. Ensuite :
 - `assets/` : `favicon.svg` + `favicon.ico` (16/32/64, secours), π pixel W95
   de `dev/pi.svg` ; `calculatrice.svg` (de `dev/calculatrice.svg`, viewBox
   recadré `5 2 22 28`) affichée à gauche du titre de l'accueil (`.brand`) ;
-  `logo.svg`, `icons/`, `thumbs/` (généré), `fs.json` (généré, lu par le terminal). `todo/` garde son icône `todo.png`.
+  `logo.svg`, `icons/` (dont `todo.png`, utilisée par la todo), `thumbs/` (généré), `fs.json` (généré, lu par le terminal).
 - `credits/index.html` (généré, URL `/credits/`).
-- `todo/`, `legacy/` : URLs publiques inchangées (`/todo`, `/legacy`).
+- `legacy/` : URL publique inchangée (`/legacy`). La todo (`/todo`) est un
+  dépôt à part (voir plus bas).
 - `tools/` : `build.py`, `profkey.py` (clé du mode prof), `hooks/pre-commit`, `check_nomenclature.py` et `check_links.py` (lancés en fin de `build.sh`, avertissement seulement), `title.txt` (bandeau ASCII
   du legacy). `build.py` calcule `ROOT` depuis son propre emplacement
   (`tools/..`). `seq_status.py N NN` : état d'une séquence par compétence
@@ -196,23 +197,23 @@ dédupliquer sans consulter l'utilisateur.
   **écrite au tableau et copiée** par les élèves (jamais projetée) : prévoir
   du temps (~15 min). Pas de « ticket de sortie ».
 
-## Terminal `/term` et CV `/cv` : dépôts à part (2026-10-28)
+## Terminal `/term`, CV `/cv`, todo `/todo` : dépôts à part (2026-10-28)
 
 Sortis de ce dépôt (demande de l'utilisateur : dossier du site trop gros) :
 `~/code/04-web/term` → `mathematovitch/term`, `~/code/04-web/cv` →
-`mathematovitch/cv`, sites de projet GitHub Pages servis aux mêmes URL
-(`/term/`, `/cv/`), avec historique (`git subtree split`). Chacun a son
+`mathematovitch/cv`, `~/code/04-web/todo` → `mathematovitch/todo`, sites de projet GitHub Pages servis aux mêmes URL
+(`/term/`, `/cv/`, `/todo/`), avec historique (`git subtree split`). Chacun a son
 `README.md` et son `CLAUDE.md`. Ce qui reste ici :
 
 - `build_term_fs()` de `build.py` écrit **`assets/fs.json`** (seule source de
   données du terminal, à committer) ; le terminal le lit via `SITE = ".."`.
 - `assets/prof.js`, `prof.json`, favicons : importés par le terminal et le CV
-  en chemins relatifs `../` (même origine, même session prof).
+  (la todo : `assets/icons/`) en chemins relatifs `../` (même origine, même session prof).
 - `CV_DIR` : lien de l'auteur sur l'accueil ; crédits Minimal et Doh gardés
-  dans `CREDITS`. `check_links.py` ignore `/cv/` et `/term/` (`PROJECTS`).
-- Aperçu local : liens symboliques `term`, `cv` → `~/code/04-web/…` à la
+  dans `CREDITS`. `check_links.py` ignore `/cv/`, `/term/`, `/todo/` (`PROJECTS`).
+- Aperçu local : liens symboliques `term`, `cv`, `todo` → `~/code/04-web/…` à la
   racine (ignorés par `.gitignore`), puis `python3 -m http.server`.
-- Ne pas recréer de dossier `term/`, `cv/` ou `xioran/` (site musique,
+- Ne pas recréer de dossier `term/`, `cv/`, `todo/` ou `xioran/` (site musique,
   `mathematovitch/xioran`, sans lien avec les cours) suivi ici : il
   disputerait l'URL au site de projet.
 

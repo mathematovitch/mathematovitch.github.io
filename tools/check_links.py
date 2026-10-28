@@ -6,7 +6,7 @@ legacy/ et les pages Progressions/*.html, et signale chaque `href`/`src`
 interne qui mène à un fichier ou dossier disparu, ou à une ancre `#id`
 absente de la page visée (ex. une séquence renommée). Liens externes
 (http:, mailto:…) ignorés ; `<base href>` respecté (404). Les sites de projet
-servis sous le même domaine (PROJECTS : /cv/, /term/) ne sont pas vérifiés.
+servis sous le même domaine (PROJECTS : /cv/, /term/, /todo/) ne sont pas vérifiés.
 
 Usage:
     python3 tools/check_links.py
@@ -18,7 +18,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
-PROJECTS = {"cv", "term"}  # dépôts à part (mathematovitch/cv, /term), absents d'ici
+PROJECTS = {"cv", "term", "todo"}  # dépôts à part (mathematovitch/cv, /term, /todo), absents d'ici
 SECTIONS = ["Progressions", "Sixieme", "Cinquieme", "Quatrieme", "Troisieme", "Utils", "credits", "legacy"]
 
 

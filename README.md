@@ -21,7 +21,7 @@ Site statique regroupant les cours, exercices et documents de mathématiques
 | 404 | (toute adresse inconnue) | page d'erreur aux couleurs du site |
 | Terminal | `/term/` | naviguer dans les cours avec `ls`, `cd`, `open`… ; dépôt à part [`mathematovitch/term`](https://github.com/mathematovitch/term), qui lit `assets/fs.json` |
 | CV | `/cv/` | CV de l'auteur ; dépôt à part [`mathematovitch/cv`](https://github.com/mathematovitch/cv), lien depuis le nom de l'auteur sur l'accueil |
-| Todo | `/todo/` | listes de tâches façon org-mode, synchronisées par un Gist GitHub (jeton stocké dans le navigateur) |
+| Todo | `/todo/` | listes de tâches façon org-mode, synchronisées par un Gist GitHub (jeton stocké dans le navigateur) ; dépôt à part [`mathematovitch/todo`](https://github.com/mathematovitch/todo) |
 | Ancien site | `/legacy/` | la version d'origine, pages `tree -H`, gardée active (sans les documents du mode prof) |
 
 ### Mode élève / mode prof
@@ -120,7 +120,6 @@ d'ombres douces, boutons gris en relief, icônes pixel Windows 95
 ├── Utils/               # Documents transverses (grilles, tables, suivi des corrections, DNL)
 ├── assets/              # logo.svg, calculatrice.svg, favicon, icons/ (pixel W95), thumbs/ (vignettes générées), fs.json (terminal)
 ├── credits/             # Page crédits (générée)
-├── todo/                # Listes de tâches (/todo), page autonome
 ├── legacy/              # Ancien site « tree » (index seulement), généré par build.sh
 └── tools/               # build.py (générateur), check_nomenclature.py, check_links.py, title.txt
 ```
@@ -188,16 +187,17 @@ build ne s'arrête pas) :
 
 ---
 
-## Sites liés (`/term`, `/cv`)
+## Sites liés (`/term`, `/cv`, `/todo`)
 
-Le terminal web et le CV sont des **dépôts à part** de l'organisation,
+Le terminal web, le CV et la todo sont des **dépôts à part** de l'organisation,
 servis par GitHub Pages sous le même domaine (sites de projet) :
 [`mathematovitch/term`](https://github.com/mathematovitch/term) → `/term/`,
-[`mathematovitch/cv`](https://github.com/mathematovitch/cv) → `/cv/`. Même
+[`mathematovitch/cv`](https://github.com/mathematovitch/cv) → `/cv/`,
+[`mathematovitch/todo`](https://github.com/mathematovitch/todo) → `/todo/`. Même
 origine : ils utilisent `assets/` (favicon, `prof.js`, `prof.json`) et la
 session du mode prof. Le terminal lit `assets/fs.json`, généré par
 `build_term_fs()` de `tools/build.py` : à committer ici. Aperçu local : liens
-symboliques `term` et `cv` vers `~/code/04-web/…` à la racine (ignorés par
+symboliques `term`, `cv` et `todo` vers `~/code/04-web/…` à la racine (ignorés par
 git), puis `python3 -m http.server`.
 
 ---
@@ -286,7 +286,7 @@ Roadmaps du terminal et du CV : dans leurs dépôts.
 - [x] Documents prof chiffrés dans le dépôt (AES-256-GCM, clé protégée par le mot de passe), déchiffrés dans le navigateur ; historique git purgé des versions en clair
 - [x] Page CV `/cv/` (thème Minimal forké sous `mathematovitch/minimal`, avatar pixel, sections dépliables, `noindex`)
 - [x] `build.sh` vérifie la nomenclature (`check_nomenclature.py`) et les liens cassés (`check_links.py`), en avertissement seulement
-- [x] Terminal (`/term`) et CV (`/cv`) sortis dans leurs propres dépôts
+- [x] Terminal (`/term`), CV (`/cv`) et todo (`/todo`) sortis dans leurs propres dépôts
 
 </details>
 
