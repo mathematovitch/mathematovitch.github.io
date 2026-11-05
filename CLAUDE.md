@@ -125,7 +125,15 @@ Tous les fichiers de cours suivent le format
 `Ex-4C02-1a-Calcul.pdf`, `DS-6C05-1-...`).
 
 - **Type** : `Cours` (leçon), `Ex` (exercice), `Act` (activité), `DS` (devoir
-  surveillé/évaluation). Côté enseignant : `Seq` (plan de séquence : séances,
+  surveillé/évaluation, deux formes : « à la main » avec `\entetedevoirs` /
+  `exercicedevoir` de Mathdoc, gardée telle quelle, ou **forme PMF** avec
+  `\usepackage{dspmf}` (`~/texmf/tex/latex/Mathdoc/dspmf.sty`, 2026-11-05 ; modèle
+  `Quatrieme/S03-Produits-de-Relatifs/DS-4C03-0*.tex`) : réponses dans des cadres
+  numérotés `\rep[l]{id}{pts}{réponse}`, `\coche`, `\redac`, repères aux 4 coins, cadre
+  Nom fixe, et la compilation du corrigé écrit `DS-….pmf.jsonl` (positions en fractions
+  de page, barème, réponses attendues ; format en tête du `.sty`) pour la correction
+  automatique `~/code/03-enseignement/Peut-Mieux-Faire` ; document prof, chiffré,
+  masqué des index). Côté enseignant : `Seq` (plan de séquence : séances,
   documents, toutes les évaluations y compris hors papier, ex. Capytale) et
   `Prep` (préparation de séance) ; `build.py` les affiche en tête de séquence.
   Corrigé d'un `Ex`/`Act`/`DS` : **nom du sujet + `-Corr`**

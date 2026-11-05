@@ -39,7 +39,7 @@ def parse_args(argv):
 
 def stem(name):
     """Nom du sujet : sans .enc, sans extension, sans -Corr."""
-    name = name.removesuffix(".enc")
+    name = name.removesuffix(".enc").removesuffix(".pmf.jsonl")  # PMF : annexe du DS
     name = name.rsplit(".", 1)[0] if "." in name else name
     return name.removesuffix("-Corr")
 
@@ -55,7 +55,7 @@ def collect(folder):
         if stem(plain) + "-Corr" in plain:
             d["corr"] = True
             continue
-        ext = plain.rsplit(".", 1)[-1]
+        ext = "pmf" if plain.endswith(".pmf.jsonl") else plain.rsplit(".", 1)[-1]
         d["exts"].add(ext)
         if ext == "tex" and not f.name.endswith(".enc"):
             d["tex"] = f

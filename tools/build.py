@@ -43,7 +43,7 @@ LICENSE_URL = "https://creativecommons.org/publicdomain/zero/1.0/deed.fr"
 
 # Sous-dossiers ignorés à l'intérieur des sections (figures sources, caches).
 EXCLUDE_DIRS = {"images", "__pycache__"}
-HIDDEN_EXT = {".tex", ".sty", ".py", ".sh", ".org", ".md", ".odg", ".txt", ".ico"}
+HIDDEN_EXT = {".tex", ".sty", ".py", ".sh", ".org", ".md", ".odg", ".txt", ".ico", ".jsonl"}  # .jsonl : DS-….pmf.jsonl (PMF)
 LEVELS = {"Sixieme": "Sixième", "Cinquieme": "Cinquième",
           "Quatrieme": "Quatrième", "Troisieme": "Troisième"}
 NAMES = {**LEVELS, "Utils": "Utilitaires", "Progressions": "Progressions",

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Archives — Cours de Maths</title>
+<link rel="icon" href="../../../assets/favicon.ico?v=fe00b249" sizes="any"><link rel="icon" href="../../../assets/favicon.svg?v=a91ffb96" type="image/svg+xml">
+<style>
+:root{color-scheme:light;--bg:#fff;--fg:#000;--mut:#555;--line:#000;--soft:#999;--card:#fff;
+--acc:#0000ee;--vis:#551a8b;--hover:#ffffcc;--pill:#fff;--navy:#23255f;--orange:#e8590c;
+--t-seq:#800080;--t-prep:#007070;--t-cours:#0000a0;--t-act:#806000;--t-ex:#006000;--t-ds:#c00000;--t-res:#555}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 "Times New Roman",Times,serif}
+a{color:var(--acc);text-decoration:underline}
+a:visited{color:var(--vis)}
+a:hover{background:var(--hover)}
+.mono,code{font-family:"Courier New",Courier,monospace}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+.wrap.wide{max-width:1200px}
+header.top{border-bottom:1px solid var(--line);background:var(--bg)}
+header.top .wrap{display:flex;align-items:center;gap:12px;min-height:40px;padding-top:6px;padding-bottom:6px}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:"Courier New",Courier,monospace;font-size:14px;min-width:0}
+.crumbs .sep{color:var(--mut)}
+.crumbs .cur{font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home{margin-left:auto;font-family:"Courier New",Courier,monospace;font-size:14px;white-space:nowrap}
+main{padding:56px 0 64px}
+header.top+main{padding-top:24px}
+h1{font-size:28px;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 20px;font-style:italic}
+h2{font-size:20px;margin:28px 0 8px;padding-bottom:2px;border-bottom:1px solid var(--line)}
+.logo{display:block;width:100%;max-width:640px;height:auto;margin:8px 0 10px;image-rendering:pixelated}
+.brand{display:flex;align-items:flex-end;gap:2%;max-width:720px;margin:8px 0 10px}
+.brand img{display:block;height:auto;image-rendering:pixelated}
+/* calculatrice (22×28) haute comme le M ombre comprise (y 48→144 sur 120 du logo) : 7.62 % ≈ 0.98 × r/(1+r), r = 0.8·120/894·22/28 */
+.brand .calc{flex:0 0 7.62%}
+.brand .logo{flex:1;min-width:0;max-width:none;margin:0}
+/* cartes accueil : simple liste */
+.cards{display:block;margin:0;padding:0}
+.card{display:block;padding:2px 0}
+.card .t{display:inline;font-weight:bold;font-size:18px}
+.card .t .ext{color:var(--mut);font-weight:normal;font-size:14px;margin-left:4px;text-decoration:none}
+.card .d{display:inline;color:var(--mut);font-size:15px;margin-left:8px}
+.card .d::before{content:"— "}
+.card:visited .t{color:var(--vis)}
+/* listes */
+.list{border:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:12px;padding:4px 8px;border-top:1px solid var(--soft)}
+.row:first-child{border-top:0}
+a.row{color:var(--fg);text-decoration:none}
+a.row .name{color:var(--acc);text-decoration:underline}
+a.row:visited .name{color:var(--vis)}
+a.row:hover,.row a.main:hover{background:var(--hover)}
+.row .ico{width:18px;flex:none;text-align:center;color:var(--mut)}
+.row .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .meta{color:var(--mut);font-size:13px;white-space:nowrap;font-family:"Courier New",Courier,monospace}
+.pill{font-family:"Courier New",Courier,monospace;font-size:12px;font-weight:bold;white-space:nowrap;flex:none;min-width:52px}
+.pill::before{content:"["}.pill::after{content:"]"}
+/* séquences */
+.tools{display:flex;gap:8px;margin:0 0 12px}
+.tools input{flex:1;font:inherit;font-family:"Courier New",Courier,monospace;font-size:14px;padding:3px 6px;
+border:2px inset #ccc;background:#fff;color:var(--fg)}
+.tools button,.tools .btn{font:13px Arial,Helvetica,sans-serif;padding:3px 10px;border:2px outset #ddd;
+background:#e0e0e0;color:#000;cursor:pointer;white-space:nowrap;text-decoration:none;display:flex;align-items:center}
+.tools button:active,.tools .btn:active{border-style:inset}
+.tools .btn:visited{color:#000}
+.doc.skill code{color:var(--mut);font-size:12px;flex:none;width:8em}
+.godocs{display:block;padding:4px 10px 6px;font-size:14px;border-top:1px dashed var(--soft)}
+.meta.soon{font-style:italic}
+.row a.main{padding:2px 0}
+.row a.dl{font-family:"Courier New",Courier,monospace;font-size:13px}
+/* tableau de progression */
+.tablewrap{overflow-x:auto}
+table.progtab{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5px;border:1px solid var(--line)}
+.progtab th{text-align:left;font-weight:bold;padding:4px 8px;border:1px solid var(--line);background:#e0e0e0}
+.progtab td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+.progtab tbody tr:not(.vacrow):hover td{background:var(--hover)}
+.progtab td.id{font-family:"Courier New",Courier,monospace;font-size:13px;white-space:nowrap}
+.progtab td.tt{font-weight:bold;min-width:150px}
+.progtab td.tt .ext{color:var(--mut);font-weight:normal;font-size:12px}
+.progtab .cnt{font-weight:normal;font-size:13px;color:var(--mut);margin-top:2px}
+.progtab .cnt.soon{font-style:italic}
+.progtab ul{margin:0;padding:0 0 0 16px}
+.progtab li{padding:0}
+.progtab li code{color:var(--mut);font-size:12px;margin-right:4px}
+.progtab td.goal{font-style:italic;min-width:160px}
+.progtab tr.vacrow td{text-align:center;font-weight:bold;background:#e0e0e0;padding:3px}
+.progtab tr:target td{background:var(--hover)}
+/* lien « # » d'une séquence : ouvre sa page et copie son adresse */
+a.lnk,a.lnk:visited{font:13px "Courier New",Courier,monospace;color:var(--mut);text-decoration:none;padding:0 4px}
+a.lnk:hover{color:var(--acc);text-decoration:underline}
+details.seq{border:1px solid var(--line);margin-bottom:-1px;scroll-margin-top:16px}
+details.seq>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:5px 8px;user-select:none;background:#f0f0f0}
+details.seq>summary::-webkit-details-marker{display:none}
+details.seq>summary:hover{background:var(--hover)}
+details.seq>summary .num{font-family:"Courier New",Courier,monospace;font-size:14px;width:2.6em}
+details.seq>summary .tt{flex:1;font-weight:bold}
+details.seq>summary .chev{font-family:"Courier New",Courier,monospace;color:var(--fg)}
+details.seq>summary .chev{font-size:0}details.seq>summary .chev::after{content:"[+]";font-size:14px}
+details.seq[open]>summary .chev::after{content:"[−]"}
+details.seq[open]>summary{border-bottom:1px solid var(--line)}
+.grp{padding:4px 0}
+.grp+.grp{border-top:1px dashed var(--soft)}
+.grp h3{font-size:14px;margin:4px 10px 2px;font-weight:bold;text-decoration:underline}
+.doc{display:flex;align-items:center;gap:10px;padding:2px 10px 2px 22px}
+.doc:hover{background:var(--hover)}
+.doc .id{font-family:"Courier New",Courier,monospace;font-size:13px;width:2.8em;flex:none;color:var(--mut)}
+.doc .name{flex:1;min-width:0}
+.doc .meta{color:var(--mut);font-size:12.5px;font-family:"Courier New",Courier,monospace}
+.c-seq{color:var(--t-seq)}.c-prep{color:var(--t-prep)}.c-cours{color:var(--t-cours)}.c-act{color:var(--t-act)}.c-ex{color:var(--t-ex)}
+.c-ds,.c-corr{color:var(--t-ds)}.c-res{color:var(--t-res)}
+.seq.archive{opacity:.75}
+.theme{font-family:"Courier New",Courier,monospace;font-size:12px;color:var(--mut)}
+.theme::before{content:"("}.theme::after{content:")"}
+.seq.upcoming{display:flex;align-items:center;gap:10px;padding:5px 8px;margin-bottom:-1px;
+border:1px dashed var(--soft);color:var(--mut)}
+.seq.upcoming .num{font-family:"Courier New",Courier,monospace;font-size:14px;width:2.6em}
+.seq.upcoming .tt{flex:1}
+.seq.upcoming .meta{font-size:13px;font-style:italic}
+.vac{text-align:center;font-weight:bold;margin:14px 0 13px;font-family:"Courier New",Courier,monospace;font-size:14px}
+.vac::before{content:"~~~~~~ "}.vac::after{content:" ~~~~~~"}
+.prog{padding:6px 10px 2px}
+.prog .goal{margin:0;font-size:15px;font-style:italic}
+details.skills{margin-top:2px}
+details.skills>summary{cursor:pointer;font-size:14px;color:var(--acc);text-decoration:underline;width:max-content}
+details.skills ul{margin:4px 0 2px;padding:0 0 0 18px}
+details.skills li{font-size:14.5px;padding:1px 0}
+details.skills code{color:var(--mut);font-size:12.5px;margin-right:8px}
+.i{image-rendering:pixelated;vertical-align:middle;flex:none;border:0}
+.i32{margin-right:8px;position:relative;top:-2px}
+.i16{image-rendering:auto;margin-right:5px;position:relative;top:-1px}
+h3 .i32{margin-right:6px}
+.home .i16,.btn .i16{margin-right:4px}
+.vac .i16{margin:0 6px 0 0}
+.seq.upcoming .meta .i16{opacity:.8}
+.hide{display:none!important}
+/* mode prof : documents prof (Seq, Prep, DS, corrigés, archives) masqués sinon ; fond rosé + bandeau pour savoir où on en est */
+html:not(.prof) .prof,html.prof .eleve{display:none!important}
+html.prof body{background:#ffe4e4}
+html.prof details.seq>summary,html.prof .seq.upcoming,html.prof .progtab th,html.prof .progtab tr.vacrow td{background:#f4d0d0}
+.doc.corr{padding-left:38px}.doc.corr .id{width:1.6em}.doc.corr .name{color:var(--t-ds)}
+#profbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:center;gap:12px;
+padding:3px 8px;background:#c00000;color:#fff;font:bold 13px "Courier New",Courier,monospace}
+#profbar button,#login button{font:13px Arial,Helvetica,sans-serif;padding:2px 10px;border:2px outset #ddd;background:#e0e0e0;color:#000;cursor:pointer}
+#profbar button:active,#login button:active{border-style:inset}
+#login{padding:0;border:2px outset #ddd;background:#e0e0e0;color:#000;font:13px Arial,Helvetica,sans-serif;width:300px}
+#login::backdrop{background:rgba(0,0,0,.25)}
+#login .tb{background:#000080;color:#fff;font-weight:bold;padding:3px 6px}
+#login form{padding:10px;display:grid;gap:8px}
+#login input{font:14px "Courier New",Courier,monospace;padding:3px 6px;border:2px inset #ccc;background:#fff}
+#login .err{color:#c00000;min-height:1em;margin:0}
+#login .bt{display:flex;justify-content:flex-end;gap:8px}
+#pv{position:fixed;z-index:20;width:240px;pointer-events:none;background:#fff;border:1px solid #000;
+box-shadow:4px 4px 0 #000;opacity:0}
+#pv.on{opacity:1}
+footer{color:var(--mut);font-size:13px;padding:10px 0 24px;border-top:1px solid var(--line);text-align:center;font-style:italic}
+/* impression : noir et blanc, sans boutons ni icônes, tout déplié (PRINT_JS), adresse de la page en tête */
+@media print{@page{margin:12mm}
+*{color:#000!important;background:none!important;box-shadow:none!important}
+body{font-size:11pt}main{padding:0}.wrap,.wrap.wide{max-width:none;padding:0}a{text-decoration:none}
+header.top,.tools,.chev,.lnk,.godocs,#pv,.i,footer a,.card .ext,#profbar{display:none!important}
+main::before{content:attr(data-url);display:block;font:9pt "Courier New",Courier,monospace;margin-bottom:6pt}
+.tablewrap{overflow:visible}table.progtab{min-width:0}
+details.seq>summary{border-bottom:1px solid #000}details.seq>summary .meta{display:none}
+.grp,.prog,.row,.doc{break-inside:avoid}h2,h3,details.seq>summary{break-after:avoid}
+.doc{padding-left:10px}.doc .name::after{content:"  " attr(title);font:8.5pt "Courier New",Courier,monospace}
+.row .name{white-space:normal}.seq.archive{opacity:1}footer{padding:6pt 0 0;font-size:9pt}}
+@media (max-width:560px){.row .meta.sz,.doc .meta{display:none}h1{font-size:22px}.card .d{display:block;margin-left:0}.card .d::before{content:""}}
+</style>
+<script>
+(()=>{const k='mathematovitch-prof',h=document.documentElement;
+const on=()=>{try{const s=JSON.parse(localStorage.getItem(k)||'null');if(s&&s.k&&s.until>Date.now())return true}catch(_){}return false};
+h.classList.toggle('prof',on());
+addEventListener('storage',ev=>{if(ev.key===k||ev.key===null)h.classList.toggle('prof',on())});
+setInterval(()=>h.classList.toggle('prof',on()),60000);
+})();
+</script>
+</head>
+<body>
+<div id="profbar" class="prof">MODE PROF · évaluations et corrigés visibles <button id="profquit" type="button">Quitter</button></div>
+<header class="top"><div class="wrap"><nav class="crumbs"><a href="../../../index.html">Cours de Maths</a><span class=sep>/</span><a href="../../index.html">Quatrième</a><span class=sep>/</span><a href="../index.html">S03 · Produits de Relatifs</a><span class=sep>/</span><span class="cur">Archives</span></nav><a class="home" href="../../../index.html"><img class="i i16" src="../../../assets/icons/accueil.png" alt="" width="16" height="16"> Accueil</a></div></header>
+<main><div class="wrap">
+<p class="eleve sub">Réservé au professeur.</p><div class="prof"><h1><img class="i i32" src="../../../assets/icons/archives.png" alt="" width="32" height="32">Archives</h1><p class="sub">0 dossiers · 18 fichiers</p><div class="list"><a class="row prof" href="DS-4C03-01-Signes.pdf.enc" target="_blank" rel="noopener" data-enc="DS-4C03-01-Signes.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">DS-4C03-01-Signes.pdf</span><span class="meta sz mono">PDF · 123 Ko</span></a><a class="row prof" href="DS-4C03-02-Operations-Simples.pdf.enc" target="_blank" rel="noopener" data-enc="DS-4C03-02-Operations-Simples.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">DS-4C03-02-Operations-Simples.pdf</span><span class="meta sz mono">PDF · 91 Ko</span></a><a class="row prof" href="Ex-4C03-01-Signe-Produit.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-01-Signe-Produit.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-01-Signe-Produit.pdf</span><span class="meta sz mono">PDF · 128 Ko</span></a><a class="row prof" href="Ex-4C03-02-Signe-Quotient.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-02-Signe-Quotient.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-02-Signe-Quotient.pdf</span><span class="meta sz mono">PDF · 135 Ko</span></a><a class="row prof" href="Ex-4C03-03-Signe-Expression.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-03-Signe-Expression.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-03-Signe-Expression.pdf</span><span class="meta sz mono">PDF · 134 Ko</span></a><a class="row prof" href="Ex-4C03-04-Produits-Simples.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-04-Produits-Simples.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-04-Produits-Simples.pdf</span><span class="meta sz mono">PDF · 76 Ko</span></a><a class="row prof" href="Ex-4C03-05-Quotients-Simples.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-05-Quotients-Simples.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-05-Quotients-Simples.pdf</span><span class="meta sz mono">PDF · 78 Ko</span></a><a class="row prof" href="Ex-4C03-06-Melanges.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-06-Melanges.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-06-Melanges.pdf</span><span class="meta sz mono">PDF · 91 Ko</span></a><a class="row prof" href="Ex-4C03-07-Exercices-Difficiles.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-07-Exercices-Difficiles.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-07-Exercices-Difficiles.pdf</span><span class="meta sz mono">PDF · 290 Ko</span></a><a class="row prof" href="Ex-4C03-08-Divisions.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-08-Divisions.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-08-Divisions.pdf</span><span class="meta sz mono">PDF · 32 Ko</span></a><a class="row prof" href="Ex-4C03-09-Multiplication.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-09-Multiplication.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-09-Multiplication.pdf</span><span class="meta sz mono">PDF · 37 Ko</span></a><a class="row prof" href="Ex-4C03-10-QCM-Multiplications-Divisions.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-10-QCM-Multiplications-Divisions.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-10-QCM-Multiplications-Divisions.pdf</span><span class="meta sz mono">PDF · 80 Ko</span></a><a class="row prof" href="Ex-4C03-12-Multiplier-Nombres-Relatifs.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-12-Multiplier-Nombres-Relatifs.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-12-Multiplier-Nombres-Relatifs.pdf</span><span class="meta sz mono">PDF · 99 Ko</span></a><a class="row prof" href="Ex-4C03-13-Multiplier-Plusieurs-Nombres-Relatifs.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-13-Multiplier-Plusieurs-Nombres-Relatifs.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-13-Multiplier-Plusieurs-Nombres-Relatifs.pdf</span><span class="meta sz mono">PDF · 104 Ko</span></a><a class="row prof" href="Ex-4C03-14-Divisions-Relatifs.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-14-Divisions-Relatifs.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-14-Divisions-Relatifs.pdf</span><span class="meta sz mono">PDF · 96 Ko</span></a><a class="row prof" href="Ex-4C03-15-Signe-Expression-2-Corr.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-15-Signe-Expression-2-Corr.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-15-Signe-Expression-2-Corr.pdf</span><span class="meta sz mono">PDF · 175 Ko</span></a><a class="row prof" href="Ex-4C03-15-Signe-Expression-2.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-15-Signe-Expression-2.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-15-Signe-Expression-2.pdf</span><span class="meta sz mono">PDF · 123 Ko</span></a><a class="row prof" href="Ex-4C03-Bonus.pdf.enc" target="_blank" rel="noopener" data-enc="Ex-4C03-Bonus.pdf"><span class="ico"><img class="i i16" src="../../../assets/icons/pdf.png" alt="" width="16" height="16"></span><span class="name">Ex-4C03-Bonus.pdf</span><span class="meta sz mono">PDF · 27 Ko</span></a></div></div>
+</div></main>
+<footer><div class="wrap">
+<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank" rel="noopener license">CC0</a> · libre de tout usage, hors ressources tierces
+· <a href="../../../credits/index.html">crédits &amp; liens</a> · mis à jour le 5 novembre 2026
+</div></footer>
+<dialog id="login"><div class="tb">Mode professeur</div><form><label for="pw">Mot de passe :</label><input id="pw" type="password" autocomplete="current-password"><p class="err"></p><div class="bt"><button type="submit">OK</button><button type="button" class="no">Annuler</button></div></form></dialog>
+<script>
+(()=>{
+if(!matchMedia('(hover:hover)').matches)return;
+const pv=document.createElement('img');pv.id='pv';pv.alt='';document.body.append(pv);
+let cur=null,mx=0;
+// À droite de la liste si la place le permet, sinon près du curseur ; centré sur la ligne.
+const place=()=>{if(!cur)return;const w=240,m=16,r=cur.getBoundingClientRect();
+ const h=pv.complete&&pv.naturalWidth?pv.offsetHeight:340;
+ let x=r.right+m;if(x+w+m>innerWidth)x=mx+w+40<innerWidth?mx+24:mx-w-24;
+ const y=Math.max(m,Math.min(r.top+r.height/2-h/2,innerHeight-h-m));
+ pv.style.left=x+'px';pv.style.top=y+'px'};
+pv.addEventListener('load',place);
+document.addEventListener('mouseover',ev=>{const a=ev.target.closest('[data-thumb]');
+ mx=ev.clientX;if(a===cur)return;cur=a;
+ if(!a){pv.classList.remove('on');return}
+ pv.src=a.dataset.thumb;pv.classList.add('on');place()});
+addEventListener('scroll',()=>{cur=null;pv.classList.remove('on')},{passive:true});
+})();
+
+// Impression : adresse de la page en tête, tout déplier (séquences, compétences) puis remettre comme avant.
+(()=>{let shut=[];const m=document.querySelector('main');
+if(m)m.dataset.url=location.href.replace(/#.*$/,'').replace(/index\.html$/,'');
+addEventListener('beforeprint',()=>{shut=[...document.querySelectorAll('details:not([open])')];shut.forEach(d=>d.open=true)});
+addEventListener('afterprint',()=>{shut.forEach(d=>d.open=false);shut=[]});
+})();
+</script>
+<script type="module">import {wire} from "../../../assets/prof.js?v=8731a6c0";wire();</script>
+</body>
+</html>
