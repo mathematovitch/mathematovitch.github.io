@@ -128,8 +128,15 @@ Tous les fichiers de cours suivent le format
   surveillé/évaluation, deux formes : « à la main » avec `\entetedevoirs` /
   `exercicedevoir` de Mathdoc, gardée telle quelle, ou **forme PMF** avec
   `\usepackage{dspmf}` (`~/texmf/tex/latex/Mathdoc/dspmf.sty`, 2026-11-05 ; modèle
-  `Quatrieme/S03-Produits-de-Relatifs/DS-4C03-0*.tex`) : réponses dans des cadres
-  numérotés `\rep[l]{id}{pts}{réponse}`, `\coche`, `\redac`, repères aux 4 coins, cadre
+  `Quatrieme/S03-Produits-de-Relatifs/DS-4C03-0*.tex` ; sur **une seule page**, avec
+  constructions : `Sixieme/S04-Angles/DS-6C04-03-*.tex`, l'utilisateur préfère un recto
+  simple) : réponses dans des cadres
+  numérotés `\rep[l]{id}{pts}{réponse}`, `\coche`, `\redac`, `\dszone` (zone de
+  construction notée), A4 imposé (Mathdoc seul donne du Letter), repères carrés en haut
+  et disques en bas (remontés : la photocopieuse décale), numéro de copie en bas de
+  chaque page (chiffres + 8 cases binaires, relie les pages d'une copie au scan ; corps
+  `\dsimprime[60]{\feuille}`, le build compile `DS-….-Copies.pdf` = les copies numérotées
+  **à imprimer**, le sujet/corrigé gardent un cadre vide), cadre
   Nom fixe, et la compilation du corrigé écrit `DS-….pmf.jsonl` (positions en fractions
   de page, barème, réponses attendues ; format en tête du `.sty`) pour la correction
   automatique `~/code/03-enseignement/Peut-Mieux-Faire` ; document prof, chiffré,

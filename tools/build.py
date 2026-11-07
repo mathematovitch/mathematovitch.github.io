@@ -324,7 +324,8 @@ def corr_of(p):
 
 def compile_corriges():
     """Sources à corrigé (\\ifcorrige) : le sujet, puis le corrigé …-Corr.pdf compilé avec
-    \\aveccorrige défini. Seulement si le .tex est plus récent que l'un des deux PDF."""
+    \\aveccorrige défini ; pour un DS PMF (\\dsimprime), aussi …-Copies.pdf (\\aveccopies : copies
+    numérotées à imprimer). Seulement si le .tex est plus récent que l'un des PDF."""
     for lvl in LEVELS:
         if not (ROOT / lvl).is_dir():
             continue
@@ -333,7 +334,10 @@ def compile_corriges():
             if not m or m[1] not in ("Ex", "Act", "DS") or "\\ifcorrige" not in tex.read_text("utf-8", "replace"):
                 continue
             corr = corr_of(tex.with_suffix(".pdf"))
-            todo = [(job, pre) for job, pre in ((tex.stem, ""), (corr.stem, "\\def\\aveccorrige{}"))
+            jobs = [(tex.stem, ""), (corr.stem, "\\def\\aveccorrige{}")]
+            if "\\dsimprime" in tex.read_text("utf-8", "replace"):  # DS PMF : copies numérotées à imprimer
+                jobs.append((f"{tex.stem}-Copies", "\\def\\aveccopies{}"))
+            todo = [(job, pre) for job, pre in jobs
                     if not (tex.parent / f"{job}.pdf").exists()
                     or (tex.parent / f"{job}.pdf").stat().st_mtime < tex.stat().st_mtime]
             if todo and not PDFLATEX:
