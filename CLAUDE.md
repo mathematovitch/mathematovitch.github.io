@@ -128,9 +128,11 @@ Tous les fichiers de cours suivent le format
   surveillé/évaluation, deux formes : « à la main » avec `\entetedevoirs` /
   `exercicedevoir` de Mathdoc, gardée telle quelle, ou **forme PMF** avec
   `\usepackage{dspmf}` (`~/texmf/tex/latex/Mathdoc/dspmf.sty`, 2026-11-05 ; modèle
-  `Quatrieme/S03-Produits-de-Relatifs/DS-4C03-0*.tex` ; sur **une seule page**, avec
-  constructions : `Sixieme/S04-Angles/DS-6C04-03-*.tex`, l'utilisateur préfère un recto
-  simple) : réponses dans des cadres
+  `Quatrieme/S03-Produits-de-Relatifs/DS-4C03-0*.tex` ; avec constructions :
+  `Sixieme/S04-Angles/DS-6C04-03-*.tex`, **deux pages**, une compétence par page — la
+  version tassée sur un recto a été abandonnée le 2026-11-12 : les élèves avaient du mal à
+  tracer et mesurer ; angles espacés, côtés de 5 cm, côtés du triangle prolongés ; cadre
+  `\dsremarque` sous l'en-tête, vide, rempli par le correcteur auto) : réponses dans des cadres
   numérotés `\rep[l]{id}{pts}{réponse}`, `\coche`, `\redac`, `\dszone` (zone de
   construction notée), A4 imposé (Mathdoc seul donne du Letter), repères carrés en haut
   et disques en bas (remontés : la photocopieuse décale), numéro de copie en bas de
