@@ -162,7 +162,8 @@ Tous les fichiers de cours suivent le format
 - Renommage effectué avec `git mv` (pas `mv`) pour préserver l'historique.
 - Séquence renumérotée ou dossier renommé : ajouter l'ancien chemin à `MOVED` de
   `tools/build.py` (la 404 générée redirige les liens et QR codes déjà imprimés). 4e,
-  2026-11-16 : Statistiques passées en S04 (Fractions → S05, Réciproque → S06).
+  2026-11-16 : Statistiques passées en S04 (Fractions → S05, Réciproque → S06), puis
+  nouvelle S07 Triangles semblables (Puissances…Probabilités → S08…S13).
 
 **Figures sources** : sous-dossier `images/` d'une séquence (exclu des index
 via `EXCLUDE_DIRS` de `build.py`). Ex. `S04-Angles/images/Sesa-*-nb.pdf` :
@@ -177,7 +178,7 @@ TeXstudio) sont aussi à laisser tels quels.
 
 Point d'attention : du contenu peut être dupliqué à l'identique (vérifié
 byte-à-byte via `md5sum`) entre deux niveaux différents — constaté entre
-`Quatrieme/S12-Probabilites` et `Sixieme/S14-Probabilites`. Renommer selon
+`Quatrieme/S13-Probabilites` et `Sixieme/S14-Probabilites`. Renommer selon
 le niveau du dossier où le fichier se trouve réellement ; ne pas tenter de
 dédupliquer sans consulter l'utilisateur.
 

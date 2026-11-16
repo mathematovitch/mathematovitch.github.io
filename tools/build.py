@@ -1167,6 +1167,13 @@ MOVED = [
     ("/Quatrieme/S06-Satistiques/", "/Quatrieme/S04-Statistiques/", "4C06", "4C04"),
     ("/Quatrieme/S04-Operations-Fractions/", "/Quatrieme/S05-Operations-Fractions/", "4C04", "4C05"),
     ("/Quatrieme/S05-Pythagore-reciproque/", "/Quatrieme/S06-Pythagore-Reciproque/", "4C05", "4C06"),
+    # 2026-11-16 : nouvelle séquence 4e « Triangles semblables » en S07, la suite décalée d'un cran
+    ("/Quatrieme/S12-Probabilites/", "/Quatrieme/S13-Probabilites/", "4C12", "4C13"),
+    ("/Quatrieme/S11-Calcul-litteral/", "/Quatrieme/S12-Calcul-litteral/", "4C11", "4C12"),
+    ("/Quatrieme/S10-Sommes-de-Fractions/", "/Quatrieme/S11-Sommes-de-Fractions/", "4C10", "4C11"),
+    ("/Quatrieme/S09-Perimetres-Aires/", "/Quatrieme/S10-Perimetres-Aires/", "4C09", "4C10"),
+    ("/Quatrieme/S08-Proportionnalite/", "/Quatrieme/S09-Proportionnalite/", "4C08", "4C09"),
+    ("/Quatrieme/S07-Puissances/", "/Quatrieme/S08-Puissances/", "4C07", "4C08"),
 ]
 
 
