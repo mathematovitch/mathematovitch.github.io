@@ -1,0 +1,159 @@
+%% Compétences : 4C04-STAT01, 4C04-STAT02, 4C04-STAT03
+%% Cours (trace écrite copiée au tableau) : une partie par notion.
+
+%% Font size %%
+\documentclass[11pt]{article}
+
+%% Load the custom package
+\usepackage{Mathdoc}
+\usepackage{icomma}
+\usepackage{colortbl}
+
+%% Numéro de séquence %% Titre de la séquence %%
+\renewcommand{\centerhead}{S04 - Statistiques}
+
+% Encadré « compétence » en tête de partie
+\newcommand{\comp}[2]{\par\smallskip\noindent\colorbox{gray!15}{\parbox{\dimexpr\linewidth-2\fboxsep}{\small\textbf{Compétence #1} : #2}}\par\smallskip}
+\newcommand{\f}[2]{\dfrac{#1}{#2}}
+
+%% Spacing commands %%
+\renewcommand{\baselinestretch}{1} \setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{tcolorbox}[colback=white,colframe=black,boxrule=0.6pt,arc=2mm,title={\textbf{Ce que je dois savoir faire à la fin du chapitre}},coltitle=black,colbacktitle=gray!15]
+\begin{tabular}{@{}ll@{}}
+\textbf{4C04-STAT01} & Calculer l'\textbf{étendue} et une \textbf{fréquence} \hfill (parties 2 et 3)\\
+\textbf{4C04-STAT02} & Calculer la \textbf{moyenne} d'une série (simple ou pondérée) \hfill (partie 4)\\
+\textbf{4C04-STAT03} & Déterminer la \textbf{médiane} d'une série \hfill (partie 5)\\
+\end{tabular}
+\end{tcolorbox}
+
+%% ------------------------------------------------------------------
+\section{Vocabulaire}
+
+\begin{vocabulaire}
+On interroge les élèves d'une classe sur leur nombre de frères et sœurs.
+\begin{itemize}
+\item la \textbf{population} étudiée : les élèves de la classe ;
+\item le \textbf{caractère} étudié : le nombre de frères et sœurs ;
+\item les \textbf{valeurs} : $0$, $1$, $2$, $3$\ldots ;
+\item l'\textbf{effectif} d'une valeur : le nombre de fois où elle apparaît ;
+l'\textbf{effectif total} : le nombre de données.
+\end{itemize}
+\end{vocabulaire}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|c|c|c|c||c|}
+\hline
+\textbf{Nombre de frères et sœurs} & $0$ & $1$ & $2$ & $3$ & $4$ & \textbf{Total} \\ \hline
+\textbf{Effectif} & $4$ & $9$ & $6$ & $3$ & $2$ & $24$ \\ \hline
+\end{tabular}
+\end{center}
+
+%% ------------------------------------------------------------------
+\section{L'étendue}
+\comp{4C04-STAT01}{calculer l'étendue \hfill \textit{Fiche Ex-4C04-01}}
+
+\begin{definition}
+L'\textbf{étendue} d'une série est la différence entre la \textbf{plus grande} valeur et la \textbf{plus petite} valeur :
+\qquad étendue $=$ valeur maximale $-$ valeur minimale.
+\end{definition}
+
+\begin{exemple}
+Notes de Léo : $12$ ; $8$ ; $15$ ; $6$ ; $11$. \quad Étendue : $15 - 6 = 9$ points.\\
+L'étendue mesure la \textbf{dispersion} : plus elle est grande, plus les valeurs sont « étalées ».
+\end{exemple}
+
+%% ------------------------------------------------------------------
+\section{La fréquence}
+\comp{4C04-STAT01}{calculer une fréquence \hfill \textit{Fiche Ex-4C04-02}}
+
+\begin{definition}
+La \textbf{fréquence} d'une valeur est la proportion de cette valeur dans la série :
+\[ \text{fréquence} = \f{\text{effectif de la valeur}}{\text{effectif total}} \]
+On la donne en \textbf{fraction}, en \textbf{nombre décimal} ou en \textbf{pourcentage}.
+\end{definition}
+
+\begin{exemple}
+Dans le tableau de la partie 1, la fréquence de la valeur $2$ est
+$\f{6}{24} = 0,25 = 25\,\%$ : un quart des élèves a $2$ frères et sœurs.
+\end{exemple}
+
+\begin{remarque}
+Une fréquence est toujours comprise entre $0$ et $1$ (entre $0\,\%$ et $100\,\%$).
+La somme de toutes les fréquences vaut $1$ (soit $100\,\%$).
+\end{remarque}
+
+%% ------------------------------------------------------------------
+\section{La moyenne}
+\comp{4C04-STAT02}{calculer une moyenne \hfill \textit{Fiches Ex-4C04-03 et 04}}
+
+\begin{definition}[Moyenne simple]
+\[ \text{moyenne} = \f{\text{somme de toutes les valeurs}}{\text{nombre de valeurs}} \]
+\end{definition}
+
+\begin{exemple}
+Notes de Léo : $12$ ; $8$ ; $15$ ; $6$ ; $11$. \quad
+Moyenne : $\f{12 + 8 + 15 + 6 + 11}{5} = \f{52}{5} = 10,4$.
+\end{exemple}
+
+\begin{definition}[Moyenne pondérée]
+Quand les données sont dans un tableau d'effectifs, on multiplie chaque valeur par son effectif :
+\[ \text{moyenne} = \f{\text{valeur}_1 \times \text{effectif}_1 + \text{valeur}_2 \times \text{effectif}_2 + \cdots}{\text{effectif total}} \]
+\end{definition}
+
+\begin{exemple}
+Avec le tableau de la partie 1 :
+$\f{0\times 4 + 1\times 9 + 2\times 6 + 3\times 3 + 4\times 2}{24} = \f{38}{24} \approx 1,6$ frère ou sœur en moyenne.
+\end{exemple}
+
+%% ------------------------------------------------------------------
+\section{La médiane}
+\comp{4C04-STAT03}{déterminer la médiane \hfill \textit{Fiches Ex-4C04-05 et 06}}
+
+\begin{definition}
+La \textbf{médiane} d'une série \textbf{rangée dans l'ordre croissant} partage la série en \textbf{deux groupes de même effectif} :
+au moins la moitié des valeurs sont inférieures ou égales à la médiane, au moins la moitié sont supérieures ou égales.
+\end{definition}
+
+\begin{propriete}[Méthode]
+\begin{enumerate}
+\item Je range les valeurs dans l'ordre croissant et je compte l'effectif total $N$.
+\item Si $N$ est \textbf{impair} : la médiane est la valeur du milieu, de rang $\f{N+1}{2}$.
+\item Si $N$ est \textbf{pair} : la médiane est la moyenne des deux valeurs du milieu, de rangs $\f{N}{2}$ et $\f{N}{2}+1$.
+\end{enumerate}
+\end{propriete}
+
+\begin{exemple}
+\textbf{$N$ impair} : $6$ ; $8$ ; $\mathbf{11}$ ; $12$ ; $15$ \quad ($N = 5$, rang $3$) \quad médiane : $11$.\\
+\textbf{$N$ pair} : $3$ ; $7$ ; $\mathbf{9}$ ; $\mathbf{13}$ ; $14$ ; $20$ \quad ($N = 6$, rangs $3$ et $4$) \quad médiane : $\f{9 + 13}{2} = 11$.
+\end{exemple}
+
+\begin{exemple}[Avec un tableau d'effectifs : les effectifs cumulés]
+Tableau de la partie 1 : $N = 24$, la médiane est entre la $12^\text{e}$ et la $13^\text{e}$ valeur.
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Valeur} & $0$ & $1$ & $2$ & $3$ & $4$ \\ \hline
+\textbf{Effectif} & $4$ & $9$ & $6$ & $3$ & $2$ \\ \hline
+\textbf{Effectif cumulé} & $4$ & $13$ & $19$ & $22$ & $24$ \\ \hline
+\end{tabular}
+\end{center}
+Les valeurs de rang $5$ à $13$ valent $1$ : la $12^\text{e}$ et la $13^\text{e}$ valent $1$, donc la médiane est $1$.
+\end{exemple}
+
+\begin{remarque}
+\textbf{Moyenne ou médiane ?} La moyenne est sensible aux valeurs extrêmes, pas la médiane.
+Salaires dans une entreprise : $1\,400$ ; $1\,500$ ; $1\,600$ ; $1\,700$ ; $9\,000$ €.
+Moyenne : $3\,040$ € ; médiane : $1\,600$ €, plus représentative de la plupart des salariés.
+\end{remarque}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:

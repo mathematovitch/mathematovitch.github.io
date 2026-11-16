@@ -1160,8 +1160,19 @@ def recent_files(n=8):
     return res
 
 
+# Séquences renumérotées : (ancien préfixe d'URL, nouveau, ancien code, nouveau code).
+# La 404 redirige les anciens liens / QR codes imprimés (code du nom de fichier compris).
+MOVED = [
+    # 2026-11-16 : Statistiques avancées en S04 de 4e (demande de l'utilisateur)
+    ("/Quatrieme/S06-Satistiques/", "/Quatrieme/S04-Statistiques/", "4C06", "4C04"),
+    ("/Quatrieme/S04-Operations-Fractions/", "/Quatrieme/S05-Operations-Fractions/", "4C04", "4C05"),
+    ("/Quatrieme/S05-Pythagore-reciproque/", "/Quatrieme/S06-Pythagore-Reciproque/", "4C05", "4C06"),
+]
+
+
 def build_404():
-    """404.html : servie par GitHub Pages à n'importe quelle profondeur, d'où <base href="/">."""
+    """404.html : servie par GitHub Pages à n'importe quelle profondeur, d'où <base href="/">.
+    Redirige d'abord les chemins des séquences renumérotées (MOVED)."""
     dirs, _ = listdir(ROOT)
     dirs.sort(key=lambda p: SECTION_ORDER.index(p.name) if p.name in SECTION_ORDER else 99)
     cards = "".join(f'<a class="card" href="{s.name}/index.html"><div class="t">{dir_icon(ROOT, s)}{e(label(s))}</div></a>'
@@ -1170,7 +1181,11 @@ def build_404():
             '<p class="sub">Le document a peut-être été déplacé ou renommé : '
             '<code id="miss" class="mono"></code></p>'
             f'<div class="cards">{cards}</div>'
-            '<script>document.getElementById("miss").textContent=decodeURIComponent(location.pathname)</script>')
+            '<script>(function(){var p=decodeURIComponent(location.pathname),'
+            f'm={json.dumps(MOVED)};'
+            'for(var i=0;i<m.length;i++)if(p.indexOf(m[i][0])===0){'
+            'location.replace(m[i][1]+p.slice(m[i][0].length).replace(m[i][2],m[i][3])+location.hash);return}'
+            'document.getElementById("miss").textContent=p})()</script>')
     return page(ROOT, f"Page introuvable — {SITE_TITLE}", body, here="Page introuvable", base="/")
 
 

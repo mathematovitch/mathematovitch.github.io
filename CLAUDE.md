@@ -160,6 +160,9 @@ Tous les fichiers de cours suivent le format
   plusieurs fichiers du même type/chapitre (ex. `Ex-6C09-16-Coefficient.pdf`,
   `Ex-4C02-4a-...`).
 - Renommage effectué avec `git mv` (pas `mv`) pour préserver l'historique.
+- Séquence renumérotée ou dossier renommé : ajouter l'ancien chemin à `MOVED` de
+  `tools/build.py` (la 404 générée redirige les liens et QR codes déjà imprimés). 4e,
+  2026-11-16 : Statistiques passées en S04 (Fractions → S05, Réciproque → S06).
 
 **Figures sources** : sous-dossier `images/` d'une séquence (exclu des index
 via `EXCLUDE_DIRS` de `build.py`). Ex. `S04-Angles/images/Sesa-*-nb.pdf` :

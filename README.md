@@ -239,15 +239,14 @@ séquence, etc.
 - [ ] **2.4 Lycée** (Seconde, Première, Terminale) : pages vides, hors périmètre.
 - [ ] **2.5 Séquences à compléter** (avec `/sequence`) : seule S04-Angles suit
   tout le modèle. 6e : S11 et S12 n'ont qu'une fiche chacune, sans cours ;
-  S10 sans cours ; S08 et S13 sans DS. 4e : S06 et S10 sans cours ; S09 sans
-  DS ; S04 et S05 n'ont que 3 ou 4 fiches.
+  S10 sans cours ; S08 et S13 sans DS. 4e : S04 et S10 sans cours ; S09 sans
+  DS ; S05 et S06 n'ont que 3 ou 4 fiches.
 - [ ] **2.6 Plans de séquence (`Seq`) et préparations (`Prep`)** sur le modèle
   de S04 (avec `/sequence`), en 6e puis en 4e (aucun pour l'instant).
 - [ ] **2.7 Calcul mental** : une série de diaporamas `Act` par séquence, comme
   `Act-6C04-03`.
-- [ ] **2.8 Faute de frappe** : `Quatrieme/S06-Satistiques` → `Statistiques`.
-  Un `git mv` casserait les QR codes et liens déjà imprimés : ajouter une
-  redirection, ou garder le nom.
+- [x] **2.8 Faute de frappe** : `Quatrieme/S06-Satistiques` est devenu `S04-Statistiques`
+  (2026-11-16, séquences 4e renumérotées) ; la 404 redirige les anciens chemins (`MOVED` de `build.py`).
 - [ ] **2.9 Doublons** : fichiers de probabilités identiques entre
   `Quatrieme/S12-Probabilites` et `Sixieme/S14-Probabilites` ; décider
   (garder les deux, ou un lien).
